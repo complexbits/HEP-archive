@@ -1,0 +1,86 @@
+#!/bin/bash
+
+#######################################################
+# USAGE:
+# 
+# submitman -d <directory> -f <file prefix>
+#
+# EXAMPLE:
+#
+# submitman B-mixing/current/ var
+#  ... submits files that match var*.C in the directory
+#  ... B-mixing/current/.  Runs any rootlogon.C in the
+#  ... directory.
+########################################################
+
+usage_msg(){
+echo " "
+echo "Submits a root job on each of the fast machines in the ouhep cluster."
+echo " "
+echo "USAGE:"
+echo " " 
+echo " submitman -u <user> -h <host domain> -d <directory> -f <file prefix>"
+echo " "
+echo "EXAMPLE:"
+echo " "
+echo " submitman -u hegarty -h ou.edu -d B-mixing/current/ -f var"
+echo " "
+echo " ... submits files that match var*.C in the directory"
+echo " ... B-mixing/current/.  Runs any rootlogon.C in the"
+echo " ... directory.  Defaults to the current directory"
+echo " "
+exit 0
+}
+
+dir=`pwd`
+
+for i in $*; do
+case "$1" in
+
+    -d)    dir=$2; shift 2;;
+
+    -f)    fpx=$2; shift 2;;
+
+    -u)    user=$2@; shift 2;;
+    
+    -h)    domain=.$2; shift 2;;
+
+    -t)    tonly=1; shift 1;;
+
+    --help) usage_msg ;;
+
+esac
+done
+
+nomachine=ouhep[x]
+echo "Running ssh -x $user$nomachine$domain cd $dir ';' root -b -q $fpx*.C > $fpx*.log '2>&1' &"
+
+if [ ! $tonly ]; then
+
+# machines available to submit to, in order ... add dual-cpu machines twice
+machines=( ouhep13 ouhep12 ouhep11 ouhep10 ouhep9 ouhep5 ouhep5 ouhep4 ouhep4 ouhep3 ouhep3 ouhep1 ouhep1 ouhep0 ouhep0 )
+
+counter=0
+echo "Filename     MachineName"
+echo "------------------------"
+for i in `ls $fpx*.C`; do
+
+    filename=`echo $i | cut -d. -f1`
+
+    #ssh -x $user${machines[$counter]}$domain /bin/hostname &
+    #sleep 1
+
+    ssh -x $user${machines[$counter]}$domain cd $dir ";" root -b -q $i ">" $filename.log "2>&1" &
+
+    echo "$filename     ${machines[counter]}"
+
+    counter=`expr $counter + 1`
+    if [ $counter -eq ${#machines[@]} ]; then
+	counter=0
+    fi
+
+done
+echo "------------------------"
+fi
+
+exit 0

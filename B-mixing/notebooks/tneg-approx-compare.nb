@@ -1,0 +1,391 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     10204,        301]*)
+(*NotebookOutlinePosition[     10893,        325]*)
+(*  CellTagsIndexPosition[     10849,        321]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(evilterm := wreneg*\[ExponentialE]\^\(-AA\^2\)\)], "Input"],
+
+Cell[BoxData[
+    \(tcutoff := \@2*5.6*s + s\^2\/t0\)], "Input"],
+
+Cell[BoxData[
+    \(UnMixNew := \(\(\(\[ExponentialE]\^BB\)\(\ \)\)\/\(2  t0\)\) \((1 + 
+            Erf[AA] + \[ExponentialE]\^\(-AA\^2\)\ wreneg)\)\)], "Input"],
+
+Cell[BoxData[
+    \(MixNew := \(\(\(\[ExponentialE]\^BB\)\(\ \)\)\/\(2  t0\)\) \((1 + 
+            Erf[AA] - \[ExponentialE]\^\(-AA\^2\)\ wreneg)\)\)], "Input"],
+
+Cell[BoxData[
+    \(MixApprox := \(\(\(\[ExponentialE]\^BB\)\(\ \)\)\/\(2  t0\)\) \((1 + 
+            Erf[AA])\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.1; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-4.5`\), \(-31.866945605473735`\), 
+            "1.66287279571219550916433258411`12.329361250145638*^-443", 
+            "2.231601225854229397077819816158`12.495866694574724*^-442", 
+            "1.425440862001852308021384`6.301350362971622*^-448", 
+            "1.115801325647545699465063918771`12.769629986508749*^-442"},
+          {\(-4.`\), \(-28.331411699540997`\), 
+            "5.06077227917538653951151`12.456633952296766*^-351", 
+            "4.8664201827384291870467643`12.614582720960238*^-350", 
+            "3.9301093283714490264`6.521976301020686*^-356", 
+            "2.4332120564238787792478954`12.865685847020258*^-350"},
+          {\(-3.5`\), \(-24.79587779360826`\), "2.070784400608296`*^-269", 
+            "7.133990390089528`*^-269", \(-7.133990390089528`*^-269\), 
+            "0.`"},
+          {\(-3.`\), \(-21.26034388767552`\), "1.3204547711599368`*^-198", 
+            "3.259540173719746`*^-198", \(-3.259540173719746`*^-198\), 
+            "0.`"},
+          {\(-2.5`\), \(-17.724809981742787`\), "1.0542211869715618`*^-138", 
+            "1.8646602839675572`*^-138", \(-1.8646602839675572`*^-138\), 
+            "0.`"},
+          {\(-2.`\), \(-14.189276075810051`\), "1.0542280681652252`*^-89", 
+            "1.336096198059172`*^-89", \(-1.336096198059172`*^-89\), "0.`"},
+          {\(-1.5`\), \(-10.653742169877313`\), "1.3004498312057981`*^-51", 
+            "1.1809511370866577`*^-51", \(-1.1809511370866577`*^-51\), 
+            "0.`"},
+          {\(-1.`\), \(-7.1182082639445765`\), "1.8874086635544744`*^-24", 
+            "1.228116151324536`*^-24", \(-1.228116151324536`*^-24\), "0.`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.2; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-4.5`\), \(-16.004183480855524`\), "1.1102752269806216`*^-113", 
+            "7.499861375049716`*^-113", \(-7.499861375049716`*^-113\), 
+            "0.`"},
+          {\(-4.`\), \(-14.236416527889153`\), "2.9477727105056993`*^-90", 
+            "1.426762719898764`*^-89", \(-1.426762719898764`*^-89\), "0.`"},
+          {\(-3.5`\), \(-12.468649574922784`\), "1.2951935347797643`*^-69", 
+            "4.4918743531935345`*^-69", \(-4.4918743531935345`*^-69\), 
+            "0.`"},
+          {\(-3.`\), \(-10.700882621956415`\), "9.756390856296724`*^-52", 
+            "2.424472681822977`*^-51", \(-2.424472681822977`*^-51\), "0.`"},
+          {\(-2.5`\), \(-8.933115668990048`\), "1.2785658894265717`*^-36", 
+            "2.2765982149379136`*^-36", \(-2.2765982149379136`*^-36\), 
+            "0.`"},
+          {\(-2.`\), \(-7.16534871602368`\), "2.9177863516138306`*^-24", 
+            "3.722647704261869`*^-24", \(-3.722647704261869`*^-24\), "0.`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.3; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-4.5`\), \(-10.748023074035522`\), "1.8584284119903677`*^-52", 
+            "1.2693866221428704`*^-51", \(-1.2693866221428704`*^-51\), 
+            "0.`"},
+          {\(-4.`\), \(-9.569511772057943`\), "7.610120295982365`*^-42", 
+            "3.724558287906041`*^-41", \(-3.724558287906041`*^-41\), "0.`"},
+          {\(-3.5`\), \(-8.391000470080364`\), "1.6544197220115328`*^-32", 
+            "5.801818314212721`*^-32", \(-5.801818314212721`*^-32\), "0.`"},
+          {\(-3.`\), \(-7.212489168102785`\), "1.9823905543522035`*^-24", 
+            "4.9813013813763654`*^-24", \(-4.9813013813763654`*^-24\), 
+            "0.`"},
+          {\(-2.5`\), \(-6.0339778661252055`\), "1.3301052926135099`*^-17", 
+            "2.3948305683997708`*^-17", \(-2.3948305683997708`*^-17\), "0.`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.4; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-4.5`\), \(-8.143513096665071`\), "5.41417360559183`*^-31", 
+            "3.7560896540663535`*^-30", \(-3.7560896540663535`*^-30\), 
+            "0.`"},
+          {\(-4.`\), \(-7.259629620181887`\), "7.382011310401534`*^-25", 
+            "3.669557113728572`*^-24", \(-3.669557113728572`*^-24\), "0.`"},
+          {\(-3.5`\), \(-6.375746143698702`\), "1.7906017268133546`*^-19", 
+            "6.377832613036309`*^-19", \(-6.377832613036309`*^-19\), "0.`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.5; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-4.5`\), \(-6.599663291074443`\), "4.745191194290065`*^-21", 
+            "3.358484729817808`*^-20", \(-3.358484729817808`*^-20\), "0.`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.6; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      InterpretationBox["\<\"\"\>",
+        {}],
+      TableForm[ {}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.7; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      InterpretationBox["\<\"\"\>",
+        {}],
+      TableForm[ {}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.8; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      InterpretationBox["\<\"\"\>",
+        {}],
+      TableForm[ {}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 0.9; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      InterpretationBox["\<\"\"\>",
+        {}],
+      TableForm[ {}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s := 1; 
+    TableForm[
+      Table[{t, AA, evilterm, UnMixNew, MixNew, 
+          MixApprox}, {t, \(-4.5\), \(-tcutoff\), 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      InterpretationBox["\<\"\"\>",
+        {}],
+      TableForm[ {}]]], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Macintosh",
+ScreenRectangle->{{0, 1024}, {0, 711}},
+WindowSize->{888, 683},
+WindowMargins->{{5, Automatic}, {1, Automatic}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 79, 1, 35, "Input"],
+Cell[1836, 54, 64, 1, 56, "Input"],
+Cell[1903, 57, 162, 2, 55, "Input"],
+Cell[2068, 61, 160, 2, 55, "Input"],
+Cell[2231, 65, 125, 2, 55, "Input"],
+
+Cell[CellGroupData[{
+Cell[2381, 71, 164, 4, 70, "Input"],
+Cell[2548, 77, 1874, 34, 203, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4459, 116, 164, 4, 70, "Input"],
+Cell[4626, 122, 1202, 23, 157, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5865, 150, 164, 4, 70, "Input"],
+Cell[6032, 156, 1035, 20, 135, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7104, 181, 164, 4, 70, "Input"],
+Cell[7271, 187, 709, 15, 89, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8017, 207, 164, 4, 70, "Input"],
+Cell[8184, 213, 391, 10, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8612, 228, 164, 4, 70, "Input"],
+Cell[8779, 234, 119, 4, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8935, 243, 164, 4, 70, "Input"],
+Cell[9102, 249, 119, 4, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9258, 258, 164, 4, 70, "Input"],
+Cell[9425, 264, 119, 4, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9581, 273, 164, 4, 70, "Input"],
+Cell[9748, 279, 119, 4, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9904, 288, 162, 4, 70, "Input"],
+Cell[10069, 294, 119, 4, 42, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

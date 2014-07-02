@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>lm_access - &gt;Getting the package from CVS and the package
+compilation</title>
+</head>
+<body bgcolor="#e0ffff">
+<p align="center">
+<font color="#cc7700" size="4">How to get the <i>lm_access</i> package
+from CVS</font><br>
+</p>
+<p>
+<img src="mykul.jpg" height="11" width="11">do the usual D&Oslash;
+software staff (for the details, look at <a
+ href="http://www-d0.fnal.gov/computing/professors_guide/html/d0cpp">Heidi's
+tutorials</a> on D&Oslash; software)<br>
+&nbsp;&nbsp;&nbsp; <font color="#448833">&gt; </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(only
+on d0mino)<br>
+&nbsp;&nbsp;&nbsp; <font color="#448833">&gt; setup D0RunII
+&lt;version&gt;</font>&nbsp;&nbsp;(<i>lm_access</i> package is not
+connected to any release, it is up to you to decide which release
+version to use)<br>
+&nbsp;&nbsp;&nbsp; <font color="#448833">&gt; setup d0cvs</font><br>
+&nbsp;&nbsp;&nbsp; <font color="#448833">&gt; newrel -t
+&lt;version&gt; &lt;dirname&gt;</font><br>
+&nbsp;&nbsp;&nbsp; <font color="#448833">&gt; cd &lt;dirname&gt;</font><br>
+&nbsp;&nbsp;&nbsp; <font color="#448833">&gt; addpkg -h lm_access</font><br>
+<img src="mykul.jpg" height="11" width="11"> at the end you should find
+the directory <i>lm_access</i> in your release directory <i>&lt;dirname&gt;</i><br>
+<img src="mykul.jpg" height="11" width="11"> check <a
+ href="http://www-d0.fnal.gov/phys_id/luminosity/data_access/">Luminosity
+ID</a> web page for the current valid version of lm_access package<br>
+</p>
+<p align="center">
+<font color="#cc7700" size="4">Compilation of the <i>lm_access</i>
+package</font><br>
+</p>
+<p> <img src="mykul.jpg" height="11" width="11"> create/modify your
+code;<br>
+<img src="mykul.jpg" height="11" width="11"> in the release directory
+&lt;dirname&gt; type<br>
+&nbsp;&nbsp;&nbsp; <font color="#448833">&gt; gmake lm_access</font><br>
+<img src="mykul.jpg" height="11" width="11"> if everything went fine
+you should find the <i>lm_access</i> library under the directory <i>p1107/lib/&lt;
+architecture&gt; /</i><br>
+</p>
+<p>If you get some compilation error concerning <span
+ style="font-style: italic;">lm_access_interface</span>, add also this
+package to your working directory (<font color="#448833">addpkg -h
+lm_access_interface</font>)<br>
+</p>
+<p>To run it, you will also need to <span
+ style="color: rgb(51, 204, 0);"></span><font color="#448833">setup
+d0_config</font><span style="color: rgb(51, 204, 0);"></span><br>
+</p>
+<p>
+</p>
+<hr align="center" size="3" width="95%"><br>
+<!-- #BeginDate format:Am1 --><!-- #EndDate -->Last update September
+28, 2005
+by <a href="mailto:%20d0luminosity@fnal.gov">L.M.</a>
+<p></p>
+</body>
+</html>

@@ -1,0 +1,52 @@
+First results.
+
+Efficiency and dilution for this MC sample
+
+D1   = 0.374749 Eff = 0.0499
+D2   = 0.122836 Eff = 0.8377
+D3   = 0.152054 Eff = 0.5064
+D32  = 0.143932 Eff = 0.8768
+D132 = 0.156361 Eff = 0.9267
+
+tag 1  499 events: 298 unmixed: 201 mixed
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.52233e+00   7.12894e-02   1.67671e-03  -2.60038e-03
+   2  dm           6.07862e-01   6.20622e-02   1.44585e-03  -5.14583e-03
+   3  sigma        4.97342e-01   3.91964e-02   9.18258e-04  -5.57823e-03
+   4  dilution     3.07001e-01   2.81169e-02   6.55548e-04   1.29957e-02
+
+Tag if not tagged by 1
+tag 3  4821 events: 2625 unmixed: 2196 mixed
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.47610e+00   2.22202e-02   1.62608e-03   6.32574e-02
+   2  dm           6.01507e-01   7.05117e-02   5.08759e-03  -3.11052e-02
+   3  sigma        4.78708e-01   1.25498e-02   9.17401e-04   9.15570e-02
+   4  dilution     4.25394e-01   9.45890e-03   6.81821e-04   4.78203e-02
+
+Tag if not tagged by 1 or 3
+tag 2  3947 events: 2122 unmixed: 1825 mixed
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.54487e+00   2.55779e-02   1.70629e-03   1.78070e-02
+   2  dm           5.42148e-01   9.74342e-02   6.38771e-03   1.11906e-02
+   3  sigma        4.68440e-01   1.41015e-02   9.41056e-04  -1.44256e-02
+   4  dilution     4.42795e-01   1.03267e-02   6.77576e-04  -5.24318e-02
+
+tag 132  9267 events: 5045 unmixed: 4222 mixed
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.50782e+00   1.63378e-02   1.66383e-03  -3.02152e-03
+   2  dm           5.83137e-01   4.81336e-02   4.83357e-03   6.94967e-03
+   3  sigma        4.75693e-01   9.12052e-03   9.28274e-04   3.93864e-02
+   4  dilution     4.26536e-01   6.78588e-03   6.81434e-04  -1.57459e-02
+
+Tag if not tagged by 1
+tag 32  8768 events: 4021 unmixed: 4747 mixed
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.50706e+00   1.67845e-02   1.66277e-03   3.89052e-02
+   2  dm           5.77111e-01   5.70859e-02   5.56917e-03  -3.51547e-03
+   3  sigma        4.74292e-01   9.37430e-03   9.28345e-04  -2.43557e-02
+   4  dilution     4.33288e-01   6.98141e-03   6.81063e-04  -5.12365e-02

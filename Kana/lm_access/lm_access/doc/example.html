@@ -1,0 +1,87 @@
+<HTML>
+<HEAD>
+<TITLE>lm_access - tutorail example</TITLE>
+</HEAD>
+
+<BODY bgcolor = "e0ffff">
+<P ALIGN=CENTER>
+<FONT color = "cc7700" size = 5>Tutorial example - calculation of a cross section for the JT_HI_4CJT5 trigger</FONT>
+</P>
+
+<P>
+<B>Getting the source code and the compilation</B><BR>
+<IMG SRC="mykul.jpg" HEIGHT=11 WIDTH=11> login to <I>clued0</I> or <I>d0mino</I><BR>
+<IMG SRC="mykul.jpg" HEIGHT=11 WIDTH=11> the source code <A HREF="../example/example_xsec.cpp">example_xsec.cpp</A> is part of the <I>lm_access</I> package, you can find it in the <I>example</I> subdirectory<BR>
+<IMG SRC="mykul.jpg" HEIGHT=11 WIDTH=11> to compile it, get the <I>lm_access</I> package and compile the <I>lm_access</I> library first (for instructions see <A HREF="getpckg.html">getpckg.html</A>)<BR>
+<IMG SRC="mykul.jpg" HEIGHT=11 WIDTH=11> then go to the <I>lm_access/example</I> subdirectory and type<BR>
+&nbsp&nbsp&nbsp <FONT color="448833">&gt gmake example_xsec</FONT><BR>
+<IMG SRC="mykul.jpg" HEIGHT=11 WIDTH=11> if everything went fine the executable <I>example_xsec</I> should have been created in the <I>example</I> subdirectory<BR>
+<IMG SRC="mykul.jpg" HEIGHT=11 WIDTH=11> <A HREF="../example/Makefile">Makefile</A> is an example how to link <I>lm_access</I> and <I>ROOT</I> libraries to your code<BR>
+</P>
+
+<P>
+<B>Using <I>lm_access</I> tools to obtain luminosity and cross section</B><BR>
+<TABLE>
+<TR><TD VALIGN=TOP><B>1.</B>
+    <TD VALIGN=TOP>
+      <DT>the only header file you have to include into your source code
+      from package <I>lm_access</I> is
+            <A HREF="../lm_access/LumFileMap.hpp">LumFileMap.hpp</A>
+      <DT>&nbsp&nbsp&nbsp&nbsp&nbsp 
+            <FONT color="448833">#include "lm_access/LumFileMap.hpp"
+</font><TR><TD VALIGN=TOP><B>2.</B>
+    <TD VALIGN=TOP>
+       <DT>in the very beginning of your code declare an instance of class <A HREF="LumFileMap.html">LumFileMap</A>
+       <DT>&nbsp&nbsp&nbsp&nbsp&nbsp 
+            <FONT color="448833"> char* trigger = "JT_HI_4CJT5";  /* specify your trigger */
+       <DT>&nbsp&nbsp&nbsp&nbsp&nbsp char* triggers[] = {trigger};
+       <DT>&nbsp&nbsp&nbsp&nbsp&nbsp LumFileMap f_map(1, triggers, lm_access::Reconstructed);</FONT>
+       <DT>In the array <I>triggers</I> you specify which triggers are going 
+           to be used in the analysis. Last parameter specifies what kind of 
+           luminosity you are interested in. The default value is to calculate
+           reconstructed luminosity, in this case you can omit this parameter.
+<TR><TD VALIGN=TOP><B>3.</B>
+    <TD VALIGN=TOP>
+    <DT>In the loop over the data files add the file into the <A HREF="LumFileMap.html">LumFileMap</A>
+    <DT>&nbsp&nbsp&nbsp&nbsp&nbsp <FONT color="448833"> f_map.add(fileID, LumFile(lm_access::roottuple, "p10.14.01", "p10.14.01"));</FONT>
+    <DT>where <I>fileID</I> is an unique file identifier (here we are using filename) and <A HREF="LumFile.html">LumFile</A> specifies what is the type of the data file (see <A HREF="../lm_access/globaldef.hpp">lm_access/globaldef.hpp</A> for the list of all options) and what is the release version of the code. <I>Lm_access</I> package allows to use also ROOT TChain class. Now, the only limitation is that all files within one TChain should belong to the same release.
+<TR><TD VALIGN=TOP><B>4.</B>
+    <TD VALIGN=TOP>
+    <DT>In the loop over the events download the corresponding luminosity block number <I>LumBlk</I> into your LumFileMap <I>f_map</I>
+    <DT>&nbsp&nbsp&nbsp&nbsp&nbsp <FONT color="448833"> 
+        f_map.downloadLBN(fileID, LumBlk);</FONT>
+    <DT><FONT COLOR="FF0000">Note</FONT> that this method works only for not streamed data and only for the official root-tuples (and reco files) generated on D&Oslash offline farm! If you are using or creating stripped data, please, read    D&Oslash note ????.
+    <DT>&nbsp
+    <DT>After the LBN is associated to the file, you have to check whether the data for the given trigger from this LBN can be normilized
+    <DT>&nbsp&nbsp&nbsp&nbsp&nbsp <FONT color="448833"> 
+    if (f_map.isGoodLBN(fileID, LumBlk, trigger)) { ... accept the event for your analysis ... }</FONT>
+    <DT>&nbsp
+    <DT><B><FONT COLOR="ff0000">Note, only data from good luminosity blocks can be properly normilized!</FONT></B>
+<TR><TD VALIGN=TOP><B>5.</B>
+    <TD VALIGN=TOP>
+    <DT>Once all the LBNs are downloaded into your LumFileMap <I>f_map</I>, you can ask for the total luminosity in the given trigger
+    <DT>&nbsp&nbsp&nbsp&nbsp&nbsp <FONT color="448833">
+    double luminosity = f_map.luminosity(trigger);</FONT>
+    <DT>The result is in inverse microbarns (ub^-1).
+</TABLE>
+<p></P>
+
+<P>
+<B>Running the example</B><BR>
+<IMG SRC="mykul.jpg" HEIGHT=11 WIDTH=11>
+to run the example just type in <I>example</I> directory<BR>
+&nbsp&nbsp&nbsp <FONT color="448833">&gt ./example_xsec&nbsp recoA_reco_all_0000146450_mrg_073-074.raw_p10.14.01.root recoA_reco_all_0000146450_mrg_078-078.raw_p10.14.01.root</FONT><BR>
+<IMG SRC="mykul.jpg" HEIGHT=11 WIDTH=11>
+if you did everything correctly you should get numbers similar to those:<BR>
+&nbsp&nbsp&nbsp total reconstructed luminosity in good luminosity blocks is <B>L=840.91 ub^-1</B><BR>
+&nbsp&nbsp&nbsp total cross section for JT_HI_4CJT5 trigger is <B>0.044 ub</B><BR>
+
+</P>
+
+<P>
+<HR align = center size = 3 width = 95%><BR>
+Last update May 27, 2002 by <A HREF = "mailto: kupco@fzu.cz">AK</A>. 
+<p></P>
+
+</BODY>
+</HTML>

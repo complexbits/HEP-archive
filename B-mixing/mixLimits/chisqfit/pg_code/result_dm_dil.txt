@@ -1,0 +1,37 @@
+dm=20.
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.52844e+00   2.42658e-02   1.30107e-03  -2.64310e-03
+   2  sigma        1.41991e-01   7.16813e-03   3.83968e-04   2.50792e-03
+                               ERR DEF= 0.5
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.52844e+00     fixed
+   2  dm           2.36448e+01   1.00471e+00   4.66598e-01   1.45041e-04
+   3  sigma        1.41991e-01     fixed
+   4  mistag       5.72242e-01   2.59809e-01   1.73510e-02   1.18202e-04
+                               ERR DEF= 0.5
+dm=10.
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.48615e+00   2.36147e-02   1.25640e-03   9.54843e-04
+   2  sigma        1.51737e-01   7.44773e-03   3.96180e-04   5.65132e-03
+                               ERR DEF= 0.5
+
+
+
+dm=15.
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.47557e+00   2.34564e-02   1.24707e-03  -1.24549e-03
+   2  sigma        1.57735e-01   7.55898e-03   4.01689e-04  -1.61582e-02
+                               ERR DEF= 0.5
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.47557e+00     fixed
+   2  dm           1.57902e+01   1.79484e-01   1.16045e-02   1.82712e-03
+   3  sigma        1.57735e-01     fixed
+   4  mistag       7.63601e-01   1.17705e-01   7.57630e-03   8.68670e-03

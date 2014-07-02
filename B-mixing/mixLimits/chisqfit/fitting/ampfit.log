@@ -1,0 +1,85 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   4.03/02   9 February 2005   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+Compiled for linux with thread support.
+
+CINT/ROOT C/C++ Interpreter version 5.15.159, Nov 14 2004
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+
+[1mRooFit v1.92 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2005 University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+
+Processing ampfit_jh.C...
+i = 0  count = 0  real = 0  smer = 0.979946
+i = 1  count = 0.979893  real = 0.998424  smer = 0.978349
+i = 2  count = 0.982036  real = 0.988722  smer = 0.970961
+i = 3  count = 0.987239  real = 0.968742  smer = 0.956381
+i = 4  count = 0.994769  real = 0.939379  smer = 0.934465
+i = 5  count = 1.0089  real = 0.899757  smer = 0.907765
+i = 6  count = 1.02594  real = 0.853102  smer = 0.875228
+i = 7  count = 1.05041  real = 0.796124  smer = 0.836258
+i = 8  count = 1.08383  real = 0.73079  smer = 0.792052
+i = 9  count = 1.12201  real = 0.65914  smer = 0.739561
+i = 10  count = 1.17869  real = 0.580354  smer = 0.684056
+i = 11  count = 1.25202  real = 0.497582  smer = 0.622981
+i = 12  count = 1.35693  real = 0.408716  smer = 0.5546
+i = 13  count = 1.55152  real = 0.314377  smer = 0.487761
+i = 14  count = 1.87341  real = 0.221086  smer = 0.414185
+i = 15  count = 2.79486  real = 0.120298  smer = 0.336217
+i = 16  count = 13.1629  real = 0.0196272  smer = 0.258351
+i = 17  count = -2.49121  real = -0.0741867  smer = 0.184815
+i = 18  count = -0.563819  real = -0.179083  smer = 0.10097
+i = 19  count = -0.0757318  real = -0.273974  smer = 0.0207486
+i = 20  count = 0.169213  real = -0.370309  smer = -0.0626611
+i = 21  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 22  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 23  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 24  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 25  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 26  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 27  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 28  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 29  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 30  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 31  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 32  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 33  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 34  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 35  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 36  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 37  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 38  count = 0.831225  real = -0.547514  smer = -0.455107
+i = 39  count = 0.831225  real = -0.547514  smer = -0.455107
+
+
+iLoop = 1
+
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      1.00000e+00  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  1  0.1

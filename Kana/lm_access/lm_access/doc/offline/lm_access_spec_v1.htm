@@ -1,0 +1,650 @@
+<html>
+
+<head>
+
+<title>lm_access secp</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+</head>
+
+
+
+<body bgcolor="#FFFFFF" text="#000000">
+<p><font face="Geneva, Arial, Helvetica, san-serif">LM access specification Version 
+  1 
+  <!-- #BeginDate format:Am1 -->December 18, 2002<!-- #EndDate -->
+  </font></p>
+
+<p>&nbsp;</p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">LM access is a python script 
+
+  which gets information from the lum, run and sam db's and assembles it so that 
+
+  users can get a list of bad luminosity blocks and the sum of good reconstructed 
+
+  luminosity.</font></p>
+
+<h3><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  User interface:</font></h3>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">1) list of L3 trigger names 
+
+  to be or'ed</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">2) list of input files - dataset 
+
+  definition, snapshot id , consumer id or ascii file</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">3) set of reco version considered 
+
+  valid for this analysis. - May need to derive from data in the short run...</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif" color="#333399">4) data quality 
+
+  preferences - a mask internally, a set of option flags for user</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif" color="#333399">5) luminosity 
+
+  quality preferences - how accurate does lum have to be? </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif" color="#FF0000">6) do we need 
+
+  to ask the user to provide an explicit set of run ranges for the case of rare 
+
+  triggers?</font></p>
+
+<h3><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  Logic<br>
+
+  </font></h3>
+
+<blockquote> 
+
+  <p><font face="Geneva, Arial, Helvetica, san-serif"><b>Internal data structures 
+
+    are:</b></font></p>
+
+  <p><b></b></p>
+
+  <p><font face="Geneva, Arial, Helvetica, san-serif">FileIDList, list of file 
+
+    ids</font></p>
+
+  <p><font face="Geneva, Arial, Helvetica, san-serif">RunList corresponding to 
+
+    those FileID's</font></p>
+
+  <p><font face="Geneva, Arial, Helvetica, san-serif">listofVersions corresponding 
+
+    to FileID's or user override</font></p>
+
+  <p><font face="Geneva, Arial, Helvetica, san-serif">fileBookInfoObjectList, 
+
+    list of files info keyed on FileIDList index and run:</font></p>
+
+  <blockquote> 
+
+    <p><font face="Geneva, Arial, Helvetica, san-serif"> contains RawDataIDList 
+
+      ID's of raw data parents of file, version and stream.</font></p>
+
+    <p>&nbsp;</p>
+
+  </blockquote>
+
+  <p><font face="Geneva, Arial, Helvetica, san-serif">goodLBN list of good LBNS, 
+
+    one for each LBN - keyed on run</font></p>
+
+  <p>&nbsp;</p>
+
+  <p><font face="Geneva, Arial, Helvetica, san-serif">LBNProcessingCounter, one 
+
+    for each LBN, stream, keyed on run as well for optimization</font></p>
+
+  <p>&nbsp;</p>
+
+</blockquote>
+
+<ol>
+
+  <li><font face="Geneva, Arial, Helvetica, san-serif">Part one, take the input 
+
+    file list and find out information about those files.</font> 
+
+    <ol>
+
+      <li><font face="Geneva, Arial, Helvetica, san-serif"> convert the FileList 
+
+        to an actual list of files via<br>
+
+        </font> </li>
+
+    </ol>
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif"> fileIDList = <b>samdb.convertFileList(fileListObject)</b></font> 
+
+      </p>
+
+      <blockquote> 
+
+        <p><font face="Geneva, Arial, Helvetica, san-serif">(fileListObject can 
+
+          be project list, snapshot id, consumer process id, ascii )</font></p>
+
+        <p>&nbsp;</p>
+
+      </blockquote>
+
+    </blockquote>
+
+  </li>
+
+  <ol start="2">
+
+    <blockquote> 
+
+      <p>&nbsp;</p>
+
+    </blockquote>
+
+    <li><font face="Geneva, Arial, Helvetica, san-serif"> get information about 
+
+      the files, store it locally in fileInfoObject, goodLBN, LBNProcessingCounter</font> 
+
+    </li>
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif"> for fileID in FileIDList:</font></p>
+
+    </blockquote>
+
+    <ol>
+
+      <blockquote> 
+
+        <p><font face="Geneva, Arial, Helvetica, san-serif"> fileBookInfoObject 
+
+          = <b>samdb.getFileBookInfo(FileID) </b></font></p>
+
+      </blockquote>
+
+    </ol>
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif">get the stream and reco 
+
+        version for that file put into fileInfoObject</font></p>
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif">fill RawDataIDList with 
+
+        the raw data file IDs which are parents of file. </font></p>
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif">for rawfile in RawDataIDList: 
+
+        get the LBN range for the raw file </font></p>
+
+      <blockquote> 
+
+        <p><font face="Geneva, Arial, Helvetica, san-serif"> fill the runList 
+
+          - unless override in user input</font></p>
+
+        <p><font face="Geneva, Arial, Helvetica, san-serif">if reco version is 
+
+          in valid list, increment the fileLBNProcessingCounter(LBN,stream). If 
+
+          &gt; 1 will flag as duplicate.</font></p>
+
+      </blockquote>
+
+      <p><font color="#FF0000">Here I've put counting reco versions into this 
+
+        part</font></p>
+
+    </blockquote>
+
+  </ol>
+
+  <li><font face="Geneva, Arial, Helvetica, san-serif">Part two, find out all 
+
+    of the luminosity blocks for those runs, not just those for the files.</font> 
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif">fill the LBNS list with 
+
+        all LBNS in the run<br>
+
+        for run in RunList</font>: </p>
+
+    </blockquote>
+
+  </li>
+
+  <ol>
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif">fullLBNLIST=<b>runsdb.getRunLBN(run)</b><br>
+
+        </font></p>
+
+      <p>&nbsp;</p>
+
+    </blockquote>
+
+  </ol>
+
+  <li><font face="Geneva, Arial, Helvetica, san-serif">look for bad runs </font> 
+
+  </li>
+
+  <ol>
+
+    <ol>
+
+      <blockquote> 
+
+        <p><font face="Geneva, Arial, Helvetica, san-serif">for run in RunList:<br>
+
+          </font></p>
+
+        <blockquote> 
+
+          <p><font face="Geneva, Arial, Helvetica, san-serif">if not <b>runsdb.isGoodRun():</b></font></p>
+
+          <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+            remove LBNs from GoodLBN<br>
+
+            remove run from RunList<br>
+
+            if not <b>runsdb.validTriggerGroupRun():</b><br>
+
+            remove LBNs from GoodLBN</font></p>
+
+          <p><font face="Geneva, Arial, Helvetica, san-serif"> remove run from 
+
+            RunList</font></p>
+
+        </blockquote>
+
+      </blockquote>
+
+    </ol>
+
+  </ol>
+
+  <li><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+    here is where you get rid of LBN's which are missing a file in one or more 
+
+    streams. For each run, find streams triggers could possibly have been in, 
+
+    if there are raw files for those streams which are not in the dataset, files 
+
+    are missing and those LBNS are bad</font></li>
+
+  <blockquote> 
+
+    <p>&nbsp;</p>
+
+    <p><font face="Geneva, Arial, Helvetica, san-serif">for run in RunList:<br>
+
+      </font></p>
+
+    <p><font face="Geneva, Arial, Helvetica, san-serif"> Loop over files in streams 
+
+      mark as bad if any is missing files in the input list.</font></p>
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif"> for stream in <b>runsdb.getPotentialStreams(run,TriggerGroup):</b></font></p>
+
+      <blockquote> 
+
+        <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+          allrawfiles = <b>samdb.getFileIDs(run,stream,raw)</b></font></p>
+
+        <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+          for file in allrawfiles:</font></p>
+
+        <blockquote> 
+
+          <p><font face="Geneva, Arial, Helvetica, san-serif"> </font></p>
+
+          <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+            if file not in RawIDDataList:</font></p>
+
+          <blockquote> 
+
+            <p><font face="Geneva, Arial, Helvetica, san-serif" color="#FF0000">(this 
+
+              is potentially a big loop, can probably make more efficient by giving 
+
+              rawIDDataList structure, such as key on run and stream)</font></p>
+
+            <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+              remove LBNs from GoodLBN</font></p>
+
+          </blockquote>
+
+          <p><font face="Geneva, Arial, Helvetica, san-serif" color="#FF0000">(removed 
+
+            unitarity check as that is part of the lumdb query later)</font><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+            </font><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+            </font></p>
+
+        </blockquote>
+
+      </blockquote>
+
+    </blockquote>
+
+  </blockquote>
+
+  <li><font face="Geneva, Arial, Helvetica, san-serif">Here get rid of LBNS identified 
+
+    as bad online</font> 
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif"> for LBN in GoodLBN:</font></p>
+
+    </blockquote>
+
+  </li>
+
+  <ol>
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+        if not <b>runsdb.isGoodRunOnlineLBN():</b><br>
+
+        remove LBN from GoodLBN<br>
+
+        if not <b>runsdb.isValidTriggerGroupLBN():</b><br>
+
+        remove LBN from GoodLBN</font></p>
+
+    </blockquote>
+
+  </ol>
+
+  <li><font face="Geneva, Arial, Helvetica, san-serif">Finally sum up the luminosities 
+
+    and return the good list to joe user.</font> 
+
+    <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+      for LBN in GoodLBN:</font></p>
+
+    <blockquote> 
+
+      <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+        <b>lumdb.acquireLuminosity()</b></font></p>
+
+      <p>&nbsp;</p>
+
+    </blockquote>
+
+  </li>
+
+</ol>
+
+<h3><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  Queries</font></h3>
+
+  
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  -------------------------------------------------------------------<br>
+
+  <b>fileIDList = samdb.convertFileList(fileListObject)</b><a name="samdb.convertFileList(fileListObject"></a><br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Inputs: Project ID, SnapShot 
+
+  ID, etc or list of files<br>
+
+  Output: list of file id's</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Take a SAM object and return 
+
+  the appropriate list of files<br>
+
+  -------------------------------------------------------------------<br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"><b>fileBookInfoList = samdb.getFileBookInfo(fileIDList)</b><a name="samdb.getFileBookInfo(fileIDList"></a><br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Input: List of File IDS<br>
+
+  Output: list of fileBookInfo objects: <br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">for each file, fileBookInfo 
+
+  = list of LBN ranges with the run number, reco version and raw data file for 
+
+  each LBN range </font><font face="Geneva, Arial, Helvetica, san-serif"> </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">-------------------------------------------------------------------<br>
+
+  <b>LBNRangeList = runsdb.getRunLBN(runList):</b></font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  Input: list of run number <br>
+
+  Output: list of lists of LBN ranges</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">For a given run number return 
+
+  the LBN range from the Runs DB.<br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">-------------------------------------------------------------------<br>
+
+  <b>runsdb.isGoodRun(runList,DataQualityMask)</b></font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  Input: list of run numbers, DataQualityMask<br>
+
+  Output: list of Booleans keyed on run number list</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Check the run against the 
+
+  Run Quality tables in the Runs DB. Return<br>
+
+  true/false.</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  -------------------------------------------------------------------<br>
+
+  <b>lumdb.isGoodRunLBN(lbnrangelist,DataQualityMask)</b><br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Input: list of LBN ranges, 
+
+  DataQualityMask<br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Output: list of Booleans, 
+
+  one per LBN range </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Check the LBN against the 
+
+  Run Quality table in the Luminosity DB.<br>
+
+  Return true/false.<br>
+
+  -------------------------------------------------------------------</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"><b><br>
+
+  runsdb.validTriggerGroupRun(runList,TriggerGroup)</b><br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Input: list of run numbers, 
+
+  TriggerGroup<br>
+
+  Output: list of Booleans</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Check the members of the TriggerGroup 
+
+  for a given run in the Runs DB<br>
+
+  to see if this is a valid ORing. Return true/false.</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Logic:<br>
+
+  Return false if any trigger not included in run.<br>
+
+  Return true for single trigger.<br>
+
+  For multiple triggers, return true if all triggers have prescale 1 or<br>
+
+  share the same L2 bit.<br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">-------------------------------------------------------------------</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  <b>lumdb.validTriggerGroupLBN(listofLBNRanges,TriggerGroup,LumQualityMask)</b><br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Input: listofLBNRanges, TriggerGroup, 
+
+  LuminosityQualityMask<br>
+
+  Output: list of Booleans</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Check the members of the TriggerGroup 
+
+  for a given LBN in the<br>
+
+  Luminosity DB to see if this is a valid ORing using<br>
+
+  LuminosityQualityMask. Used for single trigger too. Return<br>
+
+  true/false.</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  -------------------------------------------------------------------<br>
+
+  <b>runsdb.getStreams(runList,TriggerGroup) </b><br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Input: list of run numbers, 
+
+  TriggerGroup<br>
+
+  Output: list keyed to runList, for each run, list of streams</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">For a given run number in 
+
+  the Runs DB, output the list of potential<br>
+
+  physical streams required to contain all triggers.<br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">-------------------------------------------------------------------<br>
+
+  <b>samdb.getFileByStream(runList,physicalStream,data_tier)</b><br>
+
+  </font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Input: list of run numbers, 
+
+  physical stream, data_tier<br>
+
+  Output: for each run, fileID, list of LBN ranges for each file</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">Return the list of files ids 
+
+  for a given run number and physical stream in<br>
+
+  the rawdata tier <br>
+
+  -------------------------------------------------------------------<br>
+
+  <font color="#FF0000">### do we need this? getFileByTrigger()<br>
+
+  Input: run number, TriggerGroup<br>
+
+  Output: list of files</font></font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif" color="#FF0000">For a given 
+
+  run number in the SAM DB, output the list of raw data files<br>
+
+  that contained these triggers.</font><font face="Geneva, Arial, Helvetica, san-serif"><br>
+
+  -------------------------------------------------------------------<br>
+
+  <b>lumdb.acquireLuminosity()</b><br>
+
+  Input: LBN, TriggerGroup, LuminosityQualityMask<br>
+
+  Output: Luminosity</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">For a given trigger with proper 
+
+  Status (all triggers in triggerGroup<br>
+
+  should have same status &amp; luminosity), return the luminosity from the<br>
+
+  Luminosity DB.<br>
+
+  -------------------------------------------------------------------</font></p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif"> Michael Begel<br>
+
+  begel@fnal.gov<br>
+
+  </font></p>
+
+</body>
+
+</html>
+

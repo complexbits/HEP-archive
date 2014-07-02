@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>lm_access: parentage example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table width="715" border="0" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td width="715" height="1632" valign="top"> 
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">STANDALONE lm_access 
+        example with file parentage</font></h2>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">This example can be 
+        used to test the luminosity loading and determination for a set of files, 
+        as long as they are in sam. </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><i>If you are using 
+        the D0 Framework there is a much simpler way to do this using the <a href="http://www-d0.fnal.gov/d0dist/dist/packages/lm_access_pkg/devel/doc/doc.txt">lm_access_pkg</a> 
+        framework system.</i></font></p>
+      <p>&nbsp;</p>
+      <hr>
+      <p>&nbsp;</p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">You can invoke the 
+        example (once you've done all the steps) by </font></p>
+      <p>&nbsp;</p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>./example_parentage 
+        &lt;filelist&gt; &lt;parentagepath&gt; &lt;triggername&gt;</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">the result will be 
+        a file</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;filelist&gt;_&lt;triggername&gt;.sum 
+        </b>which looks like</font></p>
+      <p>&nbsp;</p>
+      <p><font face="Courier New, Courier, mono">delivered luminosity is : 0.664853 
+        pb^-1<br>
+        processed 1078 lbns, of which 1077 were good </font></p>
+      <p><font face="Courier New, Courier, mono">recorded luminosity is : 0.520957 
+        pb^-1<br>
+        fraction lost was 0.216432<br>
+        processed 1078 lbns, of which 1036 were good </font></p>
+      <p><font face="Courier New, Courier, mono">reconstructed luminosity is : 
+        0.520957 pb^-1<br>
+        fraction lost was 0<br>
+        processed 1078 lbns, of which 868 were good </font></p>
+      <p><font face="Courier New, Courier, mono">reconstructed luminosity with 
+        bad lbn list is : 0.513105 pb^-1<br>
+        fraction lost was 0.0150728<br>
+        processed 1078 lbns, of which 858 were good </font><br>
+      </p>
+      <hr>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        Usage<br>
+        </font></p>
+      <h4><font face="Verdana, Arial, Helvetica, sans-serif">1. getting the code:</font></h4>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">in a test directory 
+        </font></p>
+      <p><font face="Courier New, Courier, mono">cvs checkout lm_access, </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">do a <font face="Courier New, Courier, mono">gmake 
+        all</font> to make the lm_access libraries.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">add lm_access/scripts 
+        to your $PYTHONPATH </font></p>
+      <h4><font face="Verdana, Arial, Helvetica, sans-serif">2. Getting file parentage 
+        information: </font></h4>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">make the parentage 
+        files for your sam definition </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">l<font face="Courier New, Courier, mono">m_access/scripts/makeDatasetParentageList.py 
+        &lt;samdefinition&gt;</font><br>
+        </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">It will make one file 
+        for each file in the definition called <font color="#9900CC">&lt;filename&gt;.parentage 
+        </font>which contains the information about that file needed to match 
+        it to luminosity.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        This takes a LONG time - if you are using a groups stripped samples, ask 
+        the person who made the strip for the location of the parentage files 
+        for the strip. If the official list is incomplete, copy them to the local 
+        directory and run <font face="Courier New, Courier, mono">makeDatasetParentageList.py</font>, 
+        it will reuse the existent ones and make a complete set for you.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" color="#0000FF">The 
+        short.list example in the example2 directory already has the parentage 
+        files for the 4 example files. </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>3. Setting up the 
+        example </b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Go to the lm_access/example2 
+        directory or copy its context to your own directory.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Look at <a href="http://www-d0.fnal.gov/d0dist/dist/packages/lm_access/devel/example2/example_parentage.cpp"><b>example_parentage.cpp</b></a></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Copy your parentage 
+        files into this directory or edit <font face="Courier New, Courier, mono">example_parentage.cpp</font> 
+        to point to their location.<br>
+        </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Make a list of the 
+        files you are interested in.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        <font face="Courier New, Courier, mono">ls -c1 *.parentage | sed s/.parentage// 
+        &gt; filelist</font></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        will make a list of the files which have parentage </font></p>
+      <h4><font face="Verdana, Arial, Helvetica, sans-serif">4. Good and Bad runs</font></h4>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">make either a goodruns 
+        or badruns list to cut out any runs you cut<br>
+        in your analysis. The luminosity has to know what runs are not being used<br>
+        as otherwise it will sum them up with the others. The format for such 
+        lists should be just the list of runs.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">If there is no good 
+        runs list, all runs are assumed to be good unless they are in the bad 
+        runs list. <br>
+        </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">The default runs lists 
+        are assumed to reside in <b>./goodRunsList ./badRunsList</b></font></p>
+      <h4><font face="Verdana, Arial, Helvetica, sans-serif">5. Bad LBN list</font></h4>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">as of v01-02-00 there 
+        is also a BadLBNList (GoodLBNLists would be too big to operate) which 
+        allows you to turn off individual LBN's in your analysis.</font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+        </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">All bad runs and bad 
+        lbns are removed from the luminosity block list for your sample.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">They will not be included 
+        in the sum and isGoodLBN will return false for them. This insures that 
+        both the numerator and denominator are removing the bad data.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">The default bad lbns 
+        list is assumed to reside in <b>./badlbnlist </b></font></p>
+      <h4><font face="Verdana, Arial, Helvetica, sans-serif">6. Make the executable</font></h4>
+      <p><font face="Courier New, Courier, mono"><br>
+        gmake all </font><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">will make example_parentage</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><font face="Courier New, Courier, mono">./example_parentage 
+        &lt;filelist&gt; &lt;parentagepath&gt; &lt;triggername&gt;</font></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"> will run it.</font></p>
+      <p>&nbsp;</p>
+      <p><font face="Courier New, Courier, mono">./example_parentage short.list 
+        $PWD EM_HI_SH </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">will run a standard 
+        example for testing.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        It should give you a summary of the luminosity content of the dataset 
+        and<br>
+        lists of good and bad lbns in a file &lt;listname&gt;_&lt;triggername&gt;.sum.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">You can adapt this 
+        code to run over a root-tuple pretty easily, just call isGoodLBN(Lbn) 
+        for each event.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">You must, in your 
+        analysis, throw out events from bad luminosity blocks<br>
+        using the <b><font face="Courier New, Courier, mono">isGoodLBN </font></b>function 
+        or your results will be highly biased.<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        </font> </p>
+      </td>
+  </tr>
+</table>
+</body>
+</html>

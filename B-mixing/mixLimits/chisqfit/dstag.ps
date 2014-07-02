@@ -1,0 +1,1671 @@
+%!PS-Adobe-3.0
+%%Title: dstag.C, dstag.h
+%%For: Jamie Hegarty
+%%Creator: a2ps version 4.13
+%%CreationDate: Wed Mar  9 15:23:53 2005
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 4
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Define these in case they're not in the FontInfo (also, here
+    % they're easier to get to.
+    /UnderlinePosition 1 def
+    /UnderlineThickness 1 def
+    
+    % Get the underline position and thickness if they're defined.
+    currentdict /FontInfo known {
+      FontInfo
+      
+      dup /UnderlinePosition known {
+	dup /UnderlinePosition get
+	0 exch FontMatrix transform exch pop
+	/UnderlinePosition exch def
+      } if
+      
+      dup /UnderlineThickness known {
+	/UnderlineThickness get
+	0 exch FontMatrix transform exch pop
+	/UnderlineThickness exch def
+      } if
+      
+    } if
+    currentdict 
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed string
+% Version 1.2 1/31/1990
+% Orignal Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 612 def
+/sw 792 def
+/llx 24 def
+/urx 768 def
+/ury 588 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 7.060185 def
+/cw 4.236111 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 86.400000 mul
+def
+/ph
+   520.335631 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 5 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1-2) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (/************************************************************) p n
+(2) # (The skeleton for this file \(and corresponding header dstag.h\)) N
+(3) # (were generated automatically by ROOT, using: ) N
+(4) # () N
+(5) # (TFile *f = new TFile\("bs_mixing_MC.root"\);) N
+(6) # (dstag->MakeClass\("dstag"\);) N
+(7) # () N
+(8) # (Jamie Hegarty 11/30/04) N
+(9) # (**************************************************************/) N
+(10) # () N
+(11) # () N
+(12) # (#define dstag_cxx) N
+(13) # (#include "dstag.h") N
+(14) # (#include "TH2.h") N
+(15) # (#include "TStyle.h") N
+(16) # (#include "TCanvas.h") N
+(17) # () N
+(18) # (void dstag::Loop\(\)) N
+(19) # ({) N
+(20) # (//   In a ROOT session, you can do:) N
+(21) # (//      Root > .L dstag.C) N
+(22) # (//      Root > dstag t) N
+(23) # (//      Root > t.GetEntry\(12\); // Fill t data members with entry number 12) N
+(24) # (//      Root > t.Show\(\);       // Show values of entry 12) N
+(25) # (//      Root > t.Show\(16\);     // Read and show values of entry 16) N
+(26) # (//      Root > t.Loop\(\);       // Loop on all entries) N
+(27) # (//) N
+(28) # () N
+(29) # (//     This is the loop skeleton where:) N
+(30) # (//    jentry is the global entry number in the chain) N
+(31) # (//    ientry is the entry number in the current Tree) N
+(32) # (//  Note that the argument to GetEntry must be:) N
+(33) # (//    jentry for TChain::GetEntry) N
+(34) # (//    ientry for TTree::GetEntry and TBranch::GetEntry) N
+(35) # (//) N
+(36) # (//       To read only selected branches, Insert statements like:) N
+(37) # (// METHOD1:) N
+(38) # (//    fChain->SetBranchStatus\("*",0\);  // disable all branches) N
+(39) # (//    fChain->SetBranchStatus\("branchname",1\);  // activate branchname) N
+(40) # (// METHOD2: replace line) N
+(41) # (//    fChain->GetEntry\(jentry\);       //read all branches) N
+(42) # (//by  b_branchname->GetEntry\(ientry\); //read only this branch) N
+(43) # ( ) N
+(44) # (  if \(fChain == 0\) return;) N
+(45) # (  Int_t nentries = Int_t\(fChain->GetEntriesFast\(\)\);) N
+(46) # (  Int_t nbytes = 0, nb = 0;) N
+(47) # (  ) N
+(48) # (  /*********** BEGIN USER-INSERTED CODE ****************/) N
+(49) # (  ) N
+(50) # (  TH1F *h_unmixed_events = new TH1F\("h_unmixed_events", "VPDL, Unmixed Events", ) N
+0 T (150, 0., 15\);) N
+(51) # (  TH1F *h_mixed_events = new TH1F\("h_mixed_events", "VPDL, Mixed Events", 150, 0) N
+0 T (., 15\);) N
+(52) # (  TH1F *all_events_vpdl = new TH1F\("all_events_vpdl", "VPDL, All Events", 150, 0) N
+0 T (., 15\);) N
+(53) # (  //TH1F *h_tagumok = new TH1F\("h_tagumok", "h_tagmuok",2, 0., 2.\);) N
+(54) # () N
+(55) # (  TH1F *h_lbdiff = new TH1F\("h_lbdiff", "VPDL-TrueVPDL, All Events", 40, -2., 2.) N
+0 T (\);) N
+(56) # (  TH2F *h2_lbdiff = new TH2F\("h2_lbdiff", "VPDL-TrueVPDL vs. TrueVPDL, All Event) N
+0 T (s", 40, -2.,2.,40,0., 2.\);) N
+(57) # () N
+(58) # (  /************* END USER-INSERTED CODE ****************/) N
+(59) # (    ) N
+(60) # (  for \(Int_t jentry=0; jentry<nentries;jentry++\) { // Begin Looping over all ent) N
+0 T (ries) N
+(61) # (    Int_t ientry = LoadTree\(jentry\);) N
+(62) # (    if \(ientry < 0\) break;) N
+(63) # (    nb = fChain->GetEntry\(jentry\);   nbytes += nb;) N
+(64) # (    // if \(Cut\(ientry\) < 0\) continue;) N
+(65) # () N
+(66) # (    /*********** BEGIN USER-INSERTED CODE ****************/) N
+(67) # ( ) N
+(dstag.C) (Page 1/3) (Mar 01, 05 16:49) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(68) # (    // convert the visible proper decay length from cm to ps) p n
+(69) # (    // by dividing out c = 0.03 cm/ps:) N
+(70) # (    ) N
+(71) # (    Double_t lbps = lb/0.03;) N
+(72) # (    Double_t lbmcps = lbmc/0.03;) N
+(73) # (    Double_t lbmctrueps = lbmctrue/0.03;) N
+(74) # (    ) N
+(75) # (    Double_t lbdiff = lbps - lbmcps;) N
+(76) # (    ) N
+(77) # (    h_lbdiff->Fill\(lbdiff\);) N
+(78) # (    h2_lbdiff->Fill\(lbdiff,lbmcps\);) N
+(79) # (    ) N
+(80) # (    ) N
+(81) # (    all_events_vpdl->Fill\(lbmctrueps\);) N
+(82) # (    //h_tagumok->Fill\(tagmuok\);) N
+(83) # (    ) N
+(84) # (    // check the sign of the muon here vs. opposite muon) N
+(85) # (    // if they're equal, mixing occurred. otherwise this event is unmixed.) N
+(86) # (    if \(q6 == qmu\){) N
+(87) # (      h_mixed_events->Fill\(lbmctrueps\);) N
+(88) # () N
+(89) # (    }else{) N
+(90) # (      h_unmixed_events->Fill\(lbmctrueps\);) N
+(91) # () N
+(92) # (    }) N
+(93) # (    ) N
+(94) # (    ) N
+(95) # (    /************* END USER-INSERTED CODE ****************/) N
+(96) # (    ) N
+(97) # (  } // End looping over all entries) N
+(98) # (  /*********** BEGIN USER-INSERTED CODE ****************/ ) N
+(99) # () N
+(100) # (  h_asymm = h_unmixed_events->GetAsymmetry\(h_mixed_events\);) N
+(101) # (  h_asymm->SetBins\(30,0.,3.\);) N
+(102) # (  h_asymm->SetName\("h_asymm"\);) N
+(103) # (  h_asymm->SetTitle\("Asymmetry"\);) N
+(104) # () N
+(105) # () N
+(106) # (  TGraph *gcos = new TGraph\(31\);) N
+(107) # (  ) N
+(108) # (  Double_t asymm[31];) N
+(109) # (  Double_t x[31];) N
+(110) # (  ifstream infile;) N
+(111) # (  infile.open\("MMMM"\);) N
+(112) # (  for \(Int_t i=0.; i<31; i++\){) N
+(113) # (    infile >> x[i] >> asymm[i];) N
+(114) # (    gcos->SetPoint\(i,x[i],asymm[i]\);) N
+(115) # (  }) N
+(116) # () N
+(117) # (  // Draw histograms) N
+(118) # () N
+(119) # (  gROOT->SetStyle\("Plain"\);) N
+(120) # (  gStyle->SetOptStat\(11111\);) N
+(121) # (  gStyle->SetHistFillColor\(10\);) N
+(122) # (  TCanvas *c1 = new TCanvas\("c1", "Canvas1", 800,600\);) N
+(123) # (  c1->Divide\(2,2\);) N
+(124) # (  c1->cd\(1\);) N
+(125) # (  h_mixed_events->Draw\(\);) N
+(126) # (  c1->cd\(2\);) N
+(127) # (  h_unmixed_events->Draw\(\);) N
+(128) # (  c1->cd\(3\);) N
+(129) # (  h_asymm->Draw\("P*"\);) N
+(130) # (  TF1 *f_cos = new TF1\("f_cos", "0.1*cos\(7*x\)",0.,3.\);) N
+(131) # (  //h_unmix1->Fit\(f_cos\);) N
+(132) # (  f_cos->Draw\("same"\);) N
+(133) # (  c1->cd\(4\);) N
+(134) # (  all_events_vpdl->Draw\(\);) N
+(135) # (  ) N
+(136) # (  TCanvas *c2 = new TCanvas\("c2", "Canvas2", 800,600\);) N
+(137) # (  c2->Divide\(2,2\);) N
+(138) # (  c2->cd\(1\);) N
+(139) # (  h_lbdiff->Draw\(\);) N
+(140) # (  c2->cd\(2\);) N
+(dstag.C) (Page 2/3) (Mar 01, 05 16:49) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(dstag.C) (1/4) (Wednesday March 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(141) # (  h2_lbdiff->Draw\(\);  ) p n
+(142) # (  c2->cd\(3\);) N
+(143) # (  h2_lbdiff->Draw\("LEGO2"\);) N
+(144) # () N
+(145) # (  // Save it all in a Root File) N
+(146) # () N
+(147) # (  TObjArray *a1 = new TObjArray\(0\);) N
+(148) # () N
+(149) # (  a1->Add\(h_unmixed_events\);) N
+(150) # (  a1->Add\(h_mixed_events\);) N
+(151) # (  a1->Add\(h_asymm\);) N
+(152) # (  a1->Add\(all_events_vpdl\);) N
+(153) # (  a1->Add\(h_lbdiff\);) N
+(154) # (  a1->Add\(h2_lbdiff\);) N
+(155) # (  a1->Add\(gcos\);) N
+(156) # (  a1->Add\(f_cos\);) N
+(157) # (  a1->Add\(c1\);) N
+(158) # (  a1->Add\(c2\);) N
+(159) # () N
+(160) # (  TFile *f1 = new TFile\("bs_asymm.root", "recreate"\);) N
+(161) # (  a1->Write\(\);) N
+(162) # (  f1->Close\(\);) N
+(163) # () N
+(164) # (  /************* END USER-INSERTED CODE ****************/) N
+(165) # () N
+(166) # (}) N
+(167) # () N
+(dstag.C) (Page 3/3) (Mar 01, 05 16:49) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(dstag.C) (2/4) (Wednesday March 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//////////////////////////////////////////////////////////) c n
+(2) # (//   This class has been automatically generated ) N
+(3) # (//     \(Fri Jan 21 14:53:16 2005 by ROOT version3.05/07\)) N
+(4) # (//   from TTree dstagTree/AA Ds) N
+(5) # (//   found on file: bs_mixing_MC.root) N
+(6) # (//////////////////////////////////////////////////////////) N
+(7) # () N
+(8) # () N
+(9) # () S
+(#ifndef) K
+( dstag_h) p n
+(10) # () S
+(#define) K
+( dstag_h) p n
+(11) # () N
+(12) # () S
+(#include) K
+( <TROOT.h>) p n
+(13) # () S
+(#include) K
+( <TChain.h>) p n
+(14) # () S
+(#include) K
+( <TFile.h>) p n
+(15) # () N
+(16) # (class dstag {) N
+(17) # (   public :) N
+(18) # (   TTree          *fChain;   ) S
+(//!pointer to the analyzed TTree or TChain) c n
+(19) # () S
+(   Int_t           fCurrent; ) p
+(//!current Tree number in a TChain) c n
+(20) # (//Declaration of leaves types) N
+(21) # () S
+(   Int_t           run;) p n
+(22) # (   Int_t           evt;) N
+(23) # (   Int_t           qmu;) N
+(24) # (   Int_t           q5;) N
+(25) # (   Double_t        lv;) N
+(26) # (   Double_t        vlv;) N
+(27) # (   Double_t        lxy;) N
+(28) # (   Double_t        vlxy;) N
+(29) # (   Double_t        mkk;) N
+(30) # (   Double_t        mds;) N
+(31) # (   Double_t        cxyds;) N
+(32) # (   Double_t        lxyB;) N
+(33) # (   Double_t        vlxyB;) N
+(34) # (   Double_t        lxyBD;) N
+(35) # (   Double_t        vlxyBD;) N
+(36) # (   Double_t        xmb;) N
+(37) # (   Double_t        cxyB;) N
+(38) # (   Double_t        cmud;) N
+(39) # (   Double_t        ptmu;) N
+(40) # (   Double_t        ptB;) N
+(41) # (   Double_t        ptBs;) N
+(42) # (   Double_t        ptotB;) N
+(43) # (   Double_t        lb;) N
+(44) # (   Double_t        pt6;) N
+(45) # (   Double_t        pto6;) N
+(46) # (   Double_t        coBtxy;) N
+(47) # (   Double_t        c26;) N
+(48) # (   Double_t        coBt;) N
+(49) # (   Double_t        ptDsMu;) N
+(50) # (   Double_t        lbmc;) N
+(51) # (   Double_t        lbmctrue;) N
+(52) # (   Double_t        pvposmc[3];) N
+(53) # (   Double_t        svposmc[3];) N
+(54) # (   Double_t        pvpos[3];) N
+(55) # (   Double_t        svpos[3];) N
+(56) # (   Int_t           nSMT6;) N
+(57) # (   Int_t           nCFT6;) N
+(58) # (   Int_t           q6;) N
+(59) # (   Int_t           nseg6;) N
+(60) # (   Int_t           tagmuok;) N
+(61) # (   Int_t           matchBs;) N
+(62) # (   Int_t           qtagin;) N
+(63) # (   Int_t           osci;) N
+(64) # (   Int_t           oscimc;) N
+(65) # () N
+(66) # () S
+(//List of branches) c n
+(67) # () S
+(   TBranch        *b_run;   ) p
+(//!) c n
+(68) # () S
+(   TBranch        *b_evt;   ) p
+(//!) c n
+(69) # () S
+(   TBranch        *b_qmu;   ) p
+(//!) c n
+(70) # () S
+(   TBranch        *b_q5;   ) p
+(//!) c n
+(71) # () S
+(   TBranch        *b_lv;   ) p
+(//!) c n
+(72) # () S
+(   TBranch        *b_vlv;   ) p
+(//!) c n
+(73) # () S
+(   TBranch        *b_lxy;   ) p
+(//!) c n
+(dstag.h) (Page 1/4) (Jan 21, 05 14:53) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (   TBranch        *b_vlxy;   ) p
+(//!) c n
+(75) # () S
+(   TBranch        *b_mkk;   ) p
+(//!) c n
+(76) # () S
+(   TBranch        *b_mds;   ) p
+(//!) c n
+(77) # () S
+(   TBranch        *b_cxyds;   ) p
+(//!) c n
+(78) # () S
+(   TBranch        *b_lxyB;   ) p
+(//!) c n
+(79) # () S
+(   TBranch        *b_vlxyB;   ) p
+(//!) c n
+(80) # () S
+(   TBranch        *b_lxyBD;   ) p
+(//!) c n
+(81) # () S
+(   TBranch        *b_vlxyBD;   ) p
+(//!) c n
+(82) # () S
+(   TBranch        *b_xmb;   ) p
+(//!) c n
+(83) # () S
+(   TBranch        *b_cxyB;   ) p
+(//!) c n
+(84) # () S
+(   TBranch        *b_cmud;   ) p
+(//!) c n
+(85) # () S
+(   TBranch        *b_ptmu;   ) p
+(//!) c n
+(86) # () S
+(   TBranch        *b_ptB;   ) p
+(//!) c n
+(87) # () S
+(   TBranch        *b_ptBs;   ) p
+(//!) c n
+(88) # () S
+(   TBranch        *b_ptotB;   ) p
+(//!) c n
+(89) # () S
+(   TBranch        *b_lb;   ) p
+(//!) c n
+(90) # () S
+(   TBranch        *b_pt6;   ) p
+(//!) c n
+(91) # () S
+(   TBranch        *b_pto6;   ) p
+(//!) c n
+(92) # () S
+(   TBranch        *b_coBtxy;   ) p
+(//!) c n
+(93) # () S
+(   TBranch        *b_c26;   ) p
+(//!) c n
+(94) # () S
+(   TBranch        *b_coBt;   ) p
+(//!) c n
+(95) # () S
+(   TBranch        *b_ptDsMu;   ) p
+(//!) c n
+(96) # () S
+(   TBranch        *b_lbmc;   ) p
+(//!) c n
+(97) # () S
+(   TBranch        *b_lbmctrue;   ) p
+(//!) c n
+(98) # () S
+(   TBranch        *b_pvposmc;   ) p
+(//!) c n
+(99) # () S
+(   TBranch        *b_svposmc;   ) p
+(//!) c n
+(100) # () S
+(   TBranch        *b_pvpos;   ) p
+(//!) c n
+(101) # () S
+(   TBranch        *b_svpos;   ) p
+(//!) c n
+(102) # () S
+(   TBranch        *b_nSMT6;   ) p
+(//!) c n
+(103) # () S
+(   TBranch        *b_nCFT6;   ) p
+(//!) c n
+(104) # () S
+(   TBranch        *b_q6;   ) p
+(//!) c n
+(105) # () S
+(   TBranch        *b_nseg6;   ) p
+(//!) c n
+(106) # () S
+(   TBranch        *b_tagmuok;   ) p
+(//!) c n
+(107) # () S
+(   TBranch        *b_matchBs;   ) p
+(//!) c n
+(108) # () S
+(   TBranch        *b_qtagin;   ) p
+(//!) c n
+(109) # () S
+(   TBranch        *b_osci;   ) p
+(//!) c n
+(110) # () S
+(   TBranch        *b_oscimc;   ) p
+(//!) c n
+(111) # () N
+(112) # () S
+(   dstag\(TTree *tree=0\);) p n
+(113) # (   ~dstag\(\);) N
+(114) # (   Int_t  Cut\(Int_t entry\);) N
+(115) # (   Int_t  GetEntry\(Int_t entry\);) N
+(116) # (   Int_t  LoadTree\(Int_t entry\);) N
+(117) # (   ) S
+(void) k
+(   Init\(TTree *tree\);) p n
+(118) # (   ) S
+(void) k
+(   Loop\(\);) p n
+(119) # (   Bool_t Notify\(\);) N
+(120) # (   ) S
+(void) k
+(   Show\(Int_t entry = -1\);) p n
+(121) # (};) N
+(122) # () N
+(123) # () S
+(#endif) K n
+(124) # () N
+(125) # (#ifdef) S
+( dstag_cxx) p n
+(126) # (dstag::dstag\(TTree *tree\)) N
+(127) # ({) N
+(128) # () S
+(// if parameter tree is not specified \(or zero\), connect the file) c n
+(129) # (// used to generate this class and read the Tree.) N
+(130) # () S
+(   ) p
+(if) K
+( \(tree == 0\) {) p n
+(131) # (      TFile *f = \(TFile*\)gROOT->GetListOfFiles\(\)->FindObject\(") S
+(bs_mixing_MC.root) str
+("\);) p n
+(132) # (      ) S
+(if) K
+( \(!f\) {) p n
+(133) # (         f = new TFile\(") S
+(bs_mixing_MC.root) str
+("\);) p n
+(134) # (      }) N
+(135) # (      tree = \(TTree*\)gDirectory->Get\(") S
+(dstagTree) str
+("\);) p n
+(136) # () N
+(137) # (   }) N
+(138) # (   Init\(tree\);) N
+(139) # (}) N
+(140) # () N
+(141) # (dstag::~dstag\(\)) N
+(142) # ({) N
+(143) # (   ) S
+(if) K
+( \(!fChain\) ) p
+(return) K
+(;) p n
+(144) # (   delete fChain->GetCurrentFile\(\);) N
+(145) # (}) N
+(146) # () N
+(dstag.h) (Page 2/4) (Jan 21, 05 14:53) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(dstag.h) (3/4) (Wednesday March 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(147) # (Int_t dstag::GetEntry\(Int_t entry\)) p n
+(148) # ({) N
+(149) # () S
+(// Read contents of entry.) c n
+(150) # () S
+(   ) p
+(if) K
+( \(!fChain\) ) p
+(return) K
+( 0;) p n
+(151) # (   ) S
+(return) K
+( fChain->GetEntry\(entry\);) p n
+(152) # (}) N
+(153) # (Int_t dstag::LoadTree\(Int_t entry\)) N
+(154) # ({) N
+(155) # () S
+(// Set the environment to read one entry) c n
+(156) # () S
+(   ) p
+(if) K
+( \(!fChain\) ) p
+(return) K
+( -5;) p n
+(157) # (   Int_t centry = fChain->LoadTree\(entry\);) N
+(158) # (   ) S
+(if) K
+( \(centry < 0\) ) p
+(return) K
+( centry;) p n
+(159) # (   ) S
+(if) K
+( \(fChain->IsA\(\) != TChain::Class\(\)\) ) p
+(return) K
+( centry;) p n
+(160) # (   TChain *chain = \(TChain*\)fChain;) N
+(161) # (   ) S
+(if) K
+( \(chain->GetTreeNumber\(\) != fCurrent\) {) p n
+(162) # (      fCurrent = chain->GetTreeNumber\(\);) N
+(163) # (      Notify\(\);) N
+(164) # (   }) N
+(165) # (   ) S
+(return) K
+( centry;) p n
+(166) # (}) N
+(167) # () N
+(168) # () S
+(void) k
+( dstag::Init\(TTree *tree\)) p n
+(169) # ({) N
+(170) # () S
+(//   Set branch addresses) c n
+(171) # () S
+(   ) p
+(if) K
+( \(tree == 0\) ) p
+(return) K
+(;) p n
+(172) # (   fChain    = tree;) N
+(173) # (   fCurrent = -1;) N
+(174) # (   fChain->SetMakeClass\(1\);) N
+(175) # () N
+(176) # (   fChain->SetBranchAddress\(") S
+(run) str
+(",&run\);) p n
+(177) # (   fChain->SetBranchAddress\(") S
+(evt) str
+(",&evt\);) p n
+(178) # (   fChain->SetBranchAddress\(") S
+(qmu) str
+(",&qmu\);) p n
+(179) # (   fChain->SetBranchAddress\(") S
+(q5) str
+(",&q5\);) p n
+(180) # (   fChain->SetBranchAddress\(") S
+(lv) str
+(",&lv\);) p n
+(181) # (   fChain->SetBranchAddress\(") S
+(vlv) str
+(",&vlv\);) p n
+(182) # (   fChain->SetBranchAddress\(") S
+(lxy) str
+(",&lxy\);) p n
+(183) # (   fChain->SetBranchAddress\(") S
+(vlxy) str
+(",&vlxy\);) p n
+(184) # (   fChain->SetBranchAddress\(") S
+(mkk) str
+(",&mkk\);) p n
+(185) # (   fChain->SetBranchAddress\(") S
+(mds) str
+(",&mds\);) p n
+(186) # (   fChain->SetBranchAddress\(") S
+(cxyds) str
+(",&cxyds\);) p n
+(187) # (   fChain->SetBranchAddress\(") S
+(lxyB) str
+(",&lxyB\);) p n
+(188) # (   fChain->SetBranchAddress\(") S
+(vlxyB) str
+(",&vlxyB\);) p n
+(189) # (   fChain->SetBranchAddress\(") S
+(lxyBD) str
+(",&lxyBD\);) p n
+(190) # (   fChain->SetBranchAddress\(") S
+(vlxyBD) str
+(",&vlxyBD\);) p n
+(191) # (   fChain->SetBranchAddress\(") S
+(xmb) str
+(",&xmb\);) p n
+(192) # (   fChain->SetBranchAddress\(") S
+(cxyB) str
+(",&cxyB\);) p n
+(193) # (   fChain->SetBranchAddress\(") S
+(cmud) str
+(",&cmud\);) p n
+(194) # (   fChain->SetBranchAddress\(") S
+(ptmu) str
+(",&ptmu\);) p n
+(195) # (   fChain->SetBranchAddress\(") S
+(ptB) str
+(",&ptB\);) p n
+(196) # (   fChain->SetBranchAddress\(") S
+(ptBs) str
+(",&ptBs\);) p n
+(197) # (   fChain->SetBranchAddress\(") S
+(ptotB) str
+(",&ptotB\);) p n
+(198) # (   fChain->SetBranchAddress\(") S
+(lb) str
+(",&lb\);) p n
+(199) # (   fChain->SetBranchAddress\(") S
+(pt6) str
+(",&pt6\);) p n
+(200) # (   fChain->SetBranchAddress\(") S
+(pto6) str
+(",&pto6\);) p n
+(201) # (   fChain->SetBranchAddress\(") S
+(coBtxy) str
+(",&coBtxy\);) p n
+(202) # (   fChain->SetBranchAddress\(") S
+(c26) str
+(",&c26\);) p n
+(203) # (   fChain->SetBranchAddress\(") S
+(coBt) str
+(",&coBt\);) p n
+(204) # (   fChain->SetBranchAddress\(") S
+(ptDsMu) str
+(",&ptDsMu\);) p n
+(205) # (   fChain->SetBranchAddress\(") S
+(lbmc) str
+(",&lbmc\);) p n
+(206) # (   fChain->SetBranchAddress\(") S
+(lbmctrue) str
+(",&lbmctrue\);) p n
+(207) # (   fChain->SetBranchAddress\(") S
+(pvposmc) str
+(",pvposmc\);) p n
+(208) # (   fChain->SetBranchAddress\(") S
+(svposmc) str
+(",svposmc\);) p n
+(209) # (   fChain->SetBranchAddress\(") S
+(pvpos) str
+(",pvpos\);) p n
+(210) # (   fChain->SetBranchAddress\(") S
+(svpos) str
+(",svpos\);) p n
+(211) # (   fChain->SetBranchAddress\(") S
+(nSMT6) str
+(",&nSMT6\);) p n
+(212) # (   fChain->SetBranchAddress\(") S
+(nCFT6) str
+(",&nCFT6\);) p n
+(213) # (   fChain->SetBranchAddress\(") S
+(q6) str
+(",&q6\);) p n
+(214) # (   fChain->SetBranchAddress\(") S
+(nseg6) str
+(",&nseg6\);) p n
+(215) # (   fChain->SetBranchAddress\(") S
+(tagmuok) str
+(",&tagmuok\);) p n
+(216) # (   fChain->SetBranchAddress\(") S
+(matchBs) str
+(",&matchBs\);) p n
+(217) # (   fChain->SetBranchAddress\(") S
+(qtagin) str
+(",&qtagin\);) p n
+(218) # (   fChain->SetBranchAddress\(") S
+(osci) str
+(",&osci\);) p n
+(219) # (   fChain->SetBranchAddress\(") S
+(oscimc) str
+(",&oscimc\);) p n
+(dstag.h) (Page 3/4) (Jan 21, 05 14:53) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(220) # (   Notify\(\);) p n
+(221) # (}) N
+(222) # () N
+(223) # (Bool_t dstag::Notify\(\)) N
+(224) # ({) N
+(225) # (   ) S
+(// Called when loading a new file.) c n
+(226) # () S
+(   ) p
+(// Get branch pointers.) c n
+(227) # () S
+(   b_run = fChain->GetBranch\(") p
+(run) str
+("\);) p n
+(228) # (   b_evt = fChain->GetBranch\(") S
+(evt) str
+("\);) p n
+(229) # (   b_qmu = fChain->GetBranch\(") S
+(qmu) str
+("\);) p n
+(230) # (   b_q5 = fChain->GetBranch\(") S
+(q5) str
+("\);) p n
+(231) # (   b_lv = fChain->GetBranch\(") S
+(lv) str
+("\);) p n
+(232) # (   b_vlv = fChain->GetBranch\(") S
+(vlv) str
+("\);) p n
+(233) # (   b_lxy = fChain->GetBranch\(") S
+(lxy) str
+("\);) p n
+(234) # (   b_vlxy = fChain->GetBranch\(") S
+(vlxy) str
+("\);) p n
+(235) # (   b_mkk = fChain->GetBranch\(") S
+(mkk) str
+("\);) p n
+(236) # (   b_mds = fChain->GetBranch\(") S
+(mds) str
+("\);) p n
+(237) # (   b_cxyds = fChain->GetBranch\(") S
+(cxyds) str
+("\);) p n
+(238) # (   b_lxyB = fChain->GetBranch\(") S
+(lxyB) str
+("\);) p n
+(239) # (   b_vlxyB = fChain->GetBranch\(") S
+(vlxyB) str
+("\);) p n
+(240) # (   b_lxyBD = fChain->GetBranch\(") S
+(lxyBD) str
+("\);) p n
+(241) # (   b_vlxyBD = fChain->GetBranch\(") S
+(vlxyBD) str
+("\);) p n
+(242) # (   b_xmb = fChain->GetBranch\(") S
+(xmb) str
+("\);) p n
+(243) # (   b_cxyB = fChain->GetBranch\(") S
+(cxyB) str
+("\);) p n
+(244) # (   b_cmud = fChain->GetBranch\(") S
+(cmud) str
+("\);) p n
+(245) # (   b_ptmu = fChain->GetBranch\(") S
+(ptmu) str
+("\);) p n
+(246) # (   b_ptB = fChain->GetBranch\(") S
+(ptB) str
+("\);) p n
+(247) # (   b_ptBs = fChain->GetBranch\(") S
+(ptBs) str
+("\);) p n
+(248) # (   b_ptotB = fChain->GetBranch\(") S
+(ptotB) str
+("\);) p n
+(249) # (   b_lb = fChain->GetBranch\(") S
+(lb) str
+("\);) p n
+(250) # (   b_pt6 = fChain->GetBranch\(") S
+(pt6) str
+("\);) p n
+(251) # (   b_pto6 = fChain->GetBranch\(") S
+(pto6) str
+("\);) p n
+(252) # (   b_coBtxy = fChain->GetBranch\(") S
+(coBtxy) str
+("\);) p n
+(253) # (   b_c26 = fChain->GetBranch\(") S
+(c26) str
+("\);) p n
+(254) # (   b_coBt = fChain->GetBranch\(") S
+(coBt) str
+("\);) p n
+(255) # (   b_ptDsMu = fChain->GetBranch\(") S
+(ptDsMu) str
+("\);) p n
+(256) # (   b_lbmc = fChain->GetBranch\(") S
+(lbmc) str
+("\);) p n
+(257) # (   b_lbmctrue = fChain->GetBranch\(") S
+(lbmctrue) str
+("\);) p n
+(258) # (   b_pvposmc = fChain->GetBranch\(") S
+(pvposmc) str
+("\);) p n
+(259) # (   b_svposmc = fChain->GetBranch\(") S
+(svposmc) str
+("\);) p n
+(260) # (   b_pvpos = fChain->GetBranch\(") S
+(pvpos) str
+("\);) p n
+(261) # (   b_svpos = fChain->GetBranch\(") S
+(svpos) str
+("\);) p n
+(262) # (   b_nSMT6 = fChain->GetBranch\(") S
+(nSMT6) str
+("\);) p n
+(263) # (   b_nCFT6 = fChain->GetBranch\(") S
+(nCFT6) str
+("\);) p n
+(264) # (   b_q6 = fChain->GetBranch\(") S
+(q6) str
+("\);) p n
+(265) # (   b_nseg6 = fChain->GetBranch\(") S
+(nseg6) str
+("\);) p n
+(266) # (   b_tagmuok = fChain->GetBranch\(") S
+(tagmuok) str
+("\);) p n
+(267) # (   b_matchBs = fChain->GetBranch\(") S
+(matchBs) str
+("\);) p n
+(268) # (   b_qtagin = fChain->GetBranch\(") S
+(qtagin) str
+("\);) p n
+(269) # (   b_osci = fChain->GetBranch\(") S
+(osci) str
+("\);) p n
+(270) # (   b_oscimc = fChain->GetBranch\(") S
+(oscimc) str
+("\);) p n
+(271) # (   ) S
+(return) K
+( kTRUE;) p n
+(272) # (}) N
+(273) # () N
+(274) # () S
+(void) k
+( dstag::Show\(Int_t entry\)) p n
+(275) # ({) N
+(276) # () S
+(// Print contents of entry.) c n
+(277) # (// If entry is not specified, print current entry) N
+(278) # () S
+(   ) p
+(if) K
+( \(!fChain\) ) p
+(return) K
+(;) p n
+(279) # (   fChain->Show\(entry\);) N
+(280) # (}) N
+(281) # (Int_t dstag::Cut\(Int_t entry\)) N
+(282) # ({) N
+(283) # () S
+(// This function may be called from Loop.) c n
+(284) # (// returns  1 if entry is accepted.) N
+(285) # (// returns -1 otherwise.) N
+(286) # () S
+(   ) p
+(return) K
+( 1;) p n
+(287) # (}) N
+(288) # () S
+(#endif) K
+( ) p
+(// #ifdef dstag_cxx) c n
+(289) # () N
+(dstag.h) (Page 4/4) (Jan 21, 05 14:53) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(dstag.h) (4/4) (Wednesday March 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF

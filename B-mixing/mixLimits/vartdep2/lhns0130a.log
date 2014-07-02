@@ -1,0 +1,1245 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   3.05/07     22 April 2004   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+Compiled for linux with thread support.
+
+CINT/ROOT C/C++ Interpreter version 5.15.94, June 30 2003
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+
+[1mRooFit -- Version 1.04, developed by Wouter Verkerke and David Kirkby[0m 
+          Copyright (C) 2000-2004 University of California & Stanford University
+          All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+
+Processing lhns0130a.C...
+============== dm fixed at 1 ====================
+Number of events  4000
+for event #50: rTime = 1.67686, isMixed = 1.73055
+nSigavg = 0.168685, oscpar2_init = 0.268685
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.00000e+00  1.00000e-02     no limits
+     3 sigma        2.68685e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5985.84 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.00000e+00     fixed    
+   3  sigma        2.68685e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5985.84 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.00000e+00     fixed    
+   3  sigma        2.68685e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -5.72724e+02
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5966.7 FROM MIGRAD    STATUS=CONVERGED      20 CALLS          21 TOTAL
+                     EDM=1.88389e-14    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.00000e+00     fixed    
+   3  sigma        2.68685e-01     fixed    
+   4  mistag       4.87421e-01   1.09541e-02   5.84313e-04   1.25300e-05
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  1.200e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 2 ====================
+Number of events  4000
+for event #50: rTime = 2.2185, isMixed = 1.85882
+nSigavg = 0.176225, oscpar2_init = 0.276225
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           2.00000e+00  1.00000e-02     no limits
+     3 sigma        2.76225e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6149.59 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           2.00000e+00     fixed    
+   3  sigma        2.76225e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6149.59 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           2.00000e+00     fixed    
+   3  sigma        2.76225e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -5.11058e+02
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6128.66 FROM MIGRAD    STATUS=CONVERGED      15 CALLS          16 TOTAL
+                     EDM=6.48717e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           2.00000e+00     fixed    
+   3  sigma        2.76225e-01     fixed    
+   4  mistag       5.02488e-01   1.27934e-02   6.91651e-04  -1.99086e-01
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  1.637e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 3 ====================
+Number of events  4000
+for event #50: rTime = 0.231837, isMixed = 1.80162
+nSigavg = 0.166759, oscpar2_init = 0.266759
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           3.00000e+00  1.00000e-02     no limits
+     3 sigma        2.66759e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5961.14 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           3.00000e+00     fixed    
+   3  sigma        2.66759e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5961.14 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           3.00000e+00     fixed    
+   3  sigma        2.66759e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -3.56075e+02
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5946.55 FROM MIGRAD    STATUS=CONVERGED      15 CALLS          16 TOTAL
+                     EDM=1.37301e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           3.00000e+00     fixed    
+   3  sigma        2.66759e-01     fixed    
+   4  mistag       5.02380e-01   1.52898e-02   8.14221e-04  -7.66366e-02
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  2.338e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 4 ====================
+Number of events  4000
+for event #50: rTime = 0.505834, isMixed = 0.000716257
+nSigavg = 0.16708, oscpar2_init = 0.26708
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           4.00000e+00  1.00000e-02     no limits
+     3 sigma        2.67080e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5943.17 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           4.00000e+00     fixed    
+   3  sigma        2.67080e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5943.17 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           4.00000e+00     fixed    
+   3  sigma        2.67080e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -2.17806e+02
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5934.04 FROM MIGRAD    STATUS=CONVERGED      15 CALLS          16 TOTAL
+                     EDM=1.20416e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           4.00000e+00     fixed    
+   3  sigma        2.67080e-01     fixed    
+   4  mistag       5.04120e-01   1.97135e-02   1.04869e-03  -1.76026e-02
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  3.886e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 5 ====================
+Number of events  4000
+for event #50: rTime = 1.81231, isMixed = 0.0758218
+nSigavg = 0.1685, oscpar2_init = 0.2685
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           5.00000e+00  1.00000e-02     no limits
+     3 sigma        2.68500e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5973.13 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           5.00000e+00     fixed    
+   3  sigma        2.68500e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5973.13 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           5.00000e+00     fixed    
+   3  sigma        2.68500e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -1.10281e+02
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5968.73 FROM MIGRAD    STATUS=CONVERGED      15 CALLS          16 TOTAL
+                     EDM=4.17875e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           5.00000e+00     fixed    
+   3  sigma        2.68500e-01     fixed    
+   4  mistag       4.99909e-01   2.69616e-02   1.43844e-03  -2.39760e-03
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  7.269e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 6 ====================
+Number of events  4000
+for event #50: rTime = 3.28732, isMixed = 1.34949
+nSigavg = 0.169426, oscpar2_init = 0.269426
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           6.00000e+00  1.00000e-02     no limits
+     3 sigma        2.69426e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5999.73 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           6.00000e+00     fixed    
+   3  sigma        2.69426e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5999.73 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           6.00000e+00     fixed    
+   3  sigma        2.69426e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -9.68273e+01
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5992.91 FROM MIGRAD    STATUS=CONVERGED      17 CALLS          18 TOTAL
+                     EDM=9.07616e-11    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           6.00000e+00     fixed    
+   3  sigma        2.69426e-01     fixed    
+   4  mistag       5.60948e-01   3.81416e-02   2.03909e-03   2.49777e-04
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  1.455e-03 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 7 ====================
+Number of events  4000
+for event #50: rTime = 0.639768, isMixed = 1.43886
+nSigavg = 0.176028, oscpar2_init = 0.276028
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           7.00000e+00  1.00000e-02     no limits
+     3 sigma        2.76028e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6110.36 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           7.00000e+00     fixed    
+   3  sigma        2.76028e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6110.36 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           7.00000e+00     fixed    
+   3  sigma        2.76028e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -1.98322e+01
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6109.61 FROM MIGRAD    STATUS=CONVERGED      17 CALLS          18 TOTAL
+                     EDM=1.69099e-11    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           7.00000e+00     fixed    
+   3  sigma        2.76028e-01     fixed    
+   4  mistag       4.95888e-01   6.19088e-02   3.34165e-03  -6.64230e-05
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  3.833e-03 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 8 ====================
+Number of events  4000
+for event #50: rTime = 1.29467, isMixed = 1.94542
+nSigavg = 0.170754, oscpar2_init = 0.270754
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           8.00000e+00  1.00000e-02     no limits
+     3 sigma        2.70754e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6014.43 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           8.00000e+00     fixed    
+   3  sigma        2.70754e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6014.43 FROM MIGRAD    STATUS=INITIATE        2 CALLS           3 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           8.00000e+00     fixed    
+   3  sigma        2.70754e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -6.89584e+00
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6014.24 FROM MIGRAD    STATUS=CONVERGED      10 CALLS          11 TOTAL
+                     EDM=2.15679e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           8.00000e+00     fixed    
+   3  sigma        2.70754e-01     fixed    
+   4  mistag       4.76283e-01   9.03990e-02   4.83824e-03  -5.13737e-03
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  8.172e-03 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 9 ====================
+Number of events  4000
+for event #50: rTime = 0.126802, isMixed = 1.41937
+nSigavg = 0.168957, oscpar2_init = 0.268957
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           9.00000e+00  1.00000e-02     no limits
+     3 sigma        2.68957e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5978.79 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           9.00000e+00     fixed    
+   3  sigma        2.68957e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5978.79 FROM MIGRAD    STATUS=INITIATE        2 CALLS           3 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           9.00000e+00     fixed    
+   3  sigma        2.68957e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -3.93649e+00
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5978.65 FROM MIGRAD    STATUS=CONVERGED      10 CALLS          11 TOTAL
+                     EDM=1.60277e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           9.00000e+00     fixed    
+   3  sigma        2.68957e-01     fixed    
+   4  mistag       4.91686e-01   1.34937e-01   7.20558e-03  -2.96691e-04
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  1.821e-02 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 10 ====================
+Number of events  4000
+for event #50: rTime = 0.659945, isMixed = 1.97791
+nSigavg = 0.169544, oscpar2_init = 0.269544
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.00000e+01  1.00000e-02     no limits
+     3 sigma        2.69544e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6016.24 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.00000e+01     fixed    
+   3  sigma        2.69544e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6016.24 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.00000e+01     fixed    
+   3  sigma        2.69544e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -2.40684e+00
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6016.11 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=1.52763e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.00000e+01     fixed    
+   3  sigma        2.69544e-01     fixed    
+   4  mistag       5.22538e-01   2.06521e-01   1.10555e-02  -1.89254e-03
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  4.265e-02 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 11 ====================
+Number of events  4000
+for event #50: rTime = 3.49636, isMixed = 0.0264208
+nSigavg = 0.169019, oscpar2_init = 0.269019
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.10000e+01  1.00000e-02     no limits
+     3 sigma        2.69019e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5976.44 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.10000e+01     fixed    
+   3  sigma        2.69019e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5976.44 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.10000e+01     fixed    
+   3  sigma        2.69019e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -2.33431e+00
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5976.19 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=5.24564e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.10000e+01     fixed    
+   3  sigma        2.69019e-01     fixed    
+   4  mistag       6.28299e-01   2.98419e-01   1.59470e-02   7.67489e-04
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  8.905e-02 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 12 ====================
+Number of events  4000
+for event #50: rTime = 0.375806, isMixed = 1.37661
+nSigavg = 0.166821, oscpar2_init = 0.266821
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.20000e+01  1.00000e-02     no limits
+     3 sigma        2.66821e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5903.44 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.20000e+01     fixed    
+   3  sigma        2.66821e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5903.44 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.20000e+01     fixed    
+   3  sigma        2.66821e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -2.34616e+00
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5903.01 FROM MIGRAD    STATUS=CONVERGED      17 CALLS          18 TOTAL
+                     EDM=1.48417e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.20000e+01     fixed    
+   3  sigma        2.66821e-01     fixed    
+   4  mistag       7.86054e-01   3.93608e-01   2.08826e-02  -9.78765e-05
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  1.549e-01 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 13 ====================
+Number of events  4000
+for event #50: rTime = 2.51029, isMixed = 0.0124598
+nSigavg = 0.17281, oscpar2_init = 0.27281
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.30000e+01  1.00000e-02     no limits
+     3 sigma        2.72810e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6041.48 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.30000e+01     fixed    
+   3  sigma        2.72810e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6041.48 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.30000e+01     fixed    
+   3  sigma        2.72810e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -2.79420e+00
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6040.41 FROM MIGRAD    STATUS=CONVERGED      17 CALLS          18 TOTAL
+                     EDM=5.00276e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.30000e+01     fixed    
+   3  sigma        2.72810e-01     fixed    
+   4  mistag       1.18188e+00   5.18053e-01   2.77983e-02  -4.31749e-04
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  2.684e-01 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 14 ====================
+Number of events  4000
+for event #50: rTime = 0.288897, isMixed = 1.99157
+nSigavg = 0.170143, oscpar2_init = 0.270143
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.40000e+01  1.00000e-02     no limits
+     3 sigma        2.70143e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6001.13 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.40000e+01     fixed    
+   3  sigma        2.70143e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6001.13 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.40000e+01     fixed    
+   3  sigma        2.70143e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01   8.77757e-01
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6000.99 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=4.38007e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.40000e+01     fixed    
+   3  sigma        2.70143e-01     fixed    
+   4  mistag       9.10478e-02   6.12088e-01   3.27487e-02   3.41922e-04
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  3.747e-01 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 15 ====================
+Number of events  4000
+for event #50: rTime = 2.49054, isMixed = 0.263367
+nSigavg = 0.170674, oscpar2_init = 0.270674
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.50000e+01  1.00000e-02     no limits
+     3 sigma        2.70674e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6025.26 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.50000e+01     fixed    
+   3  sigma        2.70674e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6025.26 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.50000e+01     fixed    
+   3  sigma        2.70674e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -7.16717e-01
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6025.13 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=2.45568e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.50000e+01     fixed    
+   3  sigma        2.70674e-01     fixed    
+   4  mistag       7.98087e-01   7.23645e-01   3.89321e-02   2.16551e-03
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  5.237e-01 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 16 ====================
+Number of events  4000
+for event #50: rTime = 0.366255, isMixed = 0.743792
+nSigavg = 0.164919, oscpar2_init = 0.264919
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.60000e+01  1.00000e-02     no limits
+     3 sigma        2.64919e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5881.94 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.60000e+01     fixed    
+   3  sigma        2.64919e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5881.94 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.60000e+01     fixed    
+   3  sigma        2.64919e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01   1.63084e+00
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5881.03 FROM MIGRAD    STATUS=CONVERGED      17 CALLS          18 TOTAL
+                     EDM=9.73865e-10    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.60000e+01     fixed    
+   3  sigma        2.64919e-01     fixed    
+   4  mistag      -6.94193e-01   8.23361e-01   4.36022e-02   3.79017e-05
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  6.779e-01 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 17 ====================
+Number of events  4000
+for event #50: rTime = 3.38547, isMixed = 1.39283
+nSigavg = 0.174725, oscpar2_init = 0.274725
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.70000e+01  1.00000e-02     no limits
+     3 sigma        2.74725e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6091.54 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.70000e+01     fixed    
+   3  sigma        2.74725e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6091.54 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.70000e+01     fixed    
+   3  sigma        2.74725e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01  -7.69699e-01
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6091.26 FROM MIGRAD    STATUS=CONVERGED      17 CALLS          18 TOTAL
+                     EDM=2.04316e-11    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.70000e+01     fixed    
+   3  sigma        2.74725e-01     fixed    
+   4  mistag       1.15676e+00   9.78436e-01   5.27344e-02  -4.61975e-06
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  9.573e-01 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 18 ====================
+Number of events  4000
+for event #50: rTime = 0.636961, isMixed = 0.291008
+nSigavg = 0.172378, oscpar2_init = 0.272378
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.80000e+01  1.00000e-02     no limits
+     3 sigma        2.72378e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=6036.49 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.80000e+01     fixed    
+   3  sigma        2.72378e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=6036.49 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.80000e+01     fixed    
+   3  sigma        2.72378e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01   7.36623e-01
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=6036.12 FROM MIGRAD    STATUS=CONVERGED      17 CALLS          18 TOTAL
+                     EDM=2.12192e-11    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.80000e+01     fixed    
+   3  sigma        2.72378e-01     fixed    
+   4  mistag      -5.73475e-01   1.16173e+00   6.23293e-02   3.96513e-06
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  1.350e+00 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 19 ====================
+Number of events  4000
+for event #50: rTime = 0.106646, isMixed = 1.98593
+nSigavg = 0.169006, oscpar2_init = 0.269006
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           1.90000e+01  1.00000e-02     no limits
+     3 sigma        2.69006e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5973.61 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.90000e+01     fixed    
+   3  sigma        2.69006e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5973.61 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.90000e+01     fixed    
+   3  sigma        2.69006e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01   7.76233e-01
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5973.16 FROM MIGRAD    STATUS=CONVERGED      17 CALLS          18 TOTAL
+                     EDM=9.13347e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           1.90000e+01     fixed    
+   3  sigma        2.69006e-01     fixed    
+   4  mistag      -7.35164e-01   1.21255e+00   6.47074e-02   7.88164e-05
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  1.470e+00 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+============== dm fixed at 20 ====================
+Number of events  4000
+for event #50: rTime = 1.24254, isMixed = 1.04145
+nSigavg = 0.169785, oscpar2_init = 0.269785
+ **********
+ **    1 **SET ERR         0.5
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 t0           1.50000e+00  1.00000e-01     no limits
+     2 dm           2.00000e+01  1.00000e-02     no limits
+     3 sigma        2.69785e-01  1.00000e-02     no limits
+     4 mistag       4.20000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           1           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+ FCN=5989.98 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  t0           1.50000e+00     fixed    
+   2  dm           2.00000e+01     fixed    
+   3  sigma        2.69785e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01
+                               ERR DEF= 0.5
+ **********
+ **    4 **MIGRAD        3000         0.1
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY 1.  CONVERGENCE WHEN EDM .LT. 1.00e-04
+ FCN=5989.98 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           2.00000e+01     fixed    
+   3  sigma        2.69785e-01     fixed    
+   4  mistag       4.20000e-01   1.00000e-01   1.00000e-01   7.05770e-01
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=5989.47 FROM MIGRAD    STATUS=CONVERGED      15 CALLS          16 TOTAL
+                     EDM=1.99917e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  t0           1.50000e+00     fixed    
+   2  dm           2.00000e+01     fixed    
+   3  sigma        2.69785e-01     fixed    
+   4  mistag      -1.04309e+00   1.44353e+00   7.71468e-02   3.09741e-05
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  2.084e+00 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+Real time 1368.7
+CPU time  1360.61

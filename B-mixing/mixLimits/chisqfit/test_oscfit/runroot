@@ -1,0 +1,6 @@
+#!/bin/bash
+
+root -l -b -q fittest.C > fittest.log
+echo "root job done | mail 4052092790@messaging.sprintpcs.com
+
+exit

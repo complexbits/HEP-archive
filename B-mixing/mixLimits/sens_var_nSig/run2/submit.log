@@ -1,0 +1,19 @@
+Running ssh -x ouhep[x] cd /misc/home/hegarty/B-mixing/current/run2 ';' root -b -q var*.C > var*.log '2>&1' &
+Filename     MachineName
+------------------------
+varsig0130_1     ouhep13
+varsig0130_2     ouhep12
+varsig0130_3     ouhep11
+varsig0130_4     ouhep10
+varsig0130_a     ouhep9
+varsig0196_1     ouhep5
+varsig0196_2     ouhep5
+varsig0196_3     ouhep4
+varsig0196_4     ouhep4
+varsig0196_a     ouhep3
+varsigma_1     ouhep3
+varsigma_2     ouhep1
+varsigma_3     ouhep1
+varsigma_4     ouhep0
+varsigma_a     ouhep0
+------------------------

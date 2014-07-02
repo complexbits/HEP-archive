@@ -1,0 +1,6 @@
+These files get copied into /prj_root/846/cd_1/lm_access_cache/cache_v<N>
+and that is what getFileInfo actually uses.
+
+the filename syntax here is <data_tier>_<recoversion>.cache
+
+1/27/02 v1 produced

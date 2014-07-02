@@ -1,0 +1,41 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   3.05/07     22 April 2004   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+Compiled for linux with thread support.
+
+CINT/ROOT C/C++ Interpreter version 5.15.94, June 30 2003
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+
+[1mRooFit -- Version 1.04, developed by Wouter Verkerke and David Kirkby[0m 
+          Copyright (C) 2000-2004 University of California & Stanford University
+          All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+
+Processing redraw.C...
+
+
+ ns0130dm = 13.2157
+ ns0130nfdm = 18.1176
+ ns0163adm = -0.127269
+ ns0163dm = 6.39432
+ ns0163nfdm = 18.1524
+ ns0196adm = 1.57233
+ ns0196dm = 6.60507
+ ns0196nfdm = 18.0633
+
+
+Error: Symbol ns0130adm is not defined in current scope  FILE:redraw.C LINE:179
+*** Interpreter error recovered ***
+Significance for Dil=0.16, Sigma Varied: 
+
+ nSigma-MC -> |   0.130    |   0.163    |   0.196    | MC 
+---------------------------------------------------

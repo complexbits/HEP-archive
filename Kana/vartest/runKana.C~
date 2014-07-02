@@ -1,0 +1,5 @@
+{
+gROOT->ProcessLine(".L kanaD1.C");
+gROOT->ProcessLine("kanaD1 c");
+gROOT->ProcessLine("c.Loop()");
+}

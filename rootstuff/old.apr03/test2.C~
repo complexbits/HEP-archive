@@ -1,0 +1,12 @@
+test2(){
+
+ for(int i=0, i<15, i++){
+   cval[i]=3.0+(i*0.2)
+   cratio[i]=5+cval
+     }
+
+ TGraph* g_1_dlsig = new TGraph(16,cval,cratio);
+
+		TCanvas *c_1_dlsig = new TCanvas("c_1_dlsig", "S/B Ratio, m<0.5GeV, dlsig var", 300, 375, 300, 375);
+		g_1_dlsig->("Draw");
+}

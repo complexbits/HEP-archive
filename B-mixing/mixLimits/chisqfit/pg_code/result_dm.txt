@@ -1,0 +1,41 @@
+dm = 10.
+
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE
+   1  t0           1.48224e+00     fixed
+   2  dm           1.00000e+01   1.00000e-02
+   3  sigma        1.48824e-01     fixed
+                               ERR DEF= 0.5
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.48224e+00     fixed
+   2  dm           9.91549e+00   3.12508e-02   1.99916e-03   6.04512e-04
+   3  sigma        1.48824e-01     fixed
+                               ERR DEF= 0.5
+
+**************************************************************************
+dm =15.
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.50430e+00   2.39042e-02   1.27832e-03   1.71671e-04
+   2  sigma        1.54829e-01   7.52281e-03   4.02186e-04   9.17271e-03
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.50430e+00     fixed
+   2  dm           1.49916e+01   1.08955e-01   7.03591e-03  -1.49121e-04
+   3  sigma        1.54829e-01     fixed
+**************************************************************************
+dm =15.
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.48224e+00   2.35479e-02   1.25237e-03   2.59909e-03
+   2  sigma        1.48824e-01   7.20778e-03   3.83256e-04   8.70990e-03
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.48224e+00     fixed
+   2  dm           2.03220e+01   3.69579e-01   2.38227e-02  -2.89524e-05
+   3  sigma        1.48824e-01     fixed

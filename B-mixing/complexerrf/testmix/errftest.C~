@@ -1,0 +1,12 @@
+#ifndef "__COMPLEX_MATH__"
+#include "complexmath.h"
+#endif
+
+// Define some free parameters to use 
+Double_t t = 2;
+Double_t tau = 1.51;
+Double_t dm = 0.51; 
+Double_t sig = 0.1;
+Double_t tag = 1;
+
+void errftest(){

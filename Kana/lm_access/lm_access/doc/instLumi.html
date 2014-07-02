@@ -1,0 +1,73 @@
+<HTML>
+<HEAD>
+<TITLE>Instantaneous luminosity</TITLE>
+</HEAD>
+
+<BODY bgcolor = "e0ffff">
+<P ALIGN=CENTER>
+<FONT color = "cc7700" size = 4>Instantaneous luminosity and proton and anti-proton halos</FONT>
+</P>
+<P ALIGN=CENTER>
+<B></B>
+</P>
+
+<P>
+Code for accessing the information about instantaneous luminosity and
+proton and anti-proton halos is independent on the code for
+integrated luminosity. The users interface is also much simpler.
+An example how to determine the instantaneous luminosity is in
+<A HREF="../example/example_tick.cpp">example_tick.cpp</A>.
+</P>
+
+<P>
+In order to determine the instantaneous luminosity, the following steps
+needs to be followed:
+</P>
+<P>
+<TABLE>
+<TR><TD VALIGN=TOP><B>1.</B>
+    <TD VALIGN=TOP>
+      <DT>The only header file you have to include into your source code
+      from package <I>lm_access</I> is
+            <A HREF="../lm_access/LumPerTick.hpp">LumPerTick.hpp</A>
+      <DT>&nbsp&nbsp&nbsp&nbsp&nbsp 
+            <FONT color="448833">#include "lm_access/LumPerTick.hpp"</FONT>
+<TR><TD VALIGN=TOP><B>2.</B>
+    <TD VALIGN=TOP>
+      <DT>In the very beginning of your code declare an instance of class LumPerTick
+       <DT>&nbsp&nbsp&nbsp&nbsp&nbsp 
+             <FONT color="448833">LumPerTick lTick;</FONT>
+       <DT> Do not declare the variable in the loop over the data. Class
+            LumPerTick contains simple caching mechanism that reduces
+            the number of accesses to the luminosity flat files.
+<TR><TD VALIGN=TOP><B>3.</B>
+    <TD VALIGN=TOP>
+      <DT>Before accessing any luminosity information you 
+      <FONT color="FF0000"><B>MUST CHECK</B></FONT> that this
+      information exists for a given luminosity block number (LBN)
+      and tick. You need to call method
+      <DT>&nbsp&nbsp&nbsp&nbsp&nbsp 
+             <FONT color="448833">lTick.isGoodTick(lbn, tick)</FONT>
+<TR><TD VALIGN=TOP><B>4.</B>
+    <TD VALIGN=TOP>
+      <DT>If the method returns true you can access the luminosity information.
+      <DT>&nbsp
+      <DT>Method <FONT color="448833">lTick.luminosity(lbn, tick)</FONT> returns the instantaneous luminosity in a given tick for particular LBN. The units are 10<SUP>30</SUP> cm<SUP>-2</SUP>.s<SUP>-1</SUP>.
+      <DT>&nbsp
+      <DT>Methods <FONT color="448833">lTick.protonHalo(lbn, tick)</FONT> and
+<FONT color="448833">lTick.pbarHalo(lbn, tick)</FONT> return proton and
+anti-proton halo frequency in Hz.
+      <DT>&nbsp
+      <DT>Method <FONT color="448833">lTick.avgNumInelastic(lbn, tick)</FONT> returns
+          the average number of proton anti-proton inelastic interactions per bunch
+          crossing that corresponds to the particular tick. 
+</TABLE>
+</P>
+
+<P>
+<HR align = center size = 3 width = 95%><BR>
+Last update Jun 9, 2003, by <A HREF = "mailto: d0luminosity@fnal.gov">AK</A>. 
+<p></P>
+
+</BODY>
+</HTML>

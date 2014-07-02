@@ -1,0 +1,28 @@
+#!/bin/bash
+
+NOW=`date +%m%d%y-%H%M`
+echo "Copying directory \"current/\" to temporary directory  $NOW/ ..."
+case `uname` in
+    Darwin)
+	gcp -ar current/ $NOW
+	;;
+    *)
+	cp -ar current/ $NOW
+	;;
+esac
+
+echo "Tarring directory $NOW/ to $NOW.tar ..." 
+tar -cvf $NOW.tar $NOW
+
+echo "Zipping up $NOW.tar ..."
+gzip -9v $NOW.tar
+
+echo "Moving $NOW.tar.gz to archive/ ..."
+mv -v $NOW.tar.gz archive/
+
+echo "Removing temporary directory $NOW/ ..."
+rm -rfv $NOW/
+
+echo "Done!  Previous size: `du --max-depth=0 current | cut -f1` Archived size: `du --max-depth=0 archive/$NOW.tar.gz | cut -f1`"
+
+exit 0

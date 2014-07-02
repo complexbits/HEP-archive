@@ -1,0 +1,365 @@
+\documentclass{article}
+\usepackage{amsmath}
+%\usepackage{fullpage}
+\usepackage[dvips]{graphicx}
+
+
+\newcommand{\DO}{\mbox{D\O}}
+\newcommand{\Bs}{\mbox{$B_{s}^{0}$}}
+\newcommand{\Bsbar}{\mbox{$\bar{B_{s}^{0}}$}}
+\newcommand{\Tag}{\mbox{\tt tag}}
+\newcommand{\erf}{\mbox{erf}}
+
+\setlength{\topmargin}{0in} \setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6.5in} \setlength{\textheight}{9in}
+
+\begin{document}
+
+\title{\bf \Bs-\Bsbar\ Mixing Limits}
+
+\author{Jamie E. Hegarty}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+Using an unbinned likelihood amplitude fitting method with a toy
+Monte Carlo simulation of \mbox{\Bs-\Bsbar} mixing events, we have
+determined preliminary sensitivity limits for a measurement of
+dilution.  Our best value using this method is $\Delta m < 13.386
+ps^{-1}$.
+\end{abstract}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\noindent At the forefront of High Energy Physics are efforts to
+verify or modify the Standard Model of Fundamental Particles and
+Interactions -- the theoretical framework which classifies and
+relates all known elementary particles.  The Standard Model
+describes fermions and quarks as fundamental constituents of
+matter, which interact via force-carrying bosons, the mediators of
+fields. There are three generations, or "flavors" of quarks, which
+may combine via interaction with gluons to form composite hadrons
+such as
+baryons and mesons.\\
+
+\noindent This project is concerned with \Bs\ and \Bsbar\ mesons
+and a process known as mixing. A \Bs\ is comprised of an $s$-quark
+and a $\bar{b}$-quark, while a \Bsbar\ contains a $b$ and an
+$\bar{s}$. Each of these flavor states exists in a superposition
+of two mass states, essentially a \Bs -light and a \Bs -heavy:
+
+%    [superposition equations]
+
+\noindent Since there is a difference in sign between these two
+states, there is a difference in energy, which manifests itself as
+a slight difference in mass, $\Delta m$, between the \Bs\ and the
+\Bsbar .
+Our ultimate goal is to measure this mass difference.\\
+
+
+%%%%%% Version 1, with CKM matrix explained %%%%%%%%%
+%\noindent Of significant importance to the Standard Model is the Cabibbo-Kobayashi-Maskawa (CKM) matrix,
+%\begin{displaymath}
+%    \begin{bmatrix}u\\c\\t\end{bmatrix} =
+%    \begin{bmatrix}V_{ud}&V_{us}&V_{ub}\\V_{cd}&V_{cs}&V_{cb}\\V_{td}&V_{ts}&V_{tb}\end{bmatrix}
+%    \begin{bmatrix}d\\s\\b\end{bmatrix}
+%\end{displaymath}
+% which describes flavor-changing quark interactions.  Since the three generations of quarks have different masses, the CKM matrix includes a CP-violating parameter. In fact, it is a primary source for flavor and CP-violation in the Standard Model~\cite{Bphys}.  The CKM matrix is unitary by design, with diagonal elements near 1, and smaller values farther from the diagonal.  Only a few of the CKM matrix elements are known with any precision, and determination of the remainder of them is a current goal at the forefront of High Energy Physics, both to nail down sources of CP-violation and to discover new physics which may be revealed by the sensitive measurements required. One of the primary ways to determine (or place limits on) these matrix elements is through studying CP-violationg interactions, such as \Bs\ mixing.\\
+
+%\noindent Mixing describes the process by which a \Bs\ meson may change into a \Bsbar\ meson through the exchange of virtual $W^\pm$ bosons. Figure~\ref{mixdiagram} illustrates this process. Mixing is a weak, flavor-changing loop interaction dominated by the top quark.  Charm or up loops may also occur, although much more rarely.  The likelihood of a particular weak flavor-changing decay is proportional to the coupling strength of the quarks to the $W^\pm$ field (given by the coupling constant $\alpha_W$) and to the element of the CKM matrix which describes the particular interaction.  For example, the probability for a $t$-quark to decay to an $s$-quark via a virtual $W^+$ is proportional to $\alpha_{W} V_{ts}$.  Therefore, this element of the CKM matrix is also proportional to the probability that \Bs\ mixing will occur, and likewise related to the mass difference $\Delta m$.  A measurement or limit on $\Delta m$ then provides useful information about $V_{ts}$ and CKM sources of CP-violation in the Standard Model.
+
+%%%%%% Version 2, less CKM explanation %%%%%%%%%
+\noindent Mixing describes the process by which a \Bs\ meson may
+change into a \Bsbar\ meson through the exchange of virtual
+$W^\pm$ bosons. Figure~\ref{mixdiagram} illustrates this process.
+Mixing is a weak, flavor-changing loop interaction dominated by
+the top quark.  Charm or up loops may also occur, although much
+more rarely.  The likelihood of a particular weak flavor-changing
+decay is proportional to the coupling strength of the quarks to
+the $W^\pm$ field (given by the coupling constant $\alpha_W$) and
+to the element of the CKM matrix\footnote{The
+Cabibbo-Kobayashi-Maskawa (CKM) matrix $V$ contains nine terms to
+describe flavor-changing quark interactions and is crucial to the
+Standard Model:
+\begin{displaymath}
+    \begin{bmatrix}u\\c\\t\end{bmatrix} =
+    \begin{bmatrix}V_{ud}&V_{us}&V_{ub}\\V_{cd}&V_{cs}&V_{cb}\\V_{td}&V_{ts}&V_{tb}\end{bmatrix}
+    \begin{bmatrix}d\\s\\b\end{bmatrix}
+\end{displaymath}} which describes the
+particular interaction. For example, the probability for a
+$t$-quark to decay to an $s$-quark via a virtual $W^+$ is
+proportional to $\alpha_{W} V_{ts}$. Therefore, this element of
+the CKM matrix is also proportional to the probability that \Bs\
+mixing will occur, and likewise related to the mass difference
+$\Delta m$.  A measurement or limit on $\Delta m$ then provides
+useful information about $V_{ts}$, the CKM matrix, and the Standard Model.\\
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in]{Bs-Mixing-Diagram.eps}
+\caption{\Bs -\Bsbar\ mixing via $W^\pm$ bosons.  This is a loop
+process dominated by the top quark.} \label{mixdiagram}
+\end{center}
+\end{figure}
+
+\noindent The oscillation frequency of \Bs-\Bsbar\ mixing is directly correllated to the mass difference $\Delta m$ between the two mass eigenstates, and so measuring this frequency would necessarily yield measurement of $\Delta m$.  However, quite a number of factors contribute to the difficulty of making such a measurement, including the high frequency range that $\Delta m$ is likely to fall into and the inherent smearing of lifetime measurements due to detector resolution. Because of these, fitting data for $\Delta m$ alone could return several possible frequency values, and one way to narrow down these potential measurements is to fit for and measure the amplitude of the oscillations as well. \\
+
+\noindent This analysis uses a toy Monte Carlo simulation to generate mixing events for an extremly high frequency $\Delta m$, so that the factors affecting the sensitivity of a measurement may be evaluated independently. Only the very basic mixing and detector physics are simulated, and any discrepencies resulting from more complicated effects such as multiple decay modes or background events are ignored.  In this way, we've determined the limits of sensitivity to changes in resolution for measurements of dilution, since resolution values may not be precisely known.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Definitions}
+\begin{enumerate}
+\item {\bf Tagging}: Determining whether a $B_s$ is a \Bs\ or a \Bsbar . This is done by checking the charge of the muons on the opposite side of the event from the $B_s$ decay.
+\item {\bf Unmixed State}: A particle which was tagged as a \Bs\ is reconstructed as a \Bs, and one tagged as a \Bsbar\ is reconstructed as a \Bsbar. Mixing has not occurred.
+\item {\bf Mixed State}: A partice which was tagged as a \Bs\ is reconstructed as a \Bsbar, or a \Bsbar\ is reconstructed as a \Bs. Mixing has occurred.
+\item {\bf Mistagging}: Incorrectly tagging a \Bs\ as a \Bsbar, or vice versa. The mistagging rate $\alpha$ corresponds to the percent of events for which the tag is assigned incorrectly.
+\item {\bf Dilution}: $D = 1-2\alpha$
+\item {\bf Sensitivity}: The value of $\Delta m$ for which the error in the fit value of $D$ is $1$, independent of the ``actual'' value of $\Delta m$ used in the Monte Carlo.
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculating the Mixing Distributions}
+
+The lifetime distributions of the mixed ($M$) and unmixed ($U$) states are given by:
+\begin{displaymath}
+    U(t) = e^{-\frac{t}{\tau}}[ 1 + \cos (\Delta m t) ],
+    \quad \mbox{and} \quad
+%   \,\,\mbox{\hspace{0.25in}and\hspace{0.25in}}\,\,
+    M(t) = e^{-\frac{t}{\tau}}[ 1 - \cos (\Delta m t) ]
+\end{displaymath}
+\begin{displaymath}
+    \Rightarrow \quad
+%   \mbox{such that}\,\,
+    \frac{U(t)-M(t)}{U(t)+M(t)} = \cos(\Delta m t)
+\end{displaymath}
+where $t$ is the lifetime of the \Bs\, $\tau$ is the mean lifetime of the \Bs\, and $\Delta m$ is the mass difference between the \Bs\ and the \Bsbar .  With mistagging rate $\alpha$ included, the distributions of mixed ($N_{m}(t)$) and unmixed ($N_{u}(t)$) \Bs\ become:
+\begin{eqnarray*}
+    N_{m}(t) = (1-\alpha)M(t) + \alpha U(t)
+    = (1-\alpha)\{e^{-\frac{t}{\tau}}[1-\cos(\Delta m t)]\}
+    + \alpha\{e^{-\frac{t}{\tau}}[1+\cos(\Delta m t)]\}
+    \\
+    N_{u}(t) = (1-\alpha)U(t) + \alpha M(t)
+    = (1-\alpha)\{e^{-\frac{t}{\tau}}[1+\cos(\Delta m t)]\}
+    + \alpha\{e^{-\frac{t}{\tau}}[1-\cos(\Delta m t)]\}
+\end{eqnarray*}
+The asymmetry may also be calculated with mistagging included:
+\begin{align*}
+    \frac{N_{u}(t) - N_{m}(t)}{N_{u}(t) + N_{m}(t)} &= \frac{(1-\alpha)U(t) + \alpha M(t) -\left[(1-\alpha)M(t) + \alpha U(t)\right]}{(1-\alpha)U(t) + \alpha M(t) +\left[(1-\alpha)M(t) + \alpha U(t)\right]}\\
+    &= (1-2\alpha)\frac{U(t)-M(t)}{U(t)+M(t)}\\
+    &= (1-2\alpha)\cos(\Delta m t)
+\end{align*}
+and it becomes clear that the amplitude of oscillation is simply the dilution $D = 1-2\alpha$.\\
+
+\noindent However, since $N_{m}(t)$ and $N_{u}(t)$ differ by only the sign of the $\cos(\Delta m t)$ terms, an extra parameter ``\Tag" may be used, such that $\Tag\ =1$ corresponds to the mixed state, and  $\Tag\ =-1$ corresponds to the unmixed state. The separate $N_{m}(t)$ and $N_{u}(t)$ can then be generalized to a single distribution function:
+\begin{equation}
+        N(t,\Tag) = (1-\alpha)\{e^{-\frac{t}{\tau}}[ 1 -\Tag\cdot \cos(\Delta m t) ]\}
+    + \alpha\{e^{-\frac{t}{\tau}}[ 1 + \Tag\cdot \cos (\Delta m t) ]\}
+\end{equation}
+Additionally, Gaussian smearing to account for the proper time resolution of the detector must also be factored in. The time-smeared distributions of the mixed and unmixed \Bs\ are found by convoluting $N(t,\Tag)$ with the (normalized) Gaussian $G(t)=\frac{1}{\sqrt{2\pi}\,\sigma}e^{-(\frac{t}{\sqrt{2}\sigma})^2}$:
+\begin{displaymath}
+        f(t,\Tag) =
+     \frac{(1-\alpha)}{\sqrt{2\pi}\,\sigma}
+     \int_{-\infty}^{\infty}e^{-(\frac{t-t'}{\sqrt{2}\sigma})^2}
+    e^{-\frac{t'}{\tau}}[ 1 -\Tag\cdot \cos(\Delta m t')]\,\,dt\,\, \ldots
+\end{displaymath}
+\begin{displaymath}
+    \mbox{\hspace{2in}} \,\, + \frac{\alpha}{\sqrt{2\pi}\,\sigma}
+    \int_{-\infty}^{\infty}e^{-(\frac{t-t'}{\sqrt{2}\sigma})^2}
+    e^{-\frac{t'}{\tau}}[ 1 +\Tag\cdot \cos(\Delta m t')]\,\,dt
+\end{displaymath}
+Integrating and making a few simplifying substitutions yields a function suitable to fit with:
+\begin{equation}
+\label{fitfunc}
+    f(t,\Tag) = (1-\alpha)\frac{e^B}{2\tau}\left[1+\erf(A)-\mbox{\tt tag}\cdot w_r^-e^{-A^2}\right]
+        + \alpha\frac{e^B}{2\tau}\left[1+\erf(A)+\mbox{\tt tag}\cdot w_r^-e^{-A^2}\right]
+\end{equation}
+\[
+    A=\frac{t}{\sqrt{2}\,\sigma}-\frac{\sigma}{\sqrt{2}\,\tau}\,\,; \mbox{\hspace{0.5in}}
+    B=\frac{\sigma^2}{2\tau^2}-\frac{t}{\tau}\,\,; \mbox{\hspace{0.5in}}
+    C=\frac{\sigma \Delta m}{\sqrt{2}}
+\]
+
+\noindent where $w_r^-$ is the real part of the complex error function $w(z)$~\cite{cwerf}, evaluated at $z = C - iA$. It is important to note that as $A$ increases, the term $w_r^-e^{-A^2} \rightarrow \cos(2AC)$.\\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Monte Carlo Simulation}
+
+\Bs\ events are generated using Root~\cite{root} to run a toy Monte Carlo (MC) simulation, as follows:
+
+\begin{enumerate}
+\item For each event, the proper lifetime $t_p$ of the \Bs\ is first selected from a perfect exponential distribution with a mean at $\tau = 1.5 \times 10^{-12}s$. Next, a random time ``smearing'' value, selected from a Gaussian distribution centered at zero, with $\sigma = \sigma_t$, is added to the proper time $t_p$.
+This smearing is intended to represent the time-resolution of the detector.
+
+\item The new, smeared time, is then smeared again with a second Gaussian centered at zero, but having a lifetime-dependent\footnote{We're in the rest frame of the \Bs.} $\sigma = \sigma_nt_p$.  This second smearing is intended to account for unmeasured neutrinos in the decay of the \Bs, which carry away a proportionally larger amount of momentum for long-lifetime \Bs\ than for short-lifetime \Bs, regardless of the decay mode\footnote{This may later be updated to use a distribution which takes decay mode, among other things, into account.}, thus adding more error to the determination of the decay length of longer-lifetime \Bs.  The final, ``measured'' time, is then $t$.
+
+\item Next, it is decided whether or not the \Bs\ in an event ``mixes'' by comparing a number selected from a flat random distribution between 0 and 2 with the value of $1+\cos(\Delta m t_p)$ (the mixing comparison), where $\Delta m$ is the mass difference between the \Bs\ and \Bsbar.  If the first number is larger than the mixing comparison, the \Bs\ has mixed to a \Bsbar\, otherwise it remains ``unmixed''.  In either case, it is tagged accordingly.
+
+\item Finally, the possibility of mistagging is considered, at a percentage rate\footnote{\label{dilution}The dilution $D = 1-2\alpha$.} $\alpha$.  This is the percent of events for which a \Bs\ has been tagged as a \Bsbar\, or vice versa.  A number is selected from a flat random distribution between 0 and 1, and compared to $\alpha$ to determine whether the particle is mistagged, with numbers smaller than $\alpha$ indicating that this is the case.  The tag of the particle is then adjusted accordingly.
+\end{enumerate}
+%To run this simulation, the user must specify:
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{r@{\,\,\,}l@{\hspace{0.25in}}r@{\,\,\,}l@{\hspace{0.25in}}r@{\,\,\,}l@{\hspace{0.25in}}}
+%
+%   {\tt tSigma}: & $\sigma$ for time-independent smearing
+%   & {\tt nEvts}: & The number of events
+%   & {\tt dm}: & $\Delta m$ \\
+%   {\tt nSigma}: & $\sigma$ for time-dependent smearing
+%   & {\tt misTag}: & The mistag rate ($\alpha$)
+%   & {\tt tau}: & $\tau$  \\
+%
+%\end{tabular}
+%\end{center}
+%\end{table}
+
+%\noindent The MC is also currently capable of generating a simple exponential background, with a user-definable signal-background ratio, but we have not used this functionality yet.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fitting the Mixing Distributions}
+
+Each set of generated events is separated by tag, and the separated sets are each fit with a function %\footnote{ {\tt mll\_fit\_d()} in {\tt unbinFitosc\_d.cpp.}, which refers to {\tt lftmosc\_plt\_d()} and {\tt mixing()} in {\tt func.cpp} }%
+which has $t$ as the independent variable and the following as parameters: $\Delta m$, $\sigma_t$, $\tau$, {\tt tag}, and $\alpha$.  The actual fit function $f$ is given by Equation~\ref{fitfunc}, and uses RooFit~\cite{roofit} to calculate the complex error function.\\
+
+\noindent The fitting code utilizes the MINUIT Minimization Package~\cite{minuit} to do an {\it unbinned likelihood fit}, which adjusts parameters of the distribution function $f$ so as to maximize the probability that the sample lifetime distribution matches the function $f$.  This is done by individually comparing each lifetime value $t$ to the distribution function $f$ to determine the probability of selecting $t$ from $f$, and then multiplying these probabilities together to obtain the overall probability that the lifetime distribution matches the distribution function $f$. MINUIT then adjusts the fit parameter(s) in small steps, runs the test against $f$ over again until the probability is maximized, and returns the final value of the fit parameter(s) along with the associated error.\\
+
+%\noindent The fitting code %({\tt unbinFitoscd.cpp})%
+%utilizes the MINUIT Minimization Package~\cite{minuit} to do an unbinned likelihood fit, meaning that generated values of the lifetime $t$ are compared to the distribution function $f$ individually (and therefore independent of any histogram binning), to determine the probability of selecting that value of $t$ from the distribution $f$.  MINUIT adjusts the fit parameter(s) in small steps, runs the test against $f$ over again until the probability is maximized, and then returns the final value of the fit parameter(s) along with the associated error.\\
+
+\noindent By ``fixing'' all parameters but $\alpha$ during the fit, we have essentially fit for only the amplitude of the oscillation, hence the ``unbinned likelihood amplitude'' fitting.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculating Sensitivity \label{calcsens}}
+
+For each set of conditions tested, we calculated the sensitivity of a measurement of dilution ($D = 1-2\alpha$) to the conditions as follows:
+
+\begin{enumerate}
+\item The process of generating events and fitting for the dilution was done 20+ times for each run, each time with $\Delta m=1000$ in the MC, and $\Delta m$ in the fit fixed at a value varied between 0 and $\sim$20 over the course of each run\footnote{Values other than 0-20 were used when needed for reasonable precision.}.
+\item The {\em error} in $\alpha$, as reported by MINUIT, was plotted against $\Delta m$. {\em (The dots in Figure~\ref{sample}.)}
+\item The equation of a straight line crossing through the dilution error value just below 1, and that just above 1, was determined.{\em (The line in Figure~\ref{sample}.)}
+\item The {\em Sensitivity} was then calculated to be the value of $\Delta m$ for which this line crossed 1. {\em (The open circle in Figure~\ref{sample}.)}
+\end{enumerate}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in]{sample.eps}
+\caption{A sample sensitivity calculation.  The sensitivity is defined to be the value of $\Delta m$ for which the error in $D$ is 1. {\em (Dots: Step 1 and 2; Line: Step 3, Circle: Step 4.)}}
+\label{sample}
+\end{center}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+
+Sensitivity of a dilution measurement was tested under the following conditions:  Variations in $\sigma_t$, variations in $D$, and variations in $\sigma_n$.  %In the first two cases, the Condor batch scheduler~\cite{condor} was used to run the series of tests on the OUHEP cluster~\cite{ouhep}, and in the last case, PBS~\cite{pbs} was used to run the series of tests at OSCER~\cite{oscer}.
+Each sensitivity value represents a run of 20 generate-and-fit iterations (4000 events each), with $\Delta m$ varied between 0 and $\sim$20 over the course of the run, as described in Section~\ref{calcsens}.
+
+\subsection{Variations in $\sigma_t$}
+
+{\renewcommand{\arraystretch}{1.25}
+\begin{table}
+\begin{center}
+\caption{Sensitivity of $D$ to $\pm$ 20\% variations in $\sigma_t$, 4000 events}
+\label{Tts}
+\vspace{0.25cm}
+\begin{tabular}{|c||@{\hspace{1cm}}c@{\hspace{1cm}}|@{\hspace{1cm}}c@{\hspace{1cm}}|@{\hspace{1cm}}c@{\hspace{1cm}}|}
+    \hline\hline
+    Fit $\downarrow$ $\backslash$ MC $\rightarrow$ & 0.08 & 0.10 & 0.12 \\
+    \hline\hline
+    0.08 & 22.07 & 23.56 & - \\
+    \hline
+    0.10 & 17.66 & 17.74 & 17.88 \\
+    \hline
+    0.12 & - & 15.74 & 15.00 \\
+    \hline\hline
+\end{tabular}
+\end{center}
+\end{table}
+}
+
+The effect of $\pm$ 20\% variations in $\sigma_t$ on the sensitivity of $D$ are enumerated in Table \ref{Tts}.  Here, the dilution was set to 0.16 both in the MC and as an initial value in the fit, and time-dependent smearing was not used. $\sigma_t$ was set to values of 0.1 $\pm$ 20\% in the MC, and for each of these, fitting was done with $\sigma_t$ values of 0.1 $\pm$ 20\%.  The combinations for which the listed sensitivity is blank were not tested.
+
+\subsection{Variations in $D$}
+
+{\renewcommand{\arraystretch}{1.25}
+\begin{table}
+\begin{center}
+\caption{Sensitivity of $D$ to $\pm$ 20\% variations in $D$, 4000 events}
+\label{Td}
+\vspace{0.25cm}
+\begin{tabular}{|c||@{\hspace{1cm}}c@{\hspace{1cm}}|@{\hspace{1cm}}c@{\hspace{1cm}}|@{\hspace{1cm}}c@{\hspace{1cm}}|}
+    \hline\hline
+    Fit $\downarrow$ $\backslash$ MC $\rightarrow$ & 0.128 & 0.160 & 0.192 \\
+    \hline\hline
+    0.128 & 16.35 & 16.35 & - \\
+    \hline
+    0.160 & 17.75 & 17.74 & 17.75 \\
+    \hline
+    0.192 & - & 18.90 & 18.91 \\
+    \hline\hline
+\end{tabular}
+\end{center}
+\end{table}
+}
+
+The effect of $\pm$ 20\% variations in the value of $D$ in the MC vs. the initial value of $D$ used in fitting, on the sensitivity of a measurement of $D$, are listed in Table \ref{Td}.  Here, $\sigma_t$ was set to 0.10 both in the MC and in the fit, and time-dependent smearing was not used. $D$ was set to values of 0.16 $\pm$ 20\% in the MC, and for each of these, fitting was done with $D$ at an initial values of 0.16 $\pm$ 20\%.  The combinations for which the listed sensitivity is blank were not tested.
+
+\subsection{Variations in $\sigma_n$}
+
+{\renewcommand{\arraystretch}{1.25}
+\begin{table}
+\begin{center}
+\caption{Sensitivity of $D$ to $\pm$ 20\% variations in $\sigma_n$, 4000 events}
+\label{Ttn}
+\vspace{0.25cm}
+\begin{tabular}{|c||@{\hspace{1cm}}c@{\hspace{1cm}}|@{\hspace{1cm}}c@{\hspace{1cm}}|@{\hspace{1cm}}c@{\hspace{1cm}}|}
+    \hline\hline
+    Fit $\downarrow$ $\backslash$ MC $\rightarrow$ & 0.130 & 0.163 & 0.196 \\
+    \hline\hline
+    $\sigma_n$ ignored & 17.799 & 17.783 & 17.808 \\
+    \hline
+    Avg.($\sigma_n,\sigma_t$) & 6.473 & 5.840 & 5.162 \\
+    \hline
+    Eff. $\sigma$ at $t$ & - & 13.386 & - \\
+    \hline\hline
+\end{tabular}
+\end{center}
+\end{table}
+}
+
+Table \ref{Ttn} lists sensitivity of a measurement of $D$ to $\pm$ 20\% variations in $\sigma_n$ vs. variations in accounting for $\sigma_n$ in fitting\footnote{$\sigma_{eff} = \sqrt{\sigma_t^2 + (\sigma_n t)^2} = 0.14$ for $\sigma_t=0.10$ and $t = 0.6$, as experimentally determined.}.  Although the MC makes it easy to include the time-dependent smearing $\sigma_n$, this extra Gaussian is not so easily included into the fit function.  Therefore, we chose three methods of accounting for this extra factor in the fitting.  In the first row of Table \ref{Ttn}, the time-dependent smearing is ignored altogether and \mbox{$\sigma_{eff}$ = $\sigma_t$}.  In the second row, the lifetime values from the MC were histogrammed, and then a bin-weighted average was used to determine an effective (average) value of $\sigma$ to use in the fit.  In the last row, the actual effective smearing at each lifetime $t$ was computed during fitting, using $\sigma_n = 0.163$.  In all cases, $\sigma_t$ was set to 0.1 in the MC and fit, and $D$ was set to 0.16 both in the MC and for the initial fit value.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{0}
+
+\bibitem{Bphys} B-Physics at the Tevatron
+\bibitem{root} The Root Data Analysis Framework, http://root.cern.ch/.
+\bibitem{cwerf} CERNLib C335: Complex Error Function, http://wwwasdoc.web.cern.ch/wwwasdoc/shortwrupsdir/c335/top.html.
+\bibitem{roofit} The RooFit Toolkit for Data Modeling {\em (Contains a direct C++ translation of CWERF for use with Root)}, http://roofit.sourceforge.net/.
+\bibitem{minuit} CERNLib (PackLib) Long Writeup D506: MINUIT Minimization Package, http://wwwasdoc.web.cern.ch/wwwasdoc/WWW/minuit/minmain/minmain.html.
+%\bibitem{condor} The Condor Project, http://www.cs.wisc.edu/condor/
+%\bibitem{ouhep} Information about the OUHEP cluster: http://www-hep.nhn.ou.edu/d0/grid/.
+%\bibitem{pbs} Altair PBS, http://www.altair.com/software/pbspro.htm
+%\bibitem{oscer} OU Supercomputing Center for Education and Research, http://www.oscer.ou.edu/.
+%\bibitem{}
+\end{thebibliography}
+
+%\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{appendix}
+%{\Large \bf \noindent Appendices}
+%\section{Citations \label{cites}}
+%
+%I cited \cite{root} and all I got was this stupid citation.
+%\end{appendix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}

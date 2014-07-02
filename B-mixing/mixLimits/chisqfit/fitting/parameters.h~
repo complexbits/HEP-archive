@@ -1,0 +1,77 @@
+#ifndef __PARAMETERS__
+#define __PARAMETERS__
+
+Int_t qtagmcount=0.;
+Int_t qtagucount=0.;
+Float_t qtagncount=0.;
+Int_t ecount=0.;
+
+Double_t dilution;
+Double_t mistag;  
+//----- Define arrays and stuff for fitting:
+
+Double_t t0_init = 1.6; //t0
+Double_t dm_init = 7.; //dm
+Double_t sigma_init = 0.35; //sigma
+Double_t mistag_init = 0.36; //mistag
+
+Double_t t0_step = 0.1;
+Double_t dm_step = 0.01;
+Double_t sigma_step = 0.01;
+Double_t mistag_step = 0.1;
+
+Double_t fitpar[4];
+Double_t fiterr[4];
+
+Double_t fitlpar[2];
+Double_t fitlerr[2];
+
+
+
+//----- Define data variables
+
+Double_t runNo[50000];
+Double_t evtNo[50000];
+Double_t mass[50000];
+Double_t lifetime[50000];
+Int_t tag[50000];
+
+
+
+//----- Define background to signal array:
+
+Double_t bkgSig[10]={5.6886, 4.62235, 3.8314, 3.1397, 3.54177, 3.97965, 4.27143, 3.39745, 4.6566, 3.24586};
+
+
+
+//----- Define binning and normalization parameters:
+
+Int_t    nBins = 20;
+Double_t maxLimit = 2.;
+
+Int_t nEvts = 602;
+
+Double_t min = -2.;
+Double_t max = 11.;
+Double_t binWidth=0.1;
+Int_t binN = (max-min)/binWidth;
+
+
+//----- Used for testing with mcData.cpp (toy MC):
+
+Double_t tau=1.8667;      // lifetime of B0
+Double_t tSigma=0.3749;   // detector time resolution smearing
+Double_t nSigma=0.;   // unmeasured neutrinos smearing
+Double_t dm=7.;       // mass diff btw B0/B0bar
+Double_t misTag=0.4;   // mistagging rate
+
+Double_t bgtau=0.;
+Double_t sbrat=10000000;    // signal-background ratio
+
+Double_t rTime[50000];
+Double_t nsm[50000];
+Double_t lt_sm1[50000];
+Double_t tsm[50000];
+
+
+#endif

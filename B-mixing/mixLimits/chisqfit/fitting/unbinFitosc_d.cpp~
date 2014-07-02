@@ -1,0 +1,103 @@
+//************************************************
+// Use minuit to do an unbinned fit
+//
+// Fits for lifetime, dm, sigma, dilution
+//
+// by P. Gutierrez
+// 3-12-04
+//************************************************
+
+
+#ifndef __FUNC_CPP__
+#include "func.cpp"
+#endif
+
+void unbinFitosc_d()
+{
+  TMinuit *gMinuit = new TMinuit(4);
+  gMinuit -> SetFCN(mll_fit);
+  
+  Double_t arglist[10];
+  Double_t vstart[10];
+  Double_t step[10];
+
+  Double_t p0=0, p1=1, p2=2, p3=3;
+  Int_t ierflg=0;
+ 
+  Double_t par_t0, par_dm, par_sigma, par_mistag;
+  Double_t err_t0, err_dm, err_sigma, err_mistag;
+
+  // Set to 0.5 for likelihood, 1 for chisquare
+
+  arglist[0] = 0.5;
+  gMinuit->mnexcm("SET ERR", arglist, 1, ierflg);
+
+  // Set initial values of parameters
+
+  vstart[0] = t0_init;
+  vstart[1] = dm_init;
+  vstart[2] = sigma_init;
+  vstart[3] = mistag_init;
+
+  step[0] = t0_step;
+  step[1] = dm_step;
+  step[2] = sigma_step;
+  step[3] = mistag_step;
+
+  gMinuit->mnparm(0, "t0", vstart[0], step[0], 0., 0., ierflg);
+  gMinuit->mnparm(1, "dm", vstart[1], step[1], 0., 0., ierflg);
+  gMinuit->mnparm(2, "sigma", vstart[2], step[2], 0., 0., ierflg);
+  gMinuit->mnparm(3, "mistag", vstart[3], step[3], 0., 0., ierflg);
+  // Fix t0, sigma, and dm
+  arglist[0] = 1;
+  arglist[1] = 2;
+  arglist[2] = 3;
+  gMinuit->mnexcm("FIX", arglist, 3, ierflg);
+
+  // Do minimization
+  arglist[0] = 3000.;
+  arglist[1] = 0.1;
+  gMinuit->mnexcm("CALL FCN", &p1, 1, ierflg);
+  gMinuit->mnexcm("MIGRAD", arglist, 2, ierflg);
+  gMinuit->mnexcm("CALL FCN", &p3, 1, ierflg);
+
+  // Get parameters 
+  gMinuit->GetParameter(0,par_t0,err_t0);
+  gMinuit->GetParameter(1,par_dm,err_dm);
+  gMinuit->GetParameter(2,par_sigma,err_sigma);
+  gMinuit->GetParameter(3,par_mistag,err_mistag);
+
+  // Export the fitted parameters so we can graph them.
+
+  fitpar[0]=par_t0;
+  fitpar[1]=par_dm;
+  fitpar[2]=par_sigma;
+  fitpar[3]=par_mistag;
+
+  fiterr[0]=err_t0;
+  fiterr[1]=err_dm;
+  fiterr[2]=err_sigma;
+  fiterr[3]=err_mistag;
+
+  RooComplex ct = RooMath::ComplexErrFunc(2.,1.);
+  cout << "ct  " << ct.re() << "  " << ct.im() << endl;
+
+
+  delete gMinuit;
+
+}
+
+
+void mll_fit(Int_t &npar, Double_t *gin, Double_t &f,
+	     Double_t *par, Int_t iflag)
+{
+  if (iflag == 1) cout << "iflag  " << iflag << endl;
+  if (iflag == 3) cout << "iflag  " << iflag << endl;
+  Double_t nll = 0;
+  for (Int_t i=0; i<nEvts; i++){
+    Double_t ll=lifetime_osc(lifetime[i],par[0],par[1],par[2],par[3],tag[i]);
+
+    nll -= TMath::Log(ll);
+  }
+  f = nll;
+}

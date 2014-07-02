@@ -1,0 +1,160 @@
+//#include "unbinFitosc_d.cpp"
+#include "unbinFitosc_pg.cpp"
+#ifndef __FUNC_CPP__
+#include "func_pg.cpp"
+#endif
+
+#include "mcData.cpp"
+
+//----- Used for testing with mcData.cpp (toy MC):
+
+Double_t tau=1.8667;      // lifetime of B0
+Double_t tSigma=0.3749;   // detector time resolution smearing
+Double_t nSigma=0.;   // unmeasured neutrinos smearing
+Double_t dm=1.5.;       // mass diff btw B0/B0bar
+Double_t misTag=0.0;   // mistagging rate
+
+Double_t bgtau=0.;
+Double_t sbrat=10000000;    // signal-background ratio
+
+
+//----- Define data variables
+
+Double_t runNo[50000];
+Double_t evtNo[50000];
+Double_t mass[50000];
+Double_t lifetime[50000];
+Int_t tag[50000];
+
+//----- Define binning and normalization parameters:
+
+Double_t nEvts = 500.;
+
+Double_t min = -2.;
+Double_t max = 11.;
+Double_t binWidth=0.1;
+Int_t binN = (max-min)/binWidth;
+
+//----- Define arrays and stuff for fitting:
+
+Double_t t0_init = 1.8667; //t0
+Double_t dm_init = 2.; //dm
+Double_t sigma_init = 0.3749; //sigma
+Double_t mistag_init = 0.0; //mistag
+
+Double_t t0_step = 0.1;
+Double_t dm_step = 0.01;
+Double_t sigma_step = 0.01;
+Double_t mistag_step = 0.01;
+
+Double_t fitpar[4];
+Double_t fiterr[4];
+
+Double_t fitlpar[2];
+Double_t fitlerr[2];
+
+//------------------------------------------------
+// Use with unbinFitosc_pg:
+Double_t oscpar0_init = 1.8667;
+Double_t oscpar1_init = 2.;
+Double_t oscpar2_init = 0.3749;
+Double_t oscpar3_init = 0.42;
+
+Double_t oscerr0_step = 0.1;
+Double_t oscerr1_step = 0.01;
+Double_t oscerr2_step = 0.01;
+Double_t oscerr3_step = 0.1;
+
+//------------------------------------------------
+
+void fittest()
+{
+  
+  /***************************************************************
+   * Vary dm to see how it affects mistag fit (test with toy MC)
+   ***************************************************************/
+  
+  
+  TH1F *h_mixed = new TH1F("h_mixed", "Toy MC Mixed Events", binN, min, max);
+  TH1F *h_unmixed = new TH1F("h_unmixed", "Toy MC Unmixed Events", binN, min, max);  
+  
+  TF1 *f_mixed = new TF1("f_mixed", lftmosc_plt_d, min, max, 5);
+  TF1 *f_unmixed = new TF1("f_unmixed", lftmosc_plt_d, min, max, 5);  
+  
+  mixmasta_mc();
+  
+  for(Int_t j=0; j<nEvts; j++){
+    if (tag[j]==1){
+      h_mixed->Fill(lifetime[j]);
+    }else if(tag[j]=-1){
+      h_unmixed->Fill(lifetime[j]);
+    }else{
+      break;
+    }
+  }
+
+  TGraph *dilvsdm = new TGraph(10);
+  
+  for(Float_t ij=0; ij<5; ij++){
+
+    dm_init = 1 + ij/2;
+
+    oscpar1_init=dm_init;
+    
+    //unbinFitosc_d();
+
+    unbinFitosc_pg();
+
+    dilvsdm->SetPoint(ij,dm_init,(1-2*fitpar[3])/0.16);
+
+    
+    if(dm_init==7.){
+      for(Int_t j=0; j<5; j++){
+	f_mixed->SetParameter(j, fitpar[j]);
+	f_unmixed->SetParameter(j, fitpar[j]);
+      }
+      
+      f_mixed->SetParameter(4,1);
+      f_unmixed->SetParameter(4,-1);
+    }
+
+  }
+
+/****************************************************************/
+  // Draw histograms
+  
+  gROOT->SetStyle("Plain");
+  gStyle->SetOptStat(11111);
+  gStyle->SetHistFillColor(10);
+  TCanvas *c1 = new TCanvas("c1", "Canvas1", 800,600);
+  c1->Divide(2,2);
+  
+  c1->cd(1);
+  gPad->SetGrid();
+  h_unmixed->Draw();
+  f_unmixed->Draw("same");
+  
+  c1->cd(2);
+  gPad->SetGrid();
+  h_mixed->Draw();
+  f_mixed->Draw("same");
+  
+  c1->cd(3);
+  gPad->SetGrid();
+  dilvsdm->Draw("ap*");
+  
+  c1->cd(4);
+  gPad->SetGrid();
+
+  TObjArray *a1 = new TObjArray(0);
+  
+  a1->Add(h_mixed);
+  a1->Add(h_unmixed);
+  a1->Add(dilvsdm);
+  a1->Add(c1);
+
+  TFile *f1 = new TFile("MCtest.root", "recreate");
+  a1->Write();
+  f1->Close();
+
+}

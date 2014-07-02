@@ -1,0 +1,9 @@
+#!/bin/bash
+
+exec $ROOTSYS/bin/root.exe > $1.out << EOF 2>&1 &
+.L $1.C++
+$1 z
+z.Loop();
+EOF
+
+

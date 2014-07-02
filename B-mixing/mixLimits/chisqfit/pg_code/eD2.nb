@@ -1,0 +1,191 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      3016,        114]*)
+(*NotebookOutlinePosition[      4153,        148]*)
+(*  CellTagsIndexPosition[      4109,        144]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["\<\
+Calculate the error of a set of measurments given the errors on \
+each measurement and assuming that they are independent.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(f[x_] := 1/Sqrt[Total[1/x^2]]\)], "Input"],
+
+Cell["Calculate the error using tags 1, 4, 6, 7", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sigma1 = f[{ .0665,  .0623,  .0945,  .1857}]\)], "Input"],
+
+Cell[BoxData[
+    \(0.04000790561327226`\)], "Output"]
+}, Open  ]],
+
+Cell["The error for tag 8", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sigma2 =  .051\)], "Input"],
+
+Cell[BoxData[
+    \(0.051`\)], "Output"]
+}, Open  ]],
+
+Cell["Ratio of the errors", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sigma1/sigma2\)], "Input"],
+
+Cell[BoxData[
+    \(0.7844687375151425`\)], "Output"]
+}, Open  ]],
+
+Cell["Now calculate the expected error from the 1M event sample", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(eD21 =  .0345; eD22 =  .0234; Sqrt[eD22/eD21]\)], "Input"],
+
+Cell[BoxData[
+    \(0.8235659473079356`\)], "Output"]
+}, Open  ]],
+
+Cell["Same calculation using 10K sample", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(seD21 =  .0322; seD22 =  .0199; Sqrt[seD22/seD21]\)], "Input"],
+
+Cell[BoxData[
+    \(0.7861376612020623`\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowToolbars->"EditBar",
+WindowSize->{685, 759},
+WindowMargins->{{0, Automatic}, {66, Automatic}},
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"PrintingMargins"->{{54, 180}, {72, 72}},
+"PaperSize"->{612, 792},
+"PaperOrientation"->"Portrait",
+"PrintCellBrackets"->False,
+"PrintRegistrationMarks"->True,
+"PrintMultipleHorizontalPages"->False,
+"PostScriptOutputFile":>FrontEnd`FileName[{$RootDirectory, "home", "gut", \
+"work", "research", "d0", "studies", "cp_data", "minuit_root", "pg_code"}, \
+"eD2.nb.ps", CharacterEncoding -> "iso8859-1"],
+"Magnification"->1}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 146, 3, 50, "Text"],
+Cell[1903, 56, 62, 1, 27, "Input"],
+Cell[1968, 59, 57, 0, 32, "Text"],
+
+Cell[CellGroupData[{
+Cell[2050, 63, 77, 1, 27, "Input"],
+Cell[2130, 66, 54, 1, 27, "Output"]
+}, Open  ]],
+Cell[2199, 70, 35, 0, 32, "Text"],
+
+Cell[CellGroupData[{
+Cell[2259, 74, 47, 1, 27, "Input"],
+Cell[2309, 77, 40, 1, 27, "Output"]
+}, Open  ]],
+Cell[2364, 81, 35, 0, 32, "Text"],
+
+Cell[CellGroupData[{
+Cell[2424, 85, 46, 1, 27, "Input"],
+Cell[2473, 88, 53, 1, 27, "Output"]
+}, Open  ]],
+Cell[2541, 92, 73, 0, 32, "Text"],
+
+Cell[CellGroupData[{
+Cell[2639, 96, 78, 1, 27, "Input"],
+Cell[2720, 99, 53, 1, 27, "Output"]
+}, Open  ]],
+Cell[2788, 103, 49, 0, 32, "Text"],
+
+Cell[CellGroupData[{
+Cell[2862, 107, 82, 1, 27, "Input"],
+Cell[2947, 110, 53, 1, 27, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

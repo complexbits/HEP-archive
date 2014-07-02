@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>lm_access: sample_luminosity</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table width="794" border="0" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td width="794" height="1632" valign="top"> 
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">sample_luminosity 
+        function</font></h2>
+      <h2>&nbsp;</h2>
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">This utility will 
+        calculate the luminosity for a given trigger and data sample and return 
+        a bad lbns list for analysis</font></h2>
+      <h2>&nbsp;</h2>
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">Syntax is:</font></h2>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>sample_luminosity 
+        &lt;listoffiles&gt; &lt;parentagepath&gt; &lt;triggername&gt;</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">It expects any good 
+        runs to be in goodRunsList, bad runs in badRunsList and bad lbns be in 
+        badLBNList</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Output is 3 files</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;listoffiles&gt;_&lt;trigger&gt;.lum</b> 
+        summary of luminosity information</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>recorded_&lt;listoffiles&gt;_&lt;trigger&gt;.badlbns</b> 
+        list of bad lbns, including the input bad runs and lbns for recorded data</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>reconstructed_&lt;listoffiles&gt;_&lt;trigger&gt;.badlbns</b> 
+        list of bad lbns, including the input bad runs and lbns for reconstructed 
+        data (includes checks on processing)</font></p>
+      <p align="center"><img src="sample2.jpg" width="384" height="395"></p>
+      <h2>&nbsp;</h2>
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">HOW TO USE THIS TO 
+        GET A NORMALIZED CROSS SECTION</font></h2>
+      <h2>&nbsp;</h2>
+      <ul>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif">Get your parentage 
+          for your common sample:read <a href="http://www-d0.fnal.gov/cgi-bin/d0news?read__GENERAL__13008">D0News</a> 
+          by Marco Verzocchi</font> 
+          <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>setup D0RunII 
+            p14.06.00 <br>
+            /home/mverzocc/scripts/genLBNtables.py -skim &lt;skimname&gt;</b></font></p>
+          <p><font face="Verdana, Arial, Helvetica, sans-serif">This will create 
+            a subdirectory <b>./&lt;skimname&gt; </b>which is your parentagepath</font></p>
+        </li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif">Create a list of 
+          files for your sample -&gt; listname</font></li>
+      </ul>
+      <ul>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif">Create a list of 
+          bad runs for your sample in <b>badRunsList</b><br>
+          Or a list of good runs in goodRunsList</font></li>
+      </ul>
+      <ul>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif">Create a list of 
+          bad lbns for your sample in <b>badLBNList</b></font></li>
+      </ul>
+      <ul>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif">Run the new program</font></li>
+      </ul>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><b><font face="Courier New, Courier, mono">/home/schellma/sample_luminosity 
+        &lt;listname&gt; &lt;parentagepath&gt; &lt;triggername&gt;</font></b></font></p>
+      <blockquote> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif">It will produce 
+          a luminosity summary and lists of bad lbns for your sample &#150; this 
+          is the OR of bad lbns from your bad runs bad lbns and those known to 
+          be bad in the normalization. Use this list in your analysis!</font></p>
+      </blockquote>
+      <ul>
+        <li> 
+          <h4><font face="Verdana, Arial, Helvetica, sans-serif"><b>In your analysis 
+            code throw out the bad lbns from all sources</b></font></h4>
+        </li>
+      </ul>
+      <p></p>
+      <blockquote> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif">Use the class <b>lm_access/BadLBNList</b> 
+          <br>
+          In p14-br (not released) and t04.00.00</font></p>
+        <p><font face="Courier New, Courier, mono">#include &#147;lm_access/BadLBNList.hpp&#148; 
+          </font></p>
+        <p><font face="Courier New, Courier, mono">// initialize and read in the 
+          badLBNList from sample_luminosity<br>
+          lm_access::BadLBNList* pbadlbnlist = new lm_access::BadLBNList();<br>
+          pbadlbnlist-&gt;loadBadLBNs(&quot;./badLBNList&quot;);</font></p>
+        <p><font face="Courier New, Courier, mono">// in your event loop &#150; 
+          cut out the bad lbns<br>
+          if(pbadlbnlist-&gt;isBadLBN(lbn)) continue;</font></p>
+        <p><font face="Courier New, Courier, mono">// at the end<br>
+          delete pbadlbnlist;</font><br>
+        </p>
+      </blockquote>
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+        </font> </h2>
+    </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,197 @@
+
+void complexerrf(){
+  
+  Double_t *cxout[2];
+  
+  printf("Complex Error Function\n");
+  for(Int_t i=0.;i<5.;i++){
+    for(Int_t k=0.;k<5.;k++){
+      
+      cxout=cxerf(i,k);
+      printf(" w(z)=%4.6e + %4.6ei\n\n",i,k,cxout[0],cxout[1]);
+      
+    }
+  }
+
+}
+
+
+/* 
+   Calculates the value of the complex errror function w(z) using the same
+   method as Algorithm 680.
+   Returns an array of doubles, length 2.
+   The first element is the real part, the second is the complex part.
+*/
+Double_t cxerf(Double_t xi, Double_t yi)[2]
+{
+
+  // These will be the output. u is the real part, v is 
+  // the complex part.
+  Double_t u;
+  Double_t v;
+
+  // Here are some parameters we will need.
+  // factor is 2/Sqrt(Pi), and the others are some max vals. 
+  Double_t factor = 1.12837916709551257388;
+  Double_t rmaxreal = 0.5*pow(10,154);
+  Double_t rmaxexp = 708.503061461606;
+  Double_t rmaxgoni = 3.53711887601422*pow(10,15);
+
+
+  // Since we're going to square the input terms, we have to
+  // make sure they're not too large, and break if they are 
+  Double_t xabs = abs(xi);
+  Double_t yabs = abs(yi);
+  if( abs(xi) >= rmaxreal || abs(yi) >= rmaxreal ){
+    printf("** ERROR in cxerf: Input too large! ***\n");
+    printf("   cxerf choked on:  xi=%16.8e, yi=%16.8e",xi,yi);
+    break;
+  }
+
+
+
+  Double_t x = xabs/6.3;
+  Double_t y = yabs/4.4;
+
+  Double_t qrho = x*x + y*y;
+  Double_t xabsq = xabs*xabs;
+  Double_t xquad = xabsq - yabs*yabs;
+  Double_t yquad = 2*xabs*yabs;
+
+   
+  // If qrho < 0.085264, then w(z) is evaluated using a power
+  // series, where n is the minimum number of terms needed to
+  // obtain the required accuracy. 
+
+  if(qrho < 0.085264){
+
+    qrho = (1-0.85*y)*sqrt(qrho);
+    
+    Int_t n = 72*qrho + 7.;
+    Int_t j = 2*n + 1.;
+    
+    Double_t xsum = 1.0/j;
+    Double_t ysum = 0.;
+    
+    for(Int_t i=n; i>= 1.; i--){
+      j = j - 2.;
+      Double_t xaux = (xsum*xquad - ysum*yquad)/i;
+      ysum = (xsum*yquad + ysum*xquad)/i;
+      xsum = xaux + 1./j;
+    }
+    
+    Double_t u1 = -factor*(xsum*yabs + ysum*xabs) + 1.;
+    Double_t v1 = factor*(xsum*xabs - ysum*yabs);
+    
+    Double_t daux = exp(-xquad);
+    
+    Double_t u2 = daux*cos(yquad);
+    Double_t v2 = -daux*sin(yquad);
+
+    u = u1*u2 - v1*v2;
+    v = u1*v2 + v1*u2;
+    
+    static Double_t out[2];
+    out[0]=u;
+    out[1]=v;
+    
+    return out;
+  
+  // If qrho > 1.0, then w(z) is evaluated using the Laplace
+  // continued fraction, where n is the minimum number of terms
+  // needed to obtain the required accuracy.
+
+  }else{
+    
+    if( qrho > 1.0 ){
+      
+      Double_t h = 0;
+      Int_t kapn = 0;
+      qrho = sqrt(qrho);
+      Int_t nu = 3 + 1442/(26*qrho + 77);
+      
+    }else{
+      
+      qrho = (1-y)*sqrt(1-qrho);
+      Double_t h = 1.88*qrho;
+      Double_t h2 = 2*h;
+      Int_t kapn = 7 + 34*qrho;
+      Int_t nu = 16 + 26*qrho;
+      
+    }
+    
+    if ( h > 0. ) {
+      Double_t qlambda = pow(h2,kapn);
+    }else{
+      Double_t qlambda = 0.;
+    }
+    
+    Double_t rx = 0.;
+    Double_t ry = 0.;
+    Double_t sx = 0.;
+    Double_t sy = 0.;
+    
+    for( Int_t n = nu; n > 0.; n-- ){
+      Int_t np1 = n + 1;
+      Double_t tx = yabs + h + np1*rx;
+      Double_t ty = xabs - np1*ry;
+      Double_t c = 0.5/(tx*tx + ty*ty);
+      rx = c*tx;
+      ry = c*ty;
+      if ( h > 0. && n <= kapn ){
+	tx = qlambda + sx;
+	sx = rx*tx - ry*sy;
+	sy = ry*tx + rx*sy;
+	qlambda = qlambda/h2;
+      }
+    }
+    
+    if( h == 0. ){
+      u = factor*rx;
+      v = factor*ry;
+    }else{
+      u = factor*sx;
+      v = factor*sy;
+    }
+    
+    if ( yabs == 0. ){
+      u = exp(-(xabs*xabs));
+      v = 0.;
+    }
+  }
+
+  // EVALUATION OF W(Z) IN THE OTHER QUADRANTS
+  
+  if( yi <= 0 ){
+    // get A from above ...
+    if (qrho < 0.085264){
+      u2 = 2*u2;
+      v2 = 2*v2;
+    }else{
+      xquad = -xquad;
+      if( yquad >= rmaxgoni || xquad >= rmaxexp){
+	printf("** ERROR in cxerf: Input too large! ***\n");
+	printf("   cxerf choked on:  xi=%16.8e, yi=%16.8e",xi,yi);
+	break;
+      }
+
+      Double_t w1 = 2*exp(xquad);
+      u2 = w1*cos(yquad);
+      v2 = -w1*sin(yquad);
+    }
+
+    u = u2 - u;
+    v = v - v2;
+    if(xi == 0.){
+      v = -v;
+    }
+  }
+
+      
+      Double_t out[2];
+      out[0]=u;
+      out[1]=v;
+      
+      return out;
+    
+}

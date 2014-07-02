@@ -1,0 +1,346 @@
+#include <iostream.h>
+#include "TStopwatch.h"
+#include "TH1F.h"
+#include "TH1.h"
+#include "TFile.h"
+#include "math.h"
+#include "stdlib.h"
+#include "TRandom.h"
+
+// Initial global parameters
+Double_t tau = 1.5;
+//Double_t dm  = 10.;
+Double_t tSigmat = 0.;
+
+//
+// dSmear = 0 Don't use constant resolution
+// dSmear = 1 Conatant resolution set by tSigma
+// dSmear = 2 Double gauss resolution tSingmaW wide sigma,
+//            tSigmaN narrow sigma, fWid fraction using
+//            wide sigma
+
+Int_t dSmear = 2;
+Double_t tSigma  = 0.18;
+
+// From VPDLdiff double-gauss fit in ampfit_jh.C
+Double_t fWid = 0.50;
+Double_t tSigmaN = 0.1016;
+Double_t tSigmaW = 0.3427;
+
+// Triple gauss
+// Double_t f1 = 0.210493;
+// Double_t f2 = 0.480845;
+// Double_t f3 = 0.308662;
+// Double_t tSig1 = 0.0026;
+// Double_t tSig2 = 0.0056;
+// Double_t tSig3 = 0.0141;
+
+Double_t f1 = 0.3769;
+Double_t f2 = 0.4785;
+Double_t f3 = 1.-f1-f2;
+Double_t tSig1 = 0.002756/.03;
+Double_t tSig2 = 0.00545/.03;
+Double_t tSig3 = 0.01383/.03;
+//*************
+// Should this be set to the dilution from the MC?
+// (get from running dstag.C)
+//Double_t dilution = 0.282392;
+Double_t dilution = 1.;
+Double_t misTag = 0.5*(1.- dilution);
+Int_t nEvt = 10000000;
+//Int_t nEvt = 1000000;
+
+//Int_t nBins = 30;
+//Double_t maxLimit = 3;
+Int_t nBins = 20;
+Double_t maxLimit = 2.;
+
+//
+// kfactor = 0 (1) don't (do) ues k factor
+// VPDL = 0 (1) don't (do) use VPDL resolution associated
+// with biased cuts.
+//
+Int_t kfactor = 1;
+Int_t VPDL = 0;
+Double_t resScl = 1.;  // Scale resolutions by this
+
+char ScaleFile[50] ="test_mk.root";
+
+static Double_t* resoVPDL(Double_t x, Double_t rVal[3])
+{
+  //========= Returns resolution for wide and narrow Gaussian and fraction
+  //========= From Rick Van Kooten
+
+  //  Double_t rVal[3];
+
+  // Paramters of fit
+  Double_t sign, sigw, sigc, frac;
+  Double_t p0n, p1n, p2n;
+  Double_t p0w, p1w, p2w;
+  Double_t p0c, p1c, p2c;
+
+  p0n = 2.12418e-03;
+  p1n = 1.50815e-03;
+  p2n = 1.87510e+01;
+  p0w = 3.26639e-04;
+  p1w = 6.55281e-03;
+  p2w = 1.16181e+02;
+  p0c = 9.34673e-04;
+  p1c = 3.49873e-03;
+  p2c = 1.36322e+02;
+
+  sign = p0n + p1n/(1+ exp(-1*p2n*x));
+
+  sigc = p0c + p1c/(1+ exp(-1*p2c*x)); 
+
+  sigw = p0w + p1w/(1+ exp(-1*p2w*x));
+
+  frac = (sigc - sign)/(sigw - sign);
+
+  //printf("x = %5.3f  yn = %5.3e  yc = %5.3e  yw = %5.3e  frac = %5.3f\n",
+  //	  x, yn[i], yc[i], yw[i], frac);
+   
+  rVal[0] = sigw;
+  rVal[1] = sign;
+  rVal[2] = frac;
+
+  return rVal;
+
+}
+
+
+void scaleFac_v7(){
+  gROOT->Reset();
+  TStopwatch timer;
+  timer.Start();
+  // Initialize variables
+  //  Double_t tau = 1.5;
+  //  Double_t dm  = 10.;
+  //  Int_t kfactor = 1;
+  //  Double_t tSigma  = 0.15;
+  //  Double_t tSigma  = 0.1;
+  //  Double_t tSigmat = 0.19;
+  //  Double_t tSigmat = 0.;
+  //   Double_t dilution = .16;
+  //  Double_t dilution = 1.;
+  //  Double_t misTag = 0.5*(1.- dilution);
+  //  Int_t nEvt = 100000000;
+  //Int_t nEvt = 100000000;
+
+  //  Int_t nBins = 30;
+  //  Double_t maxLimit = 3;
+   
+
+  Int_t msrState;
+
+  //  Int_t VPDL = 1;
+  Double_t sigWNF[3], mVpdl;
+  Double_t rndNrw;
+  //  Double_t resScl = 1.2;
+  //   ofstream out_umix;
+  //   ofstream out_mix;
+
+  //   out_umix.open("umix.dat");
+  //   out_mix.open("mix.dat");
+
+  cout << tau << "  " << tSigma << endl;
+  // Create and fill histogram with inital information
+  TH1F *init = new TH1F("init", "Setup values",10,0.,10.);
+  init->Fill(0.,tau);
+  init->Fill(1.,tSigma);
+  init->Fill(2.,tSigmat);
+  init->Fill(3.,kfactor);
+  init->Fill(4.,VPDL);
+  init->Fill(5.,resScl);
+  init->Fill(6.,dSmear);
+  init->Fill(7.,tSigmaN);
+  init->Fill(8.,tSigmaW);
+  init->Fill(9.,fWid);
+
+  // Create a histogram for the average resolution
+  TH1F *aReso = new TH1F("aReso", "Average Resolution", 200,-1.,1.);
+
+  // Open file
+  TFile f (ScaleFile,"recreate");
+  char hname[7];
+  char hout1[7];
+  char hout2[7];
+
+  TH1F *scaleOut[50];
+  f.cd();
+  init->Write();
+
+  // Open K factor file
+  //TFile k ("kfactor.root","READ");
+  //TH1F *kf;
+  //kf = hkfac1;
+
+  TFile* k = TFile::Open("kfactor.root");
+  TObject *kf2 = k->Get("hkfac1");
+  TH1F *kf = (TH1F*)kf2;
+
+  for (Int_t dms=1; dms<30; dms++){
+    // Initialize histograms
+    // Real time distribution
+    TH1F *umixhr = new TH1F("umixh","Decay rTime Unmixed",nBins,0.,maxLimit);
+    TH1F *mixhr  = new TH1F("mixh","Decay rTime Mixed",nBins,0.,maxLimit);
+    // Measured time distribution (after resolution)
+    TH1F *umixht = new TH1F("umixht","Decay Time Unmixed",nBins,0.,maxLimit);
+    TH1F *mixht  = new TH1F("mixht","Decay Time Mixed",nBins,0.,maxLimit);
+    // Scale factor for this frequency
+    sprintf(hname,"scale%d",dms);
+    scaleOut[dms] = new TH1F(hname,hname,nBins,0.,maxLimit);
+
+    for (Int_t i=0; i<nEvt; i++){
+      // Generate decay time distribution
+      Double_t rTime  = gRandom->Exp(tau);
+      Double_t tSmear;    
+      Double_t tSmeart;
+      
+      // Constant smear
+      if (dSmear == 0){
+	tSmear = 0.;
+      }
+      else if (dSmear == 1){
+	tSmear  = gRandom->Gaus(0., tSigma);
+      }
+      else if (dSmear == 2){
+	rndNrw = gRandom->Rndm();
+	if (rndNrw > fWid){
+	  tSmear  = gRandom->Gaus(0., tSigmaN);
+	}
+	else{
+	  tSmear  = gRandom->Gaus(0., tSigmaW);
+	}
+      }
+      else if (dSmear == 3){
+	rndNrw = gRandom->Rndm();
+	//cout << "RND  " << rndNrw << endl;
+	if (rndNrw < f1){
+	  tSmear  = gRandom->Gaus(0., tSig1);
+	  //cout << 1 << endl;
+	}
+	if (rndNrw >= f1 && rndNrw < f1+f2){
+	  tSmear  = gRandom->Gaus(0., tSig2);
+	  //cout << f1 << "  " << 2 << endl;
+	}
+	if (rndNrw >= f1+f2){
+	  tSmear  = gRandom->Gaus(0., tSig3);
+	  //cout << f1+f2 << "  " << 3 << endl;
+	}
+      }
+
+    // Time dependent smear
+    if (tSigmat == 0.){
+      tSmeart = 0.;
+    }
+    else{
+      tSmeart = gRandom->Gaus(0., tSigmat*rTime);
+    }
+
+    //Double_t mTime  = rTime + tSmear;
+    Double_t mTimet = rTime + tSmear + tSmeart;
+
+    Double_t tSmearV;
+
+    // K factor (Check whether mTimet correct)
+    if (kfactor != 0){
+      Double_t kfac = kf->GetRandom();
+      mVpdl = rTime/kfac; // measured VPDL
+
+      // VPDL dependent smear from RVK for cut data
+
+      if (VPDL == 0){
+	tSmearV = 0;
+      }
+      else{
+	Double_t* dummy = resoVPDL(0.03*mVpdl, sigWNF);
+	// Scale resolution
+	sigWNF[0] = sigWNF[0]*resScl;
+	sigWNF[1] = sigWNF[1]*resScl;
+	// 	cout << 0.03*mVpdl << "  "
+	// 	     << sigWNF[0] << "  "
+	// 	     << sigWNF[1] << "  "
+	// 	     << sigWNF[2] << endl;
+
+	Double_t ifWide = gRandom->Rndm();
+	if (ifWide < sigWNF[2]){
+	  tSmearV = gRandom->Gaus(0., sigWNF[0]/0.03);
+	}
+	else{
+	  tSmearV = gRandom->Gaus(0., sigWNF[1]/0.03);
+	}
+      }
+//       cout << "tSmear = " << tSmear 
+// 	   << "  tSmearV = " << tSmearV
+// 	   << "  tSmeart = " << tSmeart << endl;
+      mTimet = rTime/kfac + tSmearV + tSmear + tSmeart;
+      aReso->Fill(rTime-mTimet);
+    }
+    
+    
+
+    // Does it mix unMix = 1 no, unMix = -1 yes
+    Double_t mixTest   = 2.*gRandom->Rndm();
+    Double_t unMix  = 1. + TMath::Cos(dms*rTime);
+    Int_t mixState = 1;
+    if (mixTest > unMix){
+      mixState = -1;
+    }
+
+    if (misTag != 0.){
+      Double_t mTag = gRandom->Rndm();
+      if (mTag < misTag){
+	msrState = -1 * mixState;
+      }
+      else{
+	msrState = mixState;
+      }
+    }
+    else{
+      msrState = mixState;
+    }
+
+    if (msrState == 1){
+      umixht->Fill(mTimet);
+      umixhr->Fill(rTime);
+      //out_umix << mTime << "  " << 1 << endl;
+    }
+    if (msrState == -1){
+      mixht->Fill(mTimet);
+      mixhr->Fill(rTime);
+      //out_mix << mTime << "  " << -1 << endl;
+    }
+  }
+
+  // Make asymmetry distribution
+  TH1* asymt = umixht->GetAsymmetry(mixht);
+  TH1* asymr = umixhr->GetAsymmetry(mixhr);
+
+  cout << "dms = " << dms << endl;
+  scaleOut[dms]->Divide(asymt,asymr);
+  f.cd();
+  scaleOut[dms]->Write();
+
+//   TH1 *realAh = (TH1*)asymr->Clone;
+   sprintf(hout1,"real%d",dms);
+   asymr->SetName(hout1);
+
+//   TH1 *smerAh = (TH1*)asymt->Clone;
+   sprintf(hout2,"smer%d",dms);
+   asymt->SetName(hout2);
+
+  asymt->Write();
+  asymr->Write();
+  //    scale1->Draw("same");
+
+}  
+f.Close();
+timer.Stop();
+Double_t realTime = timer.RealTime();
+Double_t cpuTime = timer.CpuTime();
+cout << "Real time = " << realTime 
+<< "  CPU Time = " << cpuTime << endl;
+}
+
+

@@ -1,0 +1,286 @@
+void redraw(){
+
+  gROOT->SetStyle("Plain");
+
+  cout << endl << endl;
+
+  Double_t p1x, p1y;
+  Double_t p2x, p2y;
+
+  TCanvas *can1 = new TCanvas("can1", "varfits1", 1200, 600);
+  can1->Divide(4,2);
+
+  // ----------- SIGMA-MC=0.08, SIGMA-FIT=0.08 ----------
+  can1->cd(1);
+  
+  TFile lhsig("lhsig0808.root");
+  TGraph *g0808 = (TGraph*)lhsig.Get("DilErrvsdm");
+  g0808->SetTitle("Sig-MC=0.08, Sig-fit=0.08");
+  lhsig.Close();
+  
+  g0808->Draw("AP*");
+ 
+  g0808->GetPoint(22, p1x, p1y);
+  g0808->GetPoint(23, p2x, p2y);
+
+  Double_t sig0808dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " sig0808dm = "<< sig0808dm << endl;
+  
+
+  // ----------- SIGMA-MC=0.08, SIGMA-FIT=0.1 ----------
+  can1->cd(2);
+
+  TFile lhsig("lhsig0810.root");
+  TGraph *g0810 = (TGraph*)lhsig.Get("DilErrvsdm");
+  g0810->SetTitle("Sig-MC=0.08, Sig-fit=0.1");
+  lhsig.Close();
+
+  g0810->Draw("AP*");
+
+  g0810->GetPoint(17, p1x, p1y);
+  g0810->GetPoint(18, p2x, p2y);
+
+  Double_t sig0810dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " sig0810dm = "<< sig0810dm << endl; 
+
+  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.08 ----------
+  can1->cd(3);
+
+  TFile lhsig("lhsig1008.root");
+  TGraph *g1010 = (TGraph*)lhsig.Get("DilErrvsdm");
+  g1010->SetTitle("Sig-MC=0.1, Sig-fit=0.08");
+  lhsig.Close();
+
+  g1010->Draw("AP*");
+
+  g1010->GetPoint(22, p1x, p1y);
+  g1010->GetPoint(23, p2x, p2y);
+
+  Double_t sig1008dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " sig1008dm = "<< sig1008dm << endl; 
+
+  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.1 ----------
+  can1->cd(4);
+
+  TFile lhsig("lhsig1010.root");
+  TGraph *g1010 = (TGraph*)lhsig.Get("DilErrvsdm");
+  g1010->SetTitle("Sig-MC=0.1, Sig-fit=0.1");
+  lhsig.Close();
+
+  g1010->Draw("AP*");
+
+  g1010->GetPoint(17, p1x, p1y);
+  g1010->GetPoint(18, p2x, p2y);
+
+  Double_t sig1010dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " sig1010dm = "<< sig1010dm << endl; 
+
+  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.1 ----------
+  can1->cd(5);
+
+  TFile lhsig("lhsig1012.root");
+  TGraph *g1010 = (TGraph*)lhsig.Get("DilErrvsdm");
+  g1010->SetTitle("Sig-MC=0.1, Sig-fit=0.12");
+  lhsig.Close();
+
+  g1010->Draw("AP*");
+
+  g1010->GetPoint(14, p1x, p1y);
+  g1010->GetPoint(15, p2x, p2y);
+
+  Double_t sig1012dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " sig1012dm = "<< sig1012dm << endl; 
+
+
+  // ----------- SIGMA-MC=0.12, SIGMA-FIT=0.1 ----------
+  can1->cd(6);
+
+  TFile lhsig("lhsig1210.root");
+  TGraph *g1210 = (TGraph*)lhsig.Get("DilErrvsdm");
+  g1210->SetTitle("Sig-MC=0.12, Sig-fit=0.1");
+  lhsig.Close();
+
+  g1210->Draw("AP*");
+
+  g1210->GetPoint(18, p1x, p1y);
+  g1210->GetPoint(19, p2x, p2y);
+
+  Double_t sig1210dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " sig1210dm = "<< sig1210dm << endl;
+
+  // ----------- SIGMA-MC=0.12, SIGMA-FIT=0.12 ----------
+  can1->cd(7);
+
+  TFile lhsig("lhsig1212.root");
+  TGraph *g1212 = (TGraph*)lhsig.Get("DilErrvsdm");
+  g1212->SetTitle("Sig-MC=0.12, Sig-fit=0.12");
+  lhsig.Close();
+
+  g1212->Draw("AP*");
+
+  g1212->GetPoint(14, p1x, p1y);
+  g1212->GetPoint(15, p2x, p2y);
+
+  Double_t sig1212dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " sig1212dm = "<< sig1212dm << endl;
+
+  cout << endl << endl;
+
+
+  //===============================================================================================
+  TCanvas *can2 = new TCanvas("can2", "varfits2", 1200, 600);
+  can2->Divide(4,2);
+    // ----------- DIL-MC=0.128, DIL-FIT=0.128 ----------
+  can2->cd(1);
+  
+  TFile lhdil("lhdil0128b.root");
+  TGraph *g0128b = (TGraph*)lhdil.Get("DilErrvsdm");
+  g0128b->SetTitle("Dil-MC=0.128, Dil-fit=0.128");
+  lhdil.Close();
+  
+  g0128b->Draw("AP*");
+ 
+  g0128b->GetPoint(16, p1x, p1y);
+  g0128b->GetPoint(17, p2x, p2y);
+
+  Double_t dil0128b_dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " dil0128b_dm = "<< dil0128b_dm << endl; 
+
+    // ----------- DIL-MC=0.128, DIL-FIT=0.16 ----------
+  can2->cd(2);
+  
+  TFile lhdil("lhdil0128.root");
+  TGraph *g0128 = (TGraph*)lhdil.Get("DilErrvsdm");
+  g0128->SetTitle("Dil-MC=0.128, Dil-fit=0.16");
+  lhdil.Close();
+  
+  g0128->Draw("AP*");
+ 
+  g0128->GetPoint(17, p1x, p1y);
+  g0128->GetPoint(18, p2x, p2y);
+
+  Double_t dil0128_dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " dil0128_dm = "<< dil0128_dm << endl; 
+
+    // ----------- DIL-MC=0.16, DIL-FIT=0.128 ----------
+  
+  can2->cd(3);
+  
+  TFile lhdil("lhdil0160a.root");
+  TGraph *g0160 = (TGraph*)lhdil.Get("DilErrvsdm");
+  g0160->SetTitle("Dil-MC=0.16, Dil-fit=0.128");
+  lhdil.Close();
+  
+  g0160->Draw("AP*");
+  
+  g0160->GetPoint(16, p1x, p1y);
+  g0160->GetPoint(17, p2x, p2y);
+  
+  Double_t dil0160a_dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+  
+  cout << " dil0160a_dm = "<< dil0160a_dm << endl; 
+ 
+  
+   // ----------- DIL-MC=0.16, DIL-FIT=0.16 ----------
+  can2->cd(4);
+  
+  TFile lhdil("lhdil0160.root");
+  TGraph *g0160 = (TGraph*)lhdil.Get("DilErrvsdm");
+  g0160->SetTitle("Dil-MC=0.16, Dil-fit=0.16");
+  lhdil.Close();
+  
+  g0160->Draw("AP*");
+ 
+  g0160->GetPoint(17, p1x, p1y);
+  g0160->GetPoint(18, p2x, p2y);
+
+  Double_t dil0160_dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " dil0160_dm = "<< dil0160_dm << endl; 
+    // ----------- DIL-MC=0.16, DIL-FIT=0.192 ----------
+  can2->cd(5);
+  
+  TFile lhdil("lhdil0160c.root");
+  TGraph *g0160 = (TGraph*)lhdil.Get("DilErrvsdm");
+  g0160->SetTitle("Dil-MC=0.16, Dil-fit=0.192");
+  lhdil.Close();
+  
+  g0160->Draw("AP*");
+  
+  g0160->GetPoint(18, p1x, p1y);
+  g0160->GetPoint(19, p2x, p2y);
+  
+  Double_t dil0160c_dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+  
+  cout << " dil0160c_dm = "<< dil0160c_dm << endl; 
+  
+    // ----------- DIL-MC=0.192, DIL-FIT=0.16 ----------
+  can2->cd(6);
+  
+  TFile lhdil("lhdil0192.root");
+  TGraph *g0192 = (TGraph*)lhdil.Get("DilErrvsdm");
+  g0192->SetTitle("Dil-MC=0.192, Dil-fit=0.16");
+  lhdil.Close();
+  
+  g0192->Draw("AP*");
+ 
+  g0192->GetPoint(17, p1x, p1y);
+  g0192->GetPoint(18, p2x, p2y);
+
+  Double_t dil0192_dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " dil0192_dm = "<< dil0192_dm << endl; 
+
+    // ----------- DIL-MC=0.192, DIL-FIT=0.16 ----------
+  can2->cd(7);
+  
+  TFile lhdil("lhdil0192b.root");
+  TGraph *g0192b = (TGraph*)lhdil.Get("DilErrvsdm");
+  g0192b->SetTitle("Dil-MC=0.192, Dil-fit=0.192");
+  lhdil.Close();
+  
+  g0192b->Draw("AP*");
+ 
+  g0192b->GetPoint(18, p1x, p1y);
+  g0192b->GetPoint(19, p2x, p2y);
+
+  Double_t dil0192b_dm = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  cout << " dil0192b_dm = "<< dil0192b_dm << endl;
+ 
+  cout << endl << endl; 
+
+  // ===================stick everything into a pretty table ========================================
+
+  printf("Significance for Dil=0.16, Sigma Varied: \n\n");
+  printf(" Sigma  |    0.08    |    0.10    |    0.12    | MC \n");
+  printf("---------------------------------------------------\n");
+  printf(" 0.08   |  %7.5f  |  %7.5f  |  XXXXXXXX  |\n", sig0808dm, sig1008dm);
+  printf("-----------------------------------------------\n");
+  printf(" 0.10   |  %7.5f  |  %7.5f  |  %7.5f  |\n", sig0810dm, sig1010dm, sig1210dm);
+  printf("-----------------------------------------------\n");
+  printf(" 0.12   |  XXXXXXXX  |  %7.5f  |  %7.5f  |\n", sig1012dm, sig1212dm);
+  printf("-----------------------------------------------\n");
+  printf("  Fit   |\n\n");
+ 
+
+  printf("Significance for Sigma=0.1, Dil Varied \n\n");
+  printf(" Dilution |    0.128   |    0.160   |    0.192   | MC \n");
+  printf("-----------------------------------------------------\n");
+  printf("   0.128  |  %7.5f  |  %7.5f  |  XXXXXXXX  |\n", dil0128b_dm, dil0160a_dm);
+  printf("-------------------------------------------------\n");
+  printf("   0.160  |  %7.5f  |  %7.5f  |  %7.5f  |\n", dil0128_dm, dil0160_dm, dil0192_dm);
+  printf("-------------------------------------------------\n");
+  printf("   0.192  |  XXXXXXXX  |  %7.5f  |  %7.5f  |\n", dil0160c_dm, dil0192b_dm);
+  printf("-------------------------------------------------\n");
+  printf("    Fit   |\n\n");
+}

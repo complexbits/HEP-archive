@@ -1,0 +1,388 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      7321,        259]*)
+(*NotebookOutlinePosition[      8016,        283]*)
+(*  CellTagsIndexPosition[      7972,        279]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    \(Simplify[f1[t, t0, dm, s]]\)], "Input"],
+
+Cell[BoxData[
+    \(\((\@s\^2\ \((1 + 
+              dm\^2\ t0\^2)\)\ \((2\ \[ExponentialE]\^\(\(s\^2 - 2\ t\ t0\)\/\
+\(2\ t0\^2\)\)\ \((1 + 
+                    Erf[\(\(-s\^2\) + t\ t0\)\/\(\@2\ \@s\^2\ t0\)])\) + \
+\[ExponentialE]\^\(-\(\(\((\(-\[ImaginaryI]\) + dm\ t0)\)\ \((2\ \
+\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ t0)\))\)\)\/\(2\ \
+t0\^2\)\)\)\ \((1 - \[ImaginaryI]\ Erfi[\(\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\
+\[ImaginaryI]\) + dm\ t0)\)\)\/\(\@2\ \@s\^2\ t0\)])\) + \[ExponentialE]\^\(-\
+\(\(\((\[ImaginaryI] + dm\ t0)\)\ \((\(-2\)\ \[ImaginaryI]\ t\ t0 + s\^2\ \((\
+\[ImaginaryI] + dm\ t0)\))\)\)\/\(2\ t0\^2\)\)\)\ \((1 + \[ImaginaryI]\ Erfi[\
+\(\(-\[ImaginaryI]\)\ t\ t0 + s\^2\ \((\[ImaginaryI] + dm\ t0)\)\)\/\(\@2\ \
+\@s\^2\ t0\)])\))\))\)/\((4\ s\ t0\ \((2 + dm\^2\ t0\^2)\))\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Simplifications", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Normalization", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[
+        2 \@ s\^2\ \((1 + 
+                dm\^2\ t0\^2)\)/\((4\ s\ t0\ \((2 + dm\^2\ t0\^2)\))\), 
+        Assumptions \[Rule] {Re[s] > 0, Im[s] \[Equal] 0}]/2\)], "Input"],
+
+Cell[BoxData[
+    \(\(1 + dm\^2\ t0\^2\)\/\(2\ \((4\ t0 + 2\ dm\^2\ t0\^3)\)\)\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell["Argument complex exponential", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell["Real", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[
+      Re[Expand[\(\((\(-\[ImaginaryI]\) + dm\ t0)\)\ \((2\ \[ImaginaryI]\ t\ \
+t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ t0)\))\)\)\/\(2\ t0\^2\)]], 
+      Assumptions \[Rule] {Re[dm] > 0, Im[dm] \[Equal] 0, Re[s] > 0, 
+          Im[s] \[Equal] 0, Re[t0] > 0, Im[t0] \[Equal] 0, 
+          Im[t] \[Equal] 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(2\ t\ t0 + s\^2\ \((\(-1\) + dm\^2\ t0\^2)\)\)\/\(2\ t0\^2\)\)], \
+"Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Imaginary", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[
+      Im[Expand[\(\((\(-\[ImaginaryI]\) + dm\ t0)\)\ \((2\ \[ImaginaryI]\ t\ \
+t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ t0)\))\)\)\/\(2\ t0\^2\)]], 
+      Assumptions \[Rule] {Re[dm] > 0, Im[dm] \[Equal] 0, Re[s] > 0, 
+          Im[s] \[Equal] 0, Re[t0] > 0, Im[t0] \[Equal] 0, 
+          Im[t] \[Equal] 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(dm\ \((t - s\^2\/t0)\)\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell["Arguement complex error function", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell["Real", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[
+      Re[Expand[\(\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ \
+t0)\)\)\/\(\@2\ \@s\^2\ t0\)]], 
+      Assumptions \[Rule] {Re[dm] > 0, Im[dm] \[Equal] 0, Re[s] > 0, 
+          Im[s] \[Equal] 0, Re[t0] > 0, Im[t0] \[Equal] 0, 
+          Im[t] \[Equal] 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(dm\ s\)\/\@2\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Imaginary", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[
+      Im[Expand[\(\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ \
+t0)\)\)\/\(\@2\ \@s\^2\ t0\)]], 
+      Assumptions \[Rule] {Re[dm] > 0, Im[dm] \[Equal] 0, Re[s] > 0, 
+          Im[s] \[Equal] 0, Re[t0] > 0, Im[t0] \[Equal] 0, 
+          Im[t] \[Equal] 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(t\/s - s\/t0\)\/\@2\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Expand general form", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[
+      Re[Expand[
+          exp \((cosx\  + \ I\ sinx)\) \((1 + 
+                I \((wre + I\ wim)\))\)]], {Assumptions \[Rule] Re[exp] > 0, 
+        Im[exp] \[Equal] 0, 
+        Element[{cosx, sinx, wre, wim}, Reals]}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-exp\)\ \((cosx\ \((\(-1\) + wim)\) + sinx\ wre)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[
+      Im[Expand[
+          exp \((cosx\  + \ I\ sinx)\) \((1 + 
+                I \((wre + I\ wim)\))\)]], {Assumptions \[Rule] Re[exp] > 0, 
+        Im[exp] \[Equal] 0, 
+        Element[{cosx, sinx, wre, wim}, Reals]}]\)], "Input"],
+
+Cell[BoxData[
+    \(exp\ \((sinx - sinx\ wim + cosx\ wre)\)\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Convert imaginary to complex error function (Complex error func \
+term)\
+\>", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[Re[Expand[\((zre + I\ zim)\)^2]], 
+      Assumptions \[Rule] {Im[zre] \[Equal] 0, 
+          Im[zim] \[Equal] 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-zim\^2\) + zre\^2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[Im[Expand[\((zre + I\ zim)\)^2]], 
+      Assumptions \[Rule] {Im[zre] \[Equal] 0, 
+          Im[zim] \[Equal] 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(2\ zim\ zre\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[Re[Expand[\((cosz + I\ sinz)\) \((wzre + I\ wzim)\)]], 
+      Assumptions \[Rule] {Element[{cosz, sinz, wzre, wzim}, 
+            Reals]}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-sinz\)\ wzim + cosz\ wzre\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[Im[Expand[\((cosz + I\ sinz)\) \((wzre + I\ wzim)\)]], 
+      Assumptions \[Rule] {Element[{cosz, sinz, wzre, wzim}, 
+            Reals]}]\)], "Input"],
+
+Cell[BoxData[
+    \(cosz\ wzim + sinz\ wzre\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+ScreenStyleEnvironment->"Presentation",
+WindowToolbars->"EditBar",
+WindowSize->{705, 896},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 59, 1, 39, "Input"],
+Cell[1838, 56, 828, 12, 379, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2703, 73, 34, 0, 75, "Section"],
+
+Cell[CellGroupData[{
+Cell[2762, 77, 38, 0, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[2825, 81, 203, 4, 94, "Input"],
+Cell[3031, 87, 92, 1, 63, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[3150, 92, 53, 0, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[3228, 96, 29, 0, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[3282, 100, 348, 6, 124, "Input"],
+Cell[3633, 108, 98, 2, 60, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3780, 116, 34, 0, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[3839, 120, 348, 6, 124, "Input"],
+Cell[4190, 128, 56, 1, 60, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[4273, 133, 57, 0, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[4355, 137, 29, 0, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[4409, 141, 311, 6, 136, "Input"],
+Cell[4723, 149, 48, 1, 58, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4820, 156, 34, 0, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[4879, 160, 311, 6, 136, "Input"],
+Cell[5193, 168, 55, 1, 69, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5297, 175, 44, 0, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[5366, 179, 262, 6, 111, "Input"],
+Cell[5631, 187, 86, 1, 39, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5754, 193, 262, 6, 111, "Input"],
+Cell[6019, 201, 73, 1, 39, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6141, 208, 104, 3, 56, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[6270, 215, 155, 3, 63, "Input"],
+Cell[6428, 220, 54, 1, 41, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6519, 226, 155, 3, 63, "Input"],
+Cell[6677, 231, 45, 1, 39, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6759, 237, 180, 3, 63, "Input"],
+Cell[6942, 242, 62, 1, 39, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7041, 248, 180, 3, 63, "Input"],
+Cell[7224, 253, 57, 1, 39, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

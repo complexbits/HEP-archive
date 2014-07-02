@@ -1,0 +1,4 @@
+#!/bin/bash
+
+root -b -q runKana.C > runKana.log 2>&1
+echo

@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>dumpLBN</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif">dumpLBN utility</font></h1>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">You can dump some of the 
+  contents of an lbn, normally enough to see if it is ok, by invoking the binary 
+  dumpLBN.</font></p>
+<p>&nbsp;</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">The binary dumpLBN is created 
+  when lm_access libs are created. lm_access has to be in your path for this to 
+  work - you will need to build it yourself until it gets into the release.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">syntax is</font></p>
+<blockquote>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif"><b>dumpLBN &lt;lbn number 
+    &gt; [&lt;trigger&gt;]</b></font></p>
+</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">the default trigger is EM_HI_SH</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Example:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">prompt&gt;dumpLBN 1712341 
+  zero_bias</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">dump of lbn 1712341 for 
+  trigger zero_bias<br>
+  Delivered Trigger Status:0 Delivered Luminosity:1058.24<br>
+  Triggered Trigger Status:1 Triggered Luminosity:0.0003037<br>
+  Recorded Trigger Status:1 Recorded Luminosity:0.0003037<br>
+  Trigger has L2?: 0<br>
+  L1 Accepts: 31 L2 Accepts: 31 L3 Accepts: 31 <br>
+  Reconstructed information <br>
+  tmb p13.02.00 p13.02.00, keepL2 = 0, status = 1<br>
+  tmb p13.05.00 p13.05.00, keepL2 = 1, status = 1</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+  This shows that this lbn was recorded properly </font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+  prompt&gt; dumpLBN 2880120 mu1ptxatxx_ncu</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">dump of lbn 2880120 for 
+  trigger mu1ptxatxx_ncu</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Delivered Trigger Status:0 
+  Delivered Luminosity:425.905</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Triggered Trigger Status:1 
+  Triggered Luminosity:0.1249<br>
+  Recorded Trigger Status:1 Recorded Luminosity:0.1249<br>
+  Trigger has L2?: 0<br>
+  L1 Accepts: 5 L2 Accepts: 5 L3 Accepts: 5 </font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">If the trigger is not valid 
+  for that LBN you don't see any information</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">prompt&gt; dumpLBN 2880120 
+  EM_HI_SH</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">dump of lbn 2880120 for 
+  trigger EM_HI_SH<br>
+  Reconstructed information </font></p>
+<p></p>
+<p></p>
+</body>
+</html>

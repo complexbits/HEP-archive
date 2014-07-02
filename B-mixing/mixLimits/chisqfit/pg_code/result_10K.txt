@@ -1,0 +1,90 @@
+Raw numbers
+Tag = 1  D = 0.384615  Eff = 0.0481  eD2 = 0.00711538
+Tag = 2  D = 0.13003   Eff = 0.8375  eD2 = 0.0141603
+Tag = 3  D = 0.156722  Eff = 0.5028  eD2 = 0.0123497
+
+Independent measurements tags ordered 1 2 3
+Tag = 1  D = 0.384615  Eff = 0.0481  eD2 = 0.00711538
+Tag = 2  D = 0.12872   Eff = 0.7963  eD2 = 0.0131938
+Tag = 3  D = 0.183168  Eff = 0.0808  eD2 = 0.00271089
+SUM                                  eD2 = 0.02303007
+
+Independent measurments ordered 1 23eq 23noteq 2only 3only
+Tag = 4  D = 0.2669     Eff = 0.1997  eD2 = 0.0142258
+Tag = 5  D = 0.0359858  Eff = 0.1973  eD2 = 0.000255499
+Tag = 6  D = 0.140997   Eff = 0.3993  eD2 = 0.00793812
+Tag = 7  D = 0.183168   Eff = 0.0808  eD2 = 0.00271089
+SUM                                   eD2 = 0.032245689
+
+Tag = 8  D = 0.146779   Eff = 0.9252  eD2 = 0.0199326
+
+
+*************************************************************
+Lifetime fit using full data 10K sample
+Fit for t0 and sigma
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.51510e+00   1.57912e-02   1.40741e-03   4.46308e-02
+   2  sigma        4.72481e-01   8.80445e-03   7.85298e-04  -4.59308e-02
+
+Now calculate dm for tag 1 (SLT)
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.51510e+00     fixed
+   2  dm           6.61463e-01   6.64891e-02   1.52331e-03   5.34496e-04
+   3  sigma        4.72481e-01     fixed
+   4  mistag       2.95486e-01   2.86900e-02   6.57289e-04  -2.32960e-03
+
+
+Now calculate dm for tag 2 (SST)
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.51510e+00     fixed
+   2  dm           4.58285e-01   6.14354e-02   5.66691e-03   2.58970e-03
+   3  sigma        4.72481e-01     fixed
+   4  mistag       4.38745e-01   7.07250e-03   6.53765e-04  -8.05719e-02
+
+
+Now calculate dm for tag 3 & 7 (JETQ)
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.51510e+00     fixed
+   2  dm           3.76458e-01   1.85706e-01   5.05592e-03  -6.32884e-04
+   3  sigma        4.72481e-01     fixed
+   4  mistag       4.13377e-01   2.20673e-02   6.00219e-04  -5.44346e-03
+
+
+Now calculate dm for tag 4 (not SLT & SST = JETQ = +/-1)
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.51510e+00     fixed
+   2  dm           4.79248e-01   6.22617e-02   2.85242e-03   2.04168e-03
+   3  sigma        4.72481e-01     fixed
+   4  mistag       3.71409e-01   1.39734e-02   6.40005e-04   2.24566e-02
+
+
+Now calculate dm for tag 6 (not SLT & not JETQ & SST = +/-1)
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.51510e+00     fixed
+   2  dm           4.94147e-01   9.45058e-02   6.16133e-03   3.64955e-03
+   3  sigma        4.72481e-01     fixed
+   4  mistag       4.38903e-01   1.01471e-02   6.65829e-04   1.99682e-02
+
+
+Now calculate dm for tag 8 (Use tag with best dilution)
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.51510e+00     fixed
+   2  dm           4.91109e-01   5.09714e-02   5.06919e-03  -1.02442e-02
+   3  sigma        4.72481e-01     fixed
+   4  mistag       4.29338e-01   6.62465e-03   6.59394e-04   1.47238e-02
+
+

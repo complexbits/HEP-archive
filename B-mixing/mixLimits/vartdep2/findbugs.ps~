@@ -1,0 +1,2858 @@
+%!PS-Adobe-3.0
+%%Title: lhns0130.C, lhns0130a.C, lhns0130nf.C, lhns0163.C, lhns0163a.C, lhns0163nf.C, lhns0196.C, lhns0196a.C, lhns0196nf.C
+%%For: Jamie Hegarty
+%%Creator: a2ps version 4.13
+%%CreationDate: Mon Aug 30 12:19:41 2004
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 18
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Define these in case they're not in the FontInfo (also, here
+    % they're easier to get to.
+    /UnderlinePosition 1 def
+    /UnderlineThickness 1 def
+    
+    % Get the underline position and thickness if they're defined.
+    currentdict /FontInfo known {
+      FontInfo
+      
+      dup /UnderlinePosition known {
+	dup /UnderlinePosition get
+	0 exch FontMatrix transform exch pop
+	/UnderlinePosition exch def
+      } if
+      
+      dup /UnderlineThickness known {
+	/UnderlineThickness get
+	0 exch FontMatrix transform exch pop
+	/UnderlineThickness exch def
+      } if
+      
+    } if
+    currentdict 
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed string
+% Version 1.2 1/31/1990
+% Orignal Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 612 def
+/sw 792 def
+/llx 24 def
+/urx 768 def
+/ury 588 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 7.060185 def
+/cw 4.236111 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 86.400000 mul
+def
+/ph
+   520.335631 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 5 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1-2) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.130;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # (//----- Define arrays and stuff for fitting:) N
+(47) # () N
+(48) # (Double_t oscpar0_init = 1.5;) N
+(49) # (Double_t oscpar1_init = 10.;) N
+(50) # () N
+(51) # (Double_t oscpar2_init = tSigma + 1.5*nSigma;) N
+(52) # () N
+(53) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(54) # () N
+(55) # (Double_t oscerr0_step = 0.1;) N
+(56) # (Double_t oscerr1_step = 0.01;) N
+(57) # (Double_t oscerr2_step = 0.01;) N
+(58) # (Double_t oscerr3_step = 0.1;) N
+(59) # () N
+(60) # (Double_t fitpar[4];) N
+(61) # (Double_t fiterr[4];) N
+(62) # () N
+(63) # (void lhns0130\(\)) N
+(64) # ({) N
+(65) # () N
+(66) # (  TStopwatch timer;) N
+(67) # (  timer.Start\(\);) N
+(68) # (  // Define histogarams) N
+(69) # (  ) N
+(70) # (  gStyle->SetOptFit\(1111\);) N
+(71) # (  gStyle->SetOptStat\(111111\);) N
+(72) # (  ) N
+(73) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(lhns0130.C) (Page 1/3) (Aug 27, 04 13:32) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1->SetName\("Dilvsdm"\);) p n
+(75) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(76) # (  ) N
+(77) # (  TGraph *g2 = new TGraph\(20\);) N
+(78) # (  g2->SetName\("DilErrvsdm"\);) N
+(79) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(80) # (  ) N
+(81) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(82) # () N
+(83) # () N
+(84) # (    oscpar1_init = 1+i;) N
+(85) # () N
+(86) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(87) # () N
+(88) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(89) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(90) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(91) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(92) # (    ) N
+(93) # (    // Get data) N
+(94) # (    ) N
+(95) # (    // Generate events) N
+(96) # (    ) N
+(97) # (    mixmasta_mc\(\);) N
+(98) # (    ) N
+(99) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(100) # (      h2->Fill\(lifetime[ja]\);) N
+(101) # (      if \(tag[ja] == 1\){) N
+(102) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(103) # (      }else if\(tag[ja] == -1\){) N
+(104) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(105) # (      }else{) N
+(106) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(107) # () S 8 T (break;) N
+(108) # (      }) N
+(109) # (    }) N
+(110) # (    ) N
+(111) # (    // Do unbinned likelihood fit) N
+(112) # (    ) N
+(113) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(114) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(115) # (    ) N
+(116) # (    ) N
+(117) # () N
+(118) # (    ) N
+(119) # (    unbinFitosc_d\(\);) N
+(120) # (    ) N
+(121) # (    for \(Int_t j=0; j<4; j++\){) N
+(122) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(123) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(124) # (    }) N
+(125) # (    f3->SetParameter\(4,1\);) N
+(126) # (    f4->SetParameter\(4,-1\);) N
+(127) # (    ) N
+(128) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(129) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(130) # (    ) N
+(131) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(132) # (    ) N
+(133) # (    delete h2;) N
+(134) # (    delete h3;) N
+(135) # (    delete h4;) N
+(136) # (    delete f3;) N
+(137) # (    delete f4;) N
+(138) # (  }) N
+(139) # (  ) N
+(140) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0130",800,400\);) N
+(141) # (  vardm->Divide\(2,1\);) N
+(142) # (  ) N
+(143) # (  vardm->cd\(1\);) N
+(144) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(lhns0130.C) (Page 2/3) (Aug 27, 04 13:32) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0130.C) (1/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(145) # (  g1->GetXaxis\(\)->CenterTitle\(\);) p n
+(146) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(147) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(148) # (  //g1->SetMarkerStyle\(21\);) N
+(149) # (  //g1->SetMarkerSize\(1\);) N
+(150) # (  g1->Draw\("AP*"\); ) N
+(151) # (  ) N
+(152) # (  ) N
+(153) # (  vardm->cd\(2\);) N
+(154) # (  ) N
+(155) # (  gStyle->SetPadColor\(10\);) N
+(156) # (  gStyle->SetCanvasColor\(10\);) N
+(157) # (  vardm->SetGrid\(\);) N
+(158) # (  ) N
+(159) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(160) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(161) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(162) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(163) # (  //g2->SetMarkerStyle\(21\);) N
+(164) # (  //g2->SetMarkerSize\(1\);) N
+(165) # (  g2->Draw\("AP*"\);  ) N
+(166) # (  ) N
+(167) # (  TObjArray a1\(0\);) N
+(168) # (  a1.Add\(g1\);) N
+(169) # (  a1.Add\(g2\);) N
+(170) # (  a1.Add\(vardm\);) N
+(171) # (  ) N
+(172) # (  TFile var_dm\("lhns0130.root", "recreate"\);) N
+(173) # (  a1.Write\(\);) N
+(174) # (  var_dm.Close\(\);) N
+(175) # (  ) N
+(176) # (  timer.Stop\(\);) N
+(177) # (  Double_t rtime = timer.RealTime\(\);) N
+(178) # (  Double_t ctime = timer.CpuTime\(\);) N
+(179) # (  ) N
+(180) # (  cout << "Real time " << rtime << endl;) N
+(181) # (  cout << "CPU time  " << ctime << endl;) N
+(182) # (  ) N
+(183) # (}) N
+(lhns0130.C) (Page 3/3) (Aug 27, 04 13:32) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0130.C) (2/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.130;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # (//----- Define arrays and stuff for fitting:) N
+(47) # () N
+(48) # (Double_t oscpar0_init = 1.5;) N
+(49) # (Double_t oscpar1_init = 10.;) N
+(50) # () N
+(51) # (Double_t oscpar2_init = 0.1;) N
+(52) # () N
+(53) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(54) # () N
+(55) # (Double_t oscerr0_step = 0.1;) N
+(56) # (Double_t oscerr1_step = 0.01;) N
+(57) # (Double_t oscerr2_step = 0.01;) N
+(58) # (Double_t oscerr3_step = 0.1;) N
+(59) # () N
+(60) # (Double_t fitpar[4];) N
+(61) # (Double_t fiterr[4];) N
+(62) # () N
+(63) # (void lhns0130a\(\)) N
+(64) # ({) N
+(65) # () N
+(66) # (  TStopwatch timer;) N
+(67) # (  timer.Start\(\);) N
+(68) # (  // Define histogarams) N
+(69) # (  ) N
+(70) # (  gStyle->SetOptFit\(1111\);) N
+(71) # (  gStyle->SetOptStat\(111111\);) N
+(72) # (  ) N
+(73) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(lhns0130a.C) (Page 1/3) (Aug 27, 04 13:53) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1->SetName\("Dilvsdm"\);) p n
+(75) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(76) # (  ) N
+(77) # (  TGraph *g2 = new TGraph\(20\);) N
+(78) # (  g2->SetName\("DilErrvsdm"\);) N
+(79) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(80) # (  ) N
+(81) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(82) # () N
+(83) # (    // vary fit parameter for dm) N
+(84) # (    oscpar1_init = 1+i;) N
+(85) # () N
+(86) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(87) # () N
+(88) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(89) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(90) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(91) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(92) # (    ) N
+(93) # (    // Get data) N
+(94) # (    ) N
+(95) # (    // Generate events) N
+(96) # (    ) N
+(97) # (    mixmasta_mc\(\);) N
+(98) # (    ) N
+(99) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(100) # (      h2->Fill\(lifetime[ja]\);) N
+(101) # (      if \(tag[ja] == 1\){) N
+(102) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(103) # (      }else if\(tag[ja] == -1\){) N
+(104) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(105) # (      }else{) N
+(106) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(107) # () S 8 T (break;) N
+(108) # (      }) N
+(109) # (    }) N
+(110) # ( ) N
+(111) # (    // Do unbinned likelihood fit) N
+(112) # (    ) N
+(113) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(114) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(115) # (    ) N
+(116) # () N
+(117) # (    unbinFitosc_d\(\);) N
+(118) # (    ) N
+(119) # (    for \(Int_t j=0; j<4; j++\){) N
+(120) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(121) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(122) # (    }) N
+(123) # (    f3->SetParameter\(4,1\);) N
+(124) # (    f4->SetParameter\(4,-1\);) N
+(125) # (    ) N
+(126) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(127) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(128) # (    ) N
+(129) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(130) # (    ) N
+(131) # (    delete h2;) N
+(132) # (    delete h3;) N
+(133) # (    delete h4;) N
+(134) # (    delete f3;) N
+(135) # (    delete f4;) N
+(136) # (  }) N
+(137) # (  ) N
+(138) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0130a",800,400\);) N
+(139) # (  vardm->Divide\(2,1\);) N
+(140) # (  ) N
+(141) # (  vardm->cd\(1\);) N
+(142) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(143) # (  g1->GetXaxis\(\)->CenterTitle\(\);) N
+(144) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(lhns0130a.C) (Page 2/3) (Aug 27, 04 13:53) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0130a.C) (3/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(145) # (  g1->GetYaxis\(\)->CenterTitle\(\);) p n
+(146) # (  //g1->SetMarkerStyle\(21\);) N
+(147) # (  //g1->SetMarkerSize\(1\);) N
+(148) # (  g1->Draw\("AP*"\); ) N
+(149) # (  ) N
+(150) # (  ) N
+(151) # (  vardm->cd\(2\);) N
+(152) # (  ) N
+(153) # (  gStyle->SetPadColor\(10\);) N
+(154) # (  gStyle->SetCanvasColor\(10\);) N
+(155) # (  vardm->SetGrid\(\);) N
+(156) # (  ) N
+(157) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(158) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(159) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(160) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(161) # (  //g2->SetMarkerStyle\(21\);) N
+(162) # (  //g2->SetMarkerSize\(1\);) N
+(163) # (  g2->Draw\("AP*"\);  ) N
+(164) # (  ) N
+(165) # (  TObjArray a1\(0\);) N
+(166) # (  a1.Add\(g1\);) N
+(167) # (  a1.Add\(g2\);) N
+(168) # (  a1.Add\(vardm\);) N
+(169) # (  ) N
+(170) # (  TFile var_dm\("lhns0130a.root", "recreate"\);) N
+(171) # (  a1.Write\(\);) N
+(172) # (  var_dm.Close\(\);) N
+(173) # (  ) N
+(174) # (  timer.Stop\(\);) N
+(175) # (  Double_t rtime = timer.RealTime\(\);) N
+(176) # (  Double_t ctime = timer.CpuTime\(\);) N
+(177) # (  ) N
+(178) # (  cout << "Real time " << rtime << endl;) N
+(179) # (  cout << "CPU time  " << ctime << endl;) N
+(180) # (  ) N
+(181) # (}) N
+(lhns0130a.C) (Page 3/3) (Aug 27, 04 13:53) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0130a.C) (4/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.130;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # () N
+(47) # (//----- Define arrays and stuff for fitting:) N
+(48) # () N
+(49) # (Double_t oscpar0_init = 1.5;) N
+(50) # (Double_t oscpar1_init = 10.;) N
+(51) # () N
+(52) # (Double_t oscpar2_init = tSigma;) N
+(53) # () N
+(54) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(55) # () N
+(56) # (Double_t oscerr0_step = 0.1;) N
+(57) # (Double_t oscerr1_step = 0.01;) N
+(58) # (Double_t oscerr2_step = 0.01;) N
+(59) # (Double_t oscerr3_step = 0.1;) N
+(60) # () N
+(61) # (Double_t fitpar[4];) N
+(62) # (Double_t fiterr[4];) N
+(63) # () N
+(64) # (void lhns0130nf\(\)) N
+(65) # ({) N
+(66) # () N
+(67) # (  TStopwatch timer;) N
+(68) # (  timer.Start\(\);) N
+(69) # (  // Define histogarams) N
+(70) # (  ) N
+(71) # (  gStyle->SetOptFit\(1111\);) N
+(72) # (  gStyle->SetOptStat\(111111\);) N
+(73) # (  ) N
+(lhns0130nf.C) (Page 1/3) (Aug 27, 04 13:33) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) p n
+(75) # (  g1->SetName\("Dilvsdm"\);) N
+(76) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(77) # (  ) N
+(78) # (  TGraph *g2 = new TGraph\(20\);) N
+(79) # (  g2->SetName\("DilErrvsdm"\);) N
+(80) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(81) # (  ) N
+(82) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(83) # () N
+(84) # () N
+(85) # (    oscpar1_init = 1+i;) N
+(86) # () N
+(87) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(88) # () N
+(89) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(90) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(91) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(92) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(93) # (    ) N
+(94) # (    // Get data) N
+(95) # (    ) N
+(96) # (    // Generate events) N
+(97) # (    ) N
+(98) # (    mixmasta_mc\(\);) N
+(99) # (    ) N
+(100) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(101) # (      h2->Fill\(lifetime[ja]\);) N
+(102) # (      if \(tag[ja] == 1\){) N
+(103) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(104) # (      }else if\(tag[ja] == -1\){) N
+(105) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(106) # (      }else{) N
+(107) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(108) # () S 8 T (break;) N
+(109) # (      }) N
+(110) # (    }) N
+(111) # (    ) N
+(112) # (    // Do unbinned likelihood fit) N
+(113) # (    ) N
+(114) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(115) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(116) # (    ) N
+(117) # (    ) N
+(118) # () N
+(119) # (    ) N
+(120) # (    unbinFitosc_d\(\);) N
+(121) # (    ) N
+(122) # (    for \(Int_t j=0; j<4; j++\){) N
+(123) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(124) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(125) # (    }) N
+(126) # (    f3->SetParameter\(4,1\);) N
+(127) # (    f4->SetParameter\(4,-1\);) N
+(128) # (    ) N
+(129) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(130) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(131) # (    ) N
+(132) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(133) # (    ) N
+(134) # (    delete h2;) N
+(135) # (    delete h3;) N
+(136) # (    delete h4;) N
+(137) # (    delete f3;) N
+(138) # (    delete f4;) N
+(139) # (  }) N
+(140) # (  ) N
+(141) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0130nf",800,400\);) N
+(142) # (  vardm->Divide\(2,1\);) N
+(143) # (  ) N
+(144) # (  vardm->cd\(1\);) N
+(lhns0130nf.C) (Page 2/3) (Aug 27, 04 13:33) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0130nf.C) (5/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 6
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(145) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) p n
+(146) # (  g1->GetXaxis\(\)->CenterTitle\(\);) N
+(147) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(148) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(149) # (  //g1->SetMarkerStyle\(21\);) N
+(150) # (  //g1->SetMarkerSize\(1\);) N
+(151) # (  g1->Draw\("AP*"\); ) N
+(152) # (  ) N
+(153) # (  ) N
+(154) # (  vardm->cd\(2\);) N
+(155) # (  ) N
+(156) # (  gStyle->SetPadColor\(10\);) N
+(157) # (  gStyle->SetCanvasColor\(10\);) N
+(158) # (  vardm->SetGrid\(\);) N
+(159) # (  ) N
+(160) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(161) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(162) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(163) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(164) # (  //g2->SetMarkerStyle\(21\);) N
+(165) # (  //g2->SetMarkerSize\(1\);) N
+(166) # (  g2->Draw\("AP*"\);  ) N
+(167) # (  ) N
+(168) # (  TObjArray a1\(0\);) N
+(169) # (  a1.Add\(g1\);) N
+(170) # (  a1.Add\(g2\);) N
+(171) # (  a1.Add\(vardm\);) N
+(172) # (  ) N
+(173) # (  TFile var_dm\("lhns0130nf.root", "recreate"\);) N
+(174) # (  a1.Write\(\);) N
+(175) # (  var_dm.Close\(\);) N
+(176) # (  ) N
+(177) # (  timer.Stop\(\);) N
+(178) # (  Double_t rtime = timer.RealTime\(\);) N
+(179) # (  Double_t ctime = timer.CpuTime\(\);) N
+(180) # (  ) N
+(181) # (  cout << "Real time " << rtime << endl;) N
+(182) # (  cout << "CPU time  " << ctime << endl;) N
+(183) # (  ) N
+(184) # (}) N
+(lhns0130nf.C) (Page 3/3) (Aug 27, 04 13:33) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0130nf.C) (6/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 7
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.163;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # (//----- Define arrays and stuff for fitting:) N
+(47) # () N
+(48) # (Double_t oscpar0_init = 1.5;) N
+(49) # (Double_t oscpar1_init = 10.;) N
+(50) # () N
+(51) # (Double_t oscpar2_init = tSigma + 1.5*nSigma;) N
+(52) # () N
+(53) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(54) # () N
+(55) # (Double_t oscerr0_step = 0.1;) N
+(56) # (Double_t oscerr1_step = 0.01;) N
+(57) # (Double_t oscerr2_step = 0.01;) N
+(58) # (Double_t oscerr3_step = 0.1;) N
+(59) # () N
+(60) # (Double_t fitpar[4];) N
+(61) # (Double_t fiterr[4];) N
+(62) # () N
+(63) # (void lhns0163\(\)) N
+(64) # ({) N
+(65) # () N
+(66) # (  TStopwatch timer;) N
+(67) # (  timer.Start\(\);) N
+(68) # (  // Define histogarams) N
+(69) # (  ) N
+(70) # (  gStyle->SetOptFit\(1111\);) N
+(71) # (  gStyle->SetOptStat\(111111\);) N
+(72) # (  ) N
+(73) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(lhns0163.C) (Page 1/3) (Aug 27, 04 13:35) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1->SetName\("Dilvsdm"\);) p n
+(75) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(76) # (  ) N
+(77) # (  TGraph *g2 = new TGraph\(20\);) N
+(78) # (  g2->SetName\("DilErrvsdm"\);) N
+(79) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(80) # (  ) N
+(81) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(82) # () N
+(83) # () N
+(84) # (    oscpar1_init = 1+i;) N
+(85) # () N
+(86) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(87) # () N
+(88) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(89) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(90) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(91) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(92) # (    ) N
+(93) # (    // Get data) N
+(94) # (    ) N
+(95) # (    // Generate events) N
+(96) # (    ) N
+(97) # (    mixmasta_mc\(\);) N
+(98) # (    ) N
+(99) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(100) # (      h2->Fill\(lifetime[ja]\);) N
+(101) # (      if \(tag[ja] == 1\){) N
+(102) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(103) # (      }else if\(tag[ja] == -1\){) N
+(104) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(105) # (      }else{) N
+(106) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(107) # () S 8 T (break;) N
+(108) # (      }) N
+(109) # (    }) N
+(110) # (    ) N
+(111) # (    // Do unbinned likelihood fit) N
+(112) # (    ) N
+(113) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(114) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(115) # (    ) N
+(116) # (    ) N
+(117) # () N
+(118) # (    ) N
+(119) # (    unbinFitosc_d\(\);) N
+(120) # (    ) N
+(121) # (    for \(Int_t j=0; j<4; j++\){) N
+(122) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(123) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(124) # (    }) N
+(125) # (    f3->SetParameter\(4,1\);) N
+(126) # (    f4->SetParameter\(4,-1\);) N
+(127) # (    ) N
+(128) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(129) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(130) # (    ) N
+(131) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(132) # (    ) N
+(133) # (    delete h2;) N
+(134) # (    delete h3;) N
+(135) # (    delete h4;) N
+(136) # (    delete f3;) N
+(137) # (    delete f4;) N
+(138) # (  }) N
+(139) # (  ) N
+(140) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0163",800,400\);) N
+(141) # (  vardm->Divide\(2,1\);) N
+(142) # (  ) N
+(143) # (  vardm->cd\(1\);) N
+(144) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(lhns0163.C) (Page 2/3) (Aug 27, 04 13:35) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0163.C) (7/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 8
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(145) # (  g1->GetXaxis\(\)->CenterTitle\(\);) p n
+(146) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(147) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(148) # (  //g1->SetMarkerStyle\(21\);) N
+(149) # (  //g1->SetMarkerSize\(1\);) N
+(150) # (  g1->Draw\("AP*"\); ) N
+(151) # (  ) N
+(152) # (  ) N
+(153) # (  vardm->cd\(2\);) N
+(154) # (  ) N
+(155) # (  gStyle->SetPadColor\(10\);) N
+(156) # (  gStyle->SetCanvasColor\(10\);) N
+(157) # (  vardm->SetGrid\(\);) N
+(158) # (  ) N
+(159) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(160) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(161) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(162) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(163) # (  //g2->SetMarkerStyle\(21\);) N
+(164) # (  //g2->SetMarkerSize\(1\);) N
+(165) # (  g2->Draw\("AP*"\);  ) N
+(166) # (  ) N
+(167) # (  TObjArray a1\(0\);) N
+(168) # (  a1.Add\(g1\);) N
+(169) # (  a1.Add\(g2\);) N
+(170) # (  a1.Add\(vardm\);) N
+(171) # (  ) N
+(172) # (  TFile var_dm\("lhns0163.root", "recreate"\);) N
+(173) # (  a1.Write\(\);) N
+(174) # (  var_dm.Close\(\);) N
+(175) # (  ) N
+(176) # (  timer.Stop\(\);) N
+(177) # (  Double_t rtime = timer.RealTime\(\);) N
+(178) # (  Double_t ctime = timer.CpuTime\(\);) N
+(179) # (  ) N
+(180) # (  cout << "Real time " << rtime << endl;) N
+(181) # (  cout << "CPU time  " << ctime << endl;) N
+(182) # (  ) N
+(183) # (}) N
+(lhns0163.C) (Page 3/3) (Aug 27, 04 13:35) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0163.C) (8/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 9
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.163;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # (//----- Define arrays and stuff for fitting:) N
+(47) # () N
+(48) # (Double_t oscpar0_init = 1.5;) N
+(49) # (Double_t oscpar1_init = 10.;) N
+(50) # () N
+(51) # (Double_t oscpar2_init = tSigma + 1.5*nSigma;) N
+(52) # () N
+(53) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(54) # () N
+(55) # (Double_t oscerr0_step = 0.1;) N
+(56) # (Double_t oscerr1_step = 0.01;) N
+(57) # (Double_t oscerr2_step = 0.01;) N
+(58) # (Double_t oscerr3_step = 0.1;) N
+(59) # () N
+(60) # (Double_t fitpar[4];) N
+(61) # (Double_t fiterr[4];) N
+(62) # () N
+(63) # (void lhns0163a\(\)) N
+(64) # ({) N
+(65) # () N
+(66) # (  TStopwatch timer;) N
+(67) # (  timer.Start\(\);) N
+(68) # (  // Define histogarams) N
+(69) # (  ) N
+(70) # (  gStyle->SetOptFit\(1111\);) N
+(71) # (  gStyle->SetOptStat\(111111\);) N
+(72) # (  ) N
+(73) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(lhns0163a.C) (Page 1/3) (Aug 27, 04 13:50) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1->SetName\("Dilvsdm"\);) p n
+(75) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(76) # (  ) N
+(77) # (  TGraph *g2 = new TGraph\(20\);) N
+(78) # (  g2->SetName\("DilErrvsdm"\);) N
+(79) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(80) # (  ) N
+(81) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(82) # () N
+(83) # () N
+(84) # (    oscpar1_init = 1+i;) N
+(85) # () N
+(86) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(87) # () N
+(88) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(89) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(90) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(91) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(92) # (    ) N
+(93) # (    // Get data) N
+(94) # (    ) N
+(95) # (    // Generate events) N
+(96) # (    ) N
+(97) # (    mixmasta_mc\(\);) N
+(98) # (    ) N
+(99) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(100) # (      h2->Fill\(lifetime[ja]\);) N
+(101) # (      if \(tag[ja] == 1\){) N
+(102) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(103) # (      }else if\(tag[ja] == -1\){) N
+(104) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(105) # (      }else{) N
+(106) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(107) # () S 8 T (break;) N
+(108) # (      }) N
+(109) # (    }) N
+(110) # (    ) N
+(111) # (    // Calculate \(weighted\) avg. nSigma for fitting) N
+(112) # () N
+(113) # (    Int_t bweight = 0.;) N
+(114) # (    Double_t nSigavg = 0.;) N
+(115) # (    for\(Int_t jb=0.; jb<nBins; jb++\){) N
+(116) # () N
+(117) # (      bweight = h2->GetBinContent\(jb+1\);) N
+(118) # (      nSigavg = nSigavg + bweight*\(nSigma*\(min+\(jb*\(max-min\)/nBins\)\)\);) N
+(119) # (      ) N
+(120) # (    }) N
+(121) # (    nSigavg = nSigavg/nEvts;) N
+(122) # (    oscpar2_init = tSigma + nSigavg;    ) N
+(123) # (    cout << "nSigavg = "<< nSigavg << ", oscpar2_init = " << oscpar2_init << end) N
+0 T (l;   ) N
+(124) # (    ) N
+(125) # (    // Do unbinned likelihood fit) N
+(126) # (    ) N
+(127) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(128) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(129) # (    ) N
+(130) # (        ) N
+(131) # (    unbinFitosc_d\(\);) N
+(132) # (    ) N
+(133) # (    for \(Int_t j=0; j<4; j++\){) N
+(134) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(135) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(136) # (    }) N
+(137) # (    f3->SetParameter\(4,1\);) N
+(138) # (    f4->SetParameter\(4,-1\);) N
+(139) # (    ) N
+(140) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(141) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(142) # (    ) N
+(143) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(lhns0163a.C) (Page 2/3) (Aug 27, 04 13:50) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0163a.C) (9/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 10
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(144) # (    ) p n
+(145) # (    delete h2;) N
+(146) # (    delete h3;) N
+(147) # (    delete h4;) N
+(148) # (    delete f3;) N
+(149) # (    delete f4;) N
+(150) # (  }) N
+(151) # (  ) N
+(152) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0163a",800,400\);) N
+(153) # (  vardm->Divide\(2,1\);) N
+(154) # (  ) N
+(155) # (  vardm->cd\(1\);) N
+(156) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(157) # (  g1->GetXaxis\(\)->CenterTitle\(\);) N
+(158) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(159) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(160) # (  //g1->SetMarkerStyle\(21\);) N
+(161) # (  //g1->SetMarkerSize\(1\);) N
+(162) # (  g1->Draw\("AP*"\); ) N
+(163) # (  ) N
+(164) # (  ) N
+(165) # (  vardm->cd\(2\);) N
+(166) # (  ) N
+(167) # (  gStyle->SetPadColor\(10\);) N
+(168) # (  gStyle->SetCanvasColor\(10\);) N
+(169) # (  vardm->SetGrid\(\);) N
+(170) # (  ) N
+(171) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(172) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(173) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(174) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(175) # (  //g2->SetMarkerStyle\(21\);) N
+(176) # (  //g2->SetMarkerSize\(1\);) N
+(177) # (  g2->Draw\("AP*"\);  ) N
+(178) # (  ) N
+(179) # (  TObjArray a1\(0\);) N
+(180) # (  a1.Add\(g1\);) N
+(181) # (  a1.Add\(g2\);) N
+(182) # (  a1.Add\(vardm\);) N
+(183) # (  ) N
+(184) # (  TFile var_dm\("lhns0163a.root", "recreate"\);) N
+(185) # (  a1.Write\(\);) N
+(186) # (  var_dm.Close\(\);) N
+(187) # (  ) N
+(188) # (  timer.Stop\(\);) N
+(189) # (  Double_t rtime = timer.RealTime\(\);) N
+(190) # (  Double_t ctime = timer.CpuTime\(\);) N
+(191) # (  ) N
+(192) # (  cout << "Real time " << rtime << endl;) N
+(193) # (  cout << "CPU time  " << ctime << endl;) N
+(194) # (  ) N
+(195) # (}) N
+(lhns0163a.C) (Page 3/3) (Aug 27, 04 13:50) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0163a.C) (10/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 11
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.163;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # (//----- Define arrays and stuff for fitting:) N
+(47) # () N
+(48) # (Double_t oscpar0_init = 1.5;) N
+(49) # (Double_t oscpar1_init = 10.;) N
+(50) # () N
+(51) # (Double_t oscpar2_init = tSigma;) N
+(52) # () N
+(53) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(54) # () N
+(55) # (Double_t oscerr0_step = 0.1;) N
+(56) # (Double_t oscerr1_step = 0.01;) N
+(57) # (Double_t oscerr2_step = 0.01;) N
+(58) # (Double_t oscerr3_step = 0.1;) N
+(59) # () N
+(60) # (Double_t fitpar[4];) N
+(61) # (Double_t fiterr[4];) N
+(62) # () N
+(63) # (void lhns0163nf\(\)) N
+(64) # ({) N
+(65) # () N
+(66) # (  TStopwatch timer;) N
+(67) # (  timer.Start\(\);) N
+(68) # (  // Define histogarams) N
+(69) # (  ) N
+(70) # (  gStyle->SetOptFit\(1111\);) N
+(71) # (  gStyle->SetOptStat\(111111\);) N
+(72) # (  ) N
+(73) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(lhns0163nf.C) (Page 1/3) (Aug 27, 04 13:34) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1->SetName\("Dilvsdm"\);) p n
+(75) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(76) # (  ) N
+(77) # (  TGraph *g2 = new TGraph\(20\);) N
+(78) # (  g2->SetName\("DilErrvsdm"\);) N
+(79) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(80) # (  ) N
+(81) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(82) # () N
+(83) # () N
+(84) # (    oscpar1_init = 1+i;) N
+(85) # () N
+(86) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(87) # () N
+(88) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(89) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(90) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(91) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(92) # (    ) N
+(93) # (    // Get data) N
+(94) # (    ) N
+(95) # (    // Generate events) N
+(96) # (    ) N
+(97) # (    mixmasta_mc\(\);) N
+(98) # (    ) N
+(99) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(100) # (      h2->Fill\(lifetime[ja]\);) N
+(101) # (      if \(tag[ja] == 1\){) N
+(102) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(103) # (      }else if\(tag[ja] == -1\){) N
+(104) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(105) # (      }else{) N
+(106) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(107) # () S 8 T (break;) N
+(108) # (      }) N
+(109) # (    }) N
+(110) # (    ) N
+(111) # (    // Do unbinned likelihood fit) N
+(112) # (    ) N
+(113) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(114) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(115) # (    ) N
+(116) # (    ) N
+(117) # () N
+(118) # (    ) N
+(119) # (    unbinFitosc_d\(\);) N
+(120) # (    ) N
+(121) # (    for \(Int_t j=0; j<4; j++\){) N
+(122) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(123) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(124) # (    }) N
+(125) # (    f3->SetParameter\(4,1\);) N
+(126) # (    f4->SetParameter\(4,-1\);) N
+(127) # (    ) N
+(128) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(129) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(130) # (    ) N
+(131) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(132) # (    ) N
+(133) # (    delete h2;) N
+(134) # (    delete h3;) N
+(135) # (    delete h4;) N
+(136) # (    delete f3;) N
+(137) # (    delete f4;) N
+(138) # (  }) N
+(139) # (  ) N
+(140) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0163nf",800,400\);) N
+(141) # (  vardm->Divide\(2,1\);) N
+(142) # (  ) N
+(143) # (  vardm->cd\(1\);) N
+(144) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(lhns0163nf.C) (Page 2/3) (Aug 27, 04 13:34) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0163nf.C) (11/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 12
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(145) # (  g1->GetXaxis\(\)->CenterTitle\(\);) p n
+(146) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(147) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(148) # (  //g1->SetMarkerStyle\(21\);) N
+(149) # (  //g1->SetMarkerSize\(1\);) N
+(150) # (  g1->Draw\("AP*"\); ) N
+(151) # (  ) N
+(152) # (  ) N
+(153) # (  vardm->cd\(2\);) N
+(154) # (  ) N
+(155) # (  gStyle->SetPadColor\(10\);) N
+(156) # (  gStyle->SetCanvasColor\(10\);) N
+(157) # (  vardm->SetGrid\(\);) N
+(158) # (  ) N
+(159) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(160) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(161) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(162) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(163) # (  //g2->SetMarkerStyle\(21\);) N
+(164) # (  //g2->SetMarkerSize\(1\);) N
+(165) # (  g2->Draw\("AP*"\);  ) N
+(166) # (  ) N
+(167) # (  TObjArray a1\(0\);) N
+(168) # (  a1.Add\(g1\);) N
+(169) # (  a1.Add\(g2\);) N
+(170) # (  a1.Add\(vardm\);) N
+(171) # (  ) N
+(172) # (  TFile var_dm\("lhns0163nf.root", "recreate"\);) N
+(173) # (  a1.Write\(\);) N
+(174) # (  var_dm.Close\(\);) N
+(175) # (  ) N
+(176) # (  timer.Stop\(\);) N
+(177) # (  Double_t rtime = timer.RealTime\(\);) N
+(178) # (  Double_t ctime = timer.CpuTime\(\);) N
+(179) # (  ) N
+(180) # (  cout << "Real time " << rtime << endl;) N
+(181) # (  cout << "CPU time  " << ctime << endl;) N
+(182) # (  ) N
+(183) # (}) N
+(lhns0163nf.C) (Page 3/3) (Aug 27, 04 13:34) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0163nf.C) (12/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 13
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.196;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # (//----- Define arrays and stuff for fitting:) N
+(47) # () N
+(48) # (Double_t oscpar0_init = 1.5;) N
+(49) # (Double_t oscpar1_init = 10.;) N
+(50) # () N
+(51) # (Double_t oscpar2_init = tSigma + 1.5*nSigma;) N
+(52) # () N
+(53) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(54) # () N
+(55) # (Double_t oscerr0_step = 0.1;) N
+(56) # (Double_t oscerr1_step = 0.01;) N
+(57) # (Double_t oscerr2_step = 0.01;) N
+(58) # (Double_t oscerr3_step = 0.1;) N
+(59) # () N
+(60) # (Double_t fitpar[4];) N
+(61) # (Double_t fiterr[4];) N
+(62) # () N
+(63) # (void lhns0196\(\)) N
+(64) # ({) N
+(65) # () N
+(66) # (  TStopwatch timer;) N
+(67) # (  timer.Start\(\);) N
+(68) # (  // Define histogarams) N
+(69) # (  ) N
+(70) # (  gStyle->SetOptFit\(1111\);) N
+(71) # (  gStyle->SetOptStat\(111111\);) N
+(72) # (  ) N
+(73) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(lhns0196.C) (Page 1/3) (Aug 27, 04 13:37) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1->SetName\("Dilvsdm"\);) p n
+(75) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(76) # (  ) N
+(77) # (  TGraph *g2 = new TGraph\(20\);) N
+(78) # (  g2->SetName\("DilErrvsdm"\);) N
+(79) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(80) # (  ) N
+(81) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(82) # () N
+(83) # () N
+(84) # (    oscpar1_init = 1+i;) N
+(85) # () N
+(86) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(87) # () N
+(88) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(89) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(90) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(91) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(92) # (    ) N
+(93) # (    // Get data) N
+(94) # (    ) N
+(95) # (    // Generate events) N
+(96) # (    ) N
+(97) # (    mixmasta_mc\(\);) N
+(98) # (    ) N
+(99) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(100) # (      h2->Fill\(lifetime[ja]\);) N
+(101) # (      if \(tag[ja] == 1\){) N
+(102) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(103) # (      }else if\(tag[ja] == -1\){) N
+(104) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(105) # (      }else{) N
+(106) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(107) # () S 8 T (break;) N
+(108) # (      }) N
+(109) # (    }) N
+(110) # (    ) N
+(111) # (    // Do unbinned likelihood fit) N
+(112) # (    ) N
+(113) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(114) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(115) # (    ) N
+(116) # (    ) N
+(117) # () N
+(118) # (    ) N
+(119) # (    unbinFitosc_d\(\);) N
+(120) # (    ) N
+(121) # (    for \(Int_t j=0; j<4; j++\){) N
+(122) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(123) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(124) # (    }) N
+(125) # (    f3->SetParameter\(4,1\);) N
+(126) # (    f4->SetParameter\(4,-1\);) N
+(127) # (    ) N
+(128) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(129) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(130) # (    ) N
+(131) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(132) # (    ) N
+(133) # (    delete h2;) N
+(134) # (    delete h3;) N
+(135) # (    delete h4;) N
+(136) # (    delete f3;) N
+(137) # (    delete f4;) N
+(138) # (  }) N
+(139) # (  ) N
+(140) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0196",800,400\);) N
+(141) # (  vardm->Divide\(2,1\);) N
+(142) # (  ) N
+(143) # (  vardm->cd\(1\);) N
+(144) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(lhns0196.C) (Page 2/3) (Aug 27, 04 13:37) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0196.C) (13/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 14
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(145) # (  g1->GetXaxis\(\)->CenterTitle\(\);) p n
+(146) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(147) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(148) # (  //g1->SetMarkerStyle\(21\);) N
+(149) # (  //g1->SetMarkerSize\(1\);) N
+(150) # (  g1->Draw\("AP*"\); ) N
+(151) # (  ) N
+(152) # (  ) N
+(153) # (  vardm->cd\(2\);) N
+(154) # (  ) N
+(155) # (  gStyle->SetPadColor\(10\);) N
+(156) # (  gStyle->SetCanvasColor\(10\);) N
+(157) # (  vardm->SetGrid\(\);) N
+(158) # (  ) N
+(159) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(160) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(161) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(162) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(163) # (  //g2->SetMarkerStyle\(21\);) N
+(164) # (  //g2->SetMarkerSize\(1\);) N
+(165) # (  g2->Draw\("AP*"\);  ) N
+(166) # (  ) N
+(167) # (  TObjArray a1\(0\);) N
+(168) # (  a1.Add\(g1\);) N
+(169) # (  a1.Add\(g2\);) N
+(170) # (  a1.Add\(vardm\);) N
+(171) # (  ) N
+(172) # (  TFile var_dm\("lhns0196.root", "recreate"\);) N
+(173) # (  a1.Write\(\);) N
+(174) # (  var_dm.Close\(\);) N
+(175) # (  ) N
+(176) # (  timer.Stop\(\);) N
+(177) # (  Double_t rtime = timer.RealTime\(\);) N
+(178) # (  Double_t ctime = timer.CpuTime\(\);) N
+(179) # (  ) N
+(180) # (  cout << "Real time " << rtime << endl;) N
+(181) # (  cout << "CPU time  " << ctime << endl;) N
+(182) # (  ) N
+(183) # (}) N
+(lhns0196.C) (Page 3/3) (Aug 27, 04 13:37) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0196.C) (14/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 15
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.196;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # (//----- Define arrays and stuff for fitting:) N
+(47) # () N
+(48) # (Double_t oscpar0_init = 1.5;) N
+(49) # (Double_t oscpar1_init = 10.;) N
+(50) # () N
+(51) # (Double_t oscpar2_init = tSigma + 1.5*nSigma;) N
+(52) # () N
+(53) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(54) # () N
+(55) # (Double_t oscerr0_step = 0.1;) N
+(56) # (Double_t oscerr1_step = 0.01;) N
+(57) # (Double_t oscerr2_step = 0.01;) N
+(58) # (Double_t oscerr3_step = 0.1;) N
+(59) # () N
+(60) # (Double_t fitpar[4];) N
+(61) # (Double_t fiterr[4];) N
+(62) # () N
+(63) # (void lhns0196a\(\)) N
+(64) # ({) N
+(65) # () N
+(66) # (  TStopwatch timer;) N
+(67) # (  timer.Start\(\);) N
+(68) # (  // Define histogarams) N
+(69) # (  ) N
+(70) # (  gStyle->SetOptFit\(1111\);) N
+(71) # (  gStyle->SetOptStat\(111111\);) N
+(72) # (  ) N
+(73) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(lhns0196a.C) (Page 1/3) (Aug 27, 04 13:54) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1->SetName\("Dilvsdm"\);) p n
+(75) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(76) # (  ) N
+(77) # (  TGraph *g2 = new TGraph\(20\);) N
+(78) # (  g2->SetName\("DilErrvsdm"\);) N
+(79) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(80) # (  ) N
+(81) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(82) # () N
+(83) # () N
+(84) # (    oscpar1_init = 1+i;) N
+(85) # () N
+(86) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(87) # () N
+(88) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(89) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(90) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(91) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(92) # (    ) N
+(93) # (    // Get data) N
+(94) # (    ) N
+(95) # (    // Generate events) N
+(96) # (    ) N
+(97) # (    mixmasta_mc\(\);) N
+(98) # (    ) N
+(99) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(100) # (      h2->Fill\(lifetime[ja]\);) N
+(101) # (      if \(tag[ja] == 1\){) N
+(102) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(103) # (      }else if\(tag[ja] == -1\){) N
+(104) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(105) # (      }else{) N
+(106) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(107) # () S 8 T (break;) N
+(108) # (      }) N
+(109) # (    }) N
+(110) # () N
+(111) # (    // Calculate \(weighted\) avg. nSigma for fitting) N
+(112) # () N
+(113) # (    Int_t bweight = 0.;) N
+(114) # (    Double_t nSigavg = 0.;) N
+(115) # (    for\(Int_t jb=0.; jb<nBins; jb++\){) N
+(116) # () N
+(117) # (      bweight = h2->GetBinContent\(jb+1\);) N
+(118) # (      nSigavg = nSigavg + bweight*\(nSigma*\(min+\(jb*\(max-min\)/nBins\)\)\);) N
+(119) # (      ) N
+(120) # (    }) N
+(121) # (    nSigavg = nSigavg/nEvts;) N
+(122) # (    oscpar2_init = tSigma + nSigavg;    ) N
+(123) # (    cout << "nSigavg = "<< nSigavg << ", oscpar2_init = " << oscpar2_init << end) N
+0 T (l;   ) N
+(124) # (    ) N
+(125) # (    ) N
+(126) # (    // Do unbinned likelihood fit) N
+(127) # (    ) N
+(128) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(129) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(130) # (    ) N
+(131) # (       ) N
+(132) # (    unbinFitosc_d\(\);) N
+(133) # (    ) N
+(134) # (    for \(Int_t j=0; j<4; j++\){) N
+(135) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(136) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(137) # (    }) N
+(138) # (    f3->SetParameter\(4,1\);) N
+(139) # (    f4->SetParameter\(4,-1\);) N
+(140) # (    ) N
+(141) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(142) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(143) # (    ) N
+(lhns0196a.C) (Page 2/3) (Aug 27, 04 13:54) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0196a.C) (15/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 16
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(144) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) p n
+(145) # (    ) N
+(146) # (    delete h2;) N
+(147) # (    delete h3;) N
+(148) # (    delete h4;) N
+(149) # (    delete f3;) N
+(150) # (    delete f4;) N
+(151) # (  }) N
+(152) # (  ) N
+(153) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0196a",800,400\);) N
+(154) # (  vardm->Divide\(2,1\);) N
+(155) # (  ) N
+(156) # (  vardm->cd\(1\);) N
+(157) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(158) # (  g1->GetXaxis\(\)->CenterTitle\(\);) N
+(159) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(160) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(161) # (  //g1->SetMarkerStyle\(21\);) N
+(162) # (  //g1->SetMarkerSize\(1\);) N
+(163) # (  g1->Draw\("AP*"\); ) N
+(164) # (  ) N
+(165) # (  ) N
+(166) # (  vardm->cd\(2\);) N
+(167) # (  ) N
+(168) # (  gStyle->SetPadColor\(10\);) N
+(169) # (  gStyle->SetCanvasColor\(10\);) N
+(170) # (  vardm->SetGrid\(\);) N
+(171) # (  ) N
+(172) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(173) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(174) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(175) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(176) # (  //g2->SetMarkerStyle\(21\);) N
+(177) # (  //g2->SetMarkerSize\(1\);) N
+(178) # (  g2->Draw\("AP*"\);  ) N
+(179) # (  ) N
+(180) # (  TObjArray a1\(0\);) N
+(181) # (  a1.Add\(g1\);) N
+(182) # (  a1.Add\(g2\);) N
+(183) # (  a1.Add\(vardm\);) N
+(184) # (  ) N
+(185) # (  TFile var_dm\("lhns0196a.root", "recreate"\);) N
+(186) # (  a1.Write\(\);) N
+(187) # (  var_dm.Close\(\);) N
+(188) # (  ) N
+(189) # (  timer.Stop\(\);) N
+(190) # (  Double_t rtime = timer.RealTime\(\);) N
+(191) # (  Double_t ctime = timer.CpuTime\(\);) N
+(192) # (  ) N
+(193) # (  cout << "Real time " << rtime << endl;) N
+(194) # (  cout << "CPU time  " << ctime << endl;) N
+(195) # (  ) N
+(196) # (}) N
+(lhns0196a.C) (Page 3/3) (Aug 27, 04 13:54) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0196a.C) (16/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 17
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.160;) N
+(34) # (Double_t dilfit = 0.160;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t tSigma = 0.10;) N
+(39) # (Double_t nSigma = 0.196;) N
+(40) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(41) # (Double_t dm = 1000; ) N
+(42) # () N
+(43) # (Double_t bgtau = tau;) N
+(44) # (Double_t sbrat = 1000000;) N
+(45) # () N
+(46) # (//----- Define arrays and stuff for fitting:) N
+(47) # () N
+(48) # (Double_t oscpar0_init = 1.5;) N
+(49) # (Double_t oscpar1_init = 10.;) N
+(50) # () N
+(51) # (Double_t oscpar2_init = tSigma;) N
+(52) # () N
+(53) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(54) # () N
+(55) # (Double_t oscerr0_step = 0.1;) N
+(56) # (Double_t oscerr1_step = 0.01;) N
+(57) # (Double_t oscerr2_step = 0.01;) N
+(58) # (Double_t oscerr3_step = 0.1;) N
+(59) # () N
+(60) # (Double_t fitpar[4];) N
+(61) # (Double_t fiterr[4];) N
+(62) # () N
+(63) # (void lhns0196nf\(\)) N
+(64) # ({) N
+(65) # () N
+(66) # (  TStopwatch timer;) N
+(67) # (  timer.Start\(\);) N
+(68) # (  // Define histogarams) N
+(69) # (  ) N
+(70) # (  gStyle->SetOptFit\(1111\);) N
+(71) # (  gStyle->SetOptStat\(111111\);) N
+(72) # (  ) N
+(73) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(lhns0196nf.C) (Page 1/3) (Aug 27, 04 13:34) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1->SetName\("Dilvsdm"\);) p n
+(75) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(76) # (  ) N
+(77) # (  TGraph *g2 = new TGraph\(20\);) N
+(78) # (  g2->SetName\("DilErrvsdm"\);) N
+(79) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(80) # (  ) N
+(81) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(82) # () N
+(83) # () N
+(84) # (    oscpar1_init = 1+i;) N
+(85) # () N
+(86) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(87) # () N
+(88) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(89) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(90) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(91) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(92) # (    ) N
+(93) # (    // Get data) N
+(94) # (    ) N
+(95) # (    // Generate events) N
+(96) # (    ) N
+(97) # (    mixmasta_mc\(\);) N
+(98) # (    ) N
+(99) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(100) # (      h2->Fill\(lifetime[ja]\);) N
+(101) # (      if \(tag[ja] == 1\){) N
+(102) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(103) # (      }else if\(tag[ja] == -1\){) N
+(104) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(105) # (      }else{) N
+(106) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(107) # () S 8 T (break;) N
+(108) # (      }) N
+(109) # (    }) N
+(110) # (    ) N
+(111) # (    // Do unbinned likelihood fit) N
+(112) # (    ) N
+(113) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(114) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(115) # (    ) N
+(116) # (    ) N
+(117) # () N
+(118) # (    ) N
+(119) # (    unbinFitosc_d\(\);) N
+(120) # (    ) N
+(121) # (    for \(Int_t j=0; j<4; j++\){) N
+(122) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(123) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(124) # (    }) N
+(125) # (    f3->SetParameter\(4,1\);) N
+(126) # (    f4->SetParameter\(4,-1\);) N
+(127) # (    ) N
+(128) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(129) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(130) # (    ) N
+(131) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(132) # (    ) N
+(133) # (    delete h2;) N
+(134) # (    delete h3;) N
+(135) # (    delete h4;) N
+(136) # (    delete f3;) N
+(137) # (    delete f4;) N
+(138) # (  }) N
+(139) # (  ) N
+(140) # (  TCanvas *vardm = new TCanvas\("vardm","lhns0196nf",800,400\);) N
+(141) # (  vardm->Divide\(2,1\);) N
+(142) # (  ) N
+(143) # (  vardm->cd\(1\);) N
+(144) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(lhns0196nf.C) (Page 2/3) (Aug 27, 04 13:34) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0196nf.C) (17/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 18
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(145) # (  g1->GetXaxis\(\)->CenterTitle\(\);) p n
+(146) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(147) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(148) # (  //g1->SetMarkerStyle\(21\);) N
+(149) # (  //g1->SetMarkerSize\(1\);) N
+(150) # (  g1->Draw\("AP*"\); ) N
+(151) # (  ) N
+(152) # (  ) N
+(153) # (  vardm->cd\(2\);) N
+(154) # (  ) N
+(155) # (  gStyle->SetPadColor\(10\);) N
+(156) # (  gStyle->SetCanvasColor\(10\);) N
+(157) # (  vardm->SetGrid\(\);) N
+(158) # (  ) N
+(159) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(160) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(161) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(162) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(163) # (  //g2->SetMarkerStyle\(21\);) N
+(164) # (  //g2->SetMarkerSize\(1\);) N
+(165) # (  g2->Draw\("AP*"\);  ) N
+(166) # (  ) N
+(167) # (  TObjArray a1\(0\);) N
+(168) # (  a1.Add\(g1\);) N
+(169) # (  a1.Add\(g2\);) N
+(170) # (  a1.Add\(vardm\);) N
+(171) # (  ) N
+(172) # (  TFile var_dm\("lhns0196nf.root", "recreate"\);) N
+(173) # (  a1.Write\(\);) N
+(174) # (  var_dm.Close\(\);) N
+(175) # (  ) N
+(176) # (  timer.Stop\(\);) N
+(177) # (  Double_t rtime = timer.RealTime\(\);) N
+(178) # (  Double_t ctime = timer.CpuTime\(\);) N
+(179) # (  ) N
+(180) # (  cout << "Real time " << rtime << endl;) N
+(181) # (  cout << "CPU time  " << ctime << endl;) N
+(182) # (  ) N
+(183) # (}) N
+(lhns0196nf.C) (Page 3/3) (Aug 27, 04 13:34) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhns0196nf.C) (18/18) (Monday August 30, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF

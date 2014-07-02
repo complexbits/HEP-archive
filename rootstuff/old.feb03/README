@@ -1,0 +1,7 @@
+Ok so I lied, there are two sets of files. The data
+is in the directory /scratch/users/gut/data
+There is only one data file in the directory.
+
+To run my code you will need to change the *.h
+files to point here.
+

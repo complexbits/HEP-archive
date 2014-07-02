@@ -1,0 +1,21 @@
+  
+void test_hists()
+{
+
+
+  TH1F *h_test[50];
+
+  TFile *f_test = new TFile("test_mk.root","READ");
+  char chartmp [30];
+  for (Int_t ik=1; ik<30; ik++){
+    sprintf(chartmp, "scale%d2", ik);
+    h_test[ik]=chartmp;
+
+  }
+  f_test->Close();
+  TObjArray *a1 = new TObjArray(0);
+  a1->Add(h_test);
+  TFile *f_test2 = new TFile("test_hists.root", "recreate");
+  a1->Write();
+  f_test2->Close();
+}

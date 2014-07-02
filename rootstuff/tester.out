@@ -1,0 +1,29 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   3.05/00  23 February 2003   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+FreeType Engine v1.x used to render TrueType fonts.
+Compiled for linuxkcc with thread support.
+
+CINT/ROOT C/C++ Interpreter version 5.15.70, Jan 4 2003
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+Info in <TUnixSystem::ACLiC>: creating shared library /misc/home/hegarty/root/./tester_C.so
+Event #1000
+Event #2000
+Event #3000
+Event #4000
+Event #5000
+Event #6000
+Event #7000
+Event #8000
+Event #9000
+Event #10000
+complete

@@ -1,0 +1,72 @@
+\documentclass{revtex4}
+
+\newcommand{\DO}{\mbox{D\O}}
+\newcommand{\Bs}{\mbox{$B_{s}$}}
+\newcommand{\Bsbar}{\mbox{$\bar{B_{s}}$}}
+
+\begin{document}
+
+\markboth{ \Bs\ Mixing Limits Note}{\Bs\ Mixing Limits Note}
+%\markboth{Left Page Header}{Right Page Header}
+
+\title{\Bs-\Bsbar\ Mixing Limits Note}
+
+\author{Jamie E. Hegarty and  Phil Gutierrez}
+%\address{Department of Physics and Astronomy, The University of Oklahoma, 
+%440 West Brooks Street \\
+%Norman, OK 73019,
+%United States}
+
+\begin{abstract}
+Using an unbinned likelihood amplitude fitting method with a toy Monte Carlo simulation of \mbox{\Bs-\Bsbar} mixing events, we have determined preliminary sensitivity values for a measurement of dilution.
+\end{abstract}
+\maketitle
+
+
+\section{Introduction}
+
+The lifetime distributions of the mixed ($M$) and unmixed ($U$) states are given by:
+	\begin{eqnarray*}
+	U(t) = e^{-\frac{t}{\tau}}[ 1 + cos (\Delta m t) ]
+	\\M(t) = e^{-\frac{t}{\tau}}[ 1 - cos (\Delta m t) ] 
+	\end{eqnarray*}
+such that 
+	\begin{displaymath}
+	\frac{U(t)-M(t)}{U(t)+M(t)} = cos(\Delta m t) 
+	\end{displaymath}
+where $\tau$ is the mean lifetime of the \Bs.  Simple Gaussian smearing to account for the time resolution of the detector is also factored in, with $\sigma_{t}$ as the standard deviation of the Gaussian.  
+The {\it number} of the mixed ($N_{m}$) and unmixed ($N_{u}$) \Bs in each distribution is then found by integrating $M(t)$ and $U(t)$ (respectively), each smeared with the time resolution $\sigma_{t}$:
+	\begin{eqnarray}
+	\label{mixed}
+	N_{m} = A\int e^{-\frac{(t-t')^{2}}{2\sigma_{t}^{2}}-\frac{t'}{\tau}}[1-cos(\Delta m t)]dt'
+	\label{unmixed}
+	\\N_{u} = A\int e^{-\frac{(t-t')^{2}}{2\sigma_{t}^{2}}-\frac{t'}{\tau}}[1+cos(\Delta m t)]dt'
+	\end{eqnarray}
+where $A$ is a normalization constant.
+With mistagging included, the actual numbers of mixed ($N_{m}^{act}$) and unmixed ($N_{u}^{act}$) \Bs\ become:
+	\begin{eqnarray}
+	N_{m}^{act} = (1-\alpha)N_{m} + \alpha N_{u}
+	\\N_{u}^{act} = (1-\alpha)N_{u} + \alpha N_{m}
+	\end{eqnarray}
+where $\alpha$ is the mistag rate, and dilution $D$ is defined as $1-2\alpha$.
+In order fit for dilution alone, all other parameters ($\Delta m, \sigma_{t}, \tau$) had to be held constant during fitting.
+
+
+\section{}
+
+
+\section{}
+
+
+\section{Conclusions}
+
+
+
+\appendix
+
+\begin{thebibliography}{0}
+
+%\bibitem{}
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,1772 @@
+%!PS-Adobe-3.0
+%%Title: log.txt
+%%For: Jamie Hegarty
+%%Creator: a2ps version 4.13
+%%CreationDate: Fri Mar  4 15:56:51 2005
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Portrait
+%%Pages: 4
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Define these in case they're not in the FontInfo (also, here
+    % they're easier to get to.
+    /UnderlinePosition 1 def
+    /UnderlineThickness 1 def
+    
+    % Get the underline position and thickness if they're defined.
+    currentdict /FontInfo known {
+      FontInfo
+      
+      dup /UnderlinePosition known {
+	dup /UnderlinePosition get
+	0 exch FontMatrix transform exch pop
+	/UnderlinePosition exch def
+      } if
+      
+      dup /UnderlineThickness known {
+	/UnderlineThickness get
+	0 exch FontMatrix transform exch pop
+	/UnderlineThickness exch def
+      } if
+      
+    } if
+    currentdict 
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed string
+% Version 1.2 1/31/1990
+% Orignal Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 792 def
+/sw 612 def
+/llx 24 def
+/urx 588 def
+/ury 768 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 5.324074 def
+/cw 3.194445 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 86.400000 mul
+def
+/ph
+   333.819457 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh ury lly sub ph 2 mul sub 24 sub 1 div def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 1 mul ph add
+  dup
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 5 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1-4) 1
+%%BeginPageSetup
+/pagesave save def
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (Inside fit -0.0208232  15  0.1) p n
+(2) # (Inside fit -0.0207615  15  0.1) N
+(3) # (Inside fit -0.0208848  15  0.1) N
+(4) # (Inside fit -0.0208108  15  0.1) N
+(5) # (Inside fit -0.0208355  15  0.1) N
+(6) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(7) # ( FCN=57.1704 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(8) # (                     EDM=1.33978e-14    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(9) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(10) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(11) # (   1  Amplitude   -2.08232e-02   1.65521e-02   6.16418e-05  -9.88955e-06) N
+(12) # (   2  Delta M      1.50000e+01     fixed    ) N
+(13) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(14) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(15) # (  2.740e-04 ) N
+(16) # ( **********) N
+(17) # ( **    5 **CALL FCN           3) N
+(18) # ( **********) N
+(19) # (iflag  3) N
+(20) # (Inside fit -0.0208232  15  0.1) N
+(21) # (dmLoop = 15  par0 = -0.0208232  err0 = 0.0165521) N
+(22) # (-0.0520579  0.0413804) N
+(23) # (-0.0520579   0.0413804) N
+(24) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(25) # (IMAX = 10) N
+(26) # ( **********) N
+(27) # ( **    1 **SET ERR           1) N
+(28) # ( **********) N
+(29) # (vstart[2] = 0.1) N
+(30) # ( PARAMETER DEFINITIONS:) N
+(31) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(32) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(33) # (     2 Delta M      1.60000e+01  1.00000e-03     no limits) N
+(34) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(35) # ( **********) N
+(36) # ( **    2 **FIX           2           3) N
+(37) # ( **********) N
+(38) # ( **********) N
+(39) # ( **    3 **CALL FCN           1) N
+(40) # ( **********) N
+(41) # (iflag  1) N
+(42) # (Inside fit 0.5  16  0.1) N
+(43) # ( FCN=1008.93 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(44) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(45) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(46) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(47) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(48) # (   2  Delta M      1.60000e+01     fixed    ) N
+(49) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(50) # ( **********) N
+(51) # ( **    4 **MIGRAD        3000        0.01) N
+(52) # ( **********) N
+(53) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(54) # (Inside fit 0.501552  16  0.1) N
+(55) # (Inside fit 0.498448  16  0.1) N
+(56) # (Inside fit 0.500269  16  0.1) N
+(57) # (Inside fit 0.499731  16  0.1) N
+(58) # ( FCN=1008.93 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(59) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(60) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(61) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(log.txt) (Page 1/15) (Mar 04, 05 15:56) title
+border
+/v 1 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(62) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   3.56017e+03) p n
+(63) # (   2  Delta M      1.60000e+01     fixed    ) N
+(64) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(65) # (Inside fit -0.0359466  16  0.1) N
+(66) # (Inside fit -0.0358832  16  0.1) N
+(67) # (Inside fit -0.0360099  16  0.1) N
+(68) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(69) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(70) # (Inside fit -0.0359466  16  0.1) N
+(71) # (Inside fit -0.0358832  16  0.1) N
+(72) # (Inside fit -0.0360099  16  0.1) N
+(73) # (Inside fit -0.0359339  16  0.1) N
+(74) # (Inside fit -0.0359593  16  0.1) N
+(75) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(76) # ( FCN=54.894 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(77) # (                     EDM=3.08302e-16    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(78) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(79) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(80) # (   1  Amplitude   -3.59466e-02   1.73516e-02   6.33422e-05   1.43108e-06) N
+(81) # (   2  Delta M      1.60000e+01     fixed    ) N
+(82) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(83) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(84) # (  3.011e-04 ) N
+(85) # ( **********) N
+(86) # ( **    5 **CALL FCN           3) N
+(87) # ( **********) N
+(88) # (iflag  3) N
+(89) # (Inside fit -0.0359466  16  0.1) N
+(90) # (dmLoop = 16  par0 = -0.0359466  err0 = 0.0173516) N
+(91) # (-0.0898665  0.0433791) N
+(92) # (-0.0898665   0.0433791) N
+(93) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(94) # (IMAX = 10) N
+(95) # ( **********) N
+(96) # ( **    1 **SET ERR           1) N
+(97) # ( **********) N
+(98) # (vstart[2] = 0.1) N
+(99) # ( PARAMETER DEFINITIONS:) N
+(100) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(101) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(102) # (     2 Delta M      1.70000e+01  1.00000e-03     no limits) N
+(103) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(104) # ( **********) N
+(105) # ( **    2 **FIX           2           3) N
+(106) # ( **********) N
+(107) # ( **********) N
+(108) # ( **    3 **CALL FCN           1) N
+(109) # ( **********) N
+(110) # (iflag  1) N
+(111) # (Inside fit 0.5  17  0.1) N
+(112) # ( FCN=988.405 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(113) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(114) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(115) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(116) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(117) # (   2  Delta M      1.70000e+01     fixed    ) N
+(118) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(119) # ( **********) N
+(120) # ( **    4 **MIGRAD        3000        0.01) N
+(121) # ( **********) N
+(122) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(log.txt) (Page 2/15) (Mar 04, 05 15:56) title
+border
+/v 2 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(123) # (Inside fit 0.501536  17  0.1) p n
+(124) # (Inside fit 0.498464  17  0.1) N
+(125) # (Inside fit 0.500272  17  0.1) N
+(126) # (Inside fit 0.499728  17  0.1) N
+(127) # ( FCN=988.405 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(128) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(129) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(130) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(131) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   3.45298e+03) N
+(132) # (   2  Delta M      1.70000e+01     fixed    ) N
+(133) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(134) # (Inside fit -0.0418396  17  0.1) N
+(135) # (Inside fit -0.0417761  17  0.1) N
+(136) # (Inside fit -0.0419031  17  0.1) N
+(137) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(138) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(139) # (Inside fit -0.0418396  17  0.1) N
+(140) # (Inside fit -0.0417761  17  0.1) N
+(141) # (Inside fit -0.0419031  17  0.1) N
+(142) # (Inside fit -0.0418269  17  0.1) N
+(143) # (Inside fit -0.0418523  17  0.1) N
+(144) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(145) # ( FCN=52.9243 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(146) # (                     EDM=3.9465e-15    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(147) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(148) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(149) # (   1  Amplitude   -4.18396e-02   1.77155e-02   6.35208e-05  -5.01496e-06) N
+(150) # (   2  Delta M      1.70000e+01     fixed    ) N
+(151) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(152) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(153) # (  3.138e-04 ) N
+(154) # ( **********) N
+(155) # ( **    5 **CALL FCN           3) N
+(156) # ( **********) N
+(157) # (iflag  3) N
+(158) # (Inside fit -0.0418396  17  0.1) N
+(159) # (dmLoop = 17  par0 = -0.0418396  err0 = 0.0177155) N
+(160) # (-0.104599  0.0442887) N
+(161) # (-0.104599   0.0442887) N
+(162) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(163) # (IMAX = 10) N
+(164) # ( **********) N
+(165) # ( **    1 **SET ERR           1) N
+(166) # ( **********) N
+(167) # (vstart[2] = 0.1) N
+(168) # ( PARAMETER DEFINITIONS:) N
+(169) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(170) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(171) # (     2 Delta M      1.80000e+01  1.00000e-03     no limits) N
+(172) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(173) # ( **********) N
+(174) # ( **    2 **FIX           2           3) N
+(175) # ( **********) N
+(176) # ( **********) N
+(177) # ( **    3 **CALL FCN           1) N
+(178) # ( **********) N
+(179) # (iflag  1) N
+(180) # (Inside fit 0.5  18  0.1) N
+(181) # ( FCN=876.423 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(182) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(183) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(log.txt) (Page 3/15) (Mar 04, 05 15:56) title
+border
+/v 3 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(184) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) p n
+(185) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(186) # (   2  Delta M      1.80000e+01     fixed    ) N
+(187) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(188) # ( **********) N
+(189) # ( **    4 **MIGRAD        3000        0.01) N
+(190) # ( **********) N
+(191) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(192) # (Inside fit 0.501446  18  0.1) N
+(193) # (Inside fit 0.498554  18  0.1) N
+(194) # (Inside fit 0.500269  18  0.1) N
+(195) # (Inside fit 0.499731  18  0.1) N
+(196) # ( FCN=876.423 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(197) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(198) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(199) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(200) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   3.08761e+03) N
+(201) # (   2  Delta M      1.80000e+01     fixed    ) N
+(202) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(203) # (Inside fit -0.0326443  18  0.1) N
+(204) # (Inside fit -0.0325769  18  0.1) N
+(205) # (Inside fit -0.0327116  18  0.1) N
+(206) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(207) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(208) # (Inside fit -0.0326443  18  0.1) N
+(209) # (Inside fit -0.0325769  18  0.1) N
+(210) # (Inside fit -0.0327116  18  0.1) N
+(211) # (Inside fit -0.0326308  18  0.1) N
+(212) # (Inside fit -0.0326577  18  0.1) N
+(213) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(214) # ( FCN=54.1237 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(215) # (                     EDM=1.45971e-15    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(216) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(217) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(218) # (   1  Amplitude   -3.26443e-02   1.85747e-02   6.73382e-05   2.90888e-06) N
+(219) # (   2  Delta M      1.80000e+01     fixed    ) N
+(220) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(221) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(222) # (  3.450e-04 ) N
+(223) # ( **********) N
+(224) # ( **    5 **CALL FCN           3) N
+(225) # ( **********) N
+(226) # (iflag  3) N
+(227) # (Inside fit -0.0326443  18  0.1) N
+(228) # (dmLoop = 18  par0 = -0.0326443  err0 = 0.0185747) N
+(229) # (-0.0816107  0.0464368) N
+(230) # (-0.0816107   0.0464368) N
+(231) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(232) # (IMAX = 10) N
+(233) # ( **********) N
+(234) # ( **    1 **SET ERR           1) N
+(235) # ( **********) N
+(236) # (vstart[2] = 0.1) N
+(237) # ( PARAMETER DEFINITIONS:) N
+(238) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(239) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(240) # (     2 Delta M      1.90000e+01  1.00000e-03     no limits) N
+(241) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(242) # ( **********) N
+(243) # ( **    2 **FIX           2           3) N
+(244) # ( **********) N
+(log.txt) (Page 4/15) (Mar 04, 05 15:56) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+() (1/4) (Friday March 04, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5-8) 2
+%%BeginPageSetup
+/pagesave save def
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(245) # ( **********) p n
+(246) # ( **    3 **CALL FCN           1) N
+(247) # ( **********) N
+(248) # (iflag  1) N
+(249) # (Inside fit 0.5  19  0.1) N
+(250) # ( FCN=920.399 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(251) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(252) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(253) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(254) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(255) # (   2  Delta M      1.90000e+01     fixed    ) N
+(256) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(257) # ( **********) N
+(258) # ( **    4 **MIGRAD        3000        0.01) N
+(259) # ( **********) N
+(260) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(261) # (Inside fit 0.501482  19  0.1) N
+(262) # (Inside fit 0.498518  19  0.1) N
+(263) # (Inside fit 0.500265  19  0.1) N
+(264) # (Inside fit 0.499735  19  0.1) N
+(265) # ( FCN=920.399 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(266) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(267) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(268) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(269) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   3.28829e+03) N
+(270) # (   2  Delta M      1.90000e+01     fixed    ) N
+(271) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(272) # (Inside fit -0.0249739  19  0.1) N
+(273) # (Inside fit -0.0249073  19  0.1) N
+(274) # (Inside fit -0.0250405  19  0.1) N
+(275) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(276) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(277) # (Inside fit -0.0249739  19  0.1) N
+(278) # (Inside fit -0.0249073  19  0.1) N
+(279) # (Inside fit -0.0250405  19  0.1) N
+(280) # (Inside fit -0.0249605  19  0.1) N
+(281) # (Inside fit -0.0249872  19  0.1) N
+(282) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(283) # ( FCN=57.2648 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(284) # (                     EDM=1.37386e-16    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(285) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(286) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(287) # (   1  Amplitude   -2.49739e-02   1.78689e-02   6.65996e-05   9.27658e-07) N
+(288) # (   2  Delta M      1.90000e+01     fixed    ) N
+(289) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(290) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(291) # (  3.193e-04 ) N
+(292) # ( **********) N
+(293) # ( **    5 **CALL FCN           3) N
+(294) # ( **********) N
+(295) # (iflag  3) N
+(296) # (Inside fit -0.0249739  19  0.1) N
+(297) # (dmLoop = 19  par0 = -0.0249739  err0 = 0.0178689) N
+(298) # (-0.0624347  0.0446723) N
+(299) # (-0.0624347   0.0446723) N
+(300) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(301) # (IMAX = 10) N
+(302) # ( **********) N
+(303) # ( **    1 **SET ERR           1) N
+(304) # ( **********) N
+(305) # (vstart[2] = 0.1) N
+(log.txt) (Page 5/15) (Mar 04, 05 15:56) title
+border
+/v 1 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(306) # ( PARAMETER DEFINITIONS:) p n
+(307) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(308) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(309) # (     2 Delta M      2.00000e+01  1.00000e-03     no limits) N
+(310) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(311) # ( **********) N
+(312) # ( **    2 **FIX           2           3) N
+(313) # ( **********) N
+(314) # ( **********) N
+(315) # ( **    3 **CALL FCN           1) N
+(316) # ( **********) N
+(317) # (iflag  1) N
+(318) # (Inside fit 0.5  20  0.1) N
+(319) # ( FCN=729.621 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(320) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(321) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(322) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(323) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(324) # (   2  Delta M      2.00000e+01     fixed    ) N
+(325) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(326) # ( **********) N
+(327) # ( **    4 **MIGRAD        3000        0.01) N
+(328) # ( **********) N
+(329) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(330) # (Inside fit 0.50132  20  0.1) N
+(331) # (Inside fit 0.49868  20  0.1) N
+(332) # (Inside fit 0.500262  20  0.1) N
+(333) # (Inside fit 0.499738  20  0.1) N
+(334) # ( FCN=729.621 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(335) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(336) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(337) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(338) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   2.60994e+03) N
+(339) # (   2  Delta M      2.00000e+01     fixed    ) N
+(340) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(341) # (Inside fit -0.0143963  20  0.1) N
+(342) # (Inside fit -0.0143216  20  0.1) N
+(343) # (Inside fit -0.0144709  20  0.1) N
+(344) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(345) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(346) # (Inside fit -0.0143963  20  0.1) N
+(347) # (Inside fit -0.0143216  20  0.1) N
+(348) # (Inside fit -0.0144709  20  0.1) N
+(349) # (Inside fit -0.0143813  20  0.1) N
+(350) # (Inside fit -0.0144112  20  0.1) N
+(351) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(352) # ( FCN=58.3494 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(353) # (                     EDM=1.75223e-15    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(354) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(355) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(356) # (   1  Amplitude   -1.43963e-02   1.98540e-02   7.46839e-05   2.98169e-06) N
+(357) # (   2  Delta M      2.00000e+01     fixed    ) N
+(358) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(359) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(360) # (  3.942e-04 ) N
+(361) # ( **********) N
+(362) # ( **    5 **CALL FCN           3) N
+(363) # ( **********) N
+(364) # (iflag  3) N
+(365) # (Inside fit -0.0143963  20  0.1) N
+(366) # (dmLoop = 20  par0 = -0.0143963  err0 = 0.019854) N
+(367) # (-0.0359907  0.0496351) N
+(log.txt) (Page 6/15) (Mar 04, 05 15:56) title
+border
+/v 2 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(368) # (-0.0359907   0.0496351) p n
+(369) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(370) # (IMAX = 10) N
+(371) # ( **********) N
+(372) # ( **    1 **SET ERR           1) N
+(373) # ( **********) N
+(374) # (vstart[2] = 0.1) N
+(375) # ( PARAMETER DEFINITIONS:) N
+(376) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(377) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(378) # (     2 Delta M      2.10000e+01  1.00000e-03     no limits) N
+(379) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(380) # ( **********) N
+(381) # ( **    2 **FIX           2           3) N
+(382) # ( **********) N
+(383) # ( **********) N
+(384) # ( **    3 **CALL FCN           1) N
+(385) # ( **********) N
+(386) # (iflag  1) N
+(387) # (Inside fit 0.5  21  0.1) N
+(388) # ( FCN=635.759 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(389) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(390) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(391) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(392) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(393) # (   2  Delta M      2.10000e+01     fixed    ) N
+(394) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(395) # ( **********) N
+(396) # ( **    4 **MIGRAD        3000        0.01) N
+(397) # ( **********) N
+(398) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(399) # (Inside fit 0.501232  21  0.1) N
+(400) # (Inside fit 0.498768  21  0.1) N
+(401) # (Inside fit 0.500256  21  0.1) N
+(402) # (Inside fit 0.499744  21  0.1) N
+(403) # ( FCN=635.759 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(404) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(405) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(406) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(407) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   2.31897e+03) N
+(408) # (   2  Delta M      2.10000e+01     fixed    ) N
+(409) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(410) # (Inside fit -0.000599272  21  0.1) N
+(411) # (Inside fit -0.000523131  21  0.1) N
+(412) # (Inside fit -0.000675413  21  0.1) N
+(413) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(414) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(415) # (Inside fit -0.000599272  21  0.1) N
+(416) # (Inside fit -0.000523131  21  0.1) N
+(417) # (Inside fit -0.000675413  21  0.1) N
+(418) # (Inside fit -0.000584044  21  0.1) N
+(419) # (Inside fit -0.0006145  21  0.1) N
+(420) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(421) # ( FCN=55.3214 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(422) # (                     EDM=1.56618e-16    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(423) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(424) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(425) # (   1  Amplitude   -5.99272e-04   2.07784e-02   7.61412e-05   8.51770e-07) N
+(426) # (   2  Delta M      2.10000e+01     fixed    ) N
+(427) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(428) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(log.txt) (Page 7/15) (Mar 04, 05 15:56) title
+border
+/v 3 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(429) # (  4.317e-04 ) p n
+(430) # ( **********) N
+(431) # ( **    5 **CALL FCN           3) N
+(432) # ( **********) N
+(433) # (iflag  3) N
+(434) # (Inside fit -0.000599272  21  0.1) N
+(435) # (dmLoop = 21  par0 = -0.000599272  err0 = 0.0207784) N
+(436) # (-0.00149818  0.0519461) N
+(437) # (-0.00149818   0.0519461) N
+(438) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(439) # (IMAX = 10) N
+(440) # ( **********) N
+(441) # ( **    1 **SET ERR           1) N
+(442) # ( **********) N
+(443) # (vstart[2] = 0.1) N
+(444) # ( PARAMETER DEFINITIONS:) N
+(445) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(446) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(447) # (     2 Delta M      2.20000e+01  1.00000e-03     no limits) N
+(448) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(449) # ( **********) N
+(450) # ( **    2 **FIX           2           3) N
+(451) # ( **********) N
+(452) # ( **********) N
+(453) # ( **    3 **CALL FCN           1) N
+(454) # ( **********) N
+(455) # (iflag  1) N
+(456) # (Inside fit 0.5  22  0.1) N
+(457) # ( FCN=581.445 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(458) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(459) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(460) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(461) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(462) # (   2  Delta M      2.20000e+01     fixed    ) N
+(463) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(464) # ( **********) N
+(465) # ( **    4 **MIGRAD        3000        0.01) N
+(466) # ( **********) N
+(467) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(468) # (Inside fit 0.501178  22  0.1) N
+(469) # (Inside fit 0.498822  22  0.1) N
+(470) # (Inside fit 0.500257  22  0.1) N
+(471) # (Inside fit 0.499743  22  0.1) N
+(472) # ( FCN=581.445 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(473) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(474) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(475) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(476) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   2.09337e+03) N
+(477) # (   2  Delta M      2.20000e+01     fixed    ) N
+(478) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(479) # (Inside fit 0.000966298  22  0.1) N
+(480) # (Inside fit 0.00104896  22  0.1) N
+(481) # (Inside fit 0.000883633  22  0.1) N
+(482) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(483) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(484) # (Inside fit 0.000966298  22  0.1) N
+(485) # (Inside fit 0.00104896  22  0.1) N
+(486) # (Inside fit 0.000883633  22  0.1) N
+(487) # (Inside fit 0.00098283  22  0.1) N
+(488) # (Inside fit 0.000949765  22  0.1) N
+(489) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(log.txt) (Page 8/15) (Mar 04, 05 15:56) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+() (Friday March 04, 2005) (2/4) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (9-12) 3
+%%BeginPageSetup
+/pagesave save def
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(490) # ( FCN=59.1152 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) p n
+(491) # (                     EDM=6.94562e-15    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(492) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(493) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(494) # (   1  Amplitude    9.66298e-04   2.18352e-02   8.26646e-05   5.39776e-06) N
+(495) # (   2  Delta M      2.20000e+01     fixed    ) N
+(496) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(497) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(498) # (  4.768e-04 ) N
+(499) # ( **********) N
+(500) # ( **    5 **CALL FCN           3) N
+(501) # ( **********) N
+(502) # (iflag  3) N
+(503) # (Inside fit 0.000966298  22  0.1) N
+(504) # (dmLoop = 22  par0 = 0.000966298  err0 = 0.0218352) N
+(505) # (0.00241574  0.054588) N
+(506) # (0.00241574   0.054588) N
+(507) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(508) # (IMAX = 10) N
+(509) # ( **********) N
+(510) # ( **    1 **SET ERR           1) N
+(511) # ( **********) N
+(512) # (vstart[2] = 0.1) N
+(513) # ( PARAMETER DEFINITIONS:) N
+(514) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(515) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(516) # (     2 Delta M      2.30000e+01  1.00000e-03     no limits) N
+(517) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(518) # ( **********) N
+(519) # ( **    2 **FIX           2           3) N
+(520) # ( **********) N
+(521) # ( **********) N
+(522) # ( **    3 **CALL FCN           1) N
+(523) # ( **********) N
+(524) # (iflag  1) N
+(525) # (Inside fit 0.5  23  0.1) N
+(526) # ( FCN=559.424 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(527) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(528) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(529) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(530) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(531) # (   2  Delta M      2.30000e+01     fixed    ) N
+(532) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(533) # ( **********) N
+(534) # ( **    4 **MIGRAD        3000        0.01) N
+(535) # ( **********) N
+(536) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(537) # (Inside fit 0.501156  23  0.1) N
+(538) # (Inside fit 0.498844  23  0.1) N
+(539) # (Inside fit 0.500258  23  0.1) N
+(540) # (Inside fit 0.499742  23  0.1) N
+(541) # ( FCN=559.424 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(542) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(543) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(544) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(545) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   2.01493e+03) N
+(546) # (   2  Delta M      2.30000e+01     fixed    ) N
+(547) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(548) # (Inside fit -0.00243691  23  0.1) N
+(549) # (Inside fit -0.0023566  23  0.1) N
+(550) # (Inside fit -0.00251721  23  0.1) N
+(log.txt) (Page 9/15) (Mar 04, 05 15:56) title
+border
+/v 1 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(551) # ( MIGRAD MINIMIZATION HAS CONVERGED.) p n
+(552) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(553) # (Inside fit -0.00243691  23  0.1) N
+(554) # (Inside fit -0.0023566  23  0.1) N
+(555) # (Inside fit -0.00251721  23  0.1) N
+(556) # (Inside fit -0.00242084  23  0.1) N
+(557) # (Inside fit -0.00245297  23  0.1) N
+(558) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(559) # ( FCN=53.2371 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(560) # (                     EDM=3.61602e-16    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(561) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(562) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(563) # (   1  Amplitude   -2.43691e-03   2.23319e-02   8.03053e-05  -1.20422e-06) N
+(564) # (   2  Delta M      2.30000e+01     fixed    ) N
+(565) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(566) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(567) # (  4.987e-04 ) N
+(568) # ( **********) N
+(569) # ( **    5 **CALL FCN           3) N
+(570) # ( **********) N
+(571) # (iflag  3) N
+(572) # (Inside fit -0.00243691  23  0.1) N
+(573) # (dmLoop = 23  par0 = -0.00243691  err0 = 0.0223319) N
+(574) # (-0.00609226  0.0558298) N
+(575) # (-0.00609226   0.0558298) N
+(576) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(577) # (IMAX = 10) N
+(578) # ( **********) N
+(579) # ( **    1 **SET ERR           1) N
+(580) # ( **********) N
+(581) # (vstart[2] = 0.1) N
+(582) # ( PARAMETER DEFINITIONS:) N
+(583) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(584) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(585) # (     2 Delta M      2.40000e+01  1.00000e-03     no limits) N
+(586) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(587) # ( **********) N
+(588) # ( **    2 **FIX           2           3) N
+(589) # ( **********) N
+(590) # ( **********) N
+(591) # ( **    3 **CALL FCN           1) N
+(592) # ( **********) N
+(593) # (iflag  1) N
+(594) # (Inside fit 0.5  24  0.1) N
+(595) # ( FCN=511.959 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(596) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(597) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(598) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(599) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(600) # (   2  Delta M      2.40000e+01     fixed    ) N
+(601) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(602) # ( **********) N
+(603) # ( **    4 **MIGRAD        3000        0.01) N
+(604) # ( **********) N
+(605) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(606) # (Inside fit 0.501106  24  0.1) N
+(607) # (Inside fit 0.498894  24  0.1) N
+(608) # (Inside fit 0.50026  24  0.1) N
+(609) # (Inside fit 0.49974  24  0.1) N
+(610) # ( FCN=511.959 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(611) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(log.txt) (Page 10/15) (Mar 04, 05 15:56) title
+border
+/v 2 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(612) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) p n
+(613) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(614) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   1.81168e+03) N
+(615) # (   2  Delta M      2.40000e+01     fixed    ) N
+(616) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(617) # (Inside fit -0.00175128  24  0.1) N
+(618) # (Inside fit -0.00166342  24  0.1) N
+(619) # (Inside fit -0.00183914  24  0.1) N
+(620) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(621) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(622) # (Inside fit -0.00175128  24  0.1) N
+(623) # (Inside fit -0.00166342  24  0.1) N
+(624) # (Inside fit -0.00183914  24  0.1) N
+(625) # (Inside fit -0.00173371  24  0.1) N
+(626) # (Inside fit -0.00176885  24  0.1) N
+(627) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(628) # ( FCN=57.4534 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(629) # (                     EDM=1.81791e-15    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(630) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(631) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(632) # (   1  Amplitude   -1.75128e-03   2.35352e-02   8.78605e-05  -2.56202e-06) N
+(633) # (   2  Delta M      2.40000e+01     fixed    ) N
+(634) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(635) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(636) # (  5.539e-04 ) N
+(637) # ( **********) N
+(638) # ( **    5 **CALL FCN           3) N
+(639) # ( **********) N
+(640) # (iflag  3) N
+(641) # (Inside fit -0.00175128  24  0.1) N
+(642) # (dmLoop = 24  par0 = -0.00175128  err0 = 0.0235352) N
+(643) # (-0.0043782  0.0588381) N
+(644) # (-0.0043782   0.0588381) N
+(645) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(646) # (IMAX = 10) N
+(647) # ( **********) N
+(648) # ( **    1 **SET ERR           1) N
+(649) # ( **********) N
+(650) # (vstart[2] = 0.1) N
+(651) # ( PARAMETER DEFINITIONS:) N
+(652) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(653) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(654) # (     2 Delta M      2.50000e+01  1.00000e-03     no limits) N
+(655) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(656) # ( **********) N
+(657) # ( **    2 **FIX           2           3) N
+(658) # ( **********) N
+(659) # ( **********) N
+(660) # ( **    3 **CALL FCN           1) N
+(661) # ( **********) N
+(662) # (iflag  1) N
+(663) # (Inside fit 0.5  25  0.1) N
+(664) # ( FCN=477.495 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(665) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(666) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(667) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(668) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(669) # (   2  Delta M      2.50000e+01     fixed    ) N
+(670) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(671) # ( **********) N
+(672) # ( **    4 **MIGRAD        3000        0.01) N
+(log.txt) (Page 11/15) (Mar 04, 05 15:56) title
+border
+/v 3 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(673) # ( **********) p n
+(674) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(675) # (Inside fit 0.501068  25  0.1) N
+(676) # (Inside fit 0.498932  25  0.1) N
+(677) # (Inside fit 0.500256  25  0.1) N
+(678) # (Inside fit 0.499744  25  0.1) N
+(679) # ( FCN=477.495 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(680) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(681) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(682) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(683) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   1.71445e+03) N
+(684) # (   2  Delta M      2.50000e+01     fixed    ) N
+(685) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(686) # (Inside fit 0.0082113  25  0.1) N
+(687) # (Inside fit 0.00829954  25  0.1) N
+(688) # (Inside fit 0.00812306  25  0.1) N
+(689) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(690) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(691) # (Inside fit 0.0082113  25  0.1) N
+(692) # (Inside fit 0.00829954  25  0.1) N
+(693) # (Inside fit 0.00812306  25  0.1) N
+(694) # (Inside fit 0.00822895  25  0.1) N
+(695) # (Inside fit 0.00819365  25  0.1) N
+(696) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(697) # ( FCN=55.9223 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(698) # (                     EDM=9.79045e-17    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(699) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(700) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(701) # (   1  Amplitude    8.21130e-03   2.39520e-02   8.82376e-05   5.84217e-07) N
+(702) # (   2  Delta M      2.50000e+01     fixed    ) N
+(703) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(704) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(705) # (  5.737e-04 ) N
+(706) # ( **********) N
+(707) # ( **    5 **CALL FCN           3) N
+(708) # ( **********) N
+(709) # (iflag  3) N
+(710) # (Inside fit 0.0082113  25  0.1) N
+(711) # (dmLoop = 25  par0 = 0.0082113  err0 = 0.023952) N
+(712) # (0.0205283  0.0598801) N
+(713) # (0.0205283   0.0598801) N
+(714) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(715) # (IMAX = 10) N
+(716) # ( **********) N
+(717) # ( **    1 **SET ERR           1) N
+(718) # ( **********) N
+(719) # (vstart[2] = 0.1) N
+(720) # ( PARAMETER DEFINITIONS:) N
+(721) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(722) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(723) # (     2 Delta M      2.60000e+01  1.00000e-03     no limits) N
+(724) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(725) # ( **********) N
+(726) # ( **    2 **FIX           2           3) N
+(727) # ( **********) N
+(728) # ( **********) N
+(729) # ( **    3 **CALL FCN           1) N
+(730) # ( **********) N
+(731) # (iflag  1) N
+(732) # (Inside fit 0.5  26  0.1) N
+(733) # ( FCN=422.347 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(log.txt) (Page 12/15) (Mar 04, 05 15:56) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+() (3/4) (Friday March 04, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (13-15) 4
+%%BeginPageSetup
+/pagesave save def
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(734) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) p n
+(735) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(736) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(737) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(738) # (   2  Delta M      2.60000e+01     fixed    ) N
+(739) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(740) # ( **********) N
+(741) # ( **    4 **MIGRAD        3000        0.01) N
+(742) # ( **********) N
+(743) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(744) # (Inside fit 0.501005  26  0.1) N
+(745) # (Inside fit 0.498995  26  0.1) N
+(746) # (Inside fit 0.500249  26  0.1) N
+(747) # (Inside fit 0.499751  26  0.1) N
+(748) # ( FCN=422.347 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(749) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(750) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(751) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(752) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   1.54255e+03) N
+(753) # (   2  Delta M      2.60000e+01     fixed    ) N
+(754) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(755) # (Inside fit 0.0249313  26  0.1) N
+(756) # (Inside fit 0.0250228  26  0.1) N
+(757) # (Inside fit 0.0248399  26  0.1) N
+(758) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(759) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(760) # (Inside fit 0.0249313  26  0.1) N
+(761) # (Inside fit 0.0250228  26  0.1) N
+(762) # (Inside fit 0.0248399  26  0.1) N
+(763) # (Inside fit 0.0249496  26  0.1) N
+(764) # (Inside fit 0.024913  26  0.1) N
+(765) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(766) # ( FCN=55.9387 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(767) # (                     EDM=2.72591e-16    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(768) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(769) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(770) # (   1  Amplitude    2.49313e-02   2.48184e-02   9.14424e-05   9.40799e-07) N
+(771) # (   2  Delta M      2.60000e+01     fixed    ) N
+(772) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(773) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(774) # (  6.160e-04 ) N
+(775) # ( **********) N
+(776) # ( **    5 **CALL FCN           3) N
+(777) # ( **********) N
+(778) # (iflag  3) N
+(779) # (Inside fit 0.0249313  26  0.1) N
+(780) # (dmLoop = 26  par0 = 0.0249313  err0 = 0.0248184) N
+(781) # (0.0623283  0.062046) N
+(782) # (0.0623283   0.062046) N
+(783) # (Warning in <TH1::Build>: Replacing existing histogram: tmp \(Potential memory lea) N
+0 T (k\).) N
+(784) # (IMAX = 10) N
+(785) # ( **********) N
+(786) # ( **    1 **SET ERR           1) N
+(787) # ( **********) N
+(788) # (vstart[2] = 0.1) N
+(789) # ( PARAMETER DEFINITIONS:) N
+(790) # (    NO.   NAME         VALUE      STEP SIZE      LIMITS) N
+(791) # (     1 Amplitude    5.00000e-01  1.00000e-01     no limits) N
+(792) # (     2 Delta M      2.70000e+01  1.00000e-03     no limits) N
+(793) # (     3 Bin Width    1.00000e-01  1.00000e-01     no limits) N
+(794) # ( **********) N
+(log.txt) (Page 13/15) (Mar 04, 05 15:56) title
+border
+/v 1 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(795) # ( **    2 **FIX           2           3) p n
+(796) # ( **********) N
+(797) # ( **********) N
+(798) # ( **    3 **CALL FCN           1) N
+(799) # ( **********) N
+(800) # (iflag  1) N
+(801) # (Inside fit 0.5  27  0.1) N
+(802) # ( FCN=364.484 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL) N
+(803) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(804) # (  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       ) N
+(805) # (  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  ) N
+(806) # (   1  Amplitude    5.00000e-01   1.00000e-01) N
+(807) # (   2  Delta M      2.70000e+01     fixed    ) N
+(808) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(809) # ( **********) N
+(810) # ( **    4 **MIGRAD        3000        0.01) N
+(811) # ( **********) N
+(812) # ( START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05) N
+(813) # (Inside fit 0.501  27  0.1) N
+(814) # (Inside fit 0.499  27  0.1) N
+(815) # (Inside fit 0.500242  27  0.1) N
+(816) # (Inside fit 0.499758  27  0.1) N
+(817) # ( FCN=364.484 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL) N
+(818) # (                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       ) N
+(819) # (  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   ) N
+(820) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(821) # (   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   1.35900e+03) N
+(822) # (   2  Delta M      2.70000e+01     fixed    ) N
+(823) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(824) # (Inside fit 0.0422574  27  0.1) N
+(825) # (Inside fit 0.0423509  27  0.1) N
+(826) # (Inside fit 0.0421639  27  0.1) N
+(827) # ( MIGRAD MINIMIZATION HAS CONVERGED.) N
+(828) # ( MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.) N
+(829) # (Inside fit 0.0422574  27  0.1) N
+(830) # (Inside fit 0.0423509  27  0.1) N
+(831) # (Inside fit 0.0421639  27  0.1) N
+(832) # (Inside fit 0.0422761  27  0.1) N
+(833) # (Inside fit 0.0422387  27  0.1) N
+(834) # ( COVARIANCE MATRIX CALCULATED SUCCESSFULLY) N
+(835) # ( FCN=53.4483 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL) N
+(836) # (                     EDM=4.11563e-15    STRATEGY= 1      ERROR MATRIX ACCURATE ) N
+(837) # (  EXT PARAMETER                                   STEP         FIRST   ) N
+(838) # (  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE ) N
+(839) # (   1  Amplitude    4.22574e-02   2.59547e-02   9.35144e-05   3.49556e-06) N
+(840) # (   2  Delta M      2.70000e+01     fixed    ) N
+(841) # (   3  Bin Width    1.00000e-01     fixed    ) N
+(842) # ( EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1) N
+(843) # (  6.736e-04 ) N
+(844) # ( **********) N
+(845) # ( **    5 **CALL FCN           3) N
+(846) # ( **********) N
+(847) # (iflag  3) N
+(848) # (Inside fit 0.0422574  27  0.1) N
+(849) # (dmLoop = 27  par0 = 0.0422574  err0 = 0.0259547) N
+(850) # (0.105644  0.0648868) N
+(851) # (0.105644   0.0648868) N
+(852) # (0  0  0  0) N
+(853) # (0.0779181  0.0220186  1  0) N
+(854) # (0.0584585  0.0237258  2  0) N
+(855) # (0.00164362  0.0252123  3  0) N
+(856) # (-0.0200963  0.0259069  4  0) N
+(log.txt) (Page 14/15) (Mar 04, 05 15:56) title
+border
+/v 2 store
+/x0 x v get 2.236111 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(857) # (0.0279461  0.0275944  5  0) p n
+(858) # (0.0880747  0.0286555  6  0) N
+(859) # (0.108646  0.0301769  7  0) N
+(860) # (0.0934338  0.0315934  8  0) N
+(861) # (0.0618469  0.0326535  9  0) N
+(log.txt) (Page 15/15) (Mar 04, 05 15:56) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+() (Friday March 04, 2005) (4/4) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF

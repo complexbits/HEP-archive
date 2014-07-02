@@ -1,0 +1,75 @@
+#!/bin/bash
+
+###################################################################
+# This script runs bb_prod from the current directory, and then:  #
+#       - moves the resulting .hbook file to ../output/hbook/     #
+#       - creates a .root file in ../output/root/                 #
+#       - writes .log's of all this in ../output/logs/            #
+#       - calculates running time for the whole event             #
+# Last modified: Sat Sep 20 01:23:07 CDT 2003                     #
+# Jamie Hegarty hegarty@nhn.ou.edu                                #
+###################################################################
+
+# Get the current date and time for file naming consistency
+export NOW=`date +%m%d%y-%H%M`
+
+# Here's the function that runs everything
+bb_prod_cmds(){
+
+    # Add a nice header with command-line notes :)
+    echo "******************************************************************************"
+    echo "** RUNNING PYTHIA BB PRODUCTION as `whoami` on `hostname`" 
+    echo "** "$@
+    echo "** Right now is:" `date`
+
+	# Get the start time
+	STARTS=`date +%s`
+
+    # Run the Simulation!
+    ./bb_prod 
+    echo "******************************************************************************"
+    echo "******************************************************************************"
+    # Move the output hbook file to a useful place with a meaninful name
+    echo " " 
+    echo `mv -v b_phys_nt.hbook $HOME/b_pythia/output/hbook/bb-nt-$NOW.hbook`
+    echo "  *** Done! Ntuple .hbook file written to: "
+    echo "  ***     "$HOME"/b_pythia/output/hbook/bb-nt-"$NOW".hbook." 
+    echo " " 
+    echo `mv -v b_phys_hs.hbook $HOME/b_pythia/output/hbook/bb-hs-$NOW.hbook`
+    echo "  *** Done! Histogram .hbook file written to: "
+    echo "  ***     "$HOME"/b_pythia/output/hbook/bb-hs-"$NOW".hbook."
+
+    # Copy the hbook file to a root file with a similar name
+    echo " " 
+    echo `h2root $HOME/b_pythia/output/hbook/bb-nt-$NOW.hbook $HOME/b_pythia/output/root/bb-nt-$NOW.root 1 1 8192 > $HOME/b_pythia/output/logs/bb-nt-$NOW-root.log`
+    echo "  *** Done! Ntuple .root file generated at: "
+    echo "  ***     "$HOME"/b_pythia/output/root/bb-nt-"$NOW".root"
+    echo "  *** Root log written to:"
+    echo "  ***     "$HOME"/b_pythia/output/logs/bb-nt-"$NOW"-root.log"
+
+    # Tell us where the logs went :)
+    echo " " 
+    echo "  *** Done! .log file written to: "
+    echo "  ***     "$HOME"/b_pythia/output/logs/bb-"$NOW".log." 
+
+	# Calculate the Total Running Time (for code optimization comparisons)
+	FINS=`date +%s`
+
+	RUNTMS=`expr $FINS - $STARTS`
+
+	RUNTMH=`expr $RUNTMS / 3600`
+	RUNTMS1=`expr $RUNTMS % 3600`
+	RUNTMM=`expr $RUNTMS1 / 60`
+	RUNTMSA=`expr $RUNTMS1 % 60`
+
+    # Get the Finished time and tell us the Total Run Time
+    echo "** FINISHED `date`"
+    echo "** Total Run Time:" $RUNTMH"h "$RUNTMM"m "$RUNTMSA"s "
+    echo "******************************************************************************" 
+    echo " " 
+}
+
+# Run the function defined above, and dump EVERYTHING into the aforementioned log file, and also to standard out
+bb_prod_cmds $@ | tee $HOME/b_pythia/output/logs/bb-$NOW.log
+
+exit 0

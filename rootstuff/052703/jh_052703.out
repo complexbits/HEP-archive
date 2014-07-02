@@ -1,0 +1,79 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   3.05/00  23 February 2003   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+FreeType Engine v1.x used to render TrueType fonts.
+Compiled for linuxkcc with thread support.
+
+CINT/ROOT C/C++ Interpreter version 5.15.70, Jan 4 2003
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+Info in <TUnixSystem::ACLiC>: creating shared library /misc/home/hegarty/root/052703/./jh_052703_C.so
+"/misc/home/hegarty/root/052703/./jh_052703.C", line 254: warning #177-D: 
+          variable "psiid" was declared but never referenced
+        int psiid = PSI_id[k];
+            ^
+
+"/misc/home/hegarty/root/052703/./jh_052703.C", line 286: warning #177-D: 
+          variable "mass" was declared but never referenced
+  	float mass = BPSIK_mass[j];
+  	      ^
+
+"/misc/home/hegarty/root/052703/./jh_052703.C", line 288: warning #177-D: 
+          variable "massc2" was declared but never referenced
+  	float massc2 = BPSIK_massc2[j];
+  	      ^
+
+"/misc/home/hegarty/root/052703/./jh_052703.C", line 298: warning #177-D: 
+          variable "flag" was declared but never referenced
+  	int flag =0;
+  	    ^
+
+"/misc/home/hegarty/root/052703/./jh_052703.C", line 247: warning #177-D: 
+          variable "iFound" was declared but never referenced
+      Int_t iFound = 0;
+            ^
+
+"/misc/home/hegarty/root/052703/./jh_052703.C", line 17: warning #177-D: 
+          variable "nBins" was declared but never referenced
+    int nBins = (maxMass - minMass)/div;   
+        ^
+
+Number of entries  298689
+Event #1000
+Event #2000
+Event #3000
+Event #4000
+Event #5000
+Event #6000
+Event #7000
+Event #8000
+Event #9000
+Event #10000
+Event #11000
+Event #12000
+Event #13000
+Event #14000
+Event #15000
+Event #16000
+Event #17000
+Event #18000
+Event #19000
+Event #20000
+Event #21000
+Event #22000
+Event #23000
+Event #24000
+Event #25000
+Event #26000
+Event #27000
+Event #28000
+Event #29000
+COMPLETE!

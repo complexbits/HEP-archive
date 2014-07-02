@@ -1,0 +1,2184 @@
+%!PS-Adobe-3.0
+%%Title: kanaD1.C, kana_v2.h, runKana.C, runRoot
+%%For: Jamie Hegarty
+%%Creator: a2ps version 4.13
+%%CreationDate: Thu Nov  3 14:34:41 2005
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 10
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Define these in case they're not in the FontInfo (also, here
+    % they're easier to get to.
+    /UnderlinePosition 1 def
+    /UnderlineThickness 1 def
+    
+    % Get the underline position and thickness if they're defined.
+    currentdict /FontInfo known {
+      FontInfo
+      
+      dup /UnderlinePosition known {
+	dup /UnderlinePosition get
+	0 exch FontMatrix transform exch pop
+	/UnderlinePosition exch def
+      } if
+      
+      dup /UnderlineThickness known {
+	/UnderlineThickness get
+	0 exch FontMatrix transform exch pop
+	/UnderlineThickness exch def
+      } if
+      
+    } if
+    currentdict 
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed string
+% Version 1.2 1/31/1990
+% Orignal Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 612 def
+/sw 792 def
+/llx 24 def
+/urx 768 def
+/ury 588 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 7.060185 def
+/cw 4.236111 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 86.400000 mul
+def
+/ph
+   520.335631 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 5 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1-2) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (// File is /raid/data/d0/bphysics/kmumu/output_ksmumu_set1.root) p n
+(2) # (#define kana_v2_cxx) N
+(3) # (#include "kana_v2.h") N
+(4) # (#include <TH2.h>) N
+(5) # (#include <TStyle.h>) N
+(6) # (#include <TCanvas.h>) N
+(7) # () N
+(8) # (void kana_v2::Loop\(\)) N
+(9) # ({) N
+(10) # (//   In a ROOT session, you can do:) N
+(11) # (//      Root > .L kanaD1.C) N
+(12) # (//      Root > kanaD1 t) N
+(13) # (//      Root > t.GetEntry\(12\); // Fill t data members with entry number 12) N
+(14) # (//      Root > t.Show\(\);       // Show values of entry 12) N
+(15) # (//      Root > t.Show\(16\);     // Read and show values of entry 16) N
+(16) # (//      Root > t.Loop\(\);       // Loop on all entries) N
+(17) # (//) N
+(18) # () N
+(19) # (//     This is the loop skeleton where:) N
+(20) # (//    jentry is the global entry number in the chain) N
+(21) # (//    ientry is the entry number in the current Tree) N
+(22) # (//  Note that the argument to GetEntry must be:) N
+(23) # (//    jentry for TChain::GetEntry) N
+(24) # (//    ientry for TTree::GetEntry and TBranch::GetEntry) N
+(25) # (//) N
+(26) # (//       To read only selected branches, Insert statements like:) N
+(27) # (// METHOD1:) N
+(28) # (//    fChain->SetBranchStatus\("*",0\);  // disable all branches) N
+(29) # (//    fChain->SetBranchStatus\("branchname",1\);  // activate branchname) N
+(30) # (// METHOD2: replace line) N
+(31) # (//    fChain->GetEntry\(jentry\);       //read all branches) N
+(32) # (//by  b_branchname->GetEntry\(ientry\); //read only this branch) N
+(33) # () N
+(34) # (TStopwatch timer;) N
+(35) # (  timer.Start\(\);) N
+(36) # () N
+(37) # () N
+(38) # () N
+(39) # (   if \(fChain == 0\) return;) N
+(40) # () N
+(41) # (   Long64_t nentries = fChain->GetEntriesFast\(\);) N
+(42) # (   cout << "Entries = " << nentries << endl;) N
+(43) # () N
+(44) # (   // Histograms) N
+(45) # () N
+(46) # (   // K0pipi branch) N
+(47) # (   TH1F *hpipiN = new TH1F\("hpipiN","Number of K0->pipi",10,0.,10.\);) N
+(48) # (   TH1F *hpipiM = new TH1F\("hpipiM","Mass pipi",100, 0.24,0.74\);) N
+(49) # (   TH1F *hpipiPx = new TH1F\("hpipiPx","K0 Px, K0->pipi",100, -10.,10.\);) N
+(50) # (   TH1F *hpipiPx1 = new TH1F\("hpipiPx1","K0 Px1, K0->pipi",100, -10.,10.\);) N
+(51) # (   TH1F *hpipiPx2 = new TH1F\("hpipiPx2","K0 Px2, K0->pipi",100, -10.,10.\);) N
+(52) # (   TH1F *hpipiPy = new TH1F\("hpipiPy","K0 Py, K0->pipi",100, -10.,10.\);) N
+(53) # (   TH1F *hpipiPy1 = new TH1F\("hpipiPy1","K0 Py1, K0->pipi",100, -10.,10.\);) N
+(54) # (   TH1F *hpipiPy2 = new TH1F\("hpipiPy2","K0 Py2, K0->pipi",100, -10.,10.\);) N
+(55) # (   TH1F *hpipiPz = new TH1F\("hpipiPz","K0 Pz, K0->pipi",100, -10.,10.\);) N
+(56) # (   TH1F *hpipiPz1 = new TH1F\("hpipiPz1","K0 Pz1, K0->pipi",100, -10.,10.\);) N
+(57) # (   TH1F *hpipiPz2 = new TH1F\("hpipiPz2","K0 Pz2, K0->pipi",100, -10.,10.\);) N
+(58) # (   TH1F *hpipiPt = new TH1F\("hpipiPt","K0 Pt, K0->pipi",100, 0.,.\);) N
+(59) # (   TH1F *hpipiPt1 = new TH1F\("hpipiPt1","K0 Pt1, K0->pipi",100, 0.,15.\);) N
+(60) # (   TH1F *hpipiPt2 = new TH1F\("hpipiPt2","K0 Pt2, K0->pipi",100, 0.,15.\);) N
+(61) # (   TH1F *hpipiE = new TH1F\("hpipiE","K0 Eta, K0->pipi",100, -5.,5.\);) N
+(62) # (   TH1F *hpipiE1 = new TH1F\("hpipiE1","K0 Eta1, K0->pipi",100, -5.,5.\);) N
+(63) # (   TH1F *hpipiE2 = new TH1F\("hpipiE2","K0 Eta2, K0->pipi",100, -5.,5.\);) N
+(64) # (   TH1F *hpipiV = new TH1F\("hpipiV","K0 Vxy, K0->pipi",100, 0.,0.01\);) N
+(65) # (   TH1F *hpipiD = new TH1F\("hpipiD","K0 Dxy, K0->pipi",100, 0.,0.1\);) N
+(66) # (   TH1F *hpipiPid = new TH1F\("hpipiPid", "Pi ID, K0->pipi", 20., 0., 20.\);) N
+(67) # (   TH1F *hpipichi2 = new TH1F\("hpipichi2","Chi2, K0->pipi",100,0.,30.\);) N
+(68) # (   TH1F *hpipiSMT1 = new TH1F\("hpipiSMT1","SMT1, K0->pipi",20,0.,20.\);) N
+(69) # (   TH1F *hpipiSMT2 = new TH1F\("hpipiSMT2","SMT2, K0->pipi",20,0.,20.\);) N
+(70) # (   TH1F *hpipiCFT1 = new TH1F\("hpipiCFT1","CFT1, K0->pipi",20,0.,20.\);) N
+(71) # (   TH1F *hpipiCFT2 = new TH1F\("hpipiCFT2","CFT2, K0->pipi",20,0.,20.\);) N
+(72) # () N
+(73) # (   //K0mumu branch) N
+(kanaD1.C) (Page 1/10) (Nov 03, 05 14:22) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (   TH1F *hmumuN = new TH1F\("hmumuN","Number of K0->mumu",10,0.,10.\);) p n
+(75) # (   TH1F *hmumu1 = new TH1F\("hmumu1","k0mu1, K0->mumu",10,0.,10.\);) N
+(76) # (   TH1F *hmumu2 = new TH1F\("hmumu2","k0mu2, K0->mumu",10,0.,10.\);) N
+(77) # (   TH1F *hmumuM = new TH1F\("hmumuM","Mass mumu",100, 0.,0.74\);) N
+(78) # (   TH1F *hmumuPx = new TH1F\("hmumuPx","K0 Px, K0->mumu",100, -10.,10.\);) N
+(79) # (   TH1F *hmumuPx1 = new TH1F\("hmumuPx1","K0 Px1, K0->mumu",100, -10.,10.\);) N
+(80) # (   TH1F *hmumuPx2 = new TH1F\("hmumuPx2","K0 Px2, K0->mumu",100, -10.,10.\);) N
+(81) # (   TH1F *hmumuPy = new TH1F\("hmumuPy","K0 Py, K0->mumu",100, -10.,10.\);) N
+(82) # (   TH1F *hmumuPy1 = new TH1F\("hmumuPy1","K0 Py1, K0->mumu",100, -10.,10.\);) N
+(83) # (   TH1F *hmumuPy2 = new TH1F\("hmumuPy2","K0 Py2, K0->mumu",100, -10.,10.\);) N
+(84) # (   TH1F *hmumuPz = new TH1F\("hmumuPz","K0 Pz, K0->mumu",100, -10.,10.\);) N
+(85) # (   TH1F *hmumuPz1 = new TH1F\("hmumuPz1","K0 Pz1, K0->mumu",100, -10.,10.\);) N
+(86) # (   TH1F *hmumuPz2 = new TH1F\("hmumuPz2","K0 Pz2, K0->mumu",100, -10.,10.\);) N
+(87) # (   TH1F *hmumuPt = new TH1F\("hmumuPt","K0 Pt, K0->mumu",100, 0.,15.\);) N
+(88) # (   TH1F *hmumuPt1 = new TH1F\("hmumuPt1","K0 Pt1, K0->mumu",100, 0.,15.\);) N
+(89) # (   TH1F *hmumuPt2 = new TH1F\("hmumuPt2","K0 Pt2, K0->mumu",100, 0.,15.\);) N
+(90) # (   TH1F *hmumuE = new TH1F\("hmumuE","K0 Eta, K0->mumu",100, -5.,5.\);) N
+(91) # (   TH1F *hmumuE1 = new TH1F\("hmumuE1","K0 Eta1, K0->mumu",100, -5.,5.\);) N
+(92) # (   TH1F *hmumuE2 = new TH1F\("hmumuE2","K0 Eta2, K0->mumu",100, -5.,5.\);) N
+(93) # (   TH1F *hmumuV = new TH1F\("hmumuV","K0 Vxy, K0->mumu",100, 0.,0.01\);) N
+(94) # (   TH1F *hmumuD = new TH1F\("hmumuD","K0 Dxy, K0->mumu",100, 0.,0.1\);) N
+(95) # (   TH1F *hmumuMid = new TH1F\("hmumuMid", "Mu ID, K0->mumu", 20., 0., 20.\);) N
+(96) # (   TH1F *hmumuchi2 = new TH1F\("hmumuchi2","Chi2, K0->mumu",100,0.,30.\);) N
+(97) # (   TH1F *hmumuSMT1 = new TH1F\("hmumuSMT1","SMT1, K0->mumu",20,0.,20.\);) N
+(98) # (   TH1F *hmumuSMT2 = new TH1F\("hmumuSMT2","SMT2, K0->mumu",20,0.,20.\);) N
+(99) # (   TH1F *hmumuCFT1 = new TH1F\("hmumuCFT1","CFT1, K0->mumu",20,0.,20.\);) N
+(100) # (   TH1F *hmumuCFT2 = new TH1F\("hmumuCFT2","CFT2, K0->mumu",20,0.,20.\);) N
+(101) # () N
+(102) # () N
+(103) # (   //K0pimu branch) N
+(104) # (   TH1F *hpimuN = new TH1F\("hpimuN","Number of K0->pimu",10,0.,10.\);) N
+(105) # (   TH1F *hpimu1 = new TH1F\("hpimu1","k0pmu1, K0->mumu",10,0.,10.\);) N
+(106) # (   TH1F *hpimu2 = new TH1F\("hpimu2","k0pmu2, K0->mumu",10,0.,10.\);) N
+(107) # (   TH1F *hpimuPM = new TH1F\("hpimuPM","Mass pimuPM",100, 0.,1.\);) N
+(108) # (   TH1F *hpimuMP = new TH1F\("hpimuMP","Mass pimuMP",100, 0.,1.\);) N
+(109) # (   TH1F *hpimuPx = new TH1F\("hpimuPx","K0 Px, K0->pimu",100, -10.,10.\);) N
+(110) # (   TH1F *hpimuPx1 = new TH1F\("hpimuPx1","K0 Px1, K0->pimu",100, -10.,10.\);) N
+(111) # (   TH1F *hpimuPx2 = new TH1F\("hpimuPx2","K0 Px2, K0->pimu",100, -10.,10.\);) N
+(112) # (   TH1F *hpimuPy = new TH1F\("hpimuPy","K0 Py, K0->pimu",100, -10.,10.\);) N
+(113) # (   TH1F *hpimuPy1 = new TH1F\("hpimuPy1","K0 Py1, K0->pimu",100, -10.,10.\);) N
+(114) # (   TH1F *hpimuPy2 = new TH1F\("hpimuPy2","K0 Py2, K0->pimu",100, -10.,10.\);) N
+(115) # (   TH1F *hpimuPz = new TH1F\("hpimuPz","K0 Pz, K0->pimu",100, -10.,10.\);) N
+(116) # (   TH1F *hpimuPz1 = new TH1F\("hpimuPz1","K0 Pz1, K0->pimu",100, -10.,10.\);) N
+(117) # (   TH1F *hpimuPz2 = new TH1F\("hpimuPz2","K0 Pz2, K0->pimu",100, -10.,10.\);) N
+(118) # (   TH1F *hpimuPt = new TH1F\("hpimuPt","K0 Pt, K0->pimu",100, 0.,15.\);) N
+(119) # (   TH1F *hpimuPt1 = new TH1F\("hpimuPt1","K0 Pt1, K0->pimu",100, 0.,15.\);) N
+(120) # (   TH1F *hpimuPt2 = new TH1F\("hpimuPt2","K0 Pt2, K0->pimu",100, 0.,15.\);) N
+(121) # (   TH1F *hpimuE = new TH1F\("hpimuE","K0 Eta, K0->pimu",100, -5.,5.\);) N
+(122) # (   TH1F *hpimuE1 = new TH1F\("hpimuE1","K0 Eta1, K0->pimu",100, -5.,5.\);) N
+(123) # (   TH1F *hpimuE2 = new TH1F\("hpimuE2","K0 Eta2, K0->pimu",100, -5.,5.\);) N
+(124) # (   TH1F *hpimuV = new TH1F\("hpimuV","K0 Vxy, K0->pimu",100, 0.,0.01\);) N
+(125) # (   TH1F *hpimuD = new TH1F\("hpimuD","K0 Dxy, K0->pimu",100, 0.,0.01\);) N
+(126) # (   TH1F *hpimuPMid = new TH1F\("hpimuPMid", "PiMu ID, K0->pimu", 20., 0., 20.\);) N
+(127) # (   TH1F *hpimuchi2 = new TH1F\("hpimuchi2","Chi2, K0->pimu",100,0.,30.\);) N
+(128) # (   TH1F *hpimuSMT1 = new TH1F\("hpimuSMT1","SMT1, K0->pimu",20,0.,20.\);) N
+(129) # (   TH1F *hpimuSMT2 = new TH1F\("hpimuSMT2","SMT2, K0->pimu",20,0.,20.\);) N
+(130) # (   TH1F *hpimuCFT1 = new TH1F\("hpimuCFT1","CFT1, K0->pimu",20,0.,20.\);) N
+(131) # (   TH1F *hpimuCFT2 = new TH1F\("hpimuCFT2","CFT2, K0->pimu",20,0.,20.\);) N
+(132) # () N
+(133) # () N
+(134) # (   //K0dimu branch) N
+(135) # (   TH1F *hdimuN = new TH1F\("hdimuN","Number of K0->dimu",10,0.,10.\);) N
+(136) # (   TH1F *hdimu1 = new TH1F\("hdimu1","k0dmu1, K0->mumu",10,0.,10.\);) N
+(137) # (   TH1F *hdimu2 = new TH1F\("hdimu2","k0dmu2, K0->mumu",10,0.,10.\);) N
+(138) # (   TH1F *hdimuM = new TH1F\("hdimuM","Mass dimu",100, 0.,1.\);) N
+(139) # (   TH1F *hdimuPx = new TH1F\("hdimuPx","K0 Px, K0->dimu",100, -10.,10.\);) N
+(140) # (   TH1F *hdimuPx1 = new TH1F\("hdimuPx1","K0 Px1, K0->dimu",100, -10.,10.\);) N
+(141) # (   TH1F *hdimuPx2 = new TH1F\("hdimuPx2","K0 Px2, K0->dimu",100, -10.,10.\);) N
+(142) # (   TH1F *hdimuPy = new TH1F\("hdimuPy","K0 Py, K0->dimu",100, -10.,10.\);) N
+(143) # (   TH1F *hdimuPy1 = new TH1F\("hdimuPy1","K0 Py1, K0->dimu",100, -10.,10.\);) N
+(144) # (   TH1F *hdimuPy2 = new TH1F\("hdimuPy2","K0 Py2, K0->dimu",100, -10.,10.\);) N
+(145) # (   TH1F *hdimuPz = new TH1F\("hdimuPz","K0 Pz, K0->dimu",100, -10.,10.\);) N
+(146) # (   TH1F *hdimuPz1 = new TH1F\("hdimuPz1","K0 Pz1, K0->dimu",100, -10.,10.\);) N
+(kanaD1.C) (Page 2/10) (Nov 03, 05 14:22) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(kanaD1.C) (1/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(147) # (   TH1F *hdimuPz2 = new TH1F\("hdimuPz2","K0 Pz2, K0->dimu",100, -10.,10.\);) p n
+(148) # (   TH1F *hdimuPt = new TH1F\("hdimuPt","K0 Pt, K0->dimu",100, 0.,15.\);) N
+(149) # (   TH1F *hdimuPt1 = new TH1F\("hdimuPt1","K0 Pt1, K0->dimu",100, 0.,15.\);) N
+(150) # (   TH1F *hdimuPt2 = new TH1F\("hdimuPt2","K0 Pt2, K0->dimu",100, 0.,15.\);) N
+(151) # (   TH1F *hdimuE = new TH1F\("hdimuE","K0 Eta, K0->dimu",100, -5.,5.\);) N
+(152) # (   TH1F *hdimuE1 = new TH1F\("hdimuE1","K0 Eta1, K0->dimu",100, -5.,5.\);) N
+(153) # (   TH1F *hdimuE2 = new TH1F\("hdimuE2","K0 Eta2, K0->dimu",100, -5.,5.\);) N
+(154) # (   TH1F *hdimuV = new TH1F\("hdimuV","K0 Vxy, K0->dimu",100, 0.,0.01\);) N
+(155) # (   TH1F *hdimuD = new TH1F\("hdimuD","K0 Dxy, K0->dimu",100, 0.,0.1\);) N
+(156) # (   TH1F *hdimuMid = new TH1F\("hdimuMid", "Mu ID, K0->dimu", 20., 0., 20.\);) N
+(157) # (   TH1F *hdimuchi2 = new TH1F\("hdimuchi2","Chi2, K0->dimu",100,0.,30.\);) N
+(158) # (   TH1F *hdimuSMT1 = new TH1F\("hdimuSMT1","SMT1, K0->dimu",20,0.,20.\);) N
+(159) # (   TH1F *hdimuSMT2 = new TH1F\("hdimuSMT2","SMT2, K0->dimu",20,0.,20.\);) N
+(160) # (   TH1F *hdimuCFT1 = new TH1F\("hdimuCFT1","CFT1, K0->dimu",20,0.,20.\);) N
+(161) # (   TH1F *hdimuCFT2 = new TH1F\("hdimuCFT2","CFT2, K0->dimu",20,0.,20.\);) N
+(162) # () N
+(163) # () N
+(164) # (   //K0dpimu branch) N
+(165) # () N
+(166) # (   TH1F *hdpimuN = new TH1F\("hdpimuN","Number of K0->dpimu",10,0.,10.\);) N
+(167) # (   TH1F *hdpimu1 = new TH1F\("hdpimu1","k0dpmm1, K0->mumu",10,0.,10.\);) N
+(168) # (   TH1F *hdpimu2 = new TH1F\("hdpimu2","k0dpmm2, K0->mumu",10,0.,10.\);) N
+(169) # (   TH1F *hdpimuPM = new TH1F\("hdpimuPM","Mass dpimuPM",100, 0.,1.\);) N
+(170) # (   TH1F *hdpimuMP = new TH1F\("hdpimuMP","Mass dpimuMP",100, 0.,1.\);) N
+(171) # (   TH1F *hdpimuPx = new TH1F\("hdpimuPx","K0 Px, K0->dpimu",100, -10.,10.\);) N
+(172) # (   TH1F *hdpimuPx1 = new TH1F\("hdpimuPx1","K0 Px1, K0->dpimu",100, -10.,10.\);) N
+(173) # (   TH1F *hdpimuPx2 = new TH1F\("hdpimuPx2","K0 Px2, K0->dpimu",100, -10.,10.\);) N
+(174) # (   TH1F *hdpimuPy = new TH1F\("hdpimuPy","K0 Py, K0->dpimu",100, -10.,10.\);) N
+(175) # (   TH1F *hdpimuPy1 = new TH1F\("hdpimuPy1","K0 Py1, K0->dpimu",100, -10.,10.\);) N
+(176) # (   TH1F *hdpimuPy2 = new TH1F\("hdpimuPy2","K0 Py2, K0->dpimu",100, -10.,10.\);) N
+(177) # (   TH1F *hdpimuPz = new TH1F\("hdpimuPz","K0 Pz, K0->dpimu",100, -10.,10.\);) N
+(178) # (   TH1F *hdpimuPz1 = new TH1F\("hdpimuPz1","K0 Pz1, K0->dpimu",100, -10.,10.\);) N
+(179) # (   TH1F *hdpimuPz2 = new TH1F\("hdpimuPz2","K0 Pz2, K0->dpimu",100, -10.,10.\);) N
+(180) # (   TH1F *hdpimuPt = new TH1F\("hdpimuPt","K0 Pt, K0->dpimu",100, 0.,15.\);) N
+(181) # (   TH1F *hdpimuPt1 = new TH1F\("hdpimuPt1","K0 Pt1, K0->dpimu",100, 0.,15.\);) N
+(182) # (   TH1F *hdpimuPt2 = new TH1F\("hdpimuPt2","K0 Pt2, K0->dpimu",100, 0.,15.\);) N
+(183) # (   TH1F *hdpimuE = new TH1F\("hdpimuE","K0 Eta, K0->dpimu",100, -5.,5.\);) N
+(184) # (   TH1F *hdpimuE1 = new TH1F\("hdpimuE1","K0 Eta1, K0->dpimu",100, -5.,5.\);) N
+(185) # (   TH1F *hdpimuE2 = new TH1F\("hdpimuE2","K0 Eta2, K0->dpimu",100, -5.,5.\);) N
+(186) # (   TH1F *hdpimuV = new TH1F\("hdpimuV","K0 Vxy, K0->dpimu",100, 0.,0.01\);) N
+(187) # (   TH1F *hdpimuD = new TH1F\("hdpimuD","K0 Dxy, K0->dpimu",100, 0.,0.01\);) N
+(188) # (   TH1F *hdpimuPMid = new TH1F\("hdpimuPMid", "Dpimu ID, K0->dpimu", 50., 0., 50.) N
+0 T (\);) N
+(189) # (   TH1F *hdpimuchi2 = new TH1F\("hdpimuchi2","Chi2, K0->dpimu",100,0.,30.\);) N
+(190) # (   TH1F *hdpimuSMT1 = new TH1F\("hdpimuSMT1","SMT1, K0->dpimu",20,0.,20.\);) N
+(191) # (   TH1F *hdpimuSMT2 = new TH1F\("hdpimuSMT2","SMT2, K0->dpimu",20,0.,20.\);) N
+(192) # (   TH1F *hdpimuCFT1 = new TH1F\("hdpimuCFT1","CFT1, K0->dpimu",20,0.,20.\);) N
+(193) # (   TH1F *hdpimuCFT2 = new TH1F\("hdpimuCFT2","CFT2, K0->dpimu",20,0.,20.\);) N
+(194) # () N
+(195) # () N
+(196) # (   TH1F *htrigc = new TH1F\("htrigc","Number of Triggers Fired",10,0.,10.\);) N
+(197) # (   TH1F *htrigw = new TH1F\("htrigw","Frequncy Triggers Fired",32,0.,32.\);) N
+(198) # () N
+(199) # (   Int_t nbytes = 0, nb = 0;) N
+(200) # (   cout << "Number of entries = " << nentries << endl;) N
+(201) # (   // for \(Long64_t jentry=0; jentry<1000;jentry++\) {) N
+(202) # (   for \(Long64_t jentry=0; jentry<nentries;jentry++\) {) N
+(203) # (      Long64_t ientry = LoadTree\(jentry\);) N
+(204) # (      if \(ientry < 0\) break;) N
+(205) # (      nb = fChain->GetEntry\(jentry\);   nbytes += nb;) N
+(206) # (      // if \(Cut\(ientry\) < 0\) continue;) N
+(207) # () N
+(208) # (      // Trigger info ************************************) N
+(209) # (      Int_t tCount = 0;) N
+(210) # (      for \(Int_t iTrig=0; iTrig<500; iTrig++\){) N
+(211) # () S 8 T (if \(Info_trig[iTrig] == 1\){) N
+(212) # () S 8 T (  tCount++;) N
+(213) # () S 8 T (  htrigw->Fill\(iTrig\);) N
+(214) # () S 8 T (  //cout << iTrig << "  " << Info_trig[iTrig] << endl;) N
+(215) # () S 8 T (}) N
+(216) # () S 8 T (//if \(iTrig > 32 && Info_trig[iTrig] == 1 && iTrig != 498\){) N
+(217) # () S 8 T (if \(iTrig > 32 && Info_trig[iTrig] == 1\){) N
+(218) # () S 8 T (  cout << "Trigger Problem " ) N
+(kanaD1.C) (Page 3/10) (Nov 03, 05 14:22) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(219) # () p 8 T (       << ientry << "  " << iTrig << "  " ) N
+(220) # () S 8 T (       <<Info_trig[iTrig] << endl;) N
+(221) # () S 8 T (}) N
+(222) # (      }) N
+(223) # (      //cout << "Trig fired = " << tCount << endl << endl;) N
+(224) # (      htrigc->Fill\(tCount\);) N
+(225) # (      // End trigger info ********************************) N
+(226) # () N
+(227) # (      hpipiN->Fill\(K0pipi_k0pnum\);) N
+(228) # (      hmumuN->Fill\(K0mumu_k0mnum\);) N
+(229) # (      hpimuN->Fill\(K0pimu_k0pmnum\);) N
+(230) # (      hdimuN->Fill\(K0dimu_k0dmnum\);) N
+(231) # (      hdpimuN->Fill\(K0dpimu_k0dpmnum\);) N
+(232) # () N
+(233) # () N
+(234) # (      Int_t k0pipi = K0pipi_k0pnum;) N
+(235) # (      if \(k0pipi > 50\) k0pipi = 50;) N
+(236) # () N
+(237) # (      Int_t k0mumu = K0mumu_k0mnum;) N
+(238) # (      if \(k0mumu > 50\) k0mumu = 50;) N
+(239) # () N
+(240) # (      Int_t k0pimu = K0pimu_k0pmnum;) N
+(241) # (      if \(k0pimu > 50\) k0pimu = 50;) N
+(242) # () N
+(243) # (      Int_t k0dimu = K0dimu_k0dmnum;) N
+(244) # (      if \(k0dimu > 50\) k0dimu = 50;) N
+(245) # () N
+(246) # (      Int_t k0dpimu = K0dpimu_k0dpmnum;) N
+(247) # () N
+(248) # (      // Loop over K0's) N
+(249) # (      Int_t max1 = TMath::Max\(k0pipi,k0pimu\);) N
+(250) # (      Int_t max2 = TMath::Max\(k0dimu,k0dpimu\);) N
+(251) # (      Int_t max3 = TMath::Max\(max1, max2\);) N
+(252) # (      Int_t mLoop = TMath::Max\(max3,k0mumu\);) N
+(253) # () N
+(254) # () N
+(255) # (      for \(Int_t iLoop=0; iLoop<mLoop; iLoop++\){) N
+(256) # () N
+(257) # () N
+(258) # () S 8 T (if \(k0pipi>iLoop\){) N
+(259) # () S 8 T (  //cout <<jentry << "   " << mLoop <<"   " ) N
+(260) # () S 8 T (  //     << iLoop << "   " << K0pipi_k0pMass[iLoop] << endl;) N
+(261) # () S 8 T (  hpipiM->Fill\(K0pipi_k0pMass[iLoop]\);) N
+(262) # () S 8 T (  hpipiPx->Fill\(K0pipi_k0pPx[iLoop]\);) N
+(263) # () S 8 T (  hpipiPx1->Fill\(K0pipi_k0pPx1[iLoop]\);) N
+(264) # () S 8 T (  hpipiPx2->Fill\(K0pipi_k0pPx2[iLoop]\);) N
+(265) # () S 8 T (  hpipiPy->Fill\(K0pipi_k0pPy[iLoop]\);) N
+(266) # () S 8 T (  hpipiPy1->Fill\(K0pipi_k0pPy1[iLoop]\);) N
+(267) # () S 8 T (  hpipiPy2->Fill\(K0pipi_k0pPy2[iLoop]\);) N
+(268) # () S 8 T (  hpipiPz->Fill\(K0pipi_k0pPz[iLoop]\);) N
+(269) # () S 8 T (  hpipiPz1->Fill\(K0pipi_k0pPz1[iLoop]\);) N
+(270) # () S 8 T (  hpipiPz2->Fill\(K0pipi_k0pPz2[iLoop]\);) N
+(271) # () S 8 T (  hpipiPt->Fill\(K0pipi_k0pPt[iLoop]\);) N
+(272) # () S 8 T (  hpipiPt1->Fill\(K0pipi_k0pPt1[iLoop]\);) N
+(273) # () S 8 T (  hpipiPt2->Fill\(K0pipi_k0pPt2[iLoop]\);) N
+(274) # () S 8 T (  hpipiE->Fill\(K0pipi_k0pEta[iLoop]\);) N
+(275) # () S 8 T (  hpipiE1->Fill\(K0pipi_k0pEta1[iLoop]\);) N
+(276) # () S 8 T (  hpipiE2->Fill\(K0pipi_k0pEta2[iLoop]\);) N
+(277) # () S 8 T (  hpipiV->Fill\(K0pipi_k0pvxy[iLoop]\);) N
+(278) # () S 8 T (  hpipiD->Fill\(K0pipi_k0pdxy[iLoop]\);) N
+(279) # () S 8 T (  hpipiPid->Fill\(K0pipi_k0pid[iLoop]\);) N
+(280) # () S 8 T (  hpipichi2->Fill\(K0pipi_k0pchi2[iLoop]\);) N
+(281) # () S 8 T (  hpipiSMT1->Fill\(K0pipi_k0pSMT1[iLoop]\);) N
+(282) # () S 8 T (  hpipiSMT2->Fill\(K0pipi_k0pSMT2[iLoop]\);) N
+(283) # () S 8 T (  hpipiCFT1->Fill\(K0pipi_k0pCFT1[iLoop]\);) N
+(284) # () S 8 T (  hpipiCFT2->Fill\(K0pipi_k0pCFT2[iLoop]\);) N
+(285) # () S 8 T (}) N
+(286) # () N
+(287) # () N
+(288) # () N
+(289) # () S 8 T (if \(k0mumu>iLoop\){) N
+(290) # () S 8 T (  hmumu1->Fill\(K0mumu_k0mu1[iLoop]\);) N
+(291) # () S 8 T (  hmumu2->Fill\(K0mumu_k0mu2[iLoop]\);) N
+(kanaD1.C) (Page 4/10) (Nov 03, 05 14:22) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(kanaD1.C) (2/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5-6) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(292) # () p 8 T (  hmumuM->Fill\(K0mumu_k0mMass[iLoop]\);) N
+(293) # () S 8 T (  hmumuPx->Fill\(K0mumu_k0mPx[iLoop]\);) N
+(294) # () S 8 T (  hmumuPx1->Fill\(K0mumu_k0mPx1[iLoop]\);) N
+(295) # () S 8 T (  hmumuPx2->Fill\(K0mumu_k0mPx2[iLoop]\);) N
+(296) # () S 8 T (  hmumuPy->Fill\(K0mumu_k0mPy[iLoop]\);) N
+(297) # () S 8 T (  hmumuPy1->Fill\(K0mumu_k0mPy1[iLoop]\);) N
+(298) # () S 8 T (  hmumuPy2->Fill\(K0mumu_k0mPy2[iLoop]\);) N
+(299) # () S 8 T (  hmumuPz->Fill\(K0mumu_k0mPz[iLoop]\);) N
+(300) # () S 8 T (  hmumuPz1->Fill\(K0mumu_k0mPz1[iLoop]\);) N
+(301) # () S 8 T (  hmumuPz2->Fill\(K0mumu_k0mPz2[iLoop]\);) N
+(302) # () S 8 T (  hmumuPt->Fill\(K0mumu_k0mPt[iLoop]\);) N
+(303) # () S 8 T (  hmumuPt1->Fill\(K0mumu_k0mPt1[iLoop]\);) N
+(304) # () S 8 T (  hmumuPt2->Fill\(K0mumu_k0mPt2[iLoop]\);) N
+(305) # () S 8 T (  hmumuE->Fill\(K0mumu_k0mEta[iLoop]\);) N
+(306) # () S 8 T (  hmumuE1->Fill\(K0mumu_k0mEta1[iLoop]\);) N
+(307) # () S 8 T (  hmumuE2->Fill\(K0mumu_k0mEta2[iLoop]\);) N
+(308) # () S 8 T (  hmumuV->Fill\(K0mumu_k0mvxy[iLoop]\);) N
+(309) # () S 8 T (  hmumuD->Fill\(K0mumu_k0mdxy[iLoop]\);) N
+(310) # () S 8 T (  hmumuMid->Fill\(K0mumu_k0mid[iLoop]\);) N
+(311) # () S 8 T (  hmumuchi2->Fill\(K0mumu_k0mchi2[iLoop]\);) N
+(312) # () S 8 T (  hmumuSMT1->Fill\(K0mumu_k0mSMT1[iLoop]\);) N
+(313) # () S 8 T (  hmumuSMT2->Fill\(K0mumu_k0mSMT2[iLoop]\);) N
+(314) # () S 8 T (  hmumuCFT1->Fill\(K0mumu_k0mCFT1[iLoop]\);) N
+(315) # () S 8 T (  hmumuCFT2->Fill\(K0mumu_k0mCFT2[iLoop]\);) N
+(316) # () S 8 T (}) N
+(317) # () N
+(318) # () N
+(319) # () N
+(320) # () S 8 T (if \(k0pimu>iLoop\){) N
+(321) # () S 8 T (  hpimu1->Fill\(K0pimu_k0pmu1[iLoop]\);) N
+(322) # () S 8 T (  hpimu2->Fill\(K0pimu_k0pmu2[iLoop]\);) N
+(323) # () S 8 T (  hpimuPM->Fill\(K0pimu_k0pmMasspm[iLoop]\);) N
+(324) # () S 8 T (  hpimuMP->Fill\(K0pimu_k0pmMassmp[iLoop]\);) N
+(325) # () S 8 T (  hpimuPx->Fill\(K0pimu_k0pmPx[iLoop]\);) N
+(326) # () S 8 T (  hpimuPx1->Fill\(K0pimu_k0pmPx1[iLoop]\);) N
+(327) # () S 8 T (  hpimuPx2->Fill\(K0pimu_k0pmPx2[iLoop]\);) N
+(328) # () S 8 T (  hpimuPy->Fill\(K0pimu_k0pmPy[iLoop]\);) N
+(329) # () S 8 T (  hpimuPy1->Fill\(K0pimu_k0pmPy1[iLoop]\);) N
+(330) # () S 8 T (  hpimuPy2->Fill\(K0pimu_k0pmPy2[iLoop]\);) N
+(331) # () S 8 T (  hpimuPz->Fill\(K0pimu_k0pmPz[iLoop]\);) N
+(332) # () S 8 T (  hpimuPz1->Fill\(K0pimu_k0pmPz1[iLoop]\);) N
+(333) # () S 8 T (  hpimuPz2->Fill\(K0pimu_k0pmPz2[iLoop]\);) N
+(334) # () S 8 T (  hpimuPt->Fill\(K0pimu_k0pmPt[iLoop]\);) N
+(335) # () S 8 T (  hpimuPt1->Fill\(K0pimu_k0pmPt1[iLoop]\);) N
+(336) # () S 8 T (  hpimuPt2->Fill\(K0pimu_k0pmPt2[iLoop]\);) N
+(337) # () S 8 T (  hpimuE->Fill\(K0pimu_k0pmEta[iLoop]\);) N
+(338) # () S 8 T (  hpimuE1->Fill\(K0pimu_k0pmEta1[iLoop]\);) N
+(339) # () S 8 T (  hpimuE2->Fill\(K0pimu_k0pmEta2[iLoop]\);) N
+(340) # () S 8 T (  hpimuV->Fill\(K0pimu_k0pmvxy[iLoop]\);) N
+(341) # () S 8 T (  hpimuD->Fill\(K0pimu_k0pmdxy[iLoop]\);) N
+(342) # () S 8 T (  hpimuPMid->Fill\(K0pimu_k0pmid[iLoop]\);) N
+(343) # () S 8 T (  hpimuchi2->Fill\(K0pimu_k0pmchi2[iLoop]\);) N
+(344) # () S 8 T (  hpimuSMT1->Fill\(K0pimu_k0pmSMT1[iLoop]\);) N
+(345) # () S 8 T (  hpimuSMT2->Fill\(K0pimu_k0pmSMT2[iLoop]\);) N
+(346) # () S 8 T (  hpimuCFT1->Fill\(K0pimu_k0pmCFT1[iLoop]\);) N
+(347) # () S 8 T (  hpimuCFT2->Fill\(K0pimu_k0pmCFT2[iLoop]\);) N
+(348) # () N
+(349) # () S 8 T (}) N
+(350) # () N
+(351) # () N
+(352) # () N
+(353) # () S 8 T (if \(k0dimu>iLoop\){) N
+(354) # () S 8 T (  hdimu1->Fill\(K0dimu_k0dmu1[iLoop]\);) N
+(355) # () S 8 T (  hdimu2->Fill\(K0dimu_k0dmu2[iLoop]\);) N
+(356) # () S 8 T (  hdimuM->Fill\(K0dimu_k0dmMass[iLoop]\);) N
+(357) # () S 8 T (  hdimuPx->Fill\(K0dimu_k0dmPx[iLoop]\);) N
+(358) # () S 8 T (  hdimuPx1->Fill\(K0dimu_k0dmPx1[iLoop]\);) N
+(359) # () S 8 T (  hdimuPx2->Fill\(K0dimu_k0dmPx2[iLoop]\);) N
+(360) # () S 8 T (  hdimuPy->Fill\(K0dimu_k0dmPy[iLoop]\);) N
+(361) # () S 8 T (  hdimuPy1->Fill\(K0dimu_k0dmPy1[iLoop]\);) N
+(362) # () S 8 T (  hdimuPy2->Fill\(K0dimu_k0dmPy2[iLoop]\);) N
+(363) # () S 8 T (  hdimuPz->Fill\(K0dimu_k0dmPz[iLoop]\);) N
+(364) # () S 8 T (  hdimuPz1->Fill\(K0dimu_k0dmPz1[iLoop]\);) N
+(kanaD1.C) (Page 5/10) (Nov 03, 05 14:22) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(365) # () p 8 T (  hdimuPz2->Fill\(K0dimu_k0dmPz2[iLoop]\);) N
+(366) # () S 8 T (  hdimuPt->Fill\(K0dimu_k0dmPt[iLoop]\);) N
+(367) # () S 8 T (  hdimuPt1->Fill\(K0dimu_k0dmPt1[iLoop]\);) N
+(368) # () S 8 T (  hdimuPt2->Fill\(K0dimu_k0dmPt2[iLoop]\);) N
+(369) # () S 8 T (  hdimuE->Fill\(K0dimu_k0dmEta[iLoop]\);) N
+(370) # () S 8 T (  hdimuE1->Fill\(K0dimu_k0dmEta1[iLoop]\);) N
+(371) # () S 8 T (  hdimuE2->Fill\(K0dimu_k0dmEta2[iLoop]\);) N
+(372) # () S 8 T (  hdimuV->Fill\(K0dimu_k0dmvxy[iLoop]\);) N
+(373) # () S 8 T (  hdimuD->Fill\(K0dimu_k0dmdxy[iLoop]\);) N
+(374) # () S 8 T (  hdimuMid->Fill\(K0dimu_k0dmid[iLoop]\);) N
+(375) # () S 8 T (  hdimuchi2->Fill\(K0dimu_k0dmchi2[iLoop]\);) N
+(376) # () S 8 T (  hdimuSMT1->Fill\(K0dimu_k0dmSMT1[iLoop]\);) N
+(377) # () S 8 T (  hdimuSMT2->Fill\(K0dimu_k0dmSMT2[iLoop]\);) N
+(378) # () S 8 T (  hdimuCFT1->Fill\(K0dimu_k0dmCFT1[iLoop]\);) N
+(379) # () S 8 T (  hdimuCFT2->Fill\(K0dimu_k0dmCFT2[iLoop]\);) N
+(380) # () N
+(381) # () S 8 T (}) N
+(382) # () N
+(383) # () N
+(384) # () N
+(385) # () S 8 T (if \(k0dpimu>iLoop\){) N
+(386) # () S 8 T (  hdpimu1->Fill\(K0dpimu_k0dpmm1[iLoop]\);) N
+(387) # () S 8 T (  hdpimu2->Fill\(K0dpimu_k0dpmm2[iLoop]\);) N
+(388) # () S 8 T (  hdpimuPM->Fill\(K0dpimu_k0dpmMasspm[iLoop]\);) N
+(389) # () S 8 T (  hdpimuMP->Fill\(K0dpimu_k0dpmMassmp[iLoop]\);) N
+(390) # () S 8 T (  hdpimuPx->Fill\(K0dpimu_k0dpmPx[iLoop]\);) N
+(391) # () S 8 T (  hdpimuPx1->Fill\(K0dpimu_k0dpmPx1[iLoop]\);) N
+(392) # () S 8 T (  hdpimuPx2->Fill\(K0dpimu_k0dpmPx2[iLoop]\);) N
+(393) # () S 8 T (  hdpimuPy->Fill\(K0dpimu_k0dpmPy[iLoop]\);) N
+(394) # () S 8 T (  hdpimuPy1->Fill\(K0dpimu_k0dpmPy1[iLoop]\);) N
+(395) # () S 8 T (  hdpimuPy2->Fill\(K0dpimu_k0dpmPy2[iLoop]\);) N
+(396) # () S 8 T (  hdpimuPz->Fill\(K0dpimu_k0dpmPz[iLoop]\);) N
+(397) # () S 8 T (  hdpimuPz1->Fill\(K0dpimu_k0dpmPz1[iLoop]\);) N
+(398) # () S 8 T (  hdpimuPz2->Fill\(K0dpimu_k0dpmPz2[iLoop]\);) N
+(399) # () S 8 T (  hdpimuPt->Fill\(K0dpimu_k0dpmPt[iLoop]\);) N
+(400) # () S 8 T (  hdpimuPt1->Fill\(K0dpimu_k0dpmPt1[iLoop]\);) N
+(401) # () S 8 T (  hdpimuPt2->Fill\(K0dpimu_k0dpmPt2[iLoop]\);) N
+(402) # () S 8 T (  hdpimuE->Fill\(K0dpimu_k0dpmEta[iLoop]\);) N
+(403) # () S 8 T (  hdpimuE1->Fill\(K0dpimu_k0dpmEta1[iLoop]\);) N
+(404) # () S 8 T (  hdpimuE2->Fill\(K0dpimu_k0dpmEta2[iLoop]\);) N
+(405) # () S 8 T (  hdpimuV->Fill\(K0dpimu_k0dpmvxy[iLoop]\);) N
+(406) # () S 8 T (  hdpimuD->Fill\(K0dpimu_k0dpmdxy[iLoop]\);) N
+(407) # () S 8 T (  hdpimuPMid->Fill\(K0dpimu_k0dpmid[iLoop]\);) N
+(408) # () S 8 T (  hdpimuchi2->Fill\(K0dpimu_k0dpmchi2[iLoop]\);) N
+(409) # () S 8 T (  hdpimuSMT1->Fill\(K0dpimu_k0dpmSMT1[iLoop]\);) N
+(410) # () S 8 T (  hdpimuSMT2->Fill\(K0dpimu_k0dpmSMT2[iLoop]\);) N
+(411) # () S 8 T (  hdpimuCFT1->Fill\(K0dpimu_k0dpmCFT1[iLoop]\);) N
+(412) # () S 8 T (  hdpimuCFT2->Fill\(K0dpimu_k0dpmCFT2[iLoop]\);) N
+(413) # () S 8 T (}) N
+(414) # () N
+(415) # (      }) N
+(416) # (   }) N
+(417) # () N
+(418) # (   // Draw all the histograms) N
+(419) # () N
+(420) # (   gROOT->SetStyle\("Plain"\);) N
+(421) # (   gStyle->SetOptStat\(111111\);) N
+(422) # () N
+(423) # (   TCanvas *cpipi = new TCanvas\("cpipi", "K0pipi", 900, 600\);) N
+(424) # (   cpipi->Divide\(3,2\);) N
+(425) # (   ) N
+(426) # (   cpipi->cd\(1\);) N
+(427) # (   hpipiM->Draw\(\);) N
+(428) # () N
+(429) # (   cpipi->cd\(2\);) N
+(430) # (   hpipiPx->Draw\(\);) N
+(431) # () N
+(432) # (   cpipi->cd\(3\);) N
+(433) # (   hpipiPy->Draw\(\);   ) N
+(434) # () N
+(435) # (   cpipi->cd\(4\);) N
+(436) # (   hpipiPt->Draw\(\);) N
+(437) # () N
+(kanaD1.C) (Page 6/10) (Nov 03, 05 14:22) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(kanaD1.C) (3/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (7-8) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(438) # (   cpipi->cd\(5\);) p n
+(439) # (   hpipiE->Draw\(\);) N
+(440) # () N
+(441) # (   cpipi->cd\(6\);) N
+(442) # (   hpipiV->Draw\(\);) N
+(443) # () N
+(444) # (   cpipi->Print\("K0pipi.ps"\);) N
+(445) # () N
+(446) # () N
+(447) # (   TCanvas *cmumu = new TCanvas\("cmumu", "K0mumu", 1200, 600\);) N
+(448) # (   cmumu->Divide\(4,2\);) N
+(449) # (   ) N
+(450) # (   cmumu->cd\(1\);) N
+(451) # (   hmumuM->Draw\(\);) N
+(452) # () N
+(453) # (   cmumu->cd\(2\);) N
+(454) # (   hmumuPx->Draw\(\);) N
+(455) # () N
+(456) # (   cmumu->cd\(3\);) N
+(457) # (   hmumuPy->Draw\(\);   ) N
+(458) # () N
+(459) # (   cmumu->cd\(4\);) N
+(460) # (   hmumuPt->Draw\(\);) N
+(461) # () N
+(462) # (   cmumu->cd\(5\);) N
+(463) # (   hmumuE->Draw\(\);) N
+(464) # () N
+(465) # (   cmumu->cd\(6\);) N
+(466) # (   hmumuV->Draw\(\);) N
+(467) # () N
+(468) # (   cmumu->cd\(7\);) N
+(469) # (   hmumu1->Draw\(\);) N
+(470) # () N
+(471) # (   cmumu->cd\(8\);) N
+(472) # (   hmumu2->Draw\(\);) N
+(473) # () N
+(474) # (   cmumu->Print\("K0mumu.ps"\);) N
+(475) # () N
+(476) # () N
+(477) # (   TCanvas *cpimu = new TCanvas\("cpimu", "K0pimu", 900, 600\);) N
+(478) # (   cpimu->Divide\(3,2\);) N
+(479) # (   ) N
+(480) # (   cpimu->cd\(1\);) N
+(481) # (   hpimuMP->Draw\(\);) N
+(482) # (   hpimuPM->Draw\("same"\);) N
+(483) # () N
+(484) # (   cpimu->cd\(2\);) N
+(485) # (   hpimuPx->Draw\(\);) N
+(486) # () N
+(487) # (   cpimu->cd\(3\);) N
+(488) # (   hpimuPy->Draw\(\);   ) N
+(489) # () N
+(490) # (   cpimu->cd\(4\);) N
+(491) # (   hpimuPt->Draw\(\);) N
+(492) # () N
+(493) # (   cpimu->cd\(5\);) N
+(494) # (   hpimuE->Draw\(\);) N
+(495) # () N
+(496) # (   cpimu->cd\(6\);) N
+(497) # (   hpimuV->Draw\(\);) N
+(498) # () N
+(499) # (   cpimu->Print\("K0pimu.ps"\);) N
+(500) # () N
+(501) # () N
+(502) # (   TCanvas *cdimu = new TCanvas\("cdimu", "K0dimu", 900, 600\);) N
+(503) # (   cdimu->Divide\(3,2\);) N
+(504) # (   ) N
+(505) # (   cdimu->cd\(1\);) N
+(506) # (   hdimuM->Draw\(\);) N
+(507) # () N
+(508) # (   cdimu->cd\(2\);) N
+(509) # (   hdimuPx->Draw\(\);) N
+(510) # () N
+(kanaD1.C) (Page 7/10) (Nov 03, 05 14:22) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(511) # (   cdimu->cd\(3\);) p n
+(512) # (   hdimuPy->Draw\(\);   ) N
+(513) # () N
+(514) # (   cdimu->cd\(4\);) N
+(515) # (   hdimuPt->Draw\(\);) N
+(516) # () N
+(517) # (   cdimu->cd\(5\);) N
+(518) # (   hdimuE->Draw\(\);) N
+(519) # () N
+(520) # (   cdimu->cd\(6\);) N
+(521) # (   hdimuV->Draw\(\);) N
+(522) # () N
+(523) # (   cdimu->Print\("K0dimu.ps"\);) N
+(524) # () N
+(525) # () N
+(526) # (   TCanvas *cdpimu = new TCanvas\("cdpimu", "K0dpimu", 900, 600\);) N
+(527) # (   cdpimu->Divide\(3,2\);) N
+(528) # () N
+(529) # (   cdpimu->cd\(1\);) N
+(530) # (   hdpimuMP->Draw\(\);) N
+(531) # (   hdpimuPM->Draw\("same"\);) N
+(532) # () N
+(533) # (   cdpimu->cd\(2\);) N
+(534) # (   hdpimuPx->Draw\(\);) N
+(535) # () N
+(536) # (   cdpimu->cd\(3\);) N
+(537) # (   hdpimuPy->Draw\(\);   ) N
+(538) # () N
+(539) # (   cdpimu->cd\(4\);) N
+(540) # (   hdpimuPt->Draw\(\);) N
+(541) # () N
+(542) # (   cdpimu->cd\(5\);) N
+(543) # (   hdpimuE->Draw\(\);) N
+(544) # () N
+(545) # (   cdpimu->cd\(6\);) N
+(546) # (   hdpimuV->Draw\(\);) N
+(547) # () N
+(548) # (   cdpimu->Print\("K0dpimu.ps"\);) N
+(549) # () N
+(550) # () N
+(551) # (   // Create an Array to hold everything) N
+(552) # () N
+(553) # (   TObjArray *a1 = new TObjArray\(0\);) N
+(554) # () N
+(555) # (   a1->Add\(hpipiM\);) N
+(556) # (   a1->Add\(hpipiPx\);) N
+(557) # (   a1->Add\(hpipiPx1\);) N
+(558) # (   a1->Add\(hpipiPx2\);) N
+(559) # (   a1->Add\(hpipiPy\);) N
+(560) # (   a1->Add\(hpipiPy1\);) N
+(561) # (   a1->Add\(hpipiPy2\);) N
+(562) # (   a1->Add\(hpipiPz\);) N
+(563) # (   a1->Add\(hpipiPz1\);) N
+(564) # (   a1->Add\(hpipiPz2\);) N
+(565) # (   a1->Add\(hpipiPt\);) N
+(566) # (   a1->Add\(hpipiPt1\);) N
+(567) # (   a1->Add\(hpipiPt2\);) N
+(568) # (   a1->Add\(hpipiE\);) N
+(569) # (   a1->Add\(hpipiE1\);) N
+(570) # (   a1->Add\(hpipiE2\);) N
+(571) # (   a1->Add\(hpipiV\);) N
+(572) # (   a1->Add\(hpipiD\);) N
+(573) # (   a1->Add\(hpipiPid\);) N
+(574) # (   a1->Add\(hpipiSMT1\);) N
+(575) # (   a1->Add\(hpipiSMT2\);) N
+(576) # (   a1->Add\(hpipiCFT1\);) N
+(577) # (   a1->Add\(hpipiCFT2\);) N
+(578) # (   a1->Add\(hpipichi2\);) N
+(579) # () N
+(580) # (   a1->Add\(cpipi\);) N
+(581) # () N
+(582) # (   a1->Add\(hmumuM\);) N
+(583) # (   a1->Add\(hmumuPx\);) N
+(kanaD1.C) (Page 8/10) (Nov 03, 05 14:22) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(kanaD1.C) (4/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (9-10) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(584) # (   a1->Add\(hmumuPx1\);) p n
+(585) # (   a1->Add\(hmumuPx2\);) N
+(586) # (   a1->Add\(hmumuPy\);) N
+(587) # (   a1->Add\(hmumuPy1\);) N
+(588) # (   a1->Add\(hmumuPy2\);) N
+(589) # (   a1->Add\(hmumuPz\);) N
+(590) # (   a1->Add\(hmumuPz1\);) N
+(591) # (   a1->Add\(hmumuPz2\);) N
+(592) # (   a1->Add\(hmumuPt\);) N
+(593) # (   a1->Add\(hmumuPt1\);) N
+(594) # (   a1->Add\(hmumuPt2\);) N
+(595) # (   a1->Add\(hmumuE\);) N
+(596) # (   a1->Add\(hmumuE1\);) N
+(597) # (   a1->Add\(hmumuE2\);) N
+(598) # (   a1->Add\(hmumuV\);) N
+(599) # (   a1->Add\(hmumuD\);) N
+(600) # (   a1->Add\(hmumuMid\);) N
+(601) # (   a1->Add\(hmumuSMT1\);) N
+(602) # (   a1->Add\(hmumuSMT2\);) N
+(603) # (   a1->Add\(hmumuCFT1\);) N
+(604) # (   a1->Add\(hmumuCFT2\);) N
+(605) # (   a1->Add\(hmumuchi2\);) N
+(606) # (   a1->Add\(hmumu1\);) N
+(607) # (   a1->Add\(hmumu2\);) N
+(608) # () N
+(609) # (   a1->Add\(cmumu\);) N
+(610) # () N
+(611) # (   a1->Add\(hpimuMP\);) N
+(612) # (   a1->Add\(hpimuPM\);) N
+(613) # (   a1->Add\(hpimuPx\);) N
+(614) # (   a1->Add\(hpimuPx1\);) N
+(615) # (   a1->Add\(hpimuPx2\);) N
+(616) # (   a1->Add\(hpimuPy\);) N
+(617) # (   a1->Add\(hpimuPy1\);) N
+(618) # (   a1->Add\(hpimuPy2\);) N
+(619) # (   a1->Add\(hpimuPz\);) N
+(620) # (   a1->Add\(hpimuPz1\);) N
+(621) # (   a1->Add\(hpimuPz2\);) N
+(622) # (   a1->Add\(hpimuPt\);) N
+(623) # (   a1->Add\(hpimuPt1\);) N
+(624) # (   a1->Add\(hpimuPt2\);) N
+(625) # (   a1->Add\(hpimuE\);) N
+(626) # (   a1->Add\(hpimuE1\);) N
+(627) # (   a1->Add\(hpimuE2\);) N
+(628) # (   a1->Add\(hpimuV\);) N
+(629) # (   a1->Add\(hpimuD\);) N
+(630) # (   a1->Add\(hpimuPMid\);) N
+(631) # (   a1->Add\(hpimuSMT1\);) N
+(632) # (   a1->Add\(hpimuSMT2\);) N
+(633) # (   a1->Add\(hpimuCFT1\);) N
+(634) # (   a1->Add\(hpimuCFT2\);) N
+(635) # (   a1->Add\(hpimuchi2\);) N
+(636) # (   a1->Add\(hpimu1\);) N
+(637) # (   a1->Add\(hpimu2\);) N
+(638) # () N
+(639) # (   a1->Add\(cpimu\);) N
+(640) # () N
+(641) # (   a1->Add\(hdimuM\);) N
+(642) # (   a1->Add\(hdimuPx\);) N
+(643) # (   a1->Add\(hdimuPx1\);) N
+(644) # (   a1->Add\(hdimuPx2\);) N
+(645) # (   a1->Add\(hdimuPy\);) N
+(646) # (   a1->Add\(hdimuPy1\);) N
+(647) # (   a1->Add\(hdimuPy2\);) N
+(648) # (   a1->Add\(hdimuPz\);) N
+(649) # (   a1->Add\(hdimuPz1\);) N
+(650) # (   a1->Add\(hdimuPz2\);) N
+(651) # (   a1->Add\(hdimuPt\);) N
+(652) # (   a1->Add\(hdimuPt1\);) N
+(653) # (   a1->Add\(hdimuPt2\);) N
+(654) # (   a1->Add\(hdimuE\);) N
+(655) # (   a1->Add\(hdimuE1\);) N
+(656) # (   a1->Add\(hdimuE2\);) N
+(kanaD1.C) (Page 9/10) (Nov 03, 05 14:22) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(657) # (   a1->Add\(hdimuV\);) p n
+(658) # (   a1->Add\(hdimuD\);) N
+(659) # (   a1->Add\(hdimuMid\);) N
+(660) # (   a1->Add\(hdimuSMT1\);) N
+(661) # (   a1->Add\(hdimuSMT2\);) N
+(662) # (   a1->Add\(hdimuCFT1\);) N
+(663) # (   a1->Add\(hdimuCFT2\);) N
+(664) # (   a1->Add\(hdimuchi2\);) N
+(665) # (   a1->Add\(hdimu1\);) N
+(666) # (   a1->Add\(hdimu2\);) N
+(667) # () N
+(668) # (   a1->Add\(cdimu\);) N
+(669) # () N
+(670) # (   a1->Add\(hdpimuMP\);) N
+(671) # (   a1->Add\(hdpimuPM\);) N
+(672) # (   a1->Add\(hdpimuPx\);) N
+(673) # (   a1->Add\(hdpimuPx1\);) N
+(674) # (   a1->Add\(hdpimuPx2\);) N
+(675) # (   a1->Add\(hdpimuPy\);) N
+(676) # (   a1->Add\(hdpimuPy1\);) N
+(677) # (   a1->Add\(hdpimuPy2\);) N
+(678) # (   a1->Add\(hdpimuPz\);) N
+(679) # (   a1->Add\(hdpimuPz1\);) N
+(680) # (   a1->Add\(hdpimuPz2\);) N
+(681) # (   a1->Add\(hdpimuPt\);) N
+(682) # (   a1->Add\(hdpimuPt1\);) N
+(683) # (   a1->Add\(hdpimuPt2\);) N
+(684) # (   a1->Add\(hdpimuE\);) N
+(685) # (   a1->Add\(hdpimuE1\);) N
+(686) # (   a1->Add\(hdpimuE2\);) N
+(687) # (   a1->Add\(hdpimuV\);) N
+(688) # (   a1->Add\(hdpimuD\);) N
+(689) # (   a1->Add\(hdpimuPMid\);) N
+(690) # (   a1->Add\(hdpimuSMT1\);) N
+(691) # (   a1->Add\(hdpimuSMT2\);) N
+(692) # (   a1->Add\(hdpimuCFT1\);) N
+(693) # (   a1->Add\(hdpimuCFT2\);) N
+(694) # (   a1->Add\(hdpimuchi2\);) N
+(695) # (   a1->Add\(hdpimu1\);) N
+(696) # (   a1->Add\(hdpimu2\);) N
+(697) # () N
+(698) # (   a1->Add\(cdpimu\);) N
+(699) # () N
+(700) # () N
+(701) # () N
+(702) # (   // Write the array out to a file) N
+(703) # () N
+(704) # (   TFile *f1 = new TFile\("histograms.root", "recreate"\);) N
+(705) # (   a1->Write\(\);) N
+(706) # (   f1->Close\(\);) N
+(707) # (   ) N
+(708) # (   timer.Stop\(\);) N
+(709) # (   Double_t realTime = timer.RealTime\(\);) N
+(710) # (   Double_t Hours = realTime/3600.;) N
+(711) # (   Double_t cpuTime = timer.CpuTime\(\);) N
+(712) # (   printf\("\\n\\n Real Time= %d \( %d Hours\)\\n\\n", realTime, Hours\);) N
+(713) # (   printf\("\\n\\n CPU Time= %d \\n\\n", cpuTime\);) N
+(714) # () N
+(715) # () N
+(716) # () N
+(717) # (}) N
+(kanaD1.C) (Page 10/10) (Nov 03, 05 14:22) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(kanaD1.C) (5/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 6
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//////////////////////////////////////////////////////////) c n
+(2) # (// This class has been automatically generated on) N
+(3) # (// Thu Oct 27 14:24:33 2005 by ROOT version 4.03/02) N
+(4) # (// from TTree KTree/K_s -> Mu Mu) N
+(5) # (// found on file: output_ksmumu_set1.root) N
+(6) # (//////////////////////////////////////////////////////////) N
+(7) # () N
+(8) # () S
+(#ifndef) K
+( kana_v2_h) p n
+(9) # () S
+(#define) K
+( kana_v2_h) p n
+(10) # () N
+(11) # () S
+(#include) K
+( <TROOT.h>) p n
+(12) # () S
+(#include) K
+( <TChain.h>) p n
+(13) # () S
+(#include) K
+( <TFile.h>) p n
+(14) # () N
+(15) # (class kana_v2 {) N
+(16) # (public :) N
+(17) # (   TTree          *fChain;   ) S
+(//!pointer to the analyzed TTree or TChain) c n
+(18) # () S
+(   Int_t           fCurrent; ) p
+(//!current Tree number in a TChain) c n
+(19) # () N
+(20) # () S
+(   ) p
+(// Declaration of leave types) c n
+(21) # () S
+(   Int_t           K0pipi_k0pnum;) p n
+(22) # (   Int_t           K0pipi_k0pid[50];) N
+(23) # (   Float_t         K0pipi_k0pMass[50];) N
+(24) # (   Float_t         K0pipi_k0pPx[50];) N
+(25) # (   Float_t         K0pipi_k0pPy[50];) N
+(26) # (   Float_t         K0pipi_k0pPz[50];) N
+(27) # (   Float_t         K0pipi_k0pPt[50];) N
+(28) # (   Float_t         K0pipi_k0pEta[50];) N
+(29) # (   Float_t         K0pipi_k0pdxy[50];) N
+(30) # (   Float_t         K0pipi_k0pvxy[50];) N
+(31) # (   Float_t         K0pipi_k0pchi2[50];) N
+(32) # (   Float_t         K0pipi_k0pPx1[50];) N
+(33) # (   Float_t         K0pipi_k0pPy1[50];) N
+(34) # (   Float_t         K0pipi_k0pPz1[50];) N
+(35) # (   Float_t         K0pipi_k0pPt1[50];) N
+(36) # (   Float_t         K0pipi_k0pEta1[50];) N
+(37) # (   Float_t         K0pipi_k0pPx2[50];) N
+(38) # (   Float_t         K0pipi_k0pPy2[50];) N
+(39) # (   Float_t         K0pipi_k0pPz2[50];) N
+(40) # (   Float_t         K0pipi_k0pPt2[50];) N
+(41) # (   Float_t         K0pipi_k0pEta2[50];) N
+(42) # (   Int_t           K0pipi_k0pSMT1[50];) N
+(43) # (   Int_t           K0pipi_k0pSMT2[50];) N
+(44) # (   Int_t           K0pipi_k0pCFT1[50];) N
+(45) # (   Int_t           K0pipi_k0pCFT2[50];) N
+(46) # () N
+(47) # (   Int_t           K0mumu_k0mnum;) N
+(48) # (   Int_t           K0mumu_k0mid[50];) N
+(49) # (   Float_t         K0mumu_k0mMass[50];) N
+(50) # (   Float_t         K0mumu_k0mPx[50];) N
+(51) # (   Float_t         K0mumu_k0mPy[50];) N
+(52) # (   Float_t         K0mumu_k0mPz[50];) N
+(53) # (   Float_t         K0mumu_k0mPt[50];) N
+(54) # (   Float_t         K0mumu_k0mEta[50];) N
+(55) # (   Float_t         K0mumu_k0mdxy[50];) N
+(56) # (   Float_t         K0mumu_k0mvxy[50];) N
+(57) # (   Float_t         K0mumu_k0mchi2[50];) N
+(58) # (   Float_t         K0mumu_k0mPx1[50];) N
+(59) # (   Float_t         K0mumu_k0mPy1[50];) N
+(60) # (   Float_t         K0mumu_k0mPz1[50];) N
+(61) # (   Float_t         K0mumu_k0mPt1[50];) N
+(62) # (   Float_t         K0mumu_k0mEta1[50];) N
+(63) # (   Float_t         K0mumu_k0mPx2[50];) N
+(64) # (   Float_t         K0mumu_k0mPy2[50];) N
+(65) # (   Float_t         K0mumu_k0mPz2[50];) N
+(66) # (   Float_t         K0mumu_k0mPt2[50];) N
+(67) # (   Float_t         K0mumu_k0mEta2[50];) N
+(68) # (   Int_t           K0mumu_k0mSMT1[50];) N
+(69) # (   Int_t           K0mumu_k0mSMT2[50];) N
+(70) # (   Int_t           K0mumu_k0mCFT1[50];) N
+(71) # (   Int_t           K0mumu_k0mCFT2[50];) N
+(72) # (   Int_t           K0mumu_k0mu1[50];) N
+(73) # (   Int_t           K0mumu_k0mu2[50];) N
+(kana_v2.h) (Page 1/5) (Oct 31, 05 14:55) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # () p n
+(75) # (   Int_t           K0pimu_k0pmnum;) N
+(76) # (   Int_t           K0pimu_k0pmid[50];) N
+(77) # (   Float_t         K0pimu_k0pmMasspm[50];) N
+(78) # (   Float_t         K0pimu_k0pmMassmp[50];) N
+(79) # (   Float_t         K0pimu_k0pmPx[50];) N
+(80) # (   Float_t         K0pimu_k0pmPy[50];) N
+(81) # (   Float_t         K0pimu_k0pmPz[50];) N
+(82) # (   Float_t         K0pimu_k0pmPt[50];) N
+(83) # (   Float_t         K0pimu_k0pmEta[50];) N
+(84) # (   Float_t         K0pimu_k0pmdxy[50];) N
+(85) # (   Float_t         K0pimu_k0pmvxy[50];) N
+(86) # (   Float_t         K0pimu_k0pmchi2[50];) N
+(87) # (   Float_t         K0pimu_k0pmPx1[50];) N
+(88) # (   Float_t         K0pimu_k0pmPy1[50];) N
+(89) # (   Float_t         K0pimu_k0pmPz1[50];) N
+(90) # (   Float_t         K0pimu_k0pmPt1[50];) N
+(91) # (   Float_t         K0pimu_k0pmEta1[50];) N
+(92) # (   Float_t         K0pimu_k0pmPx2[50];) N
+(93) # (   Float_t         K0pimu_k0pmPy2[50];) N
+(94) # (   Float_t         K0pimu_k0pmPz2[50];) N
+(95) # (   Float_t         K0pimu_k0pmPt2[50];) N
+(96) # (   Float_t         K0pimu_k0pmEta2[50];) N
+(97) # (   Int_t           K0pimu_k0pmSMT1[50];) N
+(98) # (   Int_t           K0pimu_k0pmSMT2[50];) N
+(99) # (   Int_t           K0pimu_k0pmCFT1[50];) N
+(100) # (   Int_t           K0pimu_k0pmCFT2[50];) N
+(101) # (   Int_t           K0pimu_k0pmu1[50];) N
+(102) # (   Int_t           K0pimu_k0pmu2[50];) N
+(103) # () N
+(104) # (   Int_t           Info_nTrks;) N
+(105) # (   Int_t           Info_piQ[500];) N
+(106) # (   Float_t         Info_piPx[500];) N
+(107) # (   Float_t         Info_piPy[500];) N
+(108) # (   Float_t         Info_piPz[500];) N
+(109) # (   Float_t         Info_piPt[500];) N
+(110) # (   Float_t         Info_piEta[500];) N
+(111) # (   Int_t           Info_piSMT[500];) N
+(112) # (   Int_t           Info_piCFT[500];) N
+(113) # (   Int_t           Info_muon[500];) N
+(114) # (   Int_t           Info_run;) N
+(115) # (   Int_t           Info_evt;) N
+(116) # (   Int_t           Info_trig[500];) N
+(117) # () N
+(118) # (   Int_t           K0dimu_k0dmnum;) N
+(119) # (   Int_t           K0dimu_k0dmid[50];) N
+(120) # (   Float_t         K0dimu_k0dmMass[50];) N
+(121) # (   Float_t         K0dimu_k0dmPx[50];) N
+(122) # (   Float_t         K0dimu_k0dmPy[50];) N
+(123) # (   Float_t         K0dimu_k0dmPz[50];) N
+(124) # (   Float_t         K0dimu_k0dmPt[50];) N
+(125) # (   Float_t         K0dimu_k0dmEta[50];) N
+(126) # (   Float_t         K0dimu_k0dmdxy[50];) N
+(127) # (   Float_t         K0dimu_k0dmvxy[50];) N
+(128) # (   Float_t         K0dimu_k0dmchi2[50];) N
+(129) # (   Float_t         K0dimu_k0dmPx1[50];) N
+(130) # (   Float_t         K0dimu_k0dmPy1[50];) N
+(131) # (   Float_t         K0dimu_k0dmPz1[50];) N
+(132) # (   Float_t         K0dimu_k0dmPt1[50];) N
+(133) # (   Float_t         K0dimu_k0dmEta1[50];) N
+(134) # (   Float_t         K0dimu_k0dmPx2[50];) N
+(135) # (   Float_t         K0dimu_k0dmPy2[50];) N
+(136) # (   Float_t         K0dimu_k0dmPz2[50];) N
+(137) # (   Float_t         K0dimu_k0dmPt2[50];) N
+(138) # (   Float_t         K0dimu_k0dmEta2[50];) N
+(139) # (   Int_t           K0dimu_k0dmSMT1[50];) N
+(140) # (   Int_t           K0dimu_k0dmSMT2[50];) N
+(141) # (   Int_t           K0dimu_k0dmCFT1[50];) N
+(142) # (   Int_t           K0dimu_k0dmCFT2[50];) N
+(143) # (   Int_t           K0dimu_k0dmu1[50];) N
+(144) # (   Int_t           K0dimu_k0dmu2[50];) N
+(145) # (   Float_t         K0dimu_K0PVx[50];) N
+(146) # (   Float_t         K0dimu_K0PVy[50];) N
+(kana_v2.h) (Page 2/5) (Oct 31, 05 14:55) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(kana_v2.h) (6/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 7
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(147) # (   Float_t         K0dimu_K0PVz[50];) p n
+(148) # () N
+(149) # (   Int_t           K0dpimu_k0dpmnum;) N
+(150) # (   Int_t           K0dpimu_k0dpmid[50];) N
+(151) # (   Float_t         K0dpimu_k0dpmMasspm[50];) N
+(152) # (   Float_t         K0dpimu_k0dpmMassmp[50];) N
+(153) # (   Float_t         K0dpimu_k0dpmPx[50];) N
+(154) # (   Float_t         K0dpimu_k0dpmPy[50];) N
+(155) # (   Float_t         K0dpimu_k0dpmPz[50];) N
+(156) # (   Float_t         K0dpimu_k0dpmPt[50];) N
+(157) # (   Float_t         K0dpimu_k0dpmEta[50];) N
+(158) # (   Float_t         K0dpimu_k0dpmdxy[50];) N
+(159) # (   Float_t         K0dpimu_k0dpmvxy[50];) N
+(160) # (   Float_t         K0dpimu_k0dpmchi2[50];) N
+(161) # (   Float_t         K0dpimu_k0dpmPx1[50];) N
+(162) # (   Float_t         K0dpimu_k0dpmPy1[50];) N
+(163) # (   Float_t         K0dpimu_k0dpmPz1[50];) N
+(164) # (   Float_t         K0dpimu_k0dpmPt1[50];) N
+(165) # (   Float_t         K0dpimu_k0dpmEta1[50];) N
+(166) # (   Float_t         K0dpimu_k0dpmPx2[50];) N
+(167) # (   Float_t         K0dpimu_k0dpmPy2[50];) N
+(168) # (   Float_t         K0dpimu_k0dpmPz2[50];) N
+(169) # (   Float_t         K0dpimu_k0dpmPt2[50];) N
+(170) # (   Float_t         K0dpimu_k0dpmEta2[50];) N
+(171) # (   Int_t           K0dpimu_k0dpmSMT1[50];) N
+(172) # (   Int_t           K0dpimu_k0dpmSMT2[50];) N
+(173) # (   Int_t           K0dpimu_k0dpmCFT1[50];) N
+(174) # (   Int_t           K0dpimu_k0dpmCFT2[50];) N
+(175) # (   Int_t           K0dpimu_k0dpmm1[50];) N
+(176) # (   Int_t           K0dpimu_k0dpmm2[50];) N
+(177) # () N
+(178) # (   ) S
+(// List of branches) c n
+(179) # () S
+(   TBranch        *b_K0pipi;   ) p
+(//!) c n
+(180) # () S
+(   TBranch        *b_K0mumu;   ) p
+(//!) c n
+(181) # () S
+(   TBranch        *b_K0pimu;   ) p
+(//!) c n
+(182) # () S
+(   TBranch        *b_Info;   ) p
+(//!) c n
+(183) # () S
+(   TBranch        *b_K0dimu;   ) p
+(//!) c n
+(184) # () S
+(   TBranch        *b_K0dpimu;   ) p
+(//!) c n
+(185) # () N
+(186) # () S
+(   kana_v2\(TTree *tree=0\);) p n
+(187) # (   virtual ~kana_v2\(\);) N
+(188) # (   virtual Int_t    Cut\(Long64_t entry\);) N
+(189) # (   virtual Int_t    GetEntry\(Long64_t entry\);) N
+(190) # (   virtual Long64_t LoadTree\(Long64_t entry\);) N
+(191) # (   virtual ) S
+(void) k
+(     Init\(TTree *tree\);) p n
+(192) # (   virtual ) S
+(void) k
+(     Loop\(\);) p n
+(193) # (   virtual Bool_t   Notify\(\);) N
+(194) # (   virtual ) S
+(void) k
+(     Show\(Long64_t entry = -1\);) p n
+(195) # (};) N
+(196) # () N
+(197) # () S
+(#endif) K n
+(198) # () N
+(199) # (#ifdef) S
+( kana_v2_cxx) p n
+(200) # (kana_v2::kana_v2\(TTree *tree\)) N
+(201) # ({) N
+(202) # () S
+(// if parameter tree is not specified \(or zero\), connect the file) c n
+(203) # (// used to generate this class and read the Tree.) N
+(204) # () S
+(   ) p
+(if) K
+( \(tree == 0\) {) p n
+(205) # (      TFile *f = \(TFile*\)gROOT->GetListOfFiles\(\)->FindObject\(") S
+(output_ksmumu_set1.root) str
+() p n
+0 T ("\);) N
+(206) # (      ) S
+(if) K
+( \(!f\) {) p n
+(207) # (         f = new TFile\(") S
+(output_ksmumu_set1.root) str
+("\);) p n
+(208) # (      }) N
+(209) # (      tree = \(TTree*\)gDirectory->Get\(") S
+(KTree) str
+("\);) p n
+(210) # () N
+(211) # (   }) N
+(212) # (   Init\(tree\);) N
+(213) # (}) N
+(214) # () N
+(215) # (kana_v2::~kana_v2\(\)) N
+(216) # ({) N
+(217) # (   ) S
+(if) K
+( \(!fChain\) ) p
+(return) K
+(;) p n
+(218) # (   delete fChain->GetCurrentFile\(\);) N
+(kana_v2.h) (Page 3/5) (Oct 31, 05 14:55) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(219) # (}) p n
+(220) # () N
+(221) # (Int_t kana_v2::GetEntry\(Long64_t entry\)) N
+(222) # ({) N
+(223) # () S
+(// Read contents of entry.) c n
+(224) # () S
+(   ) p
+(if) K
+( \(!fChain\) ) p
+(return) K
+( 0;) p n
+(225) # (   ) S
+(return) K
+( fChain->GetEntry\(entry\);) p n
+(226) # (}) N
+(227) # (Long64_t kana_v2::LoadTree\(Long64_t entry\)) N
+(228) # ({) N
+(229) # () S
+(// Set the environment to read one entry) c n
+(230) # () S
+(   ) p
+(if) K
+( \(!fChain\) ) p
+(return) K
+( -5;) p n
+(231) # (   Long64_t centry = fChain->LoadTree\(entry\);) N
+(232) # (   ) S
+(if) K
+( \(centry < 0\) ) p
+(return) K
+( centry;) p n
+(233) # (   ) S
+(if) K
+( \(fChain->IsA\(\) != TChain::Class\(\)\) ) p
+(return) K
+( centry;) p n
+(234) # (   TChain *chain = \(TChain*\)fChain;) N
+(235) # (   ) S
+(if) K
+( \(chain->GetTreeNumber\(\) != fCurrent\) {) p n
+(236) # (      fCurrent = chain->GetTreeNumber\(\);) N
+(237) # (      Notify\(\);) N
+(238) # (   }) N
+(239) # (   ) S
+(return) K
+( centry;) p n
+(240) # (}) N
+(241) # () N
+(242) # () S
+(void) k
+( kana_v2::Init\(TTree *tree\)) p n
+(243) # ({) N
+(244) # (   ) S
+(// The Init\(\) function is called when the selector needs to initialize) c n
+(245) # () S
+(   ) p
+(// a new tree or chain. Typically here the branch addresses of the tree) c n
+(246) # () S
+(   ) p
+(// will be set. It is normaly not necessary to make changes to the) c n
+(247) # () S
+(   ) p
+(// generated code, but the routine can be extended by the user if needed.) c n
+(248) # () S
+(   ) p
+(// Init\(\) will be called many times when running with PROOF.) c n
+(249) # () N
+(250) # () S
+(   ) p
+(// Set branch addresses) c n
+(251) # () S
+(   ) p
+(if) K
+( \(tree == 0\) ) p
+(return) K
+(;) p n
+(252) # (   fChain = tree;) N
+(253) # (   fCurrent = -1;) N
+(254) # (   fChain->SetMakeClass\(1\);) N
+(255) # () N
+(256) # (   fChain->SetBranchAddress\(") S
+(K0pipi) str
+(",&K0pipi_k0pnum\);) p n
+(257) # (   fChain->SetBranchAddress\(") S
+(K0mumu) str
+(",&K0mumu_k0mnum\);) p n
+(258) # (   fChain->SetBranchAddress\(") S
+(K0pimu) str
+(",&K0pimu_k0pmnum\);) p n
+(259) # (   fChain->SetBranchAddress\(") S
+(Info) str
+(",&Info_nTrks\);) p n
+(260) # (   fChain->SetBranchAddress\(") S
+(K0dimu) str
+(",&K0dimu_k0dmnum\);) p n
+(261) # (   fChain->SetBranchAddress\(") S
+(K0dpimu) str
+(",&K0dpimu_k0dpmnum\);) p n
+(262) # (   Notify\(\);) N
+(263) # (}) N
+(264) # () N
+(265) # (Bool_t kana_v2::Notify\(\)) N
+(266) # ({) N
+(267) # (   ) S
+(// The Notify\(\) function is called when a new file is opened. This) c n
+(268) # () S
+(   ) p
+(// can be either for a new TTree in a TChain or when when a new TTree) c n
+(269) # () S
+(   ) p
+(// is started when using PROOF. Typically here the branch pointers) c n
+(270) # () S
+(   ) p
+(// will be retrieved. It is normaly not necessary to make changes) c n
+(271) # () S
+(   ) p
+(// to the generated code, but the routine can be extended by the) c n
+(272) # () S
+(   ) p
+(// user if needed.) c n
+(273) # () N
+(274) # () S
+(   ) p
+(// Get branch pointers) c n
+(275) # () S
+(   b_K0pipi = fChain->GetBranch\(") p
+(K0pipi) str
+("\);) p n
+(276) # (   b_K0mumu = fChain->GetBranch\(") S
+(K0mumu) str
+("\);) p n
+(277) # (   b_K0pimu = fChain->GetBranch\(") S
+(K0pimu) str
+("\);) p n
+(278) # (   b_Info = fChain->GetBranch\(") S
+(Info) str
+("\);) p n
+(279) # (   b_K0dimu = fChain->GetBranch\(") S
+(K0dimu) str
+("\);) p n
+(280) # (   b_K0dpimu = fChain->GetBranch\(") S
+(K0dpimu) str
+("\);) p n
+(281) # () N
+(282) # (   ) S
+(return) K
+( kTRUE;) p n
+(283) # (}) N
+(284) # () N
+(285) # () S
+(void) k
+( kana_v2::Show\(Long64_t entry\)) p n
+(286) # ({) N
+(287) # () S
+(// Print contents of entry.) c n
+(288) # (// If entry is not specified, print current entry) N
+(289) # () S
+(   ) p
+(if) K
+( \(!fChain\) ) p
+(return) K
+(;) p n
+(290) # (   fChain->Show\(entry\);) N
+(291) # (}) N
+(kana_v2.h) (Page 4/5) (Oct 31, 05 14:55) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(kana_v2.h) (7/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5) 8
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(292) # (Int_t kana_v2::Cut\(Long64_t entry\)) p n
+(293) # ({) N
+(294) # () S
+(// This function may be called from Loop.) c n
+(295) # (// returns  1 if entry is accepted.) N
+(296) # (// returns -1 otherwise.) N
+(297) # () S
+(   ) p
+(return) K
+( 1;) p n
+(298) # (}) N
+(299) # () S
+(#endif) K
+( ) p
+(// #ifdef kana_v2_cxx) c n
+(kana_v2.h) (Page 5/5) (Oct 31, 05 14:55) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(kana_v2.h) (8/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 9
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # ({) p n
+(2) # (gROOT->SetStyle\("Plain"\);) N
+(3) # (gStyle->SetOptStat\(111111\);) N
+(4) # (gROOT->ProcessLine\(".L kanaD1.C"\);) N
+(5) # (gROOT->ProcessLine\("kana_v2 t"\);) N
+(6) # (gROOT->ProcessLine\("t.Loop\(\)"\);) N
+(7) # (}) N
+(runKana.C) (Page 1/1) (Nov 01, 05 21:20) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(runKana.C) (9/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 10
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (#!/bin/bash) c n
+(2) # () N
+(3) # () S
+(root -b -q runKana.C > runKana.log 2>&1) p n
+(4) # (echo ') S
+(Root Job Done!) str
+(' | mail 4052092790@messaging.sprintpcs.com) p n
+(5) # () N
+(6) # () S
+(exit) K
+( 0) p n
+(runRoot) (Page 1/1) (Nov 01, 05 21:18) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(runRoot) (10/10) (Thursday November 03, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF

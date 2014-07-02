@@ -1,0 +1,861 @@
+Inside fit -0.0208232  15  0.1
+Inside fit -0.0207615  15  0.1
+Inside fit -0.0208848  15  0.1
+Inside fit -0.0208108  15  0.1
+Inside fit -0.0208355  15  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=57.1704 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=1.33978e-14    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -2.08232e-02   1.65521e-02   6.16418e-05  -9.88955e-06
+   2  Delta M      1.50000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  2.740e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.0208232  15  0.1
+dmLoop = 15  par0 = -0.0208232  err0 = 0.0165521
+-0.0520579  0.0413804
+-0.0520579   0.0413804
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      1.60000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  16  0.1
+ FCN=1008.93 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      1.60000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501552  16  0.1
+Inside fit 0.498448  16  0.1
+Inside fit 0.500269  16  0.1
+Inside fit 0.499731  16  0.1
+ FCN=1008.93 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   3.56017e+03
+   2  Delta M      1.60000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit -0.0359466  16  0.1
+Inside fit -0.0358832  16  0.1
+Inside fit -0.0360099  16  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit -0.0359466  16  0.1
+Inside fit -0.0358832  16  0.1
+Inside fit -0.0360099  16  0.1
+Inside fit -0.0359339  16  0.1
+Inside fit -0.0359593  16  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=54.894 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=3.08302e-16    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -3.59466e-02   1.73516e-02   6.33422e-05   1.43108e-06
+   2  Delta M      1.60000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  3.011e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.0359466  16  0.1
+dmLoop = 16  par0 = -0.0359466  err0 = 0.0173516
+-0.0898665  0.0433791
+-0.0898665   0.0433791
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      1.70000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  17  0.1
+ FCN=988.405 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      1.70000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501536  17  0.1
+Inside fit 0.498464  17  0.1
+Inside fit 0.500272  17  0.1
+Inside fit 0.499728  17  0.1
+ FCN=988.405 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   3.45298e+03
+   2  Delta M      1.70000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit -0.0418396  17  0.1
+Inside fit -0.0417761  17  0.1
+Inside fit -0.0419031  17  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit -0.0418396  17  0.1
+Inside fit -0.0417761  17  0.1
+Inside fit -0.0419031  17  0.1
+Inside fit -0.0418269  17  0.1
+Inside fit -0.0418523  17  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=52.9243 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=3.9465e-15    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -4.18396e-02   1.77155e-02   6.35208e-05  -5.01496e-06
+   2  Delta M      1.70000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  3.138e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.0418396  17  0.1
+dmLoop = 17  par0 = -0.0418396  err0 = 0.0177155
+-0.104599  0.0442887
+-0.104599   0.0442887
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      1.80000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  18  0.1
+ FCN=876.423 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      1.80000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501446  18  0.1
+Inside fit 0.498554  18  0.1
+Inside fit 0.500269  18  0.1
+Inside fit 0.499731  18  0.1
+ FCN=876.423 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   3.08761e+03
+   2  Delta M      1.80000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit -0.0326443  18  0.1
+Inside fit -0.0325769  18  0.1
+Inside fit -0.0327116  18  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit -0.0326443  18  0.1
+Inside fit -0.0325769  18  0.1
+Inside fit -0.0327116  18  0.1
+Inside fit -0.0326308  18  0.1
+Inside fit -0.0326577  18  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=54.1237 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=1.45971e-15    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -3.26443e-02   1.85747e-02   6.73382e-05   2.90888e-06
+   2  Delta M      1.80000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  3.450e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.0326443  18  0.1
+dmLoop = 18  par0 = -0.0326443  err0 = 0.0185747
+-0.0816107  0.0464368
+-0.0816107   0.0464368
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      1.90000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  19  0.1
+ FCN=920.399 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      1.90000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501482  19  0.1
+Inside fit 0.498518  19  0.1
+Inside fit 0.500265  19  0.1
+Inside fit 0.499735  19  0.1
+ FCN=920.399 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   3.28829e+03
+   2  Delta M      1.90000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit -0.0249739  19  0.1
+Inside fit -0.0249073  19  0.1
+Inside fit -0.0250405  19  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit -0.0249739  19  0.1
+Inside fit -0.0249073  19  0.1
+Inside fit -0.0250405  19  0.1
+Inside fit -0.0249605  19  0.1
+Inside fit -0.0249872  19  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=57.2648 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=1.37386e-16    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -2.49739e-02   1.78689e-02   6.65996e-05   9.27658e-07
+   2  Delta M      1.90000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  3.193e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.0249739  19  0.1
+dmLoop = 19  par0 = -0.0249739  err0 = 0.0178689
+-0.0624347  0.0446723
+-0.0624347   0.0446723
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      2.00000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  20  0.1
+ FCN=729.621 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      2.00000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.50132  20  0.1
+Inside fit 0.49868  20  0.1
+Inside fit 0.500262  20  0.1
+Inside fit 0.499738  20  0.1
+ FCN=729.621 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   2.60994e+03
+   2  Delta M      2.00000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit -0.0143963  20  0.1
+Inside fit -0.0143216  20  0.1
+Inside fit -0.0144709  20  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit -0.0143963  20  0.1
+Inside fit -0.0143216  20  0.1
+Inside fit -0.0144709  20  0.1
+Inside fit -0.0143813  20  0.1
+Inside fit -0.0144112  20  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=58.3494 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=1.75223e-15    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -1.43963e-02   1.98540e-02   7.46839e-05   2.98169e-06
+   2  Delta M      2.00000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  3.942e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.0143963  20  0.1
+dmLoop = 20  par0 = -0.0143963  err0 = 0.019854
+-0.0359907  0.0496351
+-0.0359907   0.0496351
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      2.10000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  21  0.1
+ FCN=635.759 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      2.10000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501232  21  0.1
+Inside fit 0.498768  21  0.1
+Inside fit 0.500256  21  0.1
+Inside fit 0.499744  21  0.1
+ FCN=635.759 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   2.31897e+03
+   2  Delta M      2.10000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit -0.000599272  21  0.1
+Inside fit -0.000523131  21  0.1
+Inside fit -0.000675413  21  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit -0.000599272  21  0.1
+Inside fit -0.000523131  21  0.1
+Inside fit -0.000675413  21  0.1
+Inside fit -0.000584044  21  0.1
+Inside fit -0.0006145  21  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=55.3214 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=1.56618e-16    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -5.99272e-04   2.07784e-02   7.61412e-05   8.51770e-07
+   2  Delta M      2.10000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  4.317e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.000599272  21  0.1
+dmLoop = 21  par0 = -0.000599272  err0 = 0.0207784
+-0.00149818  0.0519461
+-0.00149818   0.0519461
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      2.20000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  22  0.1
+ FCN=581.445 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      2.20000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501178  22  0.1
+Inside fit 0.498822  22  0.1
+Inside fit 0.500257  22  0.1
+Inside fit 0.499743  22  0.1
+ FCN=581.445 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   2.09337e+03
+   2  Delta M      2.20000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit 0.000966298  22  0.1
+Inside fit 0.00104896  22  0.1
+Inside fit 0.000883633  22  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit 0.000966298  22  0.1
+Inside fit 0.00104896  22  0.1
+Inside fit 0.000883633  22  0.1
+Inside fit 0.00098283  22  0.1
+Inside fit 0.000949765  22  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=59.1152 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=6.94562e-15    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    9.66298e-04   2.18352e-02   8.26646e-05   5.39776e-06
+   2  Delta M      2.20000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  4.768e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit 0.000966298  22  0.1
+dmLoop = 22  par0 = 0.000966298  err0 = 0.0218352
+0.00241574  0.054588
+0.00241574   0.054588
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      2.30000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  23  0.1
+ FCN=559.424 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      2.30000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501156  23  0.1
+Inside fit 0.498844  23  0.1
+Inside fit 0.500258  23  0.1
+Inside fit 0.499742  23  0.1
+ FCN=559.424 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   2.01493e+03
+   2  Delta M      2.30000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit -0.00243691  23  0.1
+Inside fit -0.0023566  23  0.1
+Inside fit -0.00251721  23  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit -0.00243691  23  0.1
+Inside fit -0.0023566  23  0.1
+Inside fit -0.00251721  23  0.1
+Inside fit -0.00242084  23  0.1
+Inside fit -0.00245297  23  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=53.2371 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=3.61602e-16    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -2.43691e-03   2.23319e-02   8.03053e-05  -1.20422e-06
+   2  Delta M      2.30000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  4.987e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.00243691  23  0.1
+dmLoop = 23  par0 = -0.00243691  err0 = 0.0223319
+-0.00609226  0.0558298
+-0.00609226   0.0558298
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      2.40000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  24  0.1
+ FCN=511.959 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      2.40000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501106  24  0.1
+Inside fit 0.498894  24  0.1
+Inside fit 0.50026  24  0.1
+Inside fit 0.49974  24  0.1
+ FCN=511.959 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   1.81168e+03
+   2  Delta M      2.40000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit -0.00175128  24  0.1
+Inside fit -0.00166342  24  0.1
+Inside fit -0.00183914  24  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit -0.00175128  24  0.1
+Inside fit -0.00166342  24  0.1
+Inside fit -0.00183914  24  0.1
+Inside fit -0.00173371  24  0.1
+Inside fit -0.00176885  24  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=57.4534 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=1.81791e-15    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude   -1.75128e-03   2.35352e-02   8.78605e-05  -2.56202e-06
+   2  Delta M      2.40000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  5.539e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit -0.00175128  24  0.1
+dmLoop = 24  par0 = -0.00175128  err0 = 0.0235352
+-0.0043782  0.0588381
+-0.0043782   0.0588381
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      2.50000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  25  0.1
+ FCN=477.495 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      2.50000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501068  25  0.1
+Inside fit 0.498932  25  0.1
+Inside fit 0.500256  25  0.1
+Inside fit 0.499744  25  0.1
+ FCN=477.495 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   1.71445e+03
+   2  Delta M      2.50000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit 0.0082113  25  0.1
+Inside fit 0.00829954  25  0.1
+Inside fit 0.00812306  25  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit 0.0082113  25  0.1
+Inside fit 0.00829954  25  0.1
+Inside fit 0.00812306  25  0.1
+Inside fit 0.00822895  25  0.1
+Inside fit 0.00819365  25  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=55.9223 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=9.79045e-17    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    8.21130e-03   2.39520e-02   8.82376e-05   5.84217e-07
+   2  Delta M      2.50000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  5.737e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit 0.0082113  25  0.1
+dmLoop = 25  par0 = 0.0082113  err0 = 0.023952
+0.0205283  0.0598801
+0.0205283   0.0598801
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      2.60000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  26  0.1
+ FCN=422.347 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      2.60000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501005  26  0.1
+Inside fit 0.498995  26  0.1
+Inside fit 0.500249  26  0.1
+Inside fit 0.499751  26  0.1
+ FCN=422.347 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   1.54255e+03
+   2  Delta M      2.60000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit 0.0249313  26  0.1
+Inside fit 0.0250228  26  0.1
+Inside fit 0.0248399  26  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit 0.0249313  26  0.1
+Inside fit 0.0250228  26  0.1
+Inside fit 0.0248399  26  0.1
+Inside fit 0.0249496  26  0.1
+Inside fit 0.024913  26  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=55.9387 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=2.72591e-16    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    2.49313e-02   2.48184e-02   9.14424e-05   9.40799e-07
+   2  Delta M      2.60000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  6.160e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit 0.0249313  26  0.1
+dmLoop = 26  par0 = 0.0249313  err0 = 0.0248184
+0.0623283  0.062046
+0.0623283   0.062046
+Warning in <TH1::Build>: Replacing existing histogram: tmp (Potential memory leak).
+IMAX = 10
+ **********
+ **    1 **SET ERR           1
+ **********
+vstart[2] = 0.1
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 Amplitude    5.00000e-01  1.00000e-01     no limits
+     2 Delta M      2.70000e+01  1.00000e-03     no limits
+     3 Bin Width    1.00000e-01  1.00000e-01     no limits
+ **********
+ **    2 **FIX           2           3
+ **********
+ **********
+ **    3 **CALL FCN           1
+ **********
+iflag  1
+Inside fit 0.5  27  0.1
+ FCN=364.484 FROM CALl fcn    STATUS=RESET           1 CALLS           1 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME      VALUE            ERROR       NEGATIVE      POSITIVE  
+   1  Amplitude    5.00000e-01   1.00000e-01
+   2  Delta M      2.70000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ **********
+ **    4 **MIGRAD        3000        0.01
+ **********
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-05
+Inside fit 0.501  27  0.1
+Inside fit 0.499  27  0.1
+Inside fit 0.500242  27  0.1
+Inside fit 0.499758  27  0.1
+ FCN=364.484 FROM MIGRAD    STATUS=INITIATE        4 CALLS           5 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    5.00000e-01   1.00000e-01   1.00000e-01   1.35900e+03
+   2  Delta M      2.70000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+Inside fit 0.0422574  27  0.1
+Inside fit 0.0423509  27  0.1
+Inside fit 0.0421639  27  0.1
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+Inside fit 0.0422574  27  0.1
+Inside fit 0.0423509  27  0.1
+Inside fit 0.0421639  27  0.1
+Inside fit 0.0422761  27  0.1
+Inside fit 0.0422387  27  0.1
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=53.4483 FROM MIGRAD    STATUS=CONVERGED      12 CALLS          13 TOTAL
+                     EDM=4.11563e-15    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  Amplitude    4.22574e-02   2.59547e-02   9.35144e-05   3.49556e-06
+   2  Delta M      2.70000e+01     fixed    
+   3  Bin Width    1.00000e-01     fixed    
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  6.736e-04 
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+Inside fit 0.0422574  27  0.1
+dmLoop = 27  par0 = 0.0422574  err0 = 0.0259547
+0.105644  0.0648868
+0.105644   0.0648868
+0  0  0  0
+0.0779181  0.0220186  1  0
+0.0584585  0.0237258  2  0
+0.00164362  0.0252123  3  0
+-0.0200963  0.0259069  4  0
+0.0279461  0.0275944  5  0
+0.0880747  0.0286555  6  0
+0.108646  0.0301769  7  0
+0.0934338  0.0315934  8  0
+0.0618469  0.0326535  9  0

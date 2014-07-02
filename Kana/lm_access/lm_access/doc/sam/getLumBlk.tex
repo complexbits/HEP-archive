@@ -1,0 +1,195 @@
+\documentclass[12pt]{article}
+\parindent 0pt
+\parskip 10 pt
+\begin{document}
+\author{Heidi Schellman, Maciej Przybycien, Sunghwan Ahn, \\Michael Begel, Gregor Geurkov, Alex Kupco
+\\John Hauptman, Sehwook Lee, Prolay Mal, Jaewon Park,\\ Rich Partridge, Marco Verzocchi \\
+The Luminosity ID Group}
+\title{D0 Note 3937:User Interface to Find the Luminosity Blocks Corresponding to Data Files}
+\date{\today}
+\maketitle
+
+\section{Introduction}
+In order to find the luminosity for any data sample, you need to know the time period
+over which the data were taken and the luminosity corresponding to that time period.
+Every minute, we log the luminosity information from the luminosity monitors.
+Each such logging cycle is called a luminosity block (LBN).  Calculations of
+luminosity then become a two step process. First for any given data sample, you
+need to find the set of luminosity blocks corresponding to
+that dataset,  then given that set of luminosity blocks you
+can access the full luminosity information, find the bad blocks, make
+corrections and derive
+with a final luminosity estimate for your sample.\footnote{You will of course need
+to run through your sample again and eliminate any events that occurred in bad
+luminosity blocks.}
+
+
+
+
+
+This note describes the method currently being used to determine the set of luminosity
+blocks for a given data sample.  It does not include the case of exclusive streaming
+as that is not being used at present.
+
+\section{SAM file storage}
+
+The online data logger closes and opens files at LBN boundaries.  A given LBN
+should appear in one and only one raw data file in any given data stream.  For each raw
+data file, the LBN range is stored in sam. If raw file is in your data sample,
+the LBN's  in its range will count towards your final luminosity. \footnote{If a given
+luminosity block contains no triggered events, even if the detector was live, it
+will not be included in the file and that LBN will not be in the list.  This is
+one of the corrections that needs to be made in order to get a full luminosity
+for a data sample.}% Michael made me put this in.}
+
+When we processes a file through reconstruction or offline filtering, it is written
+back into SAM with metadata which describe the processing step.  The important information
+for luminosity is the parentage of the derived file - which input files created the
+output file?  If one knows the parentage for a file, you can trace it back to the
+original raw data file, and get the LBN ranges for all the raw files.  That
+set of LBN's is the luminosity set for that data sample.
+
+\subsection{Paternity}
+
+For the parentage method to work, all files in the processing chain must be
+included, even those for which no events showed up in the final sample.
+
+WARNING: Derived samples not made as part of official production may not
+have complete parentage and should be used with extreme caution unless the
+production chain has been documented.
+
+The rest of this section describes methods for avoiding common pitfalls in
+file processing.
+
+
+The root files produced by official reconstruction are believed to
+have complete parentage information.  This is assured by the requirement
+that the reconstruction job return success before the root file
+is generated and that  all of the parent reconstructed files be stored into sam before the
+root file can be stored.
+
+\subsubsection{Split files}
+However reconstructed files may have
+been split because they became too large. These files are rare but they
+do not have correct parentage information by themselves.
+Because the file had to be split at an arbitrary point in the middle of
+an LBN, each resulting file has the full parentage for the parent file
+stored with it.  If an analysis processes all of the reconstructed files for a given
+input file, (the usual situation) the parentage information is complete, but if one of the
+files is missing, the parentage may include additional LBN's from
+the missing file.
+
+\subsubsection{Filtering followed by merging}
+Another potential source of errors is event filtering followed by file merging.  If, after
+filtering, a file ends up with zero events, the parentage information will not
+get stored with the merged file and the luminosity block ranges for the merged file
+will be incomplete.
+Currently, we handle this case by  always
+writing one event to any output file when filtering.  This is done calling the \tt special \rm
+package in d0reco and putting \tt firstevent.stream \rm into the
+list of event tags in \tt WriteEvent.\rm  If that output file is then merged
+with others, it will bring its parents with it and retain the full luminosity
+for the sample.
+
+\section{The \tt lm\_access \rm interface}
+
+The \tt lm\_access/scripts \rm package in CVS is designed to do
+that tracing for you.  It contains 2 scripts.
+
+
+\begin{verbatim}
+getLumBlk.py <source-options> [--cache=<cache-location>]
+\end{verbatim}
+
+Source options are:
+
+\begin{verbatim}
+--file=<filename> does a single file
+--list=<filename> does all the files listed in a file
+--defname=<definition>  does all the files in a sam dataset definition
+\end{verbatim}
+
+The \tt--cache\rm  argument points to an optional cache file where previous results of
+such queries are stored. Tracing the parentage of the files is very time consuming
+as it involves multiple nested calls to the database, so caching the results is very useful.
+
+getFileParentsRecursive.py is used by the other scripts to trace the parentage.  It is slow.
+
+
+Output of the program looks like:
+
+\begin{verbatim}
+reco_recoS_all_0000139615_mrg_005-005.raw_p10.11.00_p10.13.00-a_000\
+ filtered-reco 2411 0 1 < 139615 : 738565 - 738570 >
+\end{verbatim}
+
+Where the format is:
+\begin{description}
+\item{\bf Filename}
+\item{\bf Data Tier}
+\item{\bf Number of raw events in all parent files}
+\item{\bf Status:} default = 0, split file = 1
+\item{\bf Number of events in this file}
+\item{\bf List of LBN ranges} in format \tt RUNNUM : LUMMIN - LUMMAX \rm\break
+All are enclosed in triangular brackets.
+\end{description}
+
+From these files, you can find the set of luminosity ranges for any derived file.
+
+
+
+\section{How it works}
+Under the covers, these programs use the file information scripts which can be
+accessed from both python and the command line.
+
+An example of use of the command line interface, which dumps everything.
+
+
+
+\begin{verbatim}
+sam dump file --filename=myfile
+
+attributeList: runNumber: 139622, physicalDatastreamName: all,
+logicalDatastreamName: generic, dataTier: filtered-reco, fileStatus: available,
+ formatInfo: , minbiasNumber: , minbiasType: , eventCount: 2,
+ kbyteFileSize: 685, firstEventNumber: 75210, lastEventNumber: 78481,
+ lumMin: -1, lumMax: -1, filePartition: -1, createDate: 01/14/2002 12:47:40,
+ createUser: samdbs, startTime: 01/14/2002 10:06:01, endTime: ,
+ family: reconstruction, version: p10.13.00-a, applName: d0reco,
+ projectName: farm.p10.13.00-a.10797, projSnapId: 14525,
+ projectDefName: farm-recos-after-139000-p10.13.00-a_20020114095221
+children list:  ['recoA_reco_recoS_all_mrg_0000139615-005_0000139633-007.\
+raw_p10.11.00_p10.13.00-a.root']
+parent list:  ['recoS_all_0000139622_mrg_007-008.raw_p10.11.00']
+\end{verbatim}
+
+An example using the Python interface:
+\begin{verbatim}
+....
+import file_client
+
+def getFileParents(filename):
+
+
+        try:
+            fileinfo = file_client.APIGetFileInfo(filename)
+        except SAMDbServer.DBError, oerr:
+            print "**** Terminating execution due to database error"
+            return ["DBError"]
+        except SAMDbServer.DataFileNotFound:
+            print "File not found"
+            return ["NoSuchFile"]
+
+        return fileinfo.parentList
+
+
+
+\end{verbatim}
+\section {Cache Locations}
+
+Caches for different production runs are stored in CVS in package \tt lm\_access/cache \rm.
+The naming convention is \tt$<$data\_tier$>$\_$<$production-version$>$.cache \rm
+
+They are merged into a single file in directory \tt d0mino:/prj\_root/846/cd\_1/lm\_access\_cache/cache\_v1 \rm
+
+\end{document}

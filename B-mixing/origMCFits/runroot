@@ -1,0 +1,7 @@
+#!/bin/bash
+
+root -b > fiterrs.log << EOF 2>&1
+.x fiterrs.C
+
+
+EOF

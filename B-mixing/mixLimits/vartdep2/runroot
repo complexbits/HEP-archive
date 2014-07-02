@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "root -b >> $1.log << EOF 2>&1"
+root -b >> $1.log << EOF 2>&1 &
+.x $1.C
+EOF
+
+exit

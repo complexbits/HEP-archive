@@ -1,0 +1,23 @@
+void treetest()
+{
+  TFile testfile("testfile.root", "recreate");
+  TTree testtree("testtree", "Test Tree");
+
+  TCLonesArray histList(0);
+
+  TH1D *h1 = new TH1D("h1", "histogram 1", 100, -1,1);
+  TH1D *h2 = new TH1D("h2", "histogram 2", 100, -1,1);
+
+  histList.Add(h1);
+  histList.Add(h2);
+
+  testtree.Branch("Histograms","TClonesArray", &histList);
+
+  h1->FillRandom("gaus",500);
+  h2->FillRandom("gaus",5000);
+
+  testtree.Fill();
+
+  testtree.Write();
+
+}

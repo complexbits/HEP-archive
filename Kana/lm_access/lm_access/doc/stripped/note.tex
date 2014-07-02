@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+\topmargin -.5in		% 1 inch at top of page
+\textheight 9in			% 9 inches text ==> 1 inch bottom margin
+\oddsidemargin 0in		% 1.5 inch left margin
+\textwidth 6.5in		% ~6 inches text ==> 1 inch right margin
+\evensidemargin 0in		% does correct thing for TWOSIDE
+\pagestyle{myheadings}
+\markright{\hfill D\O\ Note \#XXXX~\quad p.~}
+\include{epsf}
+\include{pstricks}
+\begin{document}
+\title{Normalizing Selected Event Samples}
+\author{Sung Hwan Ahn,$^3$ 
+	Oleksiy Atramentov,$^2$ 
+	Michael Begel,$^7$ \\
+	Gregor Geurkov,$^1$ 
+	John Hauptman,$^2$ 
+	Alexander Kup\v{c}o,$^6$ \\
+	Seh Wook Lee,$^3$ 
+	Prolay Kumar Mal,$^8$ 
+	Jae Won Park,$^3$ \\
+	Richard Partridge,$^1$ 
+	Heidi Schellman,$^5$ 
+	Marco Verzocchi$^4$
+\\
+\\ $^1${\it\small Brown University, Providence, Rhode Island}
+\\ $^2${\it\small State University, Ames, Iowa}
+\\ $^3${\it\small Korea University, Seoul, Korea}
+\\ $^4${\it\small University of Maryland, College Park, Maryland}
+\\ $^5${\it\small Northwestern University, Evanston, Illinois}
+\\ $^6${\it\small Center for Particle Physics, Prague, Czech Republic}
+\\ $^7${\it\small University of Rochester, Rochester, New York}
+\\ $^8${\it\small Tata Institute of Fundamental Research, Mumbia, India}
+}
+%\date
+\maketitle
+\thispagestyle{myheadings}
+\markright{\hfill D\O\ Note \#XXXX~\quad p.~}
+
+\begin{quote}
+Data samples with picked events are difficult to normalize properly.
+This note illustrates methodologies that should be used during event
+selection to ensure the sample is normalizable.
+\end{quote}
+
+\section{Introduction}
+
+This document outlines methods that should be used during event
+selection to ensure that picked event data samples are normalizable.
+Other documents in this series describe the measurement of delivered
+luminosity~\cite{3970}, triggered luminosity~\cite{3971}, recorded
+luminosity~\cite{3972}, and the access methods for normalization
+information~\cite{3937,3969}.
+
+\section{Luminosity Calculation}
+
+The luminosity block is the fundamental unit of time for the
+luminosity measurement.  Each block is indexed by the luminosity block
+number (LBN), which monotonically increases throughout Run~2.  The LBN
+is incremented upon run or store transitions, by request, or after
+60~seconds have elapsed.  The time span was chosen based on numerous
+constraints in the luminosity, trigger, and DAQ systems.  The time
+period is short enough so that the instantaneous luminosity is
+effectively constant during each luminosity block, introducing
+negligable uncertainty into the measurement of the luminosity due to
+the width of the time slice.  Raw data files (partitions) are opened
+and closed on LBN boundaries.  The luminosity calculation, detailed in
+D\O~Notes~3970, 3971,~and 3972~\cite{3970,3971,3972}, is made
+independently for each LBN.  Results are averaged over the luminosity
+block.
+
+Unfortunately events can be lost at every stage of the read-out
+process~\cite{3972}.  It is difficult to correct the luminosity for
+these losses on a trigger-by-trigger basis given the large rejection
+factors.  The solution is to have low-bias triggers not rejected by
+the trigger system; these are used to track losses and correct the
+luminosity.  The {\it zero bias} trigger fires based on a clock
+pattern; there is no reliance on detector information.  The {\it min
+bias} trigger is defined like the {\it zero bias} trigger with the
+additional requirement of a luminosity signal~\cite{3973}.  Every
+normalized exposure group must have both a {\it zero bias} and {\it
+min bias} trigger.
+
+The final measure of recorded luminosity is taken from the event
+catalogs sent to the $\cal L$DAQ~\cite{XXXX-LDAQ} by the datalogging
+process~\cite{3982}.  These catalogs are also sent to SAM~\cite{3465}
+for the offline data processing.  The event catalogs contain, for
+every event in the partition, the event number, LBN, and L1, L2, and
+L3 trigger masks.  Using information made available to both the $\cal
+L$DAQ and the Runs Summary database, the {\it zero bias} and {\it min
+bias} triggers are identified and summed for each luminosity block.
+This count of recorded triggers is compared to the number of
+L1~accepts and used to correct the luminosity for every trigger as
+follows,
+\begin{equation}
+{\cal L}_{recorded}(n) = {\# zero\;bias_{recorded} + \#
+min\;bias_{recorded} \over \# zero\;bias_{L1} + \# min\;bias_{L1}}
+\;{\cal L}_{L1}(n),
+\label{eq:recorded}
+\end{equation}
+where ${\cal L}_{L1}(n)$ is the luminosity of trigger~$n$
+at~L1. (There are no prescales implemented at the other levels of the
+trigger, so ${\cal L}_{L3} = {\cal L}_{L2} = {\cal L}_{L1}$.)  It must
+be noted that this correction methodology requires that the {\it zero
+bias} and {\it min bias} triggers are treated exactly like the other
+triggers --- differences bias the recorded luminosity.  Any losses not
+accounted for by this method must be included in the trigger
+efficiency.
+
+{\it Add a paragraph or two about reconstructed luminosity.}
+
+\section{Normalizing the Data}
+
+\section{Proper Stripping Proceedures}
+
+\newpage
+% 
+% Bibliography 
+%
+\bibliographystyle{../bibliography/lmid}
+\bibliography{../bibliography/lmid} 
+
+\end{document}

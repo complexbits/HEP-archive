@@ -1,0 +1,338 @@
+\documentclass[12pt]{article}
+\topmargin -.5in        % 1 inch at top of page
+\textheight 9in         % 9 inches text ==> 1 inch bottom margin
+\oddsidemargin 0in      % 1.5 inch left margin
+\textwidth 6.5in        % ~6 inches text ==> 1 inch right margin
+\evensidemargin 0in     % does correct thing for TWOSIDE
+\pagestyle{myheadings}
+\markright{\hfill D\O\ Note \#3969~\quad p.~}
+\include{epsf}
+\include{pstricks}
+\begin{document}
+\title{Accessing Triggered Luminosity Information \\ via Flat Files}
+\author{Sung Hwan Ahn,$^3$
+    Oleksiy Atramentov,$^2$
+    Michael Begel,$^7$ \\
+    Gregor Geurkov,$^1$
+    John Hauptman,$^2$
+    Alexander Kup\v{c}o,$^6$ \\
+    Seh Wook Lee,$^3$
+    Prolay Kumar Mal,$^8$
+    Jae Won Park,$^3$ \\
+    Richard Partridge,$^1$
+    Heidi Schellman,$^5$
+    Marco Verzocchi$^4$
+\\
+\\ $^1${\it\small Brown University, Providence, Rhode Island}
+\\ $^2${\it\small State University, Ames, Iowa}
+\\ $^3${\it\small Korea University, Seoul, Korea}
+\\ $^4${\it\small University of Maryland, College Park, Maryland}
+\\ $^5${\it\small Northwestern University, Evanston, Illinois}
+\\ $^6${\it\small Center for Particle Physics, Prague, Czech Republic}
+\\ $^7${\it\small University of Rochester, Rochester, New York}
+\\ $^8${\it\small Tata Institute of Fundamental Research, Mumbia, India}
+}
+%\date
+\maketitle
+\thispagestyle{myheadings}
+\markright{\hfill D\O\ Note \#3969~\quad p.~}
+
+\begin{quote}
+This note describes the method for normalizing a data sample using the
+Offline D0 Luminosity System.  A checklist for end users is provided
+in Appendix 1.
+\end{quote}
+
+\section{Introduction}
+
+Other documents in this series describe the measurement of delivered
+luminosity~\cite{3970}, triggered luminosity~\cite{3971}, recorded
+luminosity~\cite{3972}, and the access methods for normalization
+information from SAM~\cite{3465,3937}.
+
+\section{Normalization Calculation}
+
+\subsection*{Luminosity Blocks}
+The luminosity block is the fundamental unit of time for the
+luminosity measurement.  Each block is indexed by the luminosity block
+number (LBN), which monotonically increases throughout Run~2.  The LBN
+is incremented upon run or store transitions, by request, or after
+60~seconds have elapsed.  The time span was chosen based on numerous
+constraints in the luminosity, trigger, and DAQ systems.  The time
+period is short enough so that the instantaneous luminosity is
+effectively constant during each luminosity block, introducing
+negligible uncertainty into the measurement of the luminosity due to
+the width of the time slice.  Raw data files (partitions) are opened
+and closed on LBN boundaries and have LUM\_MIN and LUM\_MAX as pointers
+to the LBN range. \bf
+In order to normalize a data sample, one must have a correspondence between
+all of the events in the data sample and the LBNS corresponding to that sample.
+Such a mapping exists between raw data files and LBNS and the Sam File Parentage
+or some other book-keeping mechanism must preserve that mapping during data processing. \rm
+
+
+ The calculation of the integrated luminosity/LBN, detailed in
+D\O~Notes~3970, 3971,~and 3972~\cite{3970,3971,3972}, is made
+independently for each LBN.  Results are averaged over the luminosity
+block.
+
+
+\subsection*{Corrections to integrated luminosity per LBN for losses in the DAQ}
+Unfortunately events can be lost at every stage of the read-out
+process~\cite{3972}.  It is difficult to correct the luminosity for
+these losses on a trigger-by-trigger basis given the large rejection
+factors.  The solution is to have low-bias triggers not rejected by
+the trigger system; these are used to track losses and correct the
+luminosity.  The {\it zero bias} trigger fires based on a clock
+pattern; there is no reliance on detector information.  The {\it min
+bias} trigger is defined like the {\it zero bias} trigger with the
+additional requirement of a luminosity signal~\cite{3973}.  Every
+\bf normalizable \rm exposure group is required to have both a {\it zero bias} and {\it
+min bias} trigger available for use in these crosschecks.
+
+The final measure of recorded luminosity is taken from the event
+catalogs sent to the $\cal L$DAQ~\cite{XXXX-LDAQ} by the datalogging
+process~\cite{3982}.  These catalogs are also sent to SAM~\cite{3465}
+for the offline data processing.  The event catalogs contain, for
+every event in the partition, the event number, LBN, and L1, L2, and
+L3 trigger masks.  Using information made available to both the $\cal
+L$DAQ and the Runs Summary database, the {\it zero bias} and {\it min
+bias} triggers are identified and summed for each luminosity block.
+This count of recorded triggers is compared to the number of
+L1~accepts and used to correct the luminosity for every trigger as
+follows,
+\begin{equation}
+{\cal L}_{recorded}(n) = {\# zero\;bias_{recorded} + \#
+min\;bias_{recorded} \over \# zero\;bias_{L1} + \# min\;bias_{L1}}
+\;{\cal L}_{L1}(n),
+\label{eq:recorded}
+\end{equation}
+where ${\cal L}_{L1}(n)$ is the luminosity of trigger~$n$
+at~L1. (There are no prescales implemented at the other levels of the
+trigger, so ${\cal L}_{L3} = {\cal L}_{L2} = {\cal L}_{L1}$.)  It must
+be noted that this correction methodology requires that the {\it zero
+bias} and {\it min bias} triggers are treated exactly like the other
+triggers --- differences bias the recorded luminosity.  Any losses not
+accounted for by this method must be included in the trigger
+efficiency.
+
+\subsection{Data losses in reconstruction}
+
+Other losses can arise during the reconstruction process due to crashes
+of the reconstruction software. The Fermilab reconstruction farms
+check for such losses and do not store output if more than one event
+is lost per file but the Luminosity system checks to make certain
+that this mechanism works. In order to catch those cases a number of
+events is counted for every LBN in both raw files and reconstructed files
+(so far root tuples). If the number of events does not agree the LBN
+is marked as a bad block from the point of view of reconstructed luminosity
+otherwise reconstructed luminosity is the same as recorded
+
+
+\begin{equation}
+{\cal L}_{reconstructed}(n) = {\cal L}_{recorded}(n)\,,\qquad
+\hbox{if}\qquad \#events_{reconstructed} = \#events_{recorded}
+\label{eq:reconstructed}
+\end{equation}
+
+This mechanism also allows reconstructed data from particular reconstruction
+version to be declared bad (for example
+due to bad calibration constants) on an LBN by LBN basis, which allows derived
+files which contain a mix of good and bad data
+to be analyzed and normalized
+properly.
+\section{Normalizing the Data}
+
+Access to the luminosity information in the physics analysis of the
+D\O\ data is provided by {\tt lm\_access} package. The package can be
+obtained from D\O\  CVS repository, or in  test releases after t03.08.00.
+Documentation is available on WWW  pages of Luminosity ID group.
+There is a D0 Framework wrapper {\tt lm\_access\_pkg} which allows
+control of the  {\tt lm\_access} code via RCP files.
+
+\subsection{Flat File Luminosity Database}
+
+The smallest unit of time in which the luminosity is provided is a
+luminosity block. Each LBN has its own (flat) file that contains all
+the information necessary to calculate integrated luminosity in the
+LBN per trigger. If the file for a given LBN does not exists it means
+that the data for this LBN cannot be normalized at all. The luminosity
+files are currently cached on both d0mino and clued0 in the directory
+{\tt /home/begel/stage2} and they are regularly updated as new data
+arrive or old data are recovered.
+
+\subsection{Lm\_access API}
+
+All access to the luminosity information goes through the class {\tt
+LumFileMap}.  It keeps in  memory a list of LBNs associated with the
+data, organizes them according to the version of the reconstruction
+software, provides a method that gives the  status of LBNs, and
+calculates total luminosity per trigger.
+
+
+In the constructor the  user specifies the list of triggers that he wants
+to normalize and also the type of luminosity (triggered, recorded, or
+reconstructed as described in the notes ~\cite{3971}, ~\cite{3972}).
+
+\bf Recorded\rm \  luminosity does not include checks on reconstruction quality.
+
+\bf Reconstructed\rm \ luminosity includes checks on reconstruction quality.  As
+these checks are done offline, it may take up to a week for {\bf Reconstructed}
+luminosity to catch up with {\bf Recorded} but after that point the two measures
+are
+equivalent to within one part out of 40,000 for the p13.05 data sample.
+
+\subsection{Reconstructed Luminosity}
+
+In order to calculate reconstructed luminosity the LBNs (or data
+files) have to be grouped according to the version of the release of
+the reconstruction software. Introducing new information into the map
+ (by datafile or release, or
+some other general group of LBNs) is done by
+
+\begin{flushleft}
+\hspace*{4mm} {\tt LumFileMap::add(const std::string\& fileID, const
+LumFile\& f = LumFile())}
+\end{flushleft}
+
+where the string {\tt fileID} is some unique identifier of the group
+ of LBNs (for example LBNs from one data file). The second parameter
+ {\tt f} specifies what is the type of the data files and what was the
+ version of the reconstruction software. There is no need to specify
+ the release version and the second parameter can be omitted in the
+ case when the type of the required luminosity is Triggered or
+ Recorded.
+
+Before any information about a particular LBN can be accessed the LBN
+flat file has to be downloaded into the memory. Method
+\begin{flushleft}
+\hspace*{4mm} {\tt int LumFileMap::downloadLBN(const std::string\& fileID, int lbn)}
+\end{flushleft}
+adds one particular luminosity block {\tt lbn} into the list of known LBNs and
+associates the LBN with the group {\tt fileID}.
+
+After the LBN is downloaded into the memory the user can check whether the data
+ for a given trigger can be normalized. If the function
+\begin{flushleft}
+\hspace*{4mm} {\tt int LumFileMap::isGoodLBN(const std::string\& fileID, int lbn,
+\hspace*{61.82mm}const std::string\& trigger)}
+\end{flushleft}
+returns one the data can be normalized.
+If it returns zero the data from the given LBN and trigger cannot be
+normalized at all and they have to be removed from the analysis.
+
+Finally, a function
+\begin{flushleft}
+\hspace*{4mm} {\tt double LumFileMap::luminosity(const std::string\& trigger)}
+\end{flushleft}
+returns the total luminosity in $\mu\hbox{b}^{-1}$ for a given trigger and for
+all downloaded LBNs for which the status is good.
+
+A simple example that shows how to get luminosity and cross section for one
+particular trigger can be found in the documentation of the {\tt lm\_access}
+package.
+
+\subsection{Normalization of derived data samples}
+
+To compute luminosity for a data sample correctly it is
+very important that  the list of LBNs downloaded into  memory corresponds
+to this sample.
+
+\subsubsection{Production data with no event filtering}
+The situation is quite simple in the case of the official ROOT and
+thumbnail files
+made from {\tt reco} files on the FNAL production farms.
+For these samples, \bf which have not had any events cut during processing \rm, there has to be at least one event from zero bias
+or minimum bias trigger in the LBN in order to have some recorded luminosity.
+Therefore it is enough to download every LBN that occurs in the data sample
+as it is done in the example in the documentation of the {\tt lm\_access/example}
+package.
+
+\subsubsection{Derived data with event filtering (stripping) }
+
+In the case of stripped data files the situation is more complicated
+because there is no longer a guarantee that a given data sample
+contains one event/LBN.
+The approach described above cannot be used usually since it depends
+on the existence of an event for each LBN to add the luminosity to the map.
+However, if  SAM is used to produce the derived files, the processing information in
+the SAM database can be used find the LBNs associated with the analysis.
+This method requires that the stripped data files be stored into SAM, so
+that their processing history (or parentage) can be determined and that
+the processing has followed simple rules
+\begin{itemize}
+\item  That output files be closed on
+input file boundaries - use of Synchronize flag in WriteEvent rcp.
+\item That SAM base parentage on closed files only - FileParentage = 1 in SamManager rcp.
+\end{itemize}
+(These are unfortunately not the defaults.)
+
+For any Sam resident file, dataset definition or fileset dimension, there are scripts
+which can produce this parentage information.
+
+These scripts are in {\tt lm\_access/scripts} and are described in Appendix 2.
+
+Because the parentage files contain LBN by LBN information for each input file,
+the functions of adding a file record to the \tt LumFileMap \rm \ and loading
+in the individual LBNs can be replaced by a combined function
+{\tt addAndLoad } which is illustrated in {lm\_access/example2/example\_parentage.cpp}.
+
+Many physics groups have created common repositories for parentage files.
+example2 uses /home/schellma/wzparentage on clued0 for the WZ em parentage.
+
+\newpage
+\appendix{\bf \LARGE CheckList:  Is my normalization reasonable}
+
+\begin{description}
+\item{$\bigcirc$}\bf  Is my data sample filtered in any way? \rm  If yes, your data must be in Sam
+and you must use the parentage method
+or you must have preserved one event per LBN in all processing steps.
+\item{$\bigcirc$} \bf Have you applied good run cuts to both data and luminosity consistently?
+\item{$\bigcirc$} \bf Have you cut out bad luminosity blocks using the isGoodLBN method?
+\end{description}
+
+
+
+%It is up to the groups to keep the list of original LBNs that corresponds to
+%their stripped sample and provide tools that allows to download this list
+%in the data analysis.
+
+\newpage
+\appendix
+
+\centerline
+{Parentage Scripts}
+\vskip .5 in
+
+The parentage determination scripts are in package {\tt lm\_access/scripts}.
+
+\begin{verbatim}
+setenv PYTHONPATH lm_access/scripts
+python makeFileParentageList.py <filename>
+python makeDimensionParentageList.py <sam dimension>
+python makeDatasetParentageList.py <sam dataset>
+\end{verbatim}
+
+File \tt WZskim-emStream-20021221-112018.raw\_p13.05.00.parentage \rm\  looks like:
+
+\begin{verbatim}
+
+1825548 1825548 169251 all p13.05.00 p13.05.00
+1825549 1825549 169251 all p13.05.00 p13.05.00
+1825547 1825547 169251 all p13.05.00 p13.05.00
+1618611 1618612 164999 all p13.05.00 p13.05.00
+1618613 1618613 164999 all p13.05.00 p13.05.00
+1618614 1618614 164999 all p13.05.00 p13.05.00
+\end{verbatim}
+
+where the first two numbers are the minimum and maximum LBN numbers in a range,
+the third is the run number, the fourth the stream and the last 2 the version
+for the thumbnail record and the reconstruction used to make the thumbnail.
+
+%
+% Bibliography
+%
+\bibliographystyle{../bibliography/lmid}
+\bibliography{../bibliography/lmid}
+
+\end{document}

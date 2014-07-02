@@ -1,0 +1,3300 @@
+%!PS-Adobe-3.0
+%%Title: ampfit.C, getData.cpp, unbinFitamp.cpp, params.hpp, dstag.C, parameters.h, unbinFitosc_d.cpp, func.cpp
+%%For: Jamie Hegarty
+%%Creator: a2ps version 4.13
+%%CreationDate: Tue Aug  9 14:30:39 2005
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 15
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Define these in case they're not in the FontInfo (also, here
+    % they're easier to get to.
+    /UnderlinePosition 1 def
+    /UnderlineThickness 1 def
+    
+    % Get the underline position and thickness if they're defined.
+    currentdict /FontInfo known {
+      FontInfo
+      
+      dup /UnderlinePosition known {
+	dup /UnderlinePosition get
+	0 exch FontMatrix transform exch pop
+	/UnderlinePosition exch def
+      } if
+      
+      dup /UnderlineThickness known {
+	/UnderlineThickness get
+	0 exch FontMatrix transform exch pop
+	/UnderlineThickness exch def
+      } if
+      
+    } if
+    currentdict 
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed string
+% Version 1.2 1/31/1990
+% Orignal Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 612 def
+/sw 792 def
+/llx 24 def
+/urx 768 def
+/ury 588 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 7.060185 def
+/cw 4.236111 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 86.400000 mul
+def
+/ph
+   520.335631 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 5 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1-2) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//****************************************************) p n
+(2) # (// Code to do an unbinned likelihood fit of Amplitude) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//****************************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "getData.cpp") N
+(11) # (#include "unbinFitamp.cpp") N
+(12) # (//#include "unbinFitosc_d.cpp") N
+(13) # (//#include "unbinFitlft.cpp") N
+(14) # (#include "func.cpp") N
+(15) # () N
+(16) # (// Output file) N
+(17) # (ofstream fileout;) N
+(18) # (fileout.open\(dm_ampout.dat\);) N
+(19) # () N
+(20) # (// Define global variables) N
+(21) # () N
+(22) # (Double_t min = 4.8;) N
+(23) # (Double_t max = 5.8;) N
+(24) # (Int_t nEvts = 50000;) N
+(25) # (Int_t nBins = 50;) N
+(26) # () N
+(27) # (Int_t mainLoop;) N
+(28) # (Double_t dmFreq[100];) N
+(29) # (Double_t etaFound[100];) N
+(30) # (Double_t etaFoundErr[100];) N
+(31) # () N
+(32) # () N
+(33) # () N
+(34) # (// Define data variables) N
+(35) # () N
+(36) # (Double_t runNo[100000];) N
+(37) # (Double_t evtNo[100000];) N
+(38) # (Double_t mass[100000];) N
+(39) # (Double_t lifetime[1000000];) N
+(40) # (Int_t tag[1000000];) N
+(41) # () N
+(42) # () N
+(43) # (TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(44) # (TH1F *h2 = new TH1F\("h2","Lifetime Dist",50, -4., 15.\);) N
+(45) # (TH1F *h3 = new TH1F\("h3","Lifetime Dist Mixed",50, -4., 15.\);) N
+(46) # (TH1F *h4 = new TH1F\("h4","Lifetime Dist UnMixed",50, -4., 15.\);) N
+(47) # () N
+(48) # (void ampfit\(\)) N
+(49) # ({) N
+(50) # (  TStopwatch timer;) N
+(51) # () N
+(52) # (  // Define histogarams) N
+(53) # () N
+(54) # (  gStyle->SetOptFit\(0\);) N
+(55) # (  gStyle->SetOptStat\(111111\);) N
+(56) # () N
+(57) # (  // Get data) N
+(58) # () N
+(59) # (  timer.Start\(\);) N
+(60) # (  genMix\(\);) N
+(61) # ( getDataLft\(\);) N
+(62) # (  for \(Int_t iTest = 0; iTest < 10; iTest++\){) N
+(63) # (    cout << lifetime[iTest] << "  " << tag[iTest] << endl;) N
+(64) # (  }) N
+(65) # () N
+(66) # (  // Do binned fit) N
+(67) # () N
+(68) # (  // Do unbinned likelihood fit) N
+(69) # () N
+(70) # (  //unbinFitg\(\);) N
+(71) # (  //unbinFitgp\(\);) N
+(72) # (  //unbinFitlft\(\);) N
+(73) # (  //unbinFitosc\(\);) N
+(ampfit.C) (Page 1/3) (Aug 08, 05 18:05) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # () p n
+(75) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(76) # (  TGraph *g2 = new TGraph\(20\);) N
+(77) # () N
+(78) # (  for \(mainLoop=1; mainLoop<21; mainLoop++\){) N
+(79) # (    oscpar1_init = float\(mainLoop\)/2.;) N
+(80) # (    cout << "Inital dm = " << oscpar1_init << endl;) N
+(81) # (    unbinFitamp\(\);) N
+(82) # () N
+(83) # (    g1->SetPoint\(mainLoop-1,oscpar1_init,\(1.-2.*etaFound[mainLoop-1]\)/0.16\);) N
+(84) # (    g1->SetPointError\(mainLoop-1,0.,1.65*2.*etaFoundErr[mainLoop-1]/0.16\);) N
+(85) # () N
+(86) # (    g2->SetPoint\(mainLoop-1,oscpar1_init,1.65*2.*etaFoundErr[mainLoop-1]/0.16\);) N
+(87) # () N
+(88) # (  }) N
+(89) # () N
+(90) # (//   cout << endl << endl;) N
+(91) # (//   for \(mainLoop=0; mainLoop<5; mainLoop++\){) N
+(92) # (//     cout << dmFreq[mainLoop] << "  ") N
+(93) # (// ) S 8 T ( << etaFound[mainLoop] << "  ") N
+(94) # (// ) S 8 T ( << etaFoundErr[mainLoop] << endl;) N
+(95) # () N
+(96) # (//     fileout << dmFreq[mainLoop] << "  ") N
+(97) # (// ) S 8 T (    << etaFound[mainLoop] << "  ") N
+(98) # (// ) S 8 T (    << etaFoundErr[mainLoop] << endl;) N
+(99) # (//   }) N
+(100) # () N
+(101) # (  // stop timer and print results) N
+(102) # (  timer.Stop\(\);) N
+(103) # (  Double_t rtime = timer.RealTime\(\);) N
+(104) # (  Double_t ctime = timer.CpuTime\(\);) N
+(105) # () N
+(106) # (  cout << endl << endl;) N
+(107) # (  cout << "Real time " << rtime << endl;) N
+(108) # (  cout << "CPU time  " << ctime << endl;) N
+(109) # () N
+(110) # (   TF1 *f2 = new TF1\("f2", lifetime_plt, -4., 15., 2\);) N
+(111) # (   f2->SetParameter\(0,1.\);) N
+(112) # (   f2->SetParameter\(1,1.5\);) N
+(113) # () N
+(114) # () N
+(115) # () N
+(116) # () N
+(117) # (  gROOT->SetStyle\("Plain"\);) N
+(118) # (  TCanvas *c1 = new TCanvas\("c1", "canvas1", 800,800\);) N
+(119) # (  c1->Divide\(2,2\);) N
+(120) # (  c1->cd\(1\);) N
+(121) # (  gPad->SetGrid\(\);) N
+(122) # (  g1->Draw\("AP*"\);) N
+(123) # () N
+(124) # (  c1->cd\(2\);) N
+(125) # (  gPad->SetGrid\(\);) N
+(126) # (  g2->Draw\("AP*"\);) N
+(127) # () N
+(128) # (  c1->cd\(3\);) N
+(129) # (  h3->Draw\(\);) N
+(130) # (  f3->Draw\("same"\);) N
+(131) # (  ) N
+(132) # (  c1->cd\(4\);) N
+(133) # (  h4->Draw\(\);) N
+(134) # (  f4->Draw\("same"\);) N
+(135) # () N
+(136) # (  TObjArray *a1 = new TObjArray\(0\);) N
+(137) # () N
+(138) # (  a1->Add\(h1\);) N
+(139) # (  a1->Add\(h2\);) N
+(140) # (  a1->Add\(h3\);) N
+(141) # (  a1->Add\(h4\);) N
+(142) # (  a1->Add\(g1\);) N
+(143) # (  a1->Add\(g2\);) N
+(144) # (  a1->Add\(f2\);) N
+(145) # (  a1->Add\(f3\);) N
+(146) # (  a1->Add\(f4\);) N
+(ampfit.C) (Page 2/3) (Aug 08, 05 18:05) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(ampfit.C) (1/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(147) # (  a1->Add\(c1\);) p n
+(148) # () N
+(149) # (  TFile *file1 = new TFile\("test_unbinamp.root", "recreate"\);) N
+(150) # (  a1->Write\(\);) N
+(151) # (  file1->Close\(\);) N
+(152) # () N
+(153) # () N
+(154) # () N
+(155) # (}) N
+(ampfit.C) (Page 3/3) (Aug 08, 05 18:05) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(ampfit.C) (2/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//*************************************************) c n
+(2) # (// Get data to fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//) N
+(7) # (//*************************************************) N
+(8) # () N
+(9) # () S
+(void) k
+( genDataMs\(\)) p n
+(10) # ({) N
+(11) # () S
+(// Define variables) c n
+(12) # () N
+(13) # () S
+(  Double_t mean = 5.28;) p n
+(14) # (  Double_t sigma = 0.026;) N
+(15) # (  Double_t frac = 0.8;) N
+(16) # (  Double_t min = 4.8;) N
+(17) # (  Double_t max = 5.8;) N
+(18) # () S
+(// Code) c n
+(19) # () N
+(20) # () S
+(  ) p
+(for) K
+( \() p
+(int) k
+( i=0; i<nEvts; i++\){) p n
+(21) # (    ) S
+(float) k
+( f = gRandom->Rndm\(\);) p n
+(22) # (    ) S
+(if) K
+( \(f > frac\){) p n
+(23) # (      ) S
+(float) k
+( g = gRandom->Gaus\(mean, sigma\);}) p n
+(24) # (    ) S
+(else) K
+({) p n
+(25) # (      ) S
+(float) k
+( g = min + gRandom->Rndm\(\);) p n
+(26) # (    }) N
+(27) # () N
+(28) # (    h1->Fill\(g\);) N
+(29) # () N
+(30) # (    mass[i] = g;) N
+(31) # (  }) N
+(32) # (}) N
+(33) # () N
+(34) # () S
+(//**********************************************) c n
+(35) # (// Get lifetime data) N
+(36) # (//) N
+(37) # (// P. Gutierrez) N
+(38) # (// 3-17-04) N
+(39) # (//**********************************************) N
+(40) # () S
+(void) k
+( getDataLft\(\)) p n
+(41) # ({) N
+(42) # (  ifstream in_file1;) N
+(43) # (  ifstream in_file2;) N
+(44) # () N
+(45) # (  ) S
+(//in_file1.open\("b0b0_smeared2.out"\);    // mixed) c n
+(46) # () S
+(  ) p
+(//in_file2.open\("b0b0bar_smeared2.out"\); // unmixed) c n
+(47) # () N
+(48) # () S
+(  in_file1.open\(") p
+(mix.dat) str
+("\);    ) p
+(// mixed) c n
+(49) # () S
+(  in_file2.open\(") p
+(umix.dat) str
+("\); ) p
+(// unmixed) c n
+(50) # () N
+(51) # () S
+(  Double_t lifetime1, lifetime2;) p n
+(52) # (  Int_t flg;) N
+(53) # () N
+(54) # (  ) S
+(// mixed) c n
+(55) # () N
+(56) # () S
+(  Int_t i=0;) p n
+(57) # (  ) S
+(while) K
+(\(1\){) p n
+(58) # (    in_file1 >> lifetime1 >> flg;) N
+(59) # (    ) S
+(if) K
+( \(!in_file1.good\(\)\) ) p
+(break) K
+(;) p n
+(60) # () N
+(61) # (    h2->Fill\(lifetime1\);) N
+(62) # (    h3->Fill\(lifetime1\);) N
+(63) # () N
+(64) # (    lifetime[i] = lifetime1;) N
+(65) # (    tag[i++] = 1;) N
+(66) # (  }) N
+(67) # () N
+(68) # (  ) S
+(// unmixed) c n
+(69) # () N
+(70) # () S
+(  ) p
+(while) K
+(\(1\){) p n
+(71) # (    in_file2 >> lifetime2 >> flg;) N
+(72) # (    ) S
+(if) K
+( \(!in_file2.good\(\)\) ) p
+(break) K
+(;) p n
+(73) # () N
+(getData.cpp) (Page 1/6) (Aug 09, 05 13:58) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (    h2->Fill\(lifetime2\);) p n
+(75) # (    h4->Fill\(lifetime2\);) N
+(76) # () N
+(77) # (    lifetime[i]=lifetime2;) N
+(78) # (    tag[i++] = -1;) N
+(79) # (  }) N
+(80) # (  nEvts = i;) N
+(81) # (  cout << ") S
+(Number of events  ) str
+(" << i << endl;) p n
+(82) # (  ) S
+(//  h2->Draw\(\);) c n
+(83) # () S
+(}) p n
+(84) # () N
+(85) # () S
+(//**********************************************) c n
+(86) # (// Get lifetime data for combined tag study) N
+(87) # (//) N
+(88) # (// P. Gutierrez) N
+(89) # (// 5-7-04) N
+(90) # (//**********************************************) N
+(91) # () S
+(void) k
+( getDataCLft\(\)) p n
+(92) # ({) N
+(93) # (  ifstream in_file;) N
+(94) # () N
+(95) # (  ) S
+(//in_file1.open\("b0b0_smeared2.out"\);    // mixed) c n
+(96) # () S
+(  ) p
+(//in_file2.open\("b0b0bar_smeared2.out"\); // unmixed) c n
+(97) # () N
+(98) # () S
+(  in_file.open\(") p
+(/home/gut/work/research/d0/studies/mix/pg_mix_code/mc_10K.dat) str
+("\);) p n
+(99) # () N
+(100) # (  Double_t lifetime1;) N
+(101) # () N
+(102) # (  Int_t cTag1=0, cTag2=0, cTag3=0, cTagw=0;) N
+(103) # (  Int_t wTag1=0, wTag2=0, wTag3=0, wTagw=0;) N
+(104) # (  Int_t tag1, tag2, tag3;) N
+(105) # (  Int_t mixState;) N
+(106) # () N
+(107) # (  Int_t whatTag;) N
+(108) # () N
+(109) # (  ) S
+(// Read events) c n
+(110) # () N
+(111) # () S
+(  Int_t count = 0;) p n
+(112) # (  Int_t i=0;) N
+(113) # () N
+(114) # (  ) S
+(//which tag to use) c n
+(115) # () S
+(  Int_t useTag = 1;) p n
+(116) # (  cout << ") S
+(Using tag = ) str
+(" << useTag << endl;) p n
+(117) # (  ) S
+(while) K
+(\(1\){) p n
+(118) # (    in_file >> lifetime1 >> mixState >> tag1 >> tag2 >> tag3;) N
+(119) # (    ) S
+(if) K
+( \(!in_file.good\(\)\) ) p
+(break) K
+(;) p n
+(120) # () S
+(//     cout << lifetime1 << "  " << mixState ) c n
+(121) # (// ) S 8 T ( <<"  " << tag1 << "  " ) N
+(122) # (// ) S 8 T ( << tag2 << "  " << tag3 << endl;) N
+(123) # () N
+(124) # () S
+(    h2->Fill\(lifetime1\);) p n
+(125) # () N
+(126) # (    ) S
+(// Determine if event is used) c n
+(127) # () S
+(    ) p
+(// TAG 1) c n
+(128) # () S
+(    ) p
+(if) K
+( \(useTag == 1\){) p n
+(129) # (      whatTag = 0;) N
+(130) # (      ) S
+(if) K
+( \(tag1 != 0\) whatTag = tag1;) p n
+(131) # (    }) N
+(132) # () N
+(133) # (    ) S
+(//TAG 2) c n
+(134) # () S
+(    ) p
+(if) K
+( \(useTag == 2\){) p n
+(135) # (      whatTag = 0;) N
+(136) # (      ) S
+(if) K
+( \(tag1 == 0\){) p n
+(137) # () S 8 T (whatTag = tag2;) N
+(138) # (      }) N
+(139) # (    }) N
+(140) # () N
+(141) # (    ) S
+(//Tag 3) c n
+(142) # () S
+(    ) p
+(if) K
+( \(useTag == 3\){) p n
+(143) # (      whatTag = 0;) N
+(144) # (      ) S
+(if) K
+( \(tag1 == 0 && tag2 == 0\){) p n
+(145) # () S 8 T (whatTag = tag3;) N
+(146) # (      }) N
+(getData.cpp) (Page 2/6) (Aug 09, 05 13:58) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(getData.cpp) (3/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(147) # (    }) p n
+(148) # () N
+(149) # (    ) S
+(//Tag 4) c n
+(150) # () S
+(    ) p
+(if) K
+( \(useTag == 4\){) p n
+(151) # (      whatTag = 0;) N
+(152) # (      ) S
+(if) K
+( \(tag1 == 0\){) p n
+(153) # () S 8 T () S
+(if) K
+( \(tag2 ==  1 && tag3 ==  1\) whatTag = tag2;) p n
+(154) # () S 8 T () S
+(if) K
+( \(tag2 == -1 && tag3 == -1\) whatTag = tag2;) p n
+(155) # (      }) N
+(156) # (    }) N
+(157) # () N
+(158) # (    ) S
+(//Tag 6) c n
+(159) # () S
+(    ) p
+(if) K
+( \(useTag == 6\){) p n
+(160) # (      whatTag = 0;) N
+(161) # (      ) S
+(if) K
+( \(tag1 == 0 && tag3 == 0\){) p n
+(162) # () S 8 T () S
+(if) K
+( \(tag2 == 1 || tag2 == -1\) whatTag=tag2;) p n
+(163) # (      }) N
+(164) # (    }) N
+(165) # () N
+(166) # (    ) S
+(//Tag 8) c n
+(167) # () S
+(    ) p
+(if) K
+( \(useTag == 8\){) p n
+(168) # (      whatTag = 0;) N
+(169) # (      ) S
+(if) K
+( \(tag1 != 0\) whatTag = tag1;) p n
+(170) # (      ) S
+(if) K
+( \(tag1 == 0 && tag2 != 0\) whatTag = tag2;) p n
+(171) # (      ) S
+(if) K
+( \(tag1 == 0 && tag2 == 0 && tag3 != 0\) whatTag = tag3;) p n
+(172) # (    }) N
+(173) # () S
+(//     if \(tag1 != 0 || tag3 != 0\){) c n
+(174) # (//       whatTag = 0;) N
+(175) # (//     }) N
+(176) # (//     else{) N
+(177) # (//       whatTag = tag2;) N
+(178) # (//     }) N
+(179) # (//     whatTag = 0;) N
+(180) # (//     if \(tag1 != 0\) whatTag = tag1;) N
+(181) # (//     else if \(tag3 != 0\) whatTag = tag3;) N
+(182) # (//     else if \(tag2 != 0\) whatTag = tag2;) N
+(183) # () N
+(184) # (//     whatTag = 0;) N
+(185) # (//     if \(tag1 == 0\){) N
+(186) # (//       if \(tag3 != 0\) whatTag = tag3;) N
+(187) # (//       else if \(tag2 != 0\) whatTag = tag2;) N
+(188) # (//     }) N
+(189) # () N
+(190) # () S
+(    ) p
+(// ms is the measured state including mistag) c n
+(191) # () S
+(    Int_t ms = 0;) p n
+(192) # (    ) S
+(if) K
+( \(whatTag != 0\){) p n
+(193) # (      ms = mixState*whatTag;) N
+(194) # (    }) N
+(195) # (    ) S
+(if) K
+( \(ms != 0\){) p n
+(196) # (      lifetime[i] = lifetime1;) N
+(197) # (      ) S
+(if) K
+( \(ms == 1\) h4->Fill\(lifetime1\);) p n
+(198) # (      ) S
+(if) K
+( \(ms == -1\) h3->Fill\(lifetime1\);) p n
+(199) # (      ) N
+(200) # (      ) S
+(// To determine the mix state with dilution, multiply) c n
+(201) # () S
+(      ) p
+(// by tagn 1=SLT, 2=SST, 3=JETQ) c n
+(202) # () S
+(      tag[i++] = ms;) p n
+(203) # (    }) N
+(204) # () N
+(205) # (    ) S
+(// Count mistags) c n
+(206) # () S
+(    ) p
+(if) K
+( \(tag1 ==  1\) cTag1++;) p n
+(207) # (    ) S
+(if) K
+( \(tag1 == -1\) wTag1++;) p n
+(208) # (    ) S
+(if) K
+( \(tag2 ==  1\) cTag2++;) p n
+(209) # (    ) S
+(if) K
+( \(tag2 == -1\) wTag2++;) p n
+(210) # (    ) S
+(if) K
+( \(tag3 ==  1\) cTag3++;) p n
+(211) # (    ) S
+(if) K
+( \(tag3 == -1\) wTag3++;) p n
+(212) # (    ) S
+(if) K
+( \(whatTag ==  1\) cTagw++;) p n
+(213) # (    ) S
+(if) K
+( \(whatTag == -1\) wTagw++;) p n
+(214) # () N
+(215) # (    count++;) N
+(216) # (  }) N
+(217) # () N
+(218) # (  nEvts = i;) N
+(219) # (  cout << count << endl;) N
+(getData.cpp) (Page 3/6) (Aug 09, 05 13:58) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(220) # (  cout << ") p
+(Number of events  ) str
+(" << i << endl;) p n
+(221) # (  cout << ") S
+(D1 = ) str
+(" << ) p
+(float) k
+(\(cTag1-wTag1\)/\(cTag1+wTag1\) << ") p
+( Eff = ) str
+(" << ) p
+(float) k
+(\(cTag1+w) p n
+0 T (Tag1\)/count << endl;) N
+(222) # (  cout << ") S
+(D2 = ) str
+(" << ) p
+(float) k
+(\(cTag2-wTag2\)/\(cTag2+wTag2\) << ") p
+( Eff = ) str
+(" << ) p
+(float) k
+(\(cTag2+w) p n
+0 T (Tag2\)/count << endl;) N
+(223) # (  cout << ") S
+(D3 = ) str
+(" << ) p
+(float) k
+(\(cTag3-wTag3\)/\(cTag3+wTag3\) << ") p
+( Eff = ) str
+(" << ) p
+(float) k
+(\(cTag3+w) p n
+0 T (Tag3\)/count << endl;) N
+(224) # (  cout << ") S
+(DW = ) str
+(" << ) p
+(float) k
+(\(cTagw-wTagw\)/\(cTagw+wTagw\) << ") p
+( Eff = ) str
+(" << ) p
+(float) k
+(\(cTagw+w) p n
+0 T (Tagw\)/count << endl;) N
+(225) # (  ) S
+(//  h2->Draw\(\);) c n
+(226) # () S
+(}) p n
+(227) # () N
+(228) # () S
+(void) k
+( getDataLft2\(\)) p n
+(229) # ({) N
+(230) # (  ifstream in_file;) N
+(231) # () N
+(232) # (  in_file.open\(") S
+(/home/gut/work/research/d0/studies/mix/pg_mix_code/mc.dat) str
+("\);) p n
+(233) # () N
+(234) # (  Double_t lifetime1;) N
+(235) # () N
+(236) # (  Int_t cTag1=0, cTag2=0, cTag3=0, cTagw=0;) N
+(237) # (  Int_t wTag1=0, wTag2=0, wTag3=0, wTagw=0;) N
+(238) # (  Int_t tag1, tag2, tag3;) N
+(239) # (  Int_t mixState;) N
+(240) # () N
+(241) # (  Int_t whatTag;) N
+(242) # () N
+(243) # (  ) S
+(// Read events) c n
+(244) # () N
+(245) # () S
+(  Int_t count = 0;) p n
+(246) # (  Int_t i=0;) N
+(247) # (  ) S
+(while) K
+(\(1\){) p n
+(248) # (    in_file >> lifetime1 >> mixState >> tag1 >> tag2 >> tag3;) N
+(249) # (    ) S
+(if) K
+( \(!in_file.good\(\)\) ) p
+(break) K
+(;) p n
+(250) # (    ) N
+(251) # (    h2->Fill\(lifetime1\);) N
+(252) # () N
+(253) # (    lifetime[i] = lifetime1;) N
+(254) # (    i++;) N
+(255) # (  }) N
+(256) # () N
+(257) # (  nEvts = i;) N
+(258) # (}) N
+(259) # () N
+(260) # () S
+(//**********************************************) c n
+(261) # (// Get lifetime data) N
+(262) # (//) N
+(263) # (// P. Gutierrez) N
+(264) # (// 3-17-04) N
+(265) # (//**********************************************) N
+(266) # () S
+(void) k
+( getDataLftDs\(\)) p n
+(267) # ({) N
+(268) # (  ifstream in_file1;) N
+(269) # (  ifstream in_file2;) N
+(270) # () N
+(271) # (  ) S
+(//in_file1.open\("b0b0_smeared2.out"\);    // mixed) c n
+(272) # () S
+(  ) p
+(//in_file2.open\("b0b0bar_smeared2.out"\); // unmixed) c n
+(273) # () N
+(274) # () S
+(  in_file1.open\(") p
+(/misc/raid/data/d0/bphysics/data/bs_data/unmixed.txt) str
+("\);    ) p
+(// mixed) c n
+(275) # () S
+(  in_file2.open\(") p
+(/misc/raid/data/d0/bphysics/data/bs_data/mixed.txt) str
+("\); ) p
+(// unmixed) c n
+(276) # () N
+(277) # () S
+(  Double_t lifetime1, lifetime2;) p n
+(278) # (  Double_t mass1, mass2;) N
+(279) # (  Int_t flg;) N
+(280) # () N
+(281) # (  ) S
+(// mixed) c n
+(282) # () N
+(283) # () S
+(  Int_t i=0;) p n
+(284) # (  ) S
+(while) K
+(\(1\){) p n
+(285) # (    in_file1 >> mass1 >> lifetime1;) N
+(286) # (    ) S
+(if) K
+( \(!in_file1.good\(\)\) ) p
+(break) K
+(;) p n
+(287) # () N
+(288) # (    h2->Fill\(lifetime1\);) N
+(getData.cpp) (Page 4/6) (Aug 09, 05 13:58) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(getData.cpp) (4/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5-6) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(289) # (    h3->Fill\(lifetime1\);) p n
+(290) # () N
+(291) # (    lifetime[i] = lifetime1;) N
+(292) # (    mass[i]     = mass1;) N
+(293) # (    tag[i++]    = 1;) N
+(294) # (  }) N
+(295) # () N
+(296) # (  ) S
+(// unmixed) c n
+(297) # () N
+(298) # () S
+(  ) p
+(while) K
+(\(1\){) p n
+(299) # (    in_file2 >> mass2 >> lifetime2;) N
+(300) # (    ) S
+(if) K
+( \(!in_file2.good\(\)\) ) p
+(break) K
+(;) p n
+(301) # () N
+(302) # (    h2->Fill\(lifetime2\);) N
+(303) # (    h4->Fill\(lifetime2\);) N
+(304) # () N
+(305) # (    lifetime[i]=lifetime2;) N
+(306) # (    mass[i]    = mass2;) N
+(307) # (    tag[i++]   = -1;) N
+(308) # (  }) N
+(309) # (  nEvts = i;) N
+(310) # (  cout << ") S
+(Number of events  ) str
+(" << i << endl;) p n
+(311) # (  ) S
+(//  h2->Draw\(\);) c n
+(312) # () S
+(}) p n
+(313) # () N
+(314) # () S
+(//*************************************************) c n
+(315) # (// Generate lifetime data) N
+(316) # (//) N
+(317) # (// by P. Gutierrez) N
+(318) # (// 3-12-04) N
+(319) # (//) N
+(320) # (//*************************************************) N
+(321) # () N
+(322) # () S
+(void) k
+( genDataLft\(\)) p n
+(323) # ({) N
+(324) # () S
+(// Define variables) c n
+(325) # () N
+(326) # () S
+(  Double_t t0    = 1.5;) p n
+(327) # (  Double_t mean  = 0.0;) N
+(328) # (  Double_t sigma = 0.1;) N
+(329) # () N
+(330) # (  Int_t i = 0;) N
+(331) # () S
+(// Code) c n
+(332) # () N
+(333) # () S
+(  ) p
+(while) K
+( \(i<nEvts\){) p n
+(334) # (    Double_t f = gRandom->Exp\(t0\);) N
+(335) # (    Double_t g = gRandom->Gaus\(mean, sigma\);) N
+(336) # (    ) S
+(if) K
+( \(f+g > -10000000.\){) p n
+(337) # (      lifetime[i++] = f + g;) N
+(338) # (      h2->Fill\(f+g\);) N
+(339) # (    }) N
+(340) # (  }) N
+(341) # (}) N
+(342) # () N
+(343) # () S
+(//*************************************************) c n
+(344) # (// Generate mixing data) N
+(345) # (//) N
+(346) # (// by P. Gutierrez) N
+(347) # (// 8-27-04) N
+(348) # (//) N
+(349) # (//*************************************************) N
+(350) # () N
+(351) # () S
+(void) k
+( genMix\(\)) p n
+(352) # ({) N
+(353) # (  ) S
+(// Initialize variables) c n
+(354) # () S
+(  Double_t tau = 1.8667;) p n
+(355) # (  Double_t dm  = 7.;) N
+(356) # (  Double_t tSigma  = 0.3749;) N
+(357) # (  ) S
+(//Double_t misTag = 0.3;) c n
+(358) # () S
+(  Double_t dilution = 0.16;) p n
+(359) # (  Double_t misTag = 0.5*\(1. - dilution\);) N
+(360) # (  Int_t nEvt = 602;) N
+(361) # () N
+(getData.cpp) (Page 5/6) (Aug 09, 05 13:58) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(362) # (  Int_t msrState;) p n
+(363) # () N
+(364) # (  ofstream out_umix;) N
+(365) # (  ofstream out_mix;) N
+(366) # () N
+(367) # (  out_umix.open\(") S
+(umix.dat) str
+("\);) p n
+(368) # (  out_mix.open\(") S
+(mix.dat) str
+("\);) p n
+(369) # () N
+(370) # (  ) S
+(// Initialize histograms) c n
+(371) # () S
+(  TH1F *h1 = ) p
+(new) K
+( TH1F\(") p
+(h1) str
+(",") p
+(Decay time) str
+(",140, -7, 7.\);) p n
+(372) # (  TH1F *h2 = ) S
+(new) K
+( TH1F\(") p
+(h2) str
+(",") p
+(Decay time unmixed) str
+(",140, -7, 7.\);) p n
+(373) # (  TH1F *h3 = ) S
+(new) K
+( TH1F\(") p
+(h3) str
+(",") p
+(Decay time mixed) str
+(",140, -7., 7.\);) p n
+(374) # () N
+(375) # (  ) S
+(for) K
+( \(Int_t i=0; i<nEvt; i++\){) p n
+(376) # (    ) S
+(// Generate decay time distribution) c n
+(377) # () S
+(    Double_t rTime  = gRandom->Exp\(tau\);) p n
+(378) # (    ) N
+(379) # (    ) S
+(if) K
+( \(tSigma == 0.\){) p n
+(380) # (      Double_t tSmear = 0.;) N
+(381) # (    }) N
+(382) # (    ) S
+(else) K
+({) p n
+(383) # (      Double_t tSmear = gRandom->Gaus\(0., tSigma\);) N
+(384) # (    }) N
+(385) # () N
+(386) # (    Double_t mTime  = rTime + tSmear;) N
+(387) # (    ) N
+(388) # (    ) S
+(// Does it mix unMix = 1 no, unMix = -1 yes) c n
+(389) # () S
+(    Double_t mixTest   = 2.*gRandom->Rndm\(\);) p n
+(390) # (    Double_t unMix  = 1. + TMath::Cos\(dm*rTime\);) N
+(391) # (    Int_t mixState = 1;) N
+(392) # (    ) S
+(if) K
+( \(mixTest > unMix\){) p n
+(393) # (      mixState = -1;) N
+(394) # (    }) N
+(395) # () N
+(396) # (    ) S
+(if) K
+( \(misTag != 0.\){) p n
+(397) # (      Double_t mTag = gRandom->Rndm\(\);) N
+(398) # (      ) S
+(if) K
+( \(mTag < misTag\){) p n
+(399) # () S 8 T (msrState = -1 * mixState;) N
+(400) # (      }) N
+(401) # (      ) S
+(else) K
+({) p n
+(402) # () S 8 T (msrState = mixState;) N
+(403) # (      }) N
+(404) # (    }) N
+(405) # (    ) S
+(else) K
+({) p n
+(406) # (      msrState = mixState;) N
+(407) # (    }) N
+(408) # () N
+(409) # (    h1->Fill\(mTime\);) N
+(410) # (    ) S
+(if) K
+( \(msrState == 1\){) p n
+(411) # (      h2->Fill\(mTime\);) N
+(412) # (      out_umix << mTime << ") S
+(  ) str
+(" << -1 << endl;) p n
+(413) # (      lifetime[i] = mTime;) N
+(414) # (      tag[i] = -1;) N
+(415) # (    }) N
+(416) # (    ) S
+(if) K
+( \(msrState == -1\){) p n
+(417) # (      h3->Fill\(mTime\);) N
+(418) # (      out_mix << mTime << ") S
+(  ) str
+(" << 1 << endl;) p n
+(419) # (      lifetime[i] = mTime;) N
+(420) # (      tag[i] = 1;) N
+(421) # (    }) N
+(422) # (  }) N
+(423) # (  h1->Draw\(\);) N
+(424) # (  h2->SetLineColor\(2\);) N
+(425) # (  h2->Draw\(") S
+(same) str
+("\);) p n
+(426) # (  h3->SetLineColor\(3\);) N
+(427) # (  h3->Draw\(") S
+(same) str
+("\);) p n
+(428) # () N
+(429) # (}) N
+(getData.cpp) (Page 6/6) (Aug 09, 05 13:58) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(getData.cpp) (5/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 6
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//************************************************) c n
+(2) # (// Use minuit to do an unbinned fit) N
+(3) # (//) N
+(4) # (// Fits for lifetime, dm, sigma, dilution) N
+(5) # (//) N
+(6) # (// by P. Gutierrez) N
+(7) # (// 3-12-04) N
+(8) # (//************************************************) N
+(9) # () N
+(10) # () S
+(#include) K
+( ") p
+(params.hpp) str
+(") p n
+(11) # () N
+(12) # () S
+(void) k
+( unbinFitamp\(\)) p n
+(13) # ({) N
+(14) # (  TMinuit *gMinuit = ) S
+(new) K
+( TMinuit\(4\);) p n
+(15) # (  gMinuit -> SetFCN\(mll_fit_d\);) N
+(16) # (  ) N
+(17) # (  Double_t arglist[10];) N
+(18) # (  Double_t vstart[10];) N
+(19) # (  Double_t step[10];) N
+(20) # () N
+(21) # (  Double_t p0=0, p1=1, p2=2, p3=3;) N
+(22) # (  Int_t ierflg=0;) N
+(23) # ( ) N
+(24) # (  Double_t par0, par1, par2, par3;) N
+(25) # (  Double_t err0, err1, err2, err3;) N
+(26) # () N
+(27) # (  ) S
+(// Set to 0.5 for likelihood, 1 for chisquare) c n
+(28) # () N
+(29) # () S
+(  arglist[0] = 0.5;) p n
+(30) # (  gMinuit->mnexcm\(") S
+(SET ERR) str
+(", arglist, 1, ierflg\);) p n
+(31) # () N
+(32) # (  ) S
+(// Set initial values of parameters) c n
+(33) # () N
+(34) # () S
+(  vstart[0] = oscpar0_init;) p n
+(35) # (  vstart[1] = oscpar1_init;) N
+(36) # (  vstart[2] = oscpar2_init;) N
+(37) # (  vstart[3] = oscpar3_init;) N
+(38) # () N
+(39) # (  step[0] = oscerr0_step;) N
+(40) # (  step[1] = oscerr1_step;) N
+(41) # (  step[2] = oscerr2_step;) N
+(42) # (  step[3] = oscerr3_step;) N
+(43) # () N
+(44) # (  gMinuit->mnparm\(0, ") S
+(t0) str
+(", vstart[0], step[0], 0., 0., ierflg\);) p n
+(45) # (  gMinuit->mnparm\(1, ") S
+(dm) str
+(", vstart[1], step[1], 0., 0., ierflg\);) p n
+(46) # (  gMinuit->mnparm\(2, ") S
+(sigma) str
+(", vstart[2], step[2], 0., 0., ierflg\);) p n
+(47) # (  gMinuit->mnparm\(3, ") S
+(mistag) str
+(", vstart[3], step[3], 0., 0., ierflg\);) p n
+(48) # (  ) S
+(// Fix t0 amd sigma) c n
+(49) # () S
+(  arglist[0] = 1;) p n
+(50) # (  arglist[1] = 3;) N
+(51) # (  arglist[2] = 2;) N
+(52) # (  gMinuit->mnexcm\(") S
+(FIX) str
+(", arglist, 3, ierflg\);) p n
+(53) # () N
+(54) # (  ) S
+(// Do minimization) c n
+(55) # () S
+(  arglist[0] = 3000.;) p n
+(56) # (  arglist[1] = 0.1;) N
+(57) # (  gMinuit->mnexcm\(") S
+(CALL FCN) str
+(", &p1, 1, ierflg\);) p n
+(58) # (  gMinuit->mnexcm\(") S
+(MIGRAD) str
+(", arglist, 2, ierflg\);) p n
+(59) # (  gMinuit->mnexcm\(") S
+(CALL FCN) str
+(", &p3, 1, ierflg\);) p n
+(60) # (  ) N
+(61) # (  ) S
+(// Get parameters ) c n
+(62) # () S
+(  gMinuit->GetParameter\(0,par0,err0\);) p n
+(63) # (  gMinuit->GetParameter\(1,par1,err1\);) N
+(64) # (  gMinuit->GetParameter\(2,par2,err2\);) N
+(65) # (  gMinuit->GetParameter\(3,par3,err3\);) N
+(66) # () N
+(67) # (  dmFreq[mainLoop-1] = par1;) N
+(68) # (  etaFound[mainLoop-1] = par3;) N
+(69) # (  etaFoundErr[mainLoop-1] = err3;) N
+(70) # () N
+(71) # (  ) S
+(// Include fit function in the histogram) c n
+(72) # () S
+(  TF1 *f3 = ) p
+(new) K
+( TF1\(") p
+(f3) str
+(", lftmosc_plt_d, -4., 15., 5\);) p n
+(73) # (  f3->SetParameter\(0,par0\);) N
+(unbinFitamp.cpp) (Page 1/3) (Aug 05, 05 17:16) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  f3->SetParameter\(1,par1\);) p n
+(75) # (  f3->SetParameter\(2,par2\);) N
+(76) # (  f3->SetParameter\(3,par3\);) N
+(77) # (  f3->SetParameter\(4,1.\);) N
+(78) # () N
+(79) # (  TF1 *f4 = ) S
+(new) K
+( TF1\(") p
+(f4) str
+(", lftmosc_plt_d, -4., 15., 5\);) p n
+(80) # (  f4->SetParameter\(0,par0\);) N
+(81) # (  f4->SetParameter\(1,par1\);) N
+(82) # (  f4->SetParameter\(2,par2\);) N
+(83) # (  f4->SetParameter\(3,par3\);) N
+(84) # (  f4->SetParameter\(4,-1.\);) N
+(85) # () N
+(86) # () S
+(//  f2->SetParName\(0,"par0"\);) c n
+(87) # (//  f2->SetParName\(1,"par1"\);) N
+(88) # (//  f1->SetParName\(2,"par2"\);) N
+(89) # (//  f1->SetParName\(3,"par3"\);) N
+(90) # () N
+(91) # () S
+(  RooComplex ct = RooMath::ComplexErrFunc\(2.,1.\);) p n
+(92) # (  cout << ") S
+(ct  ) str
+(" << ct.re\(\) << ") p
+(  ) str
+(" << ct.im\(\) << endl;) p n
+(93) # () N
+(94) # () S
+(//   TCanvas* c = new TCanvas\("c","c",800,400\);) c n
+(95) # (//   c->Divide\(2,1\);) N
+(96) # (//   c->cd\(1\);) N
+(97) # (//   h3->Draw\(\);) N
+(98) # (//   f3->Draw\("same"\);) N
+(99) # (//   c->cd\(2\);) N
+(100) # (//   h4->Draw\(\);) N
+(101) # (//   f4->Draw\("same"\);) N
+(102) # () N
+(103) # () S
+(  ) p
+(delete) K
+( gMinuit;) p n
+(104) # () N
+(105) # (}) N
+(106) # () N
+(107) # () S
+(void) k
+( mll_fit\(Int_t &npar, Double_t *gin, Double_t &f,) p n
+(108) # () S 8 T (     Double_t *par, Int_t iflag\)) N
+(109) # ({) N
+(110) # (  ) S
+(if) K
+( \(iflag == 1\) cout << ") p
+(iflag  ) str
+(" << iflag << endl;) p n
+(111) # (  ) S
+(if) K
+( \(iflag == 3\) cout << ") p
+(iflag  ) str
+(" << iflag << endl;) p n
+(112) # () N
+(113) # (  Double_t nll = 0;) N
+(114) # () N
+(115) # (  ) S
+(for) K
+( \(Int_t i=0; i<nEvts; i++\){) p n
+(116) # (    ) N
+(117) # (    Double_t ll = lifetime_osc\(tag[i], par[0], par[1], par[2], lifetime[i]\);) N
+(118) # (    nll -= TMath::Log\(ll\);) N
+(119) # () N
+(120) # (  }) N
+(121) # (  f = nll;) N
+(122) # () N
+(123) # (}) N
+(124) # () N
+(125) # () S
+(void) k
+( mll_fit_d\(Int_t &npar, Double_t *gin, Double_t &f,) p n
+(126) # () S 8 T (     Double_t *par, Int_t iflag\)) N
+(127) # ({) N
+(128) # (  ) S
+(if) K
+( \(iflag == 1\) cout << ") p
+(iflag  ) str
+(" << iflag << endl;) p n
+(129) # (  ) S
+(if) K
+( \(iflag == 3\) cout << ") p
+(iflag  ) str
+(" << iflag << endl;) p n
+(130) # () N
+(131) # (  Double_t nll = 0;) N
+(132) # () N
+(133) # (  ) S
+(for) K
+( \(Int_t i=0; i<nEvts; i++\){) p n
+(134) # (    ) S
+(if) K
+( \(tag[i] == -1\){) p n
+(135) # (      Double_t ll1 = lifetime_osc\(1, par[0], par[1], par[2], lifetime[i]\);) N
+(136) # (      Double_t ll2 = lifetime_osc\(-1, par[0], par[1], par[2], lifetime[i]\);) N
+(137) # (      Double_t ll = \(1-par[3]\)*ll1 + par[3]*ll2;) N
+(138) # (    }) N
+(139) # () N
+(140) # (    ) S
+(if) K
+( \(tag[i] == 1\){) p n
+(141) # (      Double_t ll1 = lifetime_osc\(-1, par[0], par[1], par[2], lifetime[i]\);) N
+(142) # (      Double_t ll2 = lifetime_osc\(1, par[0], par[1], par[2], lifetime[i]\);) N
+(143) # (      Double_t ll = \(1-par[3]\)*ll1 + par[3]*ll2;) N
+(144) # (    }) N
+(145) # () N
+(146) # (    nll -= TMath::Log\(ll\);) N
+(unbinFitamp.cpp) (Page 2/3) (Aug 05, 05 17:16) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(unbinFitamp.cpp) (6/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 7
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(147) # () p n
+(148) # (  }) N
+(149) # (  f = nll;) N
+(150) # () N
+(151) # (}) N
+(unbinFitamp.cpp) (Page 3/3) (Aug 05, 05 17:16) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(unbinFitamp.cpp) (7/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 8
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # () p n
+(2) # (Double_t par0_init = 5.2;) N
+(3) # (Double_t par1_init = 0.01;) N
+(4) # (Double_t par2_init = 0.01;) N
+(5) # (Double_t par3_init = 0.5;) N
+(6) # () N
+(7) # (Double_t err0_step = 0.01;) N
+(8) # (Double_t err1_step = 0.001;) N
+(9) # (Double_t err2_step = 0.001;) N
+(10) # (Double_t err3_step = 0.01;) N
+(11) # () N
+(12) # () S
+(//***********************************) c n
+(13) # () N
+(14) # () S
+(Double_t ltpar0_init = 1.5;) p n
+(15) # (Double_t ltpar1_init = 0.1;) N
+(16) # () N
+(17) # (Double_t lterr0_step = 1.0;) N
+(18) # (Double_t lterr1_step = 0.1;) N
+(19) # () N
+(20) # () S
+(//***********************************) c n
+(21) # () N
+(22) # () N
+(23) # () S
+(Double_t oscpar0_init = 1.8667;) p n
+(24) # (Double_t oscpar1_init = 7.;) N
+(25) # (Double_t oscpar2_init = 0.3749;) N
+(26) # (Double_t oscpar3_init = 0.42;) N
+(27) # () N
+(28) # (Double_t oscerr0_step = 0.1;) N
+(29) # (Double_t oscerr1_step = 0.01;) N
+(30) # (Double_t oscerr2_step = 0.01;) N
+(31) # (Double_t oscerr3_step = 0.1;) N
+(32) # () N
+(params.hpp) (Page 1/1) (Aug 08, 05 4:01) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(params.hpp) (8/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 9
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (/************************************************************) p n
+(2) # (The skeleton for this file \(and corresponding header dstag.h\)) N
+(3) # (were generated automatically by ROOT, using: ) N
+(4) # () N
+(5) # (TFile *f = new TFile\("bs_mixing_MC.root"\);) N
+(6) # (f->ls\(\); //\(to get list of branches\)//) N
+(7) # (dstag->MakeClass\("dstag"\); //\(to make the files from this branch\)//) N
+(8) # () N
+(9) # (Jamie Hegarty 11/30/04) N
+(10) # (**************************************************************/) N
+(11) # () N
+(12) # (#define dstag_cxx) N
+(13) # (#include "dstag.h") N
+(14) # () N
+(15) # (#ifndef __PARAMETERS__) N
+(16) # (#include "parameters.h") N
+(17) # (#endif) N
+(18) # () N
+(19) # (#include "unbinFitosc_d.cpp") N
+(20) # (#include "unbinFitlftm.C") N
+(21) # () N
+(22) # (#ifndef __FUNC_CPP__) N
+(23) # (#include "func.cpp") N
+(24) # (#endif) N
+(25) # () N
+(26) # () N
+(27) # () N
+(28) # (/*********** BEGIN USER-INSERTED CODE ****************/) N
+(29) # () N
+(30) # (  ) N
+(31) # (void dstag::Loop\(\)) N
+(32) # ({) N
+(33) # (  //   In a ROOT session, you can do:) N
+(34) # (  //      Root > .L dstag.C) N
+(35) # (  //      Root > dstag t) N
+(36) # (  //      Root > t.GetEntry\(12\); // Fill t data members with entry number 12) N
+(37) # (  //      Root > t.Show\(\);       // Show values of entry 12) N
+(38) # (  //      Root > t.Show\(16\);     // Read and show values of entry 16) N
+(39) # (  //      Root > t.Loop\(\);       // Loop on all entries) N
+(40) # (  //) N
+(41) # (  ) N
+(42) # (  ) N
+(43) # (  if \(fChain == 0\) return;) N
+(44) # (  Int_t nentries = Int_t\(fChain->GetEntriesFast\(\)\);) N
+(45) # (  Int_t nbytes = 0, nb = 0;) N
+(46) # (  ) N
+(47) # (  // Binning should be 0.1 ps per bin //) N
+(48) # (  TH1F *h_unmixed_events = new TH1F\("h_unmixed_events", "VPDL, U Evts", 50, -4.,) N
+0 T ( 15.\);) N
+(49) # (  TH1F *h_mixed_events = new TH1F\("h_mixed_events", "VPDL, M Evts", 50, -4., 15.) N
+0 T (\);) N
+(50) # (  ) N
+(51) # (  TH1F *h_ume_osci = new TH1F\("h_ume_osci", "VPDL, U Evts \(osci\)", 50, -4., 15.\)) N
+0 T (;) N
+(52) # (  TH1F *h_me_osci = new TH1F\("h_me_osci", "VPDL, M Evts \(osci\)", 50, -4., 15.\);) N
+(53) # (  ) N
+(54) # (  TH1F *all_events_vpdl = new TH1F\("all_events_vpdl", "VPDL, All Evts", 50, -4.,) N
+0 T ( 15.\);) N
+(55) # (  ) N
+(56) # (  TH1F *h_lbdiff = new TH1F\("h_lbdiff", "VPDL-TrueVPDL, All Evts", 2*nBins, -max) N
+0 T (Limit, maxLimit\);) N
+(57) # (  TH2F *h2_lbdiff = new TH2F\("h2_lbdiff", "VPDL-TrueVPDL vs. TrueVPDL, All Evts") N
+0 T (, 2*nBins, -maxLimit,maxLimit, nBins,0., maxLimit\);) N
+(58) # (  ) N
+(59) # (  ) N
+(60) # (  /************* END USER-INSERTED CODE ****************/) N
+(61) # (  Int_t iflag1=0, iflag2=0, iflag3=0;) N
+(62) # (  Char_t *ok[20]="";) N
+(63) # (  for \(Int_t jentry=0; jentry<nentries;jentry++\) { // Begin Looping over all ent) N
+0 T (ries) N
+(64) # (    Int_t ientry = LoadTree\(jentry\);) N
+(65) # (    if \(ientry < 0\) break;) N
+(66) # (    nb = fChain->GetEntry\(jentry\);   nbytes += nb;) N
+(dstag.C) (Page 1/5) (Aug 09, 05 13:09) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(67) # (    // if \(Cut\(ientry\) < 0\) continue;) p n
+(68) # (    ) N
+(69) # (    /*********** BEGIN USER-INSERTED CODE ****************/) N
+(70) # (    ) N
+(71) # (    /**) N
+(72) # (       ) N
+(73) # (       matchBs - reconstruction matches to MC) N
+(74) # (       osci - mixed or not \(valid for matchBs==1\)) N
+(75) # (       lbmctrue - true PDL from MC) N
+(76) # (       lbmc - VPDL from MC) N
+(77) # (       lb - reconstructed VPDL) N
+(78) # (       mds - Ds mass) N
+(79) # (       ) N
+(80) # (       qtagin - tagging information \(compare charge of B's mu to tagging mu\)) N
+(81) # (       qtagin*qmu > 0 => mixed) N
+(82) # (       qtagin*qmu < 0 => unmixed) N
+(83) # (       ) N
+(84) # (       oscimc - mixed or not in MC \(?\)) N
+(85) # (       ) N
+(86) # (       tagmuok - tagging muon found) N
+(87) # (       q6 - charge of tagging muon) N
+(88) # (       q5 - charge of pion from Ds) N
+(89) # (       qmu - charge of muon from reconstructed B) N
+(90) # (       ) N
+(91) # (    **/) N
+(92) # (    ) N
+(93) # (    // convert the visible proper decay length from cm to ps) N
+(94) # (    // by dividing out c = 0.03 cm/ps:) N
+(95) # (    ) N
+(96) # (    Double_t lbps = lb/0.03;) N
+(97) # (    Double_t lbmcps = lbmc/0.03;) N
+(98) # (    Double_t lbmctrueps = lbmctrue/0.03;) N
+(99) # (    ) N
+(100) # (    Double_t lbdiff = lbps - lbmcps;) N
+(101) # (    ) N
+(102) # (    if\(tagmuok==1 && matchBs>0 && q5!=qmu\){) N
+(103) # (      ) N
+(104) # (      h_lbdiff->Fill\(lbdiff\);) N
+(105) # (      h2_lbdiff->Fill\(lbdiff,lbmcps\);) N
+(106) # (      ) N
+(107) # (      all_events_vpdl->Fill\(lbps\);) N
+(108) # (      lifetime[ecount]=lbps;) N
+(109) # (      ) N
+(110) # (      // check the sign of the muon here vs. opposite muon) N
+(111) # (      // if they're equal, mixing occurred. otherwise this event is unmixed.) N
+(112) # (      if \(qtagin*qmu>0\){) N
+(113) # () S 8 T (h_mixed_events->Fill\(lbps\);) N
+(114) # () S 8 T (tag[ecount]=1;) N
+(115) # (      }else{) N
+(116) # () S 8 T (h_unmixed_events->Fill\(lbps\);) N
+(117) # () S 8 T (tag[ecount]=-1;) N
+(118) # () S 8 T () N
+(119) # (      }) N
+(120) # (      ) N
+(121) # (      if \(osci==1\){ // "clean" mixing, pure cosine) N
+(122) # () S 8 T (h_me_osci->Fill\(lbmctrueps\);) N
+(123) # (      }else{) N
+(124) # () S 8 T (h_ume_osci->Fill\(lbmctrueps\);) N
+(125) # () S 8 T () N
+(126) # (      }) N
+(127) # (      ) N
+(128) # (      // Count the number of times that a true mixed state is tagged as such) N
+(129) # (      if\(qtagin*qmu>0 && osci==1\){) N
+(130) # () S 8 T (qtagmcount++;) N
+(131) # (      }) N
+(132) # (      // Count the number of times that a true unmixed state is tagged as such) N
+(133) # (      else if\(qtagin*qmu<0 && osci==0\){) N
+(134) # () S 8 T (qtagucount++;) N
+(135) # (      }) N
+(136) # (      // Count the number of times we're wrong.) N
+(137) # (      else{) N
+(138) # () S 8 T (qtagncount++;) N
+(139) # (      }) N
+(dstag.C) (Page 2/5) (Aug 09, 05 13:09) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(dstag.C) (9/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 10
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(140) # (      // Count events in this "cleaned" sample) p n
+(141) # (      ecount++;) N
+(142) # (    }) N
+(143) # (    /************* END USER-INSERTED CODE ****************/) N
+(144) # (    ) N
+(145) # (  } // End looping over all entries) N
+(146) # (  /*********** BEGIN USER-INSERTED CODE ****************/ ) N
+(147) # (  ) N
+(148) # (  Double_t event_count = ecount;) N
+(149) # (  ) N
+(150) # (  //Calculate Dilution) N
+(151) # (  mistag = qtagncount / event_count;) N
+(152) # (  dilution = 1-\(2*mistag\);) N
+(153) # (  ) N
+(154) # (  cout << "ecount = "  << ecount  << endl;) N
+(155) # (  cout << "qtagmcount = "  << qtagmcount  << endl;) N
+(156) # (  cout << "qtagucount = "  << qtagucount  << endl;) N
+(157) # (  cout << "qtagncount = " << qtagncount << endl;) N
+(158) # (  cout << "Mistag = " << mistag << endl;) N
+(159) # (  cout << "Dilution = "  << dilution << endl << endl;) N
+(160) # (  ) N
+(161) # (  ) N
+(162) # (  //Get asymmetry according to qtagin*qmu comparison) N
+(163) # (  h_asymm = h_unmixed_events->GetAsymmetry\(h_mixed_events\);) N
+(164) # (  h_asymm->SetBins\(binN,min,max\);) N
+(165) # (  h_asymm->SetName\("h_asymm"\);) N
+(166) # (  h_asymm->SetTitle\("Asymmetry"\);) N
+(167) # (  ) N
+(168) # (  //Get asymmetry according to osci check) N
+(169) # (  h_asym_osci = h_ume_osci->GetAsymmetry\(h_me_osci\);) N
+(170) # (  h_asym_osci->SetBins\(50, -4., 15.\);) N
+(171) # (  h_asym_osci->SetName\("h_asym_osci"\);) N
+(172) # (  h_asym_osci->SetTitle\("Asymmetry \(osci\)"\);) N
+(173) # (  ) N
+(174) # (  //Get points from a cos function in a file) N
+(175) # (  TGraph *gcos = new TGraph\(31\);) N
+(176) # (  ) N
+(177) # (  Double_t asymm[31];) N
+(178) # (  Double_t x[31];) N
+(179) # (  ifstream infile;) N
+(180) # (  infile.open\("MMMM"\);) N
+(181) # (  for \(Int_t i=0.; i<31; i++\){) N
+(182) # (    infile >> x[i] >> asymm[i];) N
+(183) # (    gcos->SetPoint\(i,x[i],asymm[i]\);) N
+(184) # (  }) N
+(185) # (  ) N
+(186) # (  /****************************************************************) N
+(187) # (   * Do Unbinned Likelihood Fitting) N
+(188) # (   ****************************************************************/) N
+(189) # (  // update mistag_init to match the mistagging rate calculated above.) N
+(190) # (  mistag_init=mistag;) N
+(191) # (  ) N
+(192) # (  // do unbinned fit with Minuit) N
+(193) # (  unbinFitosc_d\(\);) N
+(194) # (  ) N
+(195) # (  // create functions to draw the fits) N
+(196) # (  TF1 *ubfit1 = new TF1\("ubfit1", lftmosc_plt_d, min, max, 5\);) N
+(197) # (  TF1 *ubfit2 = new TF1\("ubfit2", lftmosc_plt_d, min, max, 5\);) N
+(198) # (  ) N
+(199) # (  // set the parameters of the functions to the ones from the fit) N
+(200) # (  for \(Int_t j=0; j<4; j++\){) N
+(201) # (    ubfit1->SetParameter\(j,fitpar[j]\);) N
+(202) # (    ubfit2->SetParameter\(j,fitpar[j]\);) N
+(203) # (  }) N
+(204) # (  ubfit1->SetParameter\(4,1\);) N
+(205) # (  ubfit2->SetParameter\(4,-1\);) N
+(206) # (  ) N
+(207) # (  unbinFitlftm\(1,1\); //fix t0 to 1.5 and fit for sigma) N
+(208) # (  ) N
+(209) # (  // set sigma to the restult of the fit, and fix it to fit for t0) N
+(210) # (  sigma_init=fitlpar[1];) N
+(211) # (  ) N
+(212) # (  unbinFitlftm\(2,1\); //fix sigma to fitlpar[1] and fit for t0) N
+(dstag.C) (Page 3/5) (Aug 09, 05 13:09) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(213) # (  ) p n
+(214) # (  TF1 *ubfit3 = new TF1\("ubfit3", lifetime_plt, min, max, 2\);) N
+(215) # (  ) N
+(216) # (  for \(Int_t j=0; j<2; j++\){) N
+(217) # (    ubfit3->SetParameter\(j,fitlpar[j]\);) N
+(218) # (  }) N
+(219) # (  ) N
+(220) # (  /***************************************************************) N
+(221) # (   * Vary dm to see how it affects mistag fit) N
+(222) # (   ***************************************************************/) N
+(223) # (  ) N
+(224) # (  // Create a graph to use for the comparison) N
+(225) # (  ) N
+(226) # (  TGraphErrors *g_amp = new TGraphErrors\(20\);) N
+(227) # (  g_amp->SetName\("DilvsDm"\);) N
+(228) # (  g_amp->SetTitle\("Dilution vs. dm"\);) N
+(229) # (  ) N
+(230) # (  TGraph *g_amp_err = new TGraph\(20\);) N
+(231) # (  g_amp_err->SetName\("DilErrvsDm"\);) N
+(232) # (  g_amp_err->SetTitle\("Dilution Error vs. dm"\);) N
+(233) # () N
+(234) # (  // Update initial fit values to match the t0 and sigma above:) N
+(235) # () N
+(236) # (  t0_init=fitlpar[0];) N
+(237) # (  sigma_init=fitlpar[1];) N
+(238) # (  ) N
+(239) # (  for \(Int_t j=0; j<20; j++\){) N
+(240) # () N
+(241) # (    dm_init = \(float\(j\) + 1.\)/2.;) N
+(242) # () N
+(243) # (    unbinFitosc_d\(\);) N
+(244) # () N
+(245) # (   g_amp->SetPoint\(j, fitpar[1], \(1.-2.*fitpar[3]\)/\(1.-2.*mistag\)\);) N
+(246) # (    g_amp->SetPointError\(j, 0, 1.65*2*fiterr[3]/\(1.-2.*mistag\)\);) N
+(247) # () N
+(248) # (    g_amp_err->SetPoint\(j, fitpar[1], 1.65*2*fiterr[3]/\(1.-2.*mistag\)\);) N
+(249) # (    ) N
+(250) # (  }) N
+(251) # () N
+(252) # (  ) N
+(253) # (  ) N
+(254) # (  /****************************************************************/) N
+(255) # (  // Draw histograms) N
+(256) # (  ) N
+(257) # (  gROOT->SetStyle\("Plain"\);) N
+(258) # (  gStyle->SetOptStat\(11111\);) N
+(259) # (  gStyle->SetHistFillColor\(10\);) N
+(260) # (  TCanvas *c1 = new TCanvas\("c1", "Canvas1", 800,600\);) N
+(261) # (  c1->Divide\(2,2\);) N
+(262) # (  ) N
+(263) # (  c1->cd\(1\);) N
+(264) # (  gPad->SetGrid\(\);) N
+(265) # (  g_amp->Draw\("AP*"\);) N
+(266) # (  ) N
+(267) # ( ) N
+(268) # (  c1->cd\(2\);) N
+(269) # (  gPad->SetGrid\(\);) N
+(270) # (  g_amp_err->Draw\("AP*"\); ) N
+(271) # (  ) N
+(272) # (  c1->cd\(3\);) N
+(273) # (  h_unmixed_events->Draw\(\);) N
+(274) # (  ubfit2->Draw\("same"\);) N
+(275) # ( ) N
+(276) # (  //h_asymm->Draw\("P*"\);) N
+(277) # (  //TF1 *f_cos = new TF1\("f_cos", "0.4*cos\(7*x\)",0.,3.\);) N
+(278) # (  //h_unmix1->Fit\(f_cos\);) N
+(279) # (  //f_cos->Draw\("same"\);) N
+(280) # () N
+(281) # (  c1->cd\(4\);) N
+(282) # ( h_mixed_events->Draw\(\);) N
+(283) # (  ubfit1->Draw\("same"\);) N
+(284) # () N
+(285) # (  //all_events_vpdl->Draw\(\);) N
+(dstag.C) (Page 4/5) (Aug 09, 05 13:09) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(dstag.C) (10/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5) 11
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(286) # (  //ubfit3->Draw\("same"\);) p n
+(287) # () N
+(288) # (  // Save it all in a Root File) N
+(289) # () N
+(290) # (  TObjArray *a1 = new TObjArray\(0\);) N
+(291) # () N
+(292) # (  a1->Add\(h_unmixed_events\);) N
+(293) # (  a1->Add\(h_mixed_events\);) N
+(294) # (  a1->Add\(h_ume_osci\);) N
+(295) # (  a1->Add\(h_me_osci\);) N
+(296) # () N
+(297) # (  a1->Add\(h_asymm\);) N
+(298) # (  a1->Add\(h_asym_osci\);) N
+(299) # (  a1->Add\(all_events_vpdl\);) N
+(300) # (  a1->Add\(h_lbdiff\);) N
+(301) # (  a1->Add\(h2_lbdiff\);) N
+(302) # ( ) N
+(303) # (  a1->Add\(gcos\);) N
+(304) # () N
+(305) # (  a1->Add\(g_amp\);) N
+(306) # (  a1->Add\(g_amp_err\);) N
+(307) # ( ) N
+(308) # (  a1->Add\(c1\);) N
+(309) # () N
+(310) # (  TFile *f1 = new TFile\("bs_asymm.root", "recreate"\);) N
+(311) # (  a1->Write\(\);) N
+(312) # (  f1->Close\(\);) N
+(313) # () N
+(314) # () N
+(315) # (  /************* END USER-INSERTED CODE ****************/) N
+(316) # () N
+(317) # (}) N
+(318) # () N
+(dstag.C) (Page 5/5) (Aug 09, 05 13:09) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(dstag.C) (11/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 12
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (#ifndef) K
+( __PARAMETERS__) p n
+(2) # () S
+(#define) K
+( __PARAMETERS__) p n
+(3) # () N
+(4) # (Int_t qtagmcount=0.;) N
+(5) # (Int_t qtagucount=0.;) N
+(6) # (Float_t qtagncount=0.;) N
+(7) # (Int_t ecount=0.;) N
+(8) # () N
+(9) # (Double_t dilution;) N
+(10) # (Double_t mistag;  ) N
+(11) # () S
+(//----- Define arrays and stuff for fitting:) c n
+(12) # () N
+(13) # () S
+(Double_t t0_init = 1.6; ) p
+(//t0) c n
+(14) # () S
+(Double_t dm_init = 7.; ) p
+(//dm) c n
+(15) # () S
+(Double_t sigma_init = 0.35; ) p
+(//sigma) c n
+(16) # () S
+(Double_t mistag_init = 0.42; ) p
+(//mistag) c n
+(17) # () N
+(18) # () S
+(Double_t t0_step = 0.1;) p n
+(19) # (Double_t dm_step = 0.01;) N
+(20) # (Double_t sigma_step = 0.01;) N
+(21) # (Double_t mistag_step = 0.1;) N
+(22) # () N
+(23) # (Double_t fitpar[4];) N
+(24) # (Double_t fiterr[4];) N
+(25) # () N
+(26) # (Double_t fitlpar[2];) N
+(27) # (Double_t fitlerr[2];) N
+(28) # () N
+(29) # () N
+(30) # () N
+(31) # () S
+(//----- Define data variables) c n
+(32) # () N
+(33) # () S
+(Double_t runNo[50000];) p n
+(34) # (Double_t evtNo[50000];) N
+(35) # (Double_t mass[50000];) N
+(36) # (Double_t lifetime[50000];) N
+(37) # (Int_t tag[50000];) N
+(38) # () N
+(39) # () N
+(40) # () N
+(41) # () S
+(//----- Define background to signal array:) c n
+(42) # () N
+(43) # () S
+(Double_t bkgSig[10]={5.6886, 4.62235, 3.8314, 3.1397, 3.54177, 3.97965, 4.27143,) p n
+0 T ( 3.39745, 4.6566, 3.24586};) N
+(44) # () N
+(45) # () N
+(46) # () N
+(47) # () S
+(//----- Define binning and normalization parameters:) c n
+(48) # () N
+(49) # () S
+(Int_t    nBins = 20;) p n
+(50) # (Double_t maxLimit = 2.;) N
+(51) # () N
+(52) # (Int_t nEvts = 602;) N
+(53) # () N
+(54) # (Double_t min = -2.;) N
+(55) # (Double_t max = 11.;) N
+(56) # (Double_t binWidth=0.1;) N
+(57) # (Int_t binN = \(max-min\)/binWidth;) N
+(58) # () N
+(59) # () N
+(60) # () S
+(//----- Used for testing with mcData.cpp \(toy MC\):) c n
+(61) # () N
+(62) # () S
+(Double_t tau=1.8667;      ) p
+(// lifetime of B0) c n
+(63) # () S
+(Double_t tSigma=0.3749;   ) p
+(// detector time resolution smearing) c n
+(64) # () S
+(Double_t nSigma=0.;   ) p
+(// unmeasured neutrinos smearing) c n
+(65) # () S
+(Double_t dm=7.;       ) p
+(// mass diff btw B0/B0bar) c n
+(66) # () S
+(Double_t misTag=0.42;   ) p
+(// mistagging rate) c n
+(67) # () N
+(68) # () S
+(Double_t bgtau=0.;) p n
+(69) # (Double_t sbrat=10000000;    ) S
+(// signal-background ratio) c n
+(70) # () N
+(71) # () S
+(Double_t rTime[50000];) p n
+(72) # (Double_t nsm[50000];) N
+(parameters.h) (Page 1/2) (Aug 08, 05 20:40) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(73) # (Double_t lt_sm1[50000];) p n
+(74) # (Double_t tsm[50000];) N
+(75) # () N
+(76) # () N
+(77) # () S
+(#endif) K n
+(parameters.h) (Page 2/2) (Aug 08, 05 20:40) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(parameters.h) (12/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 13
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//************************************************) c n
+(2) # (// Use minuit to do an unbinned fit) N
+(3) # (//) N
+(4) # (// Fits for lifetime, dm, sigma, dilution) N
+(5) # (//) N
+(6) # (// by P. Gutierrez) N
+(7) # (// 3-12-04) N
+(8) # (//************************************************) N
+(9) # () N
+(10) # () N
+(11) # () S
+(#ifndef) K
+( __FUNC_CPP__) p n
+(12) # () S
+(#include) K
+( ") p
+(func.cpp) str
+(") p n
+(13) # () S
+(#endif) K n
+(14) # () N
+(15) # () S
+(void) k
+( unbinFitosc_d\(\)) p n
+(16) # ({) N
+(17) # (  TMinuit *gMinuit = ) S
+(new) K
+( TMinuit\(4\);) p n
+(18) # (  gMinuit -> SetFCN\(mll_fit_d\);) N
+(19) # (  ) N
+(20) # (  Double_t arglist[10];) N
+(21) # (  Double_t vstart[10];) N
+(22) # (  Double_t step[10];) N
+(23) # () N
+(24) # (  Double_t p0=0, p1=1, p2=2, p3=3;) N
+(25) # (  Int_t ierflg=0;) N
+(26) # ( ) N
+(27) # (  Double_t par_t0, par_dm, par_sigma, par_mistag;) N
+(28) # (  Double_t err_t0, err_dm, err_sigma, err_mistag;) N
+(29) # () N
+(30) # (  ) S
+(// Set to 0.5 for likelihood, 1 for chisquare) c n
+(31) # () N
+(32) # () S
+(  arglist[0] = 0.5;) p n
+(33) # (  gMinuit->mnexcm\(") S
+(SET ERR) str
+(", arglist, 1, ierflg\);) p n
+(34) # () N
+(35) # (  ) S
+(// Set initial values of parameters) c n
+(36) # () N
+(37) # () S
+(  vstart[0] = t0_init;) p n
+(38) # (  vstart[1] = dm_init;) N
+(39) # (  vstart[2] = sigma_init;) N
+(40) # (  vstart[3] = mistag_init;) N
+(41) # () N
+(42) # (  step[0] = t0_step;) N
+(43) # (  step[1] = dm_step;) N
+(44) # (  step[2] = sigma_step;) N
+(45) # (  step[3] = mistag_step;) N
+(46) # () N
+(47) # (  gMinuit->mnparm\(0, ") S
+(t0) str
+(", vstart[0], step[0], 0., 0., ierflg\);) p n
+(48) # (  gMinuit->mnparm\(1, ") S
+(dm) str
+(", vstart[1], step[1], 0., 0., ierflg\);) p n
+(49) # (  gMinuit->mnparm\(2, ") S
+(sigma) str
+(", vstart[2], step[2], 0., 0., ierflg\);) p n
+(50) # (  gMinuit->mnparm\(3, ") S
+(mistag) str
+(", vstart[3], step[3], 0., 0., ierflg\);) p n
+(51) # (  ) S
+(// Fix t0, sigma, and dm) c n
+(52) # () S
+(  arglist[0] = 1;) p n
+(53) # (  arglist[1] = 2;) N
+(54) # (  arglist[2] = 3;) N
+(55) # (  gMinuit->mnexcm\(") S
+(FIX) str
+(", arglist, 3, ierflg\);) p n
+(56) # () N
+(57) # (  ) S
+(// Do minimization) c n
+(58) # () S
+(  arglist[0] = 3000.;) p n
+(59) # (  arglist[1] = 0.1;) N
+(60) # (  gMinuit->mnexcm\(") S
+(CALL FCN) str
+(", &p1, 1, ierflg\);) p n
+(61) # (  gMinuit->mnexcm\(") S
+(MIGRAD) str
+(", arglist, 2, ierflg\);) p n
+(62) # (  gMinuit->mnexcm\(") S
+(CALL FCN) str
+(", &p3, 1, ierflg\);) p n
+(63) # () N
+(64) # (  ) S
+(// Get parameters ) c n
+(65) # () S
+(  gMinuit->GetParameter\(0,par_t0,err_t0\);) p n
+(66) # (  gMinuit->GetParameter\(1,par_dm,err_dm\);) N
+(67) # (  gMinuit->GetParameter\(2,par_sigma,err_sigma\);) N
+(68) # (  gMinuit->GetParameter\(3,par_mistag,err_mistag\);) N
+(69) # () N
+(70) # (  ) S
+(// Export the fitted parameters so we can graph them.) c n
+(71) # () N
+(72) # () S
+(  fitpar[0]=par_t0;) p n
+(73) # (  fitpar[1]=par_dm;) N
+(unbinFitosc_d.cpp) (Page 1/2) (Aug 08, 05 20:44) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  fitpar[2]=par_sigma;) p n
+(75) # (  fitpar[3]=par_mistag;) N
+(76) # () N
+(77) # (  fiterr[0]=err_t0;) N
+(78) # (  fiterr[1]=err_dm;) N
+(79) # (  fiterr[2]=err_sigma;) N
+(80) # (  fiterr[3]=err_mistag;) N
+(81) # () N
+(82) # () N
+(83) # (  ) S
+(delete) K
+( gMinuit;) p n
+(84) # () N
+(85) # (}) N
+(86) # () N
+(87) # () N
+(88) # () S
+(void) k
+( mll_fit\(Int_t &npar, Double_t *gin, Double_t &f,) p n
+(89) # () S 8 T (     Double_t *par, Int_t iflag\)) N
+(90) # ({) N
+(91) # (  ) S
+(if) K
+( \(iflag == 1\) cout << ") p
+(iflag  ) str
+(" << iflag << endl;) p n
+(92) # (  ) S
+(if) K
+( \(iflag == 3\) cout << ") p
+(iflag  ) str
+(" << iflag << endl;) p n
+(93) # (  Double_t nll = 0;) N
+(94) # (  ) S
+(for) K
+( \(Int_t i=0; i<nEvts; i++\){) p n
+(95) # (    Double_t ll=lifetime_osc\(lifetime[i],par[0],par[1],par[2],par[3],tag[i]\);) N
+(96) # () N
+(97) # (    nll -= TMath::Log\(ll\);) N
+(98) # (  }) N
+(99) # (  f = nll;) N
+(100) # (}) N
+(101) # () N
+(102) # () S
+(void) k
+( mll_fit_d\(Int_t &npar, Double_t *gin, Double_t &f,) p n
+(103) # () S 8 T (     Double_t *par, Int_t iflag\)) N
+(104) # ({) N
+(105) # (  ) S
+(if) K
+( \(iflag == 1\) cout << ") p
+(iflag  ) str
+(" << iflag << endl;) p n
+(106) # (  ) S
+(if) K
+( \(iflag == 3\) cout << ") p
+(iflag  ) str
+(" << iflag << endl;) p n
+(107) # () N
+(108) # (  Double_t nll = 0;) N
+(109) # () N
+(110) # (  ) S
+(for) K
+( \(Int_t i=0; i<nEvts; i++\){) p n
+(111) # (    ) S
+(if) K
+( \(tag[i] == -1\){) p n
+(112) # (      Double_t ll1 = lifetime_osc\(1, par[0], par[1], par[2], lifetime[i]\);) N
+(113) # (      Double_t ll2 = lifetime_osc\(-1, par[0], par[1], par[2], lifetime[i]\);) N
+(114) # (      Double_t ll = \(1-par[3]\)*ll1 + par[3]*ll2;) N
+(115) # (    }) N
+(116) # () N
+(117) # (    ) S
+(if) K
+( \(tag[i] == 1\){) p n
+(118) # (      Double_t ll1 = lifetime_osc\(-1, par[0], par[1], par[2], lifetime[i]\);) N
+(119) # (      Double_t ll2 = lifetime_osc\(1, par[0], par[1], par[2], lifetime[i]\);) N
+(120) # (      Double_t ll = \(1-par[3]\)*ll1 + par[3]*ll2;) N
+(121) # (    }) N
+(122) # () N
+(123) # (    nll -= TMath::Log\(ll\);) N
+(124) # () N
+(125) # (  }) N
+(126) # (  f = nll;) N
+(127) # () N
+(128) # (}) N
+(unbinFitosc_d.cpp) (Page 2/2) (Aug 08, 05 20:44) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(unbinFitosc_d.cpp) (13/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 14
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//**********************************************************) c n
+(2) # () S
+(Double_t nGaus\(Double_t mean, Double_t sigma, Double_t x\)) p n
+(3) # ({) N
+(4) # (  Double_t expArg = \(x - mean\)/sigma;) N
+(5) # (  Double_t gNorm = TMath::Sqrt\(TMath::TwoPi\(\)\)*sigma;) N
+(6) # () N
+(7) # (  Double_t ng = 1/\(gNorm\)*) N
+(8) # (    TMath::Exp\(-expArg*expArg/2.\);) N
+(9) # () N
+(10) # (  ) S
+(return) K
+( ng;) p n
+(11) # (}) N
+(12) # () N
+(13) # (Double_t nPoly1\(Double_t slope, Double_t x\)) N
+(14) # ({) N
+(15) # (  Double_t pNorm = slope/2.*\(max*max - min*min\) +) N
+(16) # (    max - min;) N
+(17) # (  Double_t np = \(slope*x + 1\)/pNorm;) N
+(18) # (  ) S
+(return) K
+( np;) p n
+(19) # (}) N
+(20) # () N
+(21) # (Double_t uNmix\(Double_t t, Double_t t0, Double_t dm, Double_t s\)) N
+(22) # ({) N
+(23) # (    ) S
+(// Normalization) c n
+(24) # () N
+(25) # () S
+(  ) p
+(//Double_t norm = \(1.+ dm*dm * t0*t0\)/\(8.*t0 + 4.*dm*dm * t0*t0*t0\);) c n
+(26) # () S
+(  Double_t norm = 1./\(8.* t0\);) p n
+(27) # () N
+(28) # (  ) S
+(// Exponential decay term) c n
+(29) # () N
+(30) # () S
+(  Double_t argexp = \(s*s - 2.*t*t0\)/\(2.*t0*t0\);) p n
+(31) # (  Double_t argerf = \(t*t0 - s*s\)/\(TMath::Sqrt\(2.\)*s*t0\);) N
+(32) # (  Double_t expterm = TMath::Exp\(argexp\)*\(1+TMath::Erf\(argerf\)\);) N
+(33) # () N
+(34) # (  ) S
+(// Complex exponential term) c n
+(35) # () N
+(36) # () S
+(  Double_t arg1_re = \(2.*t*t0 + s*s*\(dm*dm*t0*t0 - 1.\)\)/\(2.*t0*t0\);) p n
+(37) # (  Double_t arg1_im = \(dm*\(t*t0 - s*s\)\)/t0;) N
+(38) # () N
+(39) # (  Double_t exp1 = TMath::Exp\(-arg1_re\);) N
+(40) # (  Double_t cos1 = TMath::Cos\(-arg1_im\);) N
+(41) # (  Double_t sin1 = TMath::Sin\(-arg1_im\);) N
+(42) # () N
+(43) # (  ) S
+(//Complex error function term) c n
+(44) # () N
+(45) # () S
+(  Double_t arg2_re = dm*s/\(TMath::Sqrt\(2.\)\);) p n
+(46) # (  Double_t arg2_im = \(t*t0 - s*s\)/\(TMath::Sqrt\(2.\)*s*t0\);) N
+(47) # () N
+(48) # (  RooComplex wz = RooMath::ComplexErrFunc\(-arg2_re,-arg2_im\);) N
+(49) # (  Double_t expwz = TMath::Exp\(arg2_re*arg2_re - arg2_im*arg2_im\);) N
+(50) # (  Double_t coswz = TMath::Cos\(2.*arg2_re*arg2_im\);) N
+(51) # (  Double_t sinwz = TMath::Sin\(2.*arg2_re*arg2_im\);) N
+(52) # () N
+(53) # (  Double_t wzre = wz.re\(\);) N
+(54) # (  Double_t wzim = wz.im\(\);) N
+(55) # () N
+(56) # (  ) S
+(if) K
+( \(arg2_im > 26.\){) p n
+(57) # (    Double_t wz_re = 2.0;) N
+(58) # (    Double_t wz_im = 0.0;) N
+(59) # (  }) N
+(60) # (  ) S
+(else) K
+({) p n
+(61) # (    Double_t wz_re =   expwz*\(wzre*coswz - wzim*sinwz\);) N
+(62) # (    Double_t wz_im =   expwz*\(wzre*sinwz + wzim*coswz\);) N
+(63) # (  }) N
+(64) # () N
+(65) # (  ) S
+(// Unmixed convoulted time dependent function) c n
+(66) # () N
+(67) # () S
+(  Double_t func_un = 2.*\(expterm + exp1*\(wz_re*cos1 - wz_im*sin1\)\);) p n
+(68) # (  Double_t func = norm*func_un;) N
+(69) # () N
+(70) # (  ) S
+(return) K
+( func;) p n
+(71) # (}) N
+(72) # () N
+(73) # (Double_t mix\(Double_t t, Double_t t0, Double_t dm, Double_t s\)) N
+(func.cpp) (Page 1/4) (Aug 05, 05 16:24) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # ({) p n
+(75) # (    ) S
+(// Normalization) c n
+(76) # () N
+(77) # () S
+(  ) p
+(//Double_t norm = \(1.+ dm*dm * t0*t0\)/\(8.*t0 + 4.*dm*dm * t0*t0*t0\);) c n
+(78) # () S
+(  Double_t norm = 1./\(8.*t0\);) p n
+(79) # () N
+(80) # (  ) S
+(// Exponential decay term) c n
+(81) # () N
+(82) # () S
+(  Double_t argexp = \(s*s - 2.*t*t0\)/\(2.*t0*t0\);) p n
+(83) # (  Double_t argerf = \(t*t0 - s*s\)/\(TMath::Sqrt\(2.\)*s*t0\);) N
+(84) # (  Double_t expterm = TMath::Exp\(argexp\)*\(1+TMath::Erf\(argerf\)\);) N
+(85) # () N
+(86) # (  ) S
+(// Complex exponential term) c n
+(87) # () N
+(88) # () S
+(  Double_t arg1_re = \(2.*t*t0 + s*s*\(dm*dm*t0*t0 - 1.\)\)/\(2.*t0*t0\);) p n
+(89) # (  Double_t arg1_im = \(dm*\(t*t0 - s*s\)\)/t0;) N
+(90) # () N
+(91) # (  Double_t exp1 = TMath::Exp\(-arg1_re\);) N
+(92) # (  Double_t cos1 = TMath::Cos\(-arg1_im\);) N
+(93) # (  Double_t sin1 = TMath::Sin\(-arg1_im\);) N
+(94) # () N
+(95) # (  ) S
+(//Complex error function term) c n
+(96) # () N
+(97) # () S
+(  Double_t arg2_re = dm*s/\(TMath::Sqrt\(2.\)\);) p n
+(98) # (  Double_t arg2_im = \(t*t0 - s*s\)/\(TMath::Sqrt\(2.\)*s*t0\);) N
+(99) # () N
+(100) # (  RooComplex wz = RooMath::ComplexErrFunc\(-arg2_re,-arg2_im\);) N
+(101) # (  ) S
+(//RooComplex wz = RooMath::ComplexErrFunc\(arg2_re,arg2_im\);) c n
+(102) # () S
+(  Double_t expwz = TMath::Exp\(arg2_re*arg2_re - arg2_im*arg2_im\);) p n
+(103) # (  Double_t coswz = TMath::Cos\(2.*arg2_re*arg2_im\);) N
+(104) # (  Double_t sinwz = TMath::Sin\(2.*arg2_re*arg2_im\);) N
+(105) # () N
+(106) # (  Double_t wzre =  wz.re\(\);) N
+(107) # (  Double_t wzim =  wz.im\(\);) N
+(108) # () N
+(109) # (  ) S
+(if) K
+( \(arg2_im > 26.\){) p n
+(110) # (    Double_t wz_re = 0.0;) N
+(111) # (    Double_t wz_im = 2.0;) N
+(112) # (  }) N
+(113) # (  ) S
+(else) K
+({) p n
+(114) # (    Double_t wz_im =   expwz*\(wzre*coswz - wzim*sinwz\);) N
+(115) # (    Double_t wz_re =  -expwz*\(wzre*sinwz + wzim*coswz\);) N
+(116) # (  }) N
+(117) # () N
+(118) # (  ) S
+(// Mixed convoulted time dependent function) c n
+(119) # () N
+(120) # () S
+(  Double_t func_un = 2.*\(expterm - exp1*\(wz_re*sin1 + wz_im*cos1\)\);) p n
+(121) # (  Double_t func = norm*func_un;) N
+(122) # () N
+(123) # (  ) S
+(return) K
+( func;) p n
+(124) # (}) N
+(125) # () N
+(126) # (Double_t mass_fit\(Double_t *x, Double_t *par\)) N
+(127) # ({) N
+(128) # (  Double_t m0 = par[0];) N
+(129) # (  Double_t sigma = par[1];) N
+(130) # (  Double_t slope = par[2];) N
+(131) # (  Double_t frac = par[3];) N
+(132) # () N
+(133) # (  Double_t func_1 = nGaus\(m0, sigma, x[0]\);) N
+(134) # (  Double_t func_2 = nPoly1\(slope, x[0]\);) N
+(135) # (  Double_t func   = ) S
+(float) k
+(\(nEvts\)/nBins*\(frac*func_1 + \(1.-frac\)*func_2\);) p n
+(136) # () N
+(137) # (  ) S
+(return) K
+( func;) p n
+(138) # (}) N
+(139) # () N
+(140) # (Double_t lifetime_fit\(Double_t t0, Double_t sigma, Double_t t\)) N
+(141) # ({) N
+(142) # () N
+(143) # (  Double_t lNorm = 1./\(2.*t0\);) N
+(144) # (  Double_t arg1 = \(sigma*sigma - 2.*t0*t\)/\(2.*t0*t0\);) N
+(145) # (  Double_t arg2 = \(t*t0 - sigma*sigma\)/\(TMath::Sqrt\(2.\)*sigma*t0\);) N
+(146) # () N
+(func.cpp) (Page 2/4) (Aug 05, 05 16:24) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(func.cpp) (14/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 15
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(147) # (  Double_t func1=TMath::Exp\(arg1\);) p n
+(148) # (  Double_t func2=TMath::Erf\(arg2\);) N
+(149) # () N
+(150) # () S
+(//   cout << "t0 = " << t0 << "  sigma = " << sigma) c n
+(151) # (//        << "  func1\(" << arg1 << "\) = " << func1 << "  and  ") N
+(152) # (//        << "func2\(" << arg2 << "\) = " << func2 << endl;) N
+(153) # () N
+(154) # () S
+(  Double_t func = func1*\(1.+func2\)/\(2.*t0\);) p n
+(155) # () N
+(156) # (  ) S
+(return) K
+( func;) p n
+(157) # (}) N
+(158) # () N
+(159) # (Double_t lifetime_plt\(Double_t *x, Double_t *par\)) N
+(160) # ({) N
+(161) # (  Double_t t0 = par[0];) N
+(162) # (  Double_t sigma = par[1];) N
+(163) # (  Double_t t = x[0];) N
+(164) # () N
+(165) # () N
+(166) # (  Double_t lNorm = 1./\(2.*t0\);) N
+(167) # (  Double_t arg1 = \(sigma*sigma - 2.*t0*t\)/\(2.*t0*t0\);) N
+(168) # (  Double_t arg2 = \(t*t0 - sigma*sigma\)/\(TMath::Sqrt\(2.\)*sigma*t0\);) N
+(169) # () N
+(170) # (  Double_t func1=TMath::Exp\(arg1\);) N
+(171) # (  Double_t func2=TMath::Erf\(arg2\);) N
+(172) # () N
+(173) # (  Double_t func = nEvts*19./50.*func1*\(1.+func2\)/\(2.*t0\);) N
+(174) # () N
+(175) # (  ) S
+(return) K
+( func;) p n
+(176) # (}) N
+(177) # () N
+(178) # (Double_t lifetime_osc\(Int_t tag, Double_t t0,) N
+(179) # () S 8 T () S 16 T (      Double_t dm, Double_t s, Double_t t\)) N
+(180) # ({) N
+(181) # () N
+(182) # (  Double_t ll;) N
+(183) # () N
+(184) # (  ) S
+(if) K
+( \(tag == 0\) ll = 1.;) p n
+(185) # (  ) S
+(if) K
+( \(tag == -1\) ll = uNmix\(t, t0, dm, s\);) p n
+(186) # (  ) S
+(if) K
+( \(tag == 1\) ll = mix\(t, t0, dm, s\);) p n
+(187) # (  ) N
+(188) # (  ) S
+(return) K
+( ll;) p n
+(189) # (}) N
+(190) # () N
+(191) # (Double_t lftmosc_plt\(Double_t *x, Double_t *par\)) N
+(192) # ({) N
+(193) # (  Double_t t   = x[0];) N
+(194) # (  Double_t t0  = par[0];) N
+(195) # (  Double_t dm  = par[1];) N
+(196) # (  Double_t s   = par[2];) N
+(197) # (  Int_t    tag = par[3];) N
+(198) # () N
+(199) # (  Double_t func;) N
+(200) # () N
+(201) # (  ) S
+(if) K
+( \(tag == -1\) func = nEvts*19./50.* uNmix\(t, t0, dm, s\);) p n
+(202) # (  ) S
+(if) K
+( \(tag == 1\) func = nEvts*19./50.* mix\(t, t0, dm, s\);) p n
+(203) # () N
+(204) # (  ) S
+(return) K
+( func;) p n
+(205) # () N
+(206) # (}) N
+(207) # () N
+(208) # (Double_t lftmosc_plt_d\(Double_t *x, Double_t *par\)) N
+(209) # ({) N
+(210) # (  Double_t t       = x[0];) N
+(211) # (  Double_t t0      = par[0];) N
+(212) # (  Double_t dm      = par[1];) N
+(213) # (  Double_t s       = par[2];) N
+(214) # (  Double_t alpha   = par[3];) N
+(215) # (  Int_t    tag     = par[4];) N
+(216) # () N
+(217) # (  Double_t func;) N
+(218) # () N
+(219) # (  ) S
+(if) K
+( \(tag == -1\) func = nEvts*19./50.* \(\(1.-alpha\)*uNmix\(t, t0, dm, s\) +) p n
+(func.cpp) (Page 3/4) (Aug 05, 05 16:24) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(220) # () p 8 T () S 16 T () S 24 T (       alpha*mix\(t, t0, dm, s\)\);) N
+(221) # (  ) S
+(if) K
+( \(tag == 1\) func = nEvts*19./50.* \(\(1.-alpha\)*mix\(t, t0, dm, s\) +) p n
+(222) # () S 8 T () S 16 T () S 24 T (      alpha*uNmix\(t, t0, dm, s\)\);) N
+(223) # () N
+(224) # (  ) S
+(return) K
+( func;) p n
+(225) # () N
+(226) # (}) N
+(227) # () N
+(228) # () S
+(//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%) c n
+(229) # (//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%) N
+(230) # (//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%) N
+(231) # (//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%) N
+(232) # (//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%) N
+(233) # () S
+(Double_t lftmosc_plt_old\(Double_t *x, Double_t *par\)) p n
+(234) # ({) N
+(235) # () N
+(236) # (  Double_t t = x[0];) N
+(237) # (  ) S
+(//Double_t t = 2.8;) c n
+(238) # () S
+(  Double_t t0 = par[0];) p n
+(239) # (  Double_t dm = par[1];) N
+(240) # (  Double_t s  = par[2];) N
+(241) # () N
+(242) # (  ) S
+(// Normalization) c n
+(243) # () N
+(244) # () S
+(  Double_t norm = \(1.+ dm*dm * t0*t0\)/\(8.*t0 + 4.*dm*dm * t0*t0*t0\);) p n
+(245) # () N
+(246) # (  ) S
+(// Exponential decay term) c n
+(247) # () N
+(248) # () S
+(  Double_t argexp = \(s*s - 2.*t*t0\)/\(2.*t0*t0\);) p n
+(249) # (  Double_t argerf = \(t*t0 - s*s\)/\(TMath::Sqrt\(2.\)*s*t0\);) N
+(250) # (  Double_t expterm = TMath::Exp\(argexp\)*\(1+TMath::Erf\(argerf\)\);) N
+(251) # () N
+(252) # (  ) S
+(// Complex exponential term) c n
+(253) # () N
+(254) # () S
+(  Double_t arg1_re = \(2.*t*t0 + s*s*\(dm*dm*t0*t0 - 1.\)\)/\(2.*t0*t0\);) p n
+(255) # (  Double_t arg1_im = \(dm*\(t - s*s\)\)/t0;) N
+(256) # () N
+(257) # (  Double_t exp1 = TMath::Exp\(-arg1_re\);) N
+(258) # (  Double_t cos1 = TMath::Cos\(-arg1_im\);) N
+(259) # (  Double_t sin1 = TMath::Sin\(-arg1_im\);) N
+(260) # () N
+(261) # (  ) S
+(//Complex error function term) c n
+(262) # () N
+(263) # () S
+(  Double_t arg2_re = dm*s/\(TMath::Sqrt\(2.\)\);) p n
+(264) # (  Double_t arg2_im = \(t*t0 - s*s\)/\(TMath::Sqrt\(2.\)*s*t0\);) N
+(265) # () N
+(266) # (  RooComplex wz = RooMath::ComplexErrFunc\(-arg2_re,-arg2_im\);) N
+(267) # (  Double_t expwz = TMath::Exp\(arg2_re*arg2_re - arg2_im*arg2_im\);) N
+(268) # (  Double_t coswz = TMath::Cos\(2.*arg2_re*arg2_im\);) N
+(269) # (  Double_t sinwz = TMath::Sin\(2.*arg2_re*arg2_im\);) N
+(270) # () N
+(271) # (  Double_t wz_re =  expwz*\(wz.re\(\)*coswz - wz.im\(\)*sinwz\);) N
+(272) # (  Double_t wz_im =  expwz*\(wz.re\(\)*sinwz + wz.im\(\)*coswz\);) N
+(273) # () N
+(274) # (  ) S
+(// Unmixed convoulted time dependent function) c n
+(275) # () N
+(276) # () S
+(  Double_t func_un = 2.*\(expterm + exp1*\(wz_re*cos1 - wz_im*sin1\)\);) p n
+(277) # (  Double_t func = norm*func_un;) N
+(278) # () N
+(279) # (  ) S
+(return) K
+( func;) p n
+(280) # (}) N
+(func.cpp) (Page 4/4) (Aug 05, 05 16:24) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(func.cpp) (15/15) (Tuesday August 09, 2005) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF

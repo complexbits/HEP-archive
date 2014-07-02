@@ -1,0 +1,180 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   3.10/02  16 December 2003   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+Compiled for linux with thread support.
+
+CINT/ROOT C/C++ Interpreter version 5.15.115, Dec 9 2003
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+
+Processing scaleFac_v7.C++...
+Info in <TUnixSystem::ACLiC>: creating shared library /misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./scaleFac_v7_C.so
+<command line>:11:1: warning: "__GNUC_MINOR__" redefined
+<built-in>:5:1: warning: this is the location of the previous definition
+<command line>:11:1: warning: "__GNUC_MINOR__" redefined
+<built-in>:5:1: warning: this is the location of the previous definition
+<command line>:11:1: warning: "__GNUC_MINOR__" redefined
+<built-in>:5:1: warning: this is the location of the previous definition
+<command line>:11:1: warning: "__GNUC_MINOR__" redefined
+<built-in>:5:1: warning: this is the location of the previous definition
+In file included from /usr/lib/gcc/i386-redhat-linux/3.4.2/../../../../include/c++/3.4.2/backward/iostream.h:31,
+                 from /misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./scaleFac_v7.C:1,
+                 from /misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./fileJvFNmj.h:29,
+                 from /misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./fileJvFNmj.cxx:13:
+/usr/lib/gcc/i386-redhat-linux/3.4.2/../../../../include/c++/3.4.2/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header. Please consider using one of the 32 headers found in section 17.4.1.2 of the C++ standard. Examples include substituting the <X> header for the <X.h> header for C++ includes, or <iostream> instead of the deprecated header <iostream.h>. To disable this warning use -Wno-deprecated.
+In file included from /misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./fileJvFNmj.h:29,
+                 from /misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./fileJvFNmj.cxx:13:
+/misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./scaleFac_v7.C: In function `void scaleFac_v7()':
+/misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./scaleFac_v7.C:253: warning: unused variable 'dummy'
+In file included from /misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./fileJvFNmj.h:29,
+                 from /misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./fileJvFNmj.cxx:13:
+/misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./scaleFac_v7.C:193: warning: 'tSmear' might be used uninitialized in this function
+/misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./fileJvFNmj.cxx: At global scope:
+/misc/ouhepd0/users/hegarty/B-mixing/mixLimits/chisqfit/fitting/./fileJvFNmj.cxx:91: warning: 'int G__fileJvFNmj__0_52(G__value*, const char*, G__param*, int)' defined but not used
+1.5  0.18
+dms = 1
+dms = 2
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 3
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 4
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 5
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 6
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 7
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 8
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 9
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 10
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 11
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 12
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 13
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 14
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 15
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 16
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 17
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 18
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 19
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 20
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 21
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 22
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 23
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 24
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 25
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 26
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 27
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 28
+Warning in <TH1::Build>: Replacing existing histogram: umixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixh (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: umixht (Potential memory leak).
+Warning in <TH1::Build>: Replacing existing histogram: mixht (Potential memory leak).
+dms = 29
+Real time = 365.78  CPU Time = 355.47

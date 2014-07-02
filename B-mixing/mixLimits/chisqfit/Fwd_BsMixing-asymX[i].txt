@@ -1,0 +1,43 @@
+From: Phillip Gutierrez <pgutierrez@ou.edu>
+Date: February 8, 2005 10:59:49 AM CST
+To: Jamie Hegarty <hegarty@nhn.ou.edu>
+Subject: Fwd: Bs mixing - asymX[i]
+
+
+
+----------  Forwarded Message  ----------
+
+Subject: Bs mixing - asymX[i]
+Date: Friday 21 January 2005 10:57
+From: kopal@fnal.gov
+To: Phillip Gutierrez <pgutierrez@ou.edu>
+Cc: gut@nhn.ou.edu
+
+Jamie; files have been copied, cleanup code is below. It doesn't
+make sense to me at the moment, will have to look at it more
+carefully.
+
+    Phil
+PS:
+Here is sample clean-up as Sergey adviced:
+    if (matchBs>0 && q5!=qmu) {
+      // *** histogram of VLPD distributions converted to Time
+      _Hrec->Fill(lb/cmTOps); // lb ... reconstructed VLPD
+      // *** mixed: qtagin*qmu > 0
+      // *** unmixed: qtagin*qmu < 0
+      if (qtagin*q5>0.) { // ... mixed
+ _Hmix->Fill(lb/cmTOps);
+      }
+      else { //if (qtagin*q5<0.) { // ... unmixed
+ _Humx->Fill(lb/cmTOps);
+      }
+    }
+I think he got the mixed/unmixed the other way around.
+
+---
+The D-Zero Experiment, Fermilab
+P.O. Box 500-MS357, Batavia, IL. 60510
+phone: (630) 840-3272
+
+-------------------------------------------------------
+

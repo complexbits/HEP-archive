@@ -1,0 +1,62 @@
+/**************************************************************************
+This function loops through histograms in a file (based on their sequential
+key locations in the file), and adds them into an array of histograms which
+can then be manipulated without affecting the originals.
+
+Jamie Hegarty
+hegarty@nhn.ou.edu
+03/01/05
+**************************************************************************/
+
+void get_hists()
+{
+
+  TH1F *h[50]; //Array of new histograms
+  TObjArray a1(0);  //Object array to hold everything you want to write to disk later
+
+  TFile *f = new TFile("test_mk.root", "READ");  //File to read old histograms from
+  TIter next(f->GetListOfKeys());  //See Root Manual (Section "I/O: TFile and TKey")
+  TKey *key;                       //See Root Manual (Section "I/O: TFile and TKey")
+
+  Int_t k=0, i=1;
+  char nametmp [25], name [25], title [100];
+
+  while ((key = (TKey*)next())){  //Loops through the available keys in f.
+
+    // do f->GetListOfKeys()->Print() in a root window to determine 
+    // key pattern to match ... only needed if f contains more than
+    // just the histograms you want.
+
+    if (k/((3*i)-2) == 1.){
+
+      //Get the name of the current key, then get that hist from the 
+      // file and copy it to the new histogram:
+      sprintf(nametmp, "%s", key->GetName());  
+      h[i] = (TH1F*)f->Get(nametmp);      
+
+      //Set the name of the new histogram to h(i):
+      sprintf(name, "h%d", i);                 
+      h[i]->SetName(name);
+
+      //Give the new histogram a useful title (edit as necc.)
+      sprintf(title, "%s (h%d)", key->GetName(), i);  
+      h[i]->SetTitle(title);
+
+      //Add the new histograms to an array so they can be written out later
+      a1.Add(h[i]);
+
+      i++;
+    }
+    k++;
+  }
+
+  //Uncomment this to test:
+  //h[5]->Draw();
+
+  //Make a new file and write out everything in your array
+  TFile *f_2 = new TFile("get_hists.root", "recreate"); 
+  a1.Write();
+  f_2->Close(); 
+
+
+}

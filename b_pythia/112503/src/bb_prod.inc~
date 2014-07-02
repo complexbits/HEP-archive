@@ -1,0 +1,43 @@
+C...Common blocks need for ntuple
+
+      COMMON /MUBAR/ IMB,  
+     &     IMBID(10), IMBINDX(10), IMBCHG(10),
+     &     AMBPX(10), AMBPY(10), AMBPZ(10), AMBE(10),
+     &     AMBPT(10), AMBP(10), AMBPHI(10),
+     &	   AMBTHET(10), AMBETA(10)
+
+      COMMON /KSHORT/ IKSHT, IKSID(10), 
+     &     IKINDX(10), IKPAR(10), IKSCHG(10),
+     &     AKSPX(10), AKSPY(10), AKSPZ(10), AKSE(10),
+     &     AKSPT(10), AKSP(10), AKSPHI(10),
+     &	   AKSTHET(10), AKSETA(10)
+          
+      COMMON /MUON/ IMU, IMUID(10),  
+     &     IMEVT(10), IMINDX(10), IMUCHG(10),
+     &     AMUPX(10), AMUPY(10), AMUPZ(10), AMUE(10),
+     &     AMUPT(10), AMUP(10), AMUPHI(10),
+     &	   AMUTHET(10), AMUETA(10)
+
+      COMMON /JPSI/ IJPSI, IJPID(10), 
+     &	   IJINDX(10), IJPCHG(10),
+     &     AJPPX(10), AJPPY(10), AJPPZ(10), AJPE(10),
+     &     AJPPT(10), AJPP(10), AJPPHI(10),
+     &	   AJPTHET(10), AJPETA(10)
+
+      COMMON /Bmeson/ IBmes, IB0ID(10), 
+     &     IBINDX(10), IB0CHG(10),
+     &     B0PX(10), B0PY(10), B0PZ(10), B0E(10),
+     &     B0PT(10), B0P(10), B0PHI(10),
+     &	   B0THET(10), B0ETA(10)
+
+      COMMON /BQUARK/ IBQRK, IBQID(10), 
+     &	   IBQINDX(10), IBQCHG(10),
+     &     BQPX(10), BQPY(10), BQPZ(10), BQE(10),
+     &     BQPT(10), BQP(10), BQPHI(10),
+     &	   BQTHET(10), BQETA(10)
+
+      COMMON /UPARTS/ IPARTS, IUPID(40), 
+     &	   IUPINDX(40), IUPCHG(40),
+     &     UPPX(40), UPPY(40), UPPZ(40), UPE(40),
+     &     UPPT(40), UPP(40), UPPHI(40),
+     &	   UPTHET(40), UPETA(40)

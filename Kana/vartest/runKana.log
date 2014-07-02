@@ -1,0 +1,33 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   4.00/03     30 March 2004   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+Compiled for linux with thread support.
+
+CINT/ROOT C/C++ Interpreter version 5.15.128, Mar 16 2004
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+
+Processing runKana.C...
+Entries = 389885
+Number of entries = 389885
+Info in <TCanvas::Print>: ps file K0pipi.ps has been created
+Info in <TCanvas::Print>: ps file K0mumu.ps has been created
+Info in <TCanvas::Print>: ps file K0pimu.ps has been created
+Info in <TCanvas::Print>: ps file K0dimu.ps has been created
+Info in <TCanvas::Print>: ps file K0dpimu.ps has been created
+
+
+ Real Time= 11238 ( 3 Hours)
+
+
+
+ CPU Time= 11163 
+

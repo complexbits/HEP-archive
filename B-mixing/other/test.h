@@ -1,0 +1,30 @@
+struct vars_t{
+  
+  // ---------- Define data variables: -------------  
+  Double_t runNo[100000];
+  Double_t evtNo[100000];
+  Double_t mass[100000];
+  Double_t lifetime[100000];
+  Int_t tag[100000];
+  
+  // --------- Define fit parameters ----------  
+ 
+  Double_t cosfit_par[100];
+  Double_t cosfit_err[100];
+    
+  Double_t t_sig[100];
+  
+}
+vars_t vts;
+Double_t min = -4;
+Double_t max = 15;
+Int_t nEvts = 100000;
+Int_t nBins = 100;
+
+//vars used in MC:
+Double_t tau = 1.5;
+Double_t dm  = .51;
+Double_t tSigma = 0.;  
+
+Int_t nRuns=10;
+Int_t kmax=10;

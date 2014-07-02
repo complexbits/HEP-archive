@@ -1,0 +1,122 @@
+/************************************************************
+The skeleton for this file (and corresponding header dstag.h)
+were generated automatically by ROOT, using: 
+
+TFile *f = new TFile("aadstagmc15423.root");
+dstag->MakeClass("dstag");
+
+Jamie Hegarty 11/30/04
+**************************************************************/
+
+
+#define dstag_cxx
+#include "dstag.h"
+#include "TH2.h"
+#include "TStyle.h"
+#include "TCanvas.h"
+
+void dstag::Loop()
+{
+//   In a ROOT session, you can do:
+//      Root > .L dstag.C
+//      Root > dstag t
+//      Root > t.GetEntry(12); // Fill t data members with entry number 12
+//      Root > t.Show();       // Show values of entry 12
+//      Root > t.Show(16);     // Read and show values of entry 16
+//      Root > t.Loop();       // Loop on all entries
+//
+
+//     This is the loop skeleton where:
+//    jentry is the global entry number in the chain
+//    ientry is the entry number in the current Tree
+//  Note that the argument to GetEntry must be:
+//    jentry for TChain::GetEntry
+//    ientry for TTree::GetEntry and TBranch::GetEntry
+//
+//       To read only selected branches, Insert statements like:
+// METHOD1:
+//    fChain->SetBranchStatus("*",0);  // disable all branches
+//    fChain->SetBranchStatus("branchname",1);  // activate branchname
+// METHOD2: replace line
+//    fChain->GetEntry(jentry);       //read all branches
+//by  b_branchname->GetEntry(ientry); //read only this branch
+ 
+  if (fChain == 0) return;
+  Int_t nentries = Int_t(fChain->GetEntriesFast());
+  Int_t nbytes = 0, nb = 0;
+  
+  /*********** BEGIN USER-INSERTED CODE ****************/
+  
+  TH1F *h_unmixed_events = new TH1F("h_unmixed_events", "Unmixed Events", 50, 0., 0.4.);
+  TH1F *all_events_vpdl = new TH1F("all_events_vpdl", "all_events_vpdl", 50, 0., 0.4);
+  TH1F *h_mixed_events = new TH1F("h_mixed_events", "Mixed Events", 50, 0., 0.4);
+  TH1F *h_tagumok = new TH1F("h_tagumok", "h_tagmuok",2, 0., 2.);
+  
+  /************* END USER-INSERTED CODE ****************/
+    
+  for (Int_t jentry=0; jentry<nentries;jentry++) { // Begin Looping over all entries
+    Int_t ientry = LoadTree(jentry);
+    if (ientry < 0) break;
+    nb = fChain->GetEntry(jentry);   nbytes += nb;
+    // if (Cut(ientry) < 0) continue;
+
+    /*********** BEGIN USER-INSERTED CODE ****************/
+
+    
+    //check to see whether a tagging muon was found
+    // 0 = yes, 1 = no
+    if (tagmuok == 1.){ 
+      
+      // check the sign of the muon here vs. opposite muon
+      // if they're equal, mixing occurred. otherwise this event is unmixed.
+      if (q6 == qmu){
+	h_mixed_events->Fill(lb);
+      }else{
+	h_unmixed_events->Fill(lb);
+      }
+      
+    }
+
+    all_events_vpdl->Fill(lb);
+    h_tagumok->Fill(tagmuok);
+    
+    /************* END USER-INSERTED CODE ****************/
+    
+  } // End looping over all entries
+  /*********** BEGIN USER-INSERTED CODE ****************/ 
+  
+  // do (unmixed - mixed) / (mixed + unmixed) to get oscillation:
+  
+  TH1F *h_mix1 = (TH1F*) h_mixed_events->Clone();
+  TH1F *h_unmix1 = (TH1F*) h_unmixed_events->Clone();
+  TH1F *h_unmix2 = (TH1F*) h_unmixed_events->Clone();
+  
+  // ---- Nu + Nm -------
+  h_unmix2->Add(h_mixed_events);
+  
+  // ---- Nu - Nm -------
+  h_mix1->Scale(-1);
+  h_unmix1->Add(h_mix1);
+  
+  // ---- (Nu - Nm) / (Nu + Nm) -----
+  h_unmix1->Divide(h_unmix2);
+  
+  
+  gROOT->SetStyle("Plain");
+  gStyle->SetOptStat(11111);
+  gStyle->SetHistFillColor(10);
+  TCanvas *c1 = new TCanvas("c1", "Canvas1", 800,600);
+  c1->Divide(2,2);
+  c1->cd(1);
+  h_mixed_events->Draw();
+  c1->cd(2);
+  h_unmixed_events->Draw();
+  c1->cd(3);
+  h_unmix1->Draw();
+  c1->cd(4);
+  all_events_vpdl->Draw();
+  
+  /************* END USER-INSERTED CODE ****************/
+
+}
+

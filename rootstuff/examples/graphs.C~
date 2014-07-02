@@ -1,0 +1,21 @@
+void test(){
+
+  
+  Int_t n=20;
+  
+  Double_t x[20],y[20];
+  
+  for (Int_t i=0;i<20;i++){
+    
+    x[i]=i;
+    y[i]=x[i]*3;
+    
+  }
+  TGraph *gr1 = new TGraph(n,x,y);
+  gr1->SetName("gr1"); 
+  gr1->Draw("ACP");
+
+  TFile *testfile= new TFile("testfile.root", "recreate");  
+  gr1->Write();
+  testfile->Write();
+}

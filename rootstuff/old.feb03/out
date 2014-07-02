@@ -1,0 +1,49 @@
+root [11] t.Loop();        
+TESTING with 5000 events...
+1188  B-id: 0 Count-B-id: 1  Psi-id-this-B: 0  Count-Psi-id: -59
+
+1188  B-id: 2 Count-B-id: 1  Psi-id-this-B: 0  Count-Psi-id: -60
+
+1188  B-id: 17 Count-B-id: 1  Psi-id-this-B: 0  Count-Psi-id: -61
+
+**** Unique Entry Found in Event number 1188 :
+         B-id: 0  Psi-id: 0
+         Unique this Event: 1
+         num_Bs_with_psi[0] = 42
+         B-id 0 passed all cuts with good_B[0] = 1
+
+**** Unique Entry Found in Event number 1188 :
+         B-id: 2  Psi-id: 0
+         Unique this Event: 2
+         num_Bs_with_psi[0] = 42
+         B-id 2 passed all cuts with good_B[2] = 1
+
+**** Unique Entry Found in Event number 1188 :
+         B-id: 17  Psi-id: 0
+         Unique this Event: 3
+         num_Bs_with_psi[0] = 42
+         B-id 17 passed all cuts with good_B[17] = 1
+
+3522  B-id: 3 Count-B-id: 1  Psi-id-this-B: 0  Count-Psi-id: -59
+
+**** Unique Entry Found in Event number 3522 :
+         B-id: 3  Psi-id: 0
+         Unique this Event: 1
+         num_Bs_with_psi[0] = 42
+         B-id 3 passed all cuts with good_B[3] = 1
+
+4776  B-id: 0 Count-B-id: 1  Psi-id-this-B: 0  Count-Psi-id: -59
+
+4776  B-id: 1 Count-B-id: 1  Psi-id-this-B: 0  Count-Psi-id: -60
+
+**** Unique Entry Found in Event number 4776 :
+         B-id: 0  Psi-id: 0
+         Unique this Event: 1
+         num_Bs_with_psi[0] = 42
+         B-id 0 passed all cuts with good_B[0] = 1
+
+**** Unique Entry Found in Event number 4776 :
+         B-id: 1  Psi-id: 0
+         Unique this Event: 2
+         num_Bs_with_psi[0] = 42
+         B-id 1 passed all cuts with good_B[1] = 1

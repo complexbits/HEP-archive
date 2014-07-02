@@ -1,0 +1,5 @@
+
+#!/bin/sh
+#PBS -l walltime=00:05:00
+/home/diggitz/root/bin/root.exe -q /home/diggitz/B-mixing/mixLimits/vartdep2/lhns0196nf.C 
+

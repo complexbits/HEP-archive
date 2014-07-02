@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+<h3><font face="Arial, Helvetica, sans-serif">Creating Parentage Information for 
+  data which is not part of a common sample.</font></h3>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Please check first that 
+  your data are in fact not part of a common sample, those often have <strong><a href="SkimParentage.html">pregenerated 
+  parentage files</a></strong>. Generating parentage files is VERY time consuming 
+  and you could save yourself a day by checking there first.</font></p>
+<p>&nbsp;</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">If your files are not part 
+  of a common skim you need to build your own parentage files </font> </p>
+<blockquote> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">In the 
+    <strong>lm_access/scripts</strong> directory, there are three scripts <strong>makeFileParentageList.py</strong>, 
+    <strong>makeDimensionParentageList.py</strong> and <strong>makeDatasetParentageList.py</strong>, 
+    make certain these are in your <strong>PATH</strong> and <strong>PYTHONPATH</strong>.</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">type </font></p>
+  <pre><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><strong>makeDatasetParentageList.py &lt;your dataset definition&gt;</strong></font></pre>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">For each 
+    file in the sam dataset dataset it will provide a file <strong>&lt;filename&gt;.parentage 
+    which contains the lbns for that file.</strong></font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">These 
+    files take some time to generate but can be reused or stored in a common area 
+    for your group. They will not change as once a file is in sam,the metadata 
+    will not change.</font></p>
+  <p>&nbsp;</p>
+  <p><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif">Last Modified 
+    by H. Schellman 
+    <!-- #BeginDate format:Am1 -->August 24, 2005<!-- #EndDate -->
+    </font></p>
+</blockquote>
+</body>
+</html>

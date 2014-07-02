@@ -1,0 +1,187 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.78 [en] (Windows NT 5.0; U) [Netscape]">
+   <title>lm_access - Advnaced examples</title>
+</head>
+<body bgcolor="#E0FFFF">
+<font color="#CC7700"><font size=+1>Advanced
+Examples</font></font>
+<p><img SRC="mykul.jpg" height=11 width=11> script <a href="#marco">makeL1L3TrigMap.py</a>
+- tool for finding the map between L3 trigger names and L1 and L3 trigger
+bit numbers (for use with the <a href="RunMap.html">RunMap</a> class)<BR>
+<P>
+<img SRC="mykul.jpg" height=11 width=11> <a href="#heidi">Scripts for getting luminosity blocks for files</A>
+<p>
+<hr align = center size = 3 width = 95%>
+<p><a NAME="marco"></a><font color="#CC7700">Script makeL1L3TrigMap.py</font><b>
+- tool for finding the map between L3 trigger names and L1 and L3 trigger
+bit numbers</b>
+<p><b>M. Verzocchi</b>
+<br>&nbsp;
+<p><img SRC="mykul.jpg" height=11 width=11> to use the <a href="RunMap.html">RunMap</a>
+class the user needs a map between the L3 trigger names (like CEM20, CJT40)
+and the corresponding L1 trigger bits. This map must be fetched from the
+runs database, since there is not a one-to-one correspondence between the
+trigger bit numbers at L1 and L3.
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> a Python script <a href="../scripts/makeL1L3TrigMap.py">makeL1L3TrigMap.py
+</a>is provided, to make a fast search through the run database, avoiding
+the tedious task of building this map by hand, searching the
+<a href="http://d0db.fnal.gov/run/otherQueries.html">database</a>
+(offline version, the <a href="http://www-d0ol.fnal.gov/run/otherQueries.html">online
+</a>version is access restricted).
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> <font color="#FF0000">WARNING</font>:
+to use this script you should first load the Python modules which allow
+access to the Oracle database by typing
+<br>&nbsp;&nbsp;&nbsp; <font color="#448833">> setup python_dcoracle</font>
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> you can use this tool to build
+the map for a single run, typing
+<br>&nbsp;&nbsp;&nbsp; <font color="#448833">> ./makeL1L3TrigMap.py -run
+XXXXXX</font>
+<br>&nbsp;&nbsp;&nbsp; where <font color="#448833">XXXXXX</font> is the
+run number you are interested in.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0000">EXAMPLE</font> <font color="#448833"> ./makeL1L3TrigMap.py -run 133020</font> will produce the trigger map for run <font color="#448833">133020</font> which looks like this:
+<br>&nbsp;&nbsp;&nbsp; <font color="#FF0000"> 133020 min_bias 0 0 zero_bias 1 1 CEM5 2 2 EM_LO 3 3 CEM5eta8phi3 4 4 CEM10 5 5 EM_HI 6 6 CEM20 7 7 CJT5 8 8 JT_LO 9 9 CJT10eta8phi3 10 10 CJT10 11 11 JT_HI 12 12 CJT40 13 13 mu1cmsc_fz 14 14 mu1pix_fz 15 15 mu1cmsc_j5_fz 16 16 mu1cmsc_j10_fz 17 17 mu1cmsc_j10m_fz 18 18 mu2pix_fz 19 19 mu2cmsc_fz 20 20 mu2all_fz 21 21 2CEM5 22 22 L1Zee 23 23 CEM5CFT_LBX 24 24 CJT10CFT_LBX 25 25 # </font> 
+<br>&nbsp;&nbsp;&nbsp; where <font color="#448833">133020</font> is the run number, and then (for example) the <font color="#448833">CJT40</font>
+trigger uses the trigger bits number <font color="#448833">13</font> both for L1 and for L3 (this may not always be the case)
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> or you can build this tool
+to build a map for a list of runs (one entry per line), typing
+<br>&nbsp;&nbsp;&nbsp; <font color="#448833">> ./makeL1L3TrigMap.py -runlist
+myrun.list -map runmap.txt</font>
+<br>&nbsp;&nbsp;&nbsp; where <font color="#448833">myrun.list</font>
+is your list of runs and <font color="#448833">runmap.txt</font> is the
+new map
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> or you can build this tool
+to build a map for all the runs between in a given range, typing
+<br>&nbsp;&nbsp;&nbsp; <font color="#448833">> ./makeL1L3TrigMap.py -runrange
+XXXXXX,YYYYYY -map runmap.txt</font>
+<br>&nbsp;&nbsp;&nbsp; where <font color="#443300">YYYYYY</font>
+are the first and the last run numbers in the range and <font color="#448833">runmap.txt</font>
+is the new map
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> if you don't specify the <font color="#448833">-map
+AAAAAA </font>option, the map of runs will be printed on the screen
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> if you specify the <font color="#448833">-map
+AAAAAA </font>option and the file <font color="#448833">AAAAAA </font>already
+exists, only non duplicate entries will be added to the map
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> the <font color="#448833">-onlineDB
+</font>option allows to use the online database (access restricted) instead
+of its offline mirror (default)
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> a <font color="#448833">-help
+</font>option is also available
+<br>&nbsp;
+<br><img SRC="mykul.jpg" height=11 width=11> a map containing all runs
+collected after 8/25 is saved in
+<font color="#448833">/prj_root/829/c/com/begel/stage1b/L1L3TrigMap.txt</font>
+<br>&nbsp;
+<hr align = center size = 3 width = 95%>
+<p>
+<a NAME="heidi"></a><font color="#CC7700">Scripts for getting luminosity blocks for files</font>
+<p><b>H. Schellman</b>
+<br>&nbsp;
+<p><img SRC="mykul.jpg" height=11 width=11> to use the <a href="RunMap.html">RunMap</a> 
+  class the user also needs a list of the luminosity block numbers corresponding 
+  to the dataset which has been analysed <br>
+  &nbsp; <br>
+  <img SRC="mykul.jpg" height=11 width=11> depending on the way the data have 
+  been analysed the following scripts should be used to get this list from <a href="http://d0db.fnal.gov/sam/">SAM</a>: 
+  <br>
+  &nbsp; <br>
+  <img SRC="mykul.jpg" height=11 width=11> if you have processed a single file 
+  (most probably a single ROOT tuple) type: <br>
+  &nbsp;&nbsp;&nbsp; <font color="#448833">>./getLumBlk.py --file=&lt;filename&gt;</font><br>
+  &nbsp;&nbsp;&nbsp; where <font color="#448833">FILENAME</font> is the name of 
+  the file you have analysed (remove the /sam/cache/... in front of the real file 
+  name): <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0000">EXAMPLE</font> <font color="#448833"> 
+  ./getLumBlk --file=recoA_reco_all_0000133020_mrg_002-003.raw_p10.04.00.root 
+  </font> will produce the list of luminosity blocks for one particular ROOT file 
+  (partitions 002 and 003) of run 133020, reconstructed with version p10.04.00 
+  of D0reco <br>
+  &nbsp; <br>
+  <img SRC="mykul.jpg" height=11 width=11> if you have processed a list of files 
+  type: <br>
+  &nbsp;&nbsp;&nbsp; <font color="#448833">> ./getLumBlk.py --list=&lt;FILELIST&gt; 
+  </font> <br>
+  &nbsp;&nbsp;&nbsp; where <font color="#448833">FILELIST</font> is the name of 
+  the file containing the list of files which have been analysed (1 file per line) 
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0000">EXAMPLE</font> <font color="#448833"> 
+  ./getLumBlk.py --list=listroot.run133020</font> where the file <font color="#448833"> 
+  listroot.run133020</font> contains the following lines: <br>
+  &nbsp; <br>
+  recoA_reco_all_0000133020_mrg_002-003.raw_p10.04.00.root <br>
+  recoA_reco_all_0000133020_mrg_005-010.raw_p10.04.00.root <br>
+  recoA_reco_all_0000133020_mrg_011-011.raw_p10.04.00.root <br>
+  recoA_reco_all_0000133020_mrg_012-013.raw_p10.04.00.root <br>
+  recoA_reco_all_0000133020_mrg_015-015.raw_p10.04.00.root <br>
+  &nbsp; <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; will produce the list of luminosity blocks 
+  for all the ROOT files corresponding to run 133020 (note that some partitions 
+  are missing) as reconstructed with D0reco version p10.04.00 <br>
+  &nbsp; <br>
+  <img SRC="mykul.jpg" height=11 width=11> if you have processed a SAM dataset 
+  type: <br>
+  &nbsp;&nbsp;&nbsp; <font color="#448833">> ./getLumBlk.py --defname=&lt;SAM_DEFINITION&gt; 
+  </font> <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0000">EXAMPLE</font>
+<p> <font color="#448833"> ./getLumBlk.py --defname=runs131000-133020.samdef</font> 
+<p>where the SAM<font color="#000000"> dataset definition</font><font color="#448833"> 
+  runs131000-133020.samdef</font> is a SAM definition which contains the ROOT 
+  tuples for all the runs with run number between 131000 and 133020 processed 
+  with D0reco version p10.07.00 <br>
+  &nbsp; <br>
+  <img src="mykul.jpg" height=11 width=11> if you want to get any set of files 
+  in sam even if not in a dataset<br>
+  &nbsp;&nbsp;&nbsp; <font color="#448833">> ./getLumBlk.py --dim=&lt;SAM_CONSTRAINTS&gt; 
+  </font> <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0000">EXAMPLE</font> </p>
+<p><font color="#448833">./getLumBlk.py --dim=&quot;run_number 139500-143000 and 
+  data_tier reconstructed and version p10.14%&quot;</font>
+<p><br>
+  &nbsp; <br>
+  <img SRC="mykul.jpg" height=11 width=11> Each of these scripts will produce 
+  one or more lines looking like this one: <br>
+  &nbsp;&nbsp;&nbsp; <font color="#FF0000"> recoA_reco_all_0000133020_mrg_002-003.raw_p10.04.00.root 
+  root-tuple 3975 0 3975 < 133020 : 596904 - 596911 > </font> <br>
+  &nbsp;&nbsp;&nbsp; where <font color="#448833">recoA_reco_all_0000133020_mrg_002-003.raw_p10.04.00.root</font> 
+  is the name of the file which has been processed <br>
+  &nbsp;&nbsp;&nbsp; and <font color="#448833">root</font>-tuple tells that the 
+  type of this file is root (could also be <font color="#448833">raw</font> or 
+  <font color="#448833">reconstructed</font>) <br>
+  &nbsp;&nbsp;&nbsp; and <font color="#448833">3975 0 3975</font> are </p>
+<ul>
+  <li>the number of events corresponding to this file contained in the parent 
+    raw data files</li>
+  <li>a status word indicating if there were problems in the parentage tracing 
+    - ignore for now</li>
+  <li>the number of events in this file. If no filtering has occured, you should 
+    get similar numbers to the raw count.</li>
+</ul>
+<p><br>
+  <font color="#448833">< 133020 : 596904 - 596911 > </font> gives once more the 
+  run number and then the range of luminosity blocks corresponding to the events 
+  contained in the file (there could be more non contiguous ranges of luminosity 
+  blocks in a same file) <br>
+  &nbsp; <br>
+  <img SRC="mykul.jpg" height=11 width=11> the scripts are available here: <a href="../scripts/getLumBlk.py"> 
+  getLumBlk.py </a>, <a href="../scripts/getFileParentsRecursive.py">getFileParentsRecursive.py</a><br>
+  &nbsp; <br>
+  <img SRC="mykul.jpg" height=11 width=11> <font color="#FF0000">WARNING</font>: 
+  to run these scripts you first have to type: <br>
+  &nbsp;&nbsp;&nbsp; <font color="#448833">> setup sam</font> <br>
+  &nbsp;&nbsp;&nbsp; in order to load Python and access the SAM database <br>
+  &nbsp; </p>
+<hr align = center size = 3 width = 95%>
+<p>Last update on 1 Feb 2002 by <a href="mailto: kupco@fzu.cz">AK</a>. 
+</body>
+</html>

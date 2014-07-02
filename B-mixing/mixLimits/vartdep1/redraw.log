@@ -1,0 +1,64 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   3.10/02   13 January 2004   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+Compiled for macosx.
+
+CINT/ROOT C/C++ Interpreter version 5.15.115, Dec 9 2003
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+Error in <TUnixSystem::DynamicPathName>: $HOME/lib/libRooFitCore.so does not exist in .:/usr/local/root/pro/lib
+Error in <TUnixSystem::DynamicPathName>: $HOME/lib/libRooFitModels.so does not exist in .:/usr/local/root/pro/lib
+
+Processing redraw.C...
+
+
+ sig0808dm = 22.0175
+ sig0810dm = 17.6928
+ sig1008dm = 22.124
+ sig1010dm = 17.8496
+ sig1012dm = 14.8358
+ sig1210dm = 18.1276
+ sig1212dm = 14.949
+
+
+ dil0128b_dm = 16.4124
+ dil0128_dm = 17.8522
+ dil0160a_dm = 16.4145
+ dil0160_dm = 17.8496
+ dil0160c_dm = 19.0133
+ dil0192_dm = 17.8524
+ dil0192b_dm = 19.0152
+
+
+Significance for Dil=0.16, Sigma Varied: 
+
+ Sigma  |    0.08    |    0.10    |    0.12    | MC 
+---------------------------------------------------
+ 0.08   |  22.01748  |  22.12397  |  XXXXXXXX  |
+-----------------------------------------------
+ 0.10   |  17.69284  |  17.84963  |  18.12760  |
+-----------------------------------------------
+ 0.12   |  XXXXXXXX  |  14.83582  |  14.94899  |
+-----------------------------------------------
+  Fit   |
+
+Significance for Sigma=0.1, Dil Varied 
+
+ Dilution |    0.128   |    0.160   |    0.192   | MC 
+-----------------------------------------------------
+   0.128  |  16.41240  |  16.41451  |  XXXXXXXX  |
+-------------------------------------------------
+   0.160  |  17.85219  |  17.84963  |  17.85244  |
+-------------------------------------------------
+   0.192  |  XXXXXXXX  |  19.01326  |  19.01521  |
+-------------------------------------------------
+    Fit   |
+

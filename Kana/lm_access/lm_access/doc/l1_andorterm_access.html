@@ -1,0 +1,82 @@
+
+<html>
+<head>
+<title>The Luminosity Monitor and/or terms</title>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<center><h3>The L1 and/or terms of the Luminosity Monitor</h3></center>
+
+<h4>The current Luminosity Monitor system</h4>
+
+<p>The Luminosity Monitor has two detectors, North and South. Each is an array of 24 scintillator wedges, close to the beam pipe. The outputs from a single detector are summed and then discriminated with a threshold. The North and South signals are passed to logic modules: if both fired, the modules calculate the time difference between the two and decide how to classify the event. The results are then passed to the Trigger Framework as a set of L1 and/or terms for the event:</p>
+
+<p>
+LM South on = the South detector fired<br>
+LM North on = the North detector fired<br>
+fastz on = North and South fired in coincidence: |z psn of vtx| < 96cm<br>
+ahalo = South fired before North (consistent with antiproton halo)<br>
+phalo = North fired before South (consistent with proton halo)<br>
+
+<p>The z position of the vertex is also sent in 5 bits. A single event may fire only one of fastz, phalo and ahalo.</p>
+
+<h4>The L1 and/or term numbers</h4>
+
+<table border="1" cellpadding="5">
+<tr>
+<td>
+<font color="red">fastz 217<br>
+LM South 220<br>
+LM North 221<br>
+ahalo 222<br>
+phalo 223</font><br>
+</td>
+</tr>
+</table>
+
+<p>You can access these trigger bits in the TMB. For example, add these lines 
+to the <strong>analysis_example</strong> code, in <br>
+analysis_example/src/D0ChunkAnalyze.cpp</p>
+
+<hr>
+<p><font color="brown"><i>// in namespace</i></font><br>
+namespace D0example {</p>
+
+<p>&nbsp; <font color="000066">bool and_or(const Event& event, const int& number);</font></p>
+
+<p>}</p>
+   
+
+<p><font color="brown"><i>// in analysis code</i></font><br>
+Result D0ChunkAnalyze::analyzeEvent(const Event &event) {</p>
+
+<p> &nbsp; <font color="000066">if (and_or(event,217)) {<br>
+ &nbsp; &nbsp; cout << "This event fired fastz" << endl;<br>
+ &nbsp; }</font></p>
+
+<p>}</p>
+
+<p><font color="brown"><i>// the function</i></font><br>
+<font color="000066">bool and_or(const Event& event, const int& number)<br>
+  {<br>
+   &nbsp; &nbsp;  bool and_or=0;<br>
+   &nbsp; &nbsp;  int number2=number;<br>
+   &nbsp; &nbsp;  TKey<L1L2Chunk> l1l2Key;<br>
+   &nbsp; &nbsp;  THandle<L1L2Chunk> l1l2Chunk = l1l2Key.find(event);<br>
+   &nbsp; &nbsp;  if ( l1l2Chunk.isValid() ) {<br>
+   &nbsp; &nbsp; &nbsp;  &nbsp;  l1l2info trigmap = (l1l2Chunk.ptr())->Ret_l1l2info();<br>
+    &nbsp; &nbsp; &nbsp; &nbsp;  and_or = trigmap.l1andor(number2);<br>
+   &nbsp; &nbsp;  }<br>
+    return and_or;<br>
+}</font>
+<hr>
+
+<p>For the other L1 and/or term numbers, see:</p>
+
+<p><a href="http://www.pa.msu.edu/hep/d0/ftp/l1/framework/andor_terms/connected_andor_term_list.txt">http://www.pa.msu.edu/hep/d0/ftp/l1/framework/andor_terms/connected_andor_term_list.txt</a></p>
+
+<p><i><a href="mailto:tamsin@fnal.gov">Tamsin Edwards</a> 16 August 2003</i>
+</p>
+</body>
+</html>

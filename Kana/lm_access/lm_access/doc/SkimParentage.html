@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Skim Parentage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+<h2><strong><font face="Arial, Helvetica, sans-serif">How to get parentage files 
+  for files from common samples and skims</font></strong></h2>
+<ul>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif">Get your parentage for 
+    your common sample read this&nbsp;<a
+ href="http://www-d0.fnal.gov/cgi-bin/d0news?read__GENERAL__14714">D0News</a> 
+    &nbsp;by Marco Verzocchi (which replaces the older&nbsp;<a
+ href="http://www-d0.fnal.gov/cgi-bin/d0news?read__GENERAL__13008">D0News</a></font><big><span
+ style="font-family: Verdana,Arial,Helvetica,sans-serif;">)</span></big><br>
+    <p><font face="Verdana, Arial, Helvetica, sans-serif"><b> /home/mverzocc/scripts/genLBNtables 
+      -skim &lt;skimname&gt; -pass &lt;passname&gt; -filelist &lt;listfiles&gt;&nbsp; 
+      &nbsp; [-format TMB -type LM ]</b><br>
+      </font></p>
+  </li>
+  <li> 
+    <p><font face="Verdana, Arial, Helvetica, sans-serif">This will create a subdirectory 
+      <b>./&lt;skimname&gt; </b>which will contain the parentage path (1 file 
+      per each input file).</font></p>
+  </li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif">For the <span
+ style="font-weight: bold;">-pass</span> option use<span
+ style="font-weight: bold;"> p17pass1</span> for unfixed P17 data (p17.03.03 and 
+    p17.05.01), <span style="font-weight: bold;">p14pass2</span> for the pass2 
+    fixed P14 data (p14.fixtmb2.02) and <span
+ style="font-weight: bold;">p14pass1</span> for pass1 P14 data (a mixture of p14.06.00, 
+    p14.05.02 unfixed data and data fixed with p14.fixtmb.01, p14.fixtmb.02 and 
+    p14.06.00)</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif">You need to provide a 
+    list of files through the <span style="font-weight: bold;">-filelist</span> 
+    option, these are the files in the common sample group skim which you have 
+    used in your analysis (one file per line). Alternatively you can use a SAM 
+    dataset definition with the <span style="font-weight: bold;">-defname</span> 
+    option. If you don't provide neither the <span
+ style="font-weight: bold;">-filelist</span> nor the <span
+ style="font-weight: bold;">-defname</span> options the script will assume that 
+    you have processed all the data in the common sample group skims.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif">In the future the genLBNtables 
+    script will also support a list of CAFtrees (or a corresponding SAM dataset 
+    definition). If you are providing a list of CAF trees use the <span style="font-weight: bold;">-format 
+    CAF</span> option (Option not supported as of 8/22/2005, because the CAF trees 
+    are not stored in SAM. If you want to calculate the luminosity corresponding 
+    to the CAF trees you are including in the analysis use the <span style="font-weight: bold;">-format 
+    TMB</span> option and pass the list of files used to generate the CAF trees 
+    with the <span
+ style="font-weight: bold;">-filelist .......</span> option).</font></li>
+</ul>
+<font face="Verdana, Arial, Helvetica, sans-serif">Last Modified by M. Verzocchi 
+<!-- #BeginDate format:Am1 -->August 24, 2005<!-- #EndDate -->
+</font> 
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,155 @@
+//****************************************************
+// Code to do an unbinned likelihood fit of Amplitude
+//
+// by P. Gutierrez
+// 3-12-04
+//****************************************************
+
+// Include files
+
+#include "getData.cpp"
+#include "unbinFitamp.cpp"
+//#include "unbinFitosc_d.cpp"
+//#include "unbinFitlft.cpp"
+#include "func.cpp"
+
+// Output file
+ofstream fileout;
+fileout.open(dm_ampout.dat);
+
+// Define global variables
+
+Double_t min = 4.8;
+Double_t max = 5.8;
+Int_t nEvts = 50000;
+Int_t nBins = 50;
+
+Int_t mainLoop;
+Double_t dmFreq[100];
+Double_t etaFound[100];
+Double_t etaFoundErr[100];
+
+
+
+// Define data variables
+
+Double_t runNo[100000];
+Double_t evtNo[100000];
+Double_t mass[100000];
+Double_t lifetime[1000000];
+Int_t tag[1000000];
+
+
+TH1F *h1 = new TH1F("h1","Gaussian Dist",50, 4.8, 5.8);
+TH1F *h2 = new TH1F("h2","Lifetime Dist",50, -4., 15.);
+TH1F *h3 = new TH1F("h3","Lifetime Dist Mixed",50, -4., 15.);
+TH1F *h4 = new TH1F("h4","Lifetime Dist UnMixed",50, -4., 15.);
+
+void ampfit()
+{
+  TStopwatch timer;
+
+  // Define histogarams
+
+  gStyle->SetOptFit(0);
+  gStyle->SetOptStat(111111);
+
+  // Get data
+
+  timer.Start();
+  genMix();
+ getDataLft();
+  for (Int_t iTest = 0; iTest < 10; iTest++){
+    cout << lifetime[iTest] << "  " << tag[iTest] << endl;
+  }
+
+  // Do binned fit
+
+  // Do unbinned likelihood fit
+
+  //unbinFitg();
+  //unbinFitgp();
+  //unbinFitlft();
+  //unbinFitosc();
+
+  TGraphErrors *g1 = new TGraphErrors(20);
+  TGraph *g2 = new TGraph(20);
+
+  for (mainLoop=1; mainLoop<21; mainLoop++){
+    oscpar1_init = float(mainLoop)/2.;
+    cout << "Inital dm = " << oscpar1_init << endl;
+    unbinFitamp();
+
+    g1->SetPoint(mainLoop-1,oscpar1_init,(1.-2.*etaFound[mainLoop-1])/0.16);
+    g1->SetPointError(mainLoop-1,0.,1.65*2.*etaFoundErr[mainLoop-1]/0.16);
+
+    g2->SetPoint(mainLoop-1,oscpar1_init,1.65*2.*etaFoundErr[mainLoop-1]/0.16);
+
+  }
+
+//   cout << endl << endl;
+//   for (mainLoop=0; mainLoop<5; mainLoop++){
+//     cout << dmFreq[mainLoop] << "  "
+// 	 << etaFound[mainLoop] << "  "
+// 	 << etaFoundErr[mainLoop] << endl;
+
+//     fileout << dmFreq[mainLoop] << "  "
+// 	    << etaFound[mainLoop] << "  "
+// 	    << etaFoundErr[mainLoop] << endl;
+//   }
+
+  // stop timer and print results
+  timer.Stop();
+  Double_t rtime = timer.RealTime();
+  Double_t ctime = timer.CpuTime();
+
+  cout << endl << endl;
+  cout << "Real time " << rtime << endl;
+  cout << "CPU time  " << ctime << endl;
+
+   TF1 *f2 = new TF1("f2", lifetime_plt, -4., 15., 2);
+   f2->SetParameter(0,1.);
+   f2->SetParameter(1,1.5);
+
+
+
+
+  gROOT->SetStyle("Plain");
+  TCanvas *c1 = new TCanvas("c1", "canvas1", 800,800);
+  c1->Divide(2,2);
+  c1->cd(1);
+  gPad->SetGrid();
+  g1->Draw("AP*");
+
+  c1->cd(2);
+  gPad->SetGrid();
+  g2->Draw("AP*");
+
+  c1->cd(3);
+  h3->Draw();
+  f3->Draw("same");
+  
+  c1->cd(4);
+  h4->Draw();
+  f4->Draw("same");
+
+  TObjArray *a1 = new TObjArray(0);
+
+  a1->Add(h1);
+  a1->Add(h2);
+  a1->Add(h3);
+  a1->Add(h4);
+  a1->Add(g1);
+  a1->Add(g2);
+  a1->Add(f2);
+  a1->Add(f3);
+  a1->Add(f4);
+  a1->Add(c1);
+
+  TFile *file1 = new TFile("test_unbinamp.root", "recreate");
+  a1->Write();
+  file1->Close();
+
+
+
+}

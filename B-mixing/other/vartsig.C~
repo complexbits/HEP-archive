@@ -1,0 +1,108 @@
+
+// ---------- Include files: --------------------
+
+#include "mcData.cpp"
+
+
+// ---------- Define global variables: ----------
+
+Double_t min = -4;
+Double_t max = 15;
+Int_t nEvts = 100000;
+Int_t nBins = 100;
+
+//vars used in MC:
+Double_t tau = 1.5;
+Double_t dm  = .51;
+Double_t tSigma = 0.;
+
+Double_t misTag = 0.; // Mistagging rate
+
+
+
+// ---------- Define data variables: -------------
+
+Double_t runNo[100000];
+Double_t evtNo[100000];
+Double_t mass[100000];
+Double_t lifetime[100000];
+Int_t tag[100000];
+
+// --------- Define fit parameters ----------
+Double_t cosfit_par[5];
+Double_t cosfit_err[5];
+
+Double_t t_sig[5]
+
+//*********************************************************************************
+
+
+void vartsig(){
+
+  cout <<"k    tSigma          cosfit_par"<<endl; 
+ 
+  for (Int_t k=1; k<=5; k++){
+    
+    // ---------- Define some histograms and fits: ---------------------
+    TH1F *h_ltime = new TH1F("h_ltime","Lifetime Dist", nBins, min, max);
+    TH1F *h_ltmix = new TH1F("h_ltmix","Lifetime Dist, Mixed", nBins, min, max);       
+    TH1F *h_ltunmix = new TH1F("h_ltunmix","Lifetime Dist, Unmixed", nBins, min, max);
+    
+    
+    // ------ vary tSigma -------------
+
+    t_sig[k]=k/10;
+
+    tSigma = t_sig[k];
+
+    // ---------- Generate data using MC (from mcData.cpp): ------------
+    // ---------- (makes lifetime data lifetime[i], and tag data tag[i])
+    mixmasta_mc();
+    
+    for (Int_t j=0; j<nEvts; j++){
+      h_ltime->Fill(lifetime[j]);
+      if (tag[j] == 1){
+	h_ltmix->Fill(lifetime[j]);
+      }else if(tag[j] == -1){
+	h_ltunmix->Fill(lifetime[j]);
+      }else{
+	cout << "Tag value "<<tag[j]<< " out of range, should be -1 or 1" << endl;
+	break;
+      }
+    }
+
+    //----- Define some new histograms and functions to use for fitting ----
+    
+    TH1F *h_ltmix1 = (TH1F*) h_ltmix->Clone();
+    TH1F *h_ltunmix2 = (TH1F*) h_ltunmix->Clone();
+    TH1F *h_ltunmix1 = (TH1F*) h_ltunmix->Clone();
+    
+    TF1 *f_cosfit = new TF1("f_cosfit", "cos([0]*x)",-4.,15.);
+    f_cosfit->SetParLimits(0,0.3,0.9);
+    
+    //------------------- Do fitting --------------------------
+    
+    // ---- Nu + Nm -------
+    h_ltunmix2->Add(h_ltmix);
+    
+    // ---- Nu - Nm -------
+    h_ltmix1->Scale(-1);
+    h_ltunmix1->Add(h_ltmix1);
+    
+    // ---- (Nu - Nm) / (Nu + Nm) -----
+    h_ltunmix1->Divide(h_ltunmix2);
+    h_ltunmix1->Fit(f_cosfit);
+    gMinuit->GetParameter(0,cosfit_par[k],cosfit_err[k]);
+
+    cout <<k<<"    "<<tSig[k]<<"          "<<cosfit_par[k]<<endl; 
+
+  }
+
+
+
+
+}
+
+
+//*********************************************************************************
+

@@ -1,0 +1,318 @@
+/************************************************************
+The skeleton for this file (and corresponding header dstag.h)
+were generated automatically by ROOT, using: 
+
+TFile *f = new TFile("bs_mixing_MC.root");
+f->ls(); //(to get list of branches)//
+dstag->MakeClass("dstag"); //(to make the files from this branch)//
+
+Jamie Hegarty 11/30/04
+**************************************************************/
+
+#define dstag_cxx
+#include "dstag.h"
+
+#ifndef __PARAMETERS__
+#include "parameters.h"
+#endif
+
+#include "unbinFitosc_d.cpp"
+#include "unbinFitlftm.C"
+
+#ifndef __FUNC_CPP__
+#include "func.cpp"
+#endif
+
+#include "mcData.cpp"
+
+/*********** BEGIN USER-INSERTED CODE ****************/
+
+  
+void dstag::Loop()
+{
+  //   In a ROOT session, you can do:
+  //      Root > .L dstag.C
+  //      Root > dstag t
+  //      Root > t.GetEntry(12); // Fill t data members with entry number 12
+  //      Root > t.Show();       // Show values of entry 12
+  //      Root > t.Show(16);     // Read and show values of entry 16
+  //      Root > t.Loop();       // Loop on all entries
+  //
+  
+  
+  if (fChain == 0) return;
+  Int_t nentries = Int_t(fChain->GetEntriesFast());
+  Int_t nbytes = 0, nb = 0;
+  
+  // Binning should be 0.1 ps per bin //
+  TH1F *h_unmixed_events = new TH1F("h_unmixed_events", "VPDL, U Evts", binN, min, max);
+  TH1F *h_mixed_events = new TH1F("h_mixed_events", "VPDL, M Evts", binN, min, max);
+  
+  TH1F *h_ume_osci = new TH1F("h_ume_osci", "VPDL, U Evts (osci)", binN, min, max);
+  TH1F *h_me_osci = new TH1F("h_me_osci", "VPDL, M Evts (osci)", binN, min, max);
+  
+  TH1F *all_events_vpdl = new TH1F("all_events_vpdl", "VPDL, All Evts", binN, min, max);
+  
+  TH1F *h_lbdiff = new TH1F("h_lbdiff", "VPDL-TrueVPDL, All Evts", 2*nBins, -maxLimit, maxLimit);
+  TH2F *h2_lbdiff = new TH2F("h2_lbdiff", "VPDL-TrueVPDL vs. TrueVPDL, All Evts", 2*nBins, -maxLimit,maxLimit, nBins,0., maxLimit);
+  
+  
+  /************* END USER-INSERTED CODE ****************/
+  Int_t iflag1=0, iflag2=0, iflag3=0;
+  Char_t *ok[20]="";
+  for (Int_t jentry=0; jentry<nentries;jentry++) { // Begin Looping over all entries
+    Int_t ientry = LoadTree(jentry);
+    if (ientry < 0) break;
+    nb = fChain->GetEntry(jentry);   nbytes += nb;
+    // if (Cut(ientry) < 0) continue;
+    
+    /*********** BEGIN USER-INSERTED CODE ****************/
+    
+    /**
+       
+       matchBs - reconstruction matches to MC
+       osci - mixed or not (valid for matchBs==1)
+       lbmctrue - true PDL from MC
+       lbmc - VPDL from MC
+       lb - reconstructed VPDL
+       mds - Ds mass
+       
+       qtagin - tagging information (compare charge of B's mu to tagging mu)
+       qtagin*qmu > 0 => mixed
+       qtagin*qmu < 0 => unmixed
+       
+       oscimc - mixed or not in MC (?)
+       
+       tagmuok - tagging muon found
+       q6 - charge of tagging muon
+       q5 - charge of pion from Ds
+       qmu - charge of muon from reconstructed B
+       
+    **/
+    
+    // convert the visible proper decay length from cm to ps
+    // by dividing out c = 0.03 cm/ps:
+    
+    Double_t lbps = lb/0.03;
+    Double_t lbmcps = lbmc/0.03;
+    Double_t lbmctrueps = lbmctrue/0.03;
+    
+    Double_t lbdiff = lbps - lbmcps;
+    
+    if(tagmuok==1 && matchBs>0 && q5!=qmu){
+      
+      h_lbdiff->Fill(lbdiff);
+      h2_lbdiff->Fill(lbdiff,lbmcps);
+      
+      all_events_vpdl->Fill(lbps);
+      lifetime[ecount]=lbps;
+      
+      // check the sign of the muon here vs. opposite muon
+      // if they're equal, mixing occurred. otherwise this event is unmixed.
+      if (qtagin*qmu>0){
+	h_mixed_events->Fill(lbps);
+	tag[ecount]=1;
+      }else{
+	h_unmixed_events->Fill(lbps);
+	tag[ecount]=-1;
+	
+      }
+      
+      if (osci==1){ // "clean" mixing, pure cosine
+	h_me_osci->Fill(lbmctrueps);
+      }else{
+	h_ume_osci->Fill(lbmctrueps);
+	
+      }
+      
+      // Count the number of times that a true mixed state is tagged as such
+      if(qtagin*qmu>0 && osci==1){
+	qtagmcount++;
+      }
+      // Count the number of times that a true unmixed state is tagged as such
+      else if(qtagin*qmu<0 && osci==0){
+	qtagucount++;
+      }
+      // Count the number of times we're wrong.
+      else{
+	qtagncount++;
+      }
+      // Count events in this "cleaned" sample
+      ecount++;
+    }
+    /************* END USER-INSERTED CODE ****************/
+    
+  } // End looping over all entries
+  /*********** BEGIN USER-INSERTED CODE ****************/ 
+  
+  Double_t event_count = ecount;
+  
+  //Calculate Dilution
+  mistag = qtagncount / event_count;
+  dilution = 1-(2*mistag);
+  
+  cout << "ecount = "  << ecount  << endl;
+  cout << "qtagmcount = "  << qtagmcount  << endl;
+  cout << "qtagucount = "  << qtagucount  << endl;
+  cout << "qtagncount = " << qtagncount << endl;
+  cout << "Mistag = " << mistag << endl;
+  cout << "Dilution = "  << dilution << endl << endl;
+  
+  
+  //Get asymmetry according to qtagin*qmu comparison
+  h_asymm = h_unmixed_events->GetAsymmetry(h_mixed_events);
+  h_asymm->SetBins(binN,min,max);
+  h_asymm->SetName("h_asymm");
+  h_asymm->SetTitle("Asymmetry");
+  
+  //Get asymmetry according to osci check
+  h_asym_osci = h_ume_osci->GetAsymmetry(h_me_osci);
+  h_asym_osci->SetBins(binN, min, max);
+  h_asym_osci->SetName("h_asym_osci");
+  h_asym_osci->SetTitle("Asymmetry (osci)");
+  
+  //Get points from a cos function in a file
+  TGraph *gcos = new TGraph(31);
+  
+  Double_t asymm[31];
+  Double_t x[31];
+  ifstream infile;
+  infile.open("MMMM");
+  for (Int_t i=0.; i<31; i++){
+    infile >> x[i] >> asymm[i];
+    gcos->SetPoint(i,x[i],asymm[i]);
+  }
+  
+  /****************************************************************
+   * Do Unbinned Likelihood Fitting
+   ****************************************************************/
+  // update mistag_init to match the mistagging rate calculated above.
+  mistag_init=mistag;
+  
+  // do unbinned fit with Minuit
+  unbinFitosc_d();
+  
+  // create functions to draw the fits
+  TF1 *ubfit1 = new TF1("ubfit1", lftmosc_plt_d, min, max, 5);
+  TF1 *ubfit2 = new TF1("ubfit2", lftmosc_plt_d, min, max, 5);
+  
+  // set the parameters of the functions to the ones from the fit
+  for (Int_t j=0; j<4; j++){
+    ubfit1->SetParameter(j,fitpar[j]);
+    ubfit2->SetParameter(j,fitpar[j]);
+  }
+  ubfit1->SetParameter(4,1);
+  ubfit2->SetParameter(4,-1);
+  
+  unbinFitlftm(1,1); //fix t0 to 1.5 and fit for sigma
+  
+  // set sigma to the restult of the fit, and fix it to fit for t0
+  sigma_init=fitlpar[1];
+  
+  unbinFitlftm(2,1); //fix sigma to fitlpar[1] and fit for t0
+  
+  TF1 *ubfit3 = new TF1("ubfit3", lifetime_fit_d, min, max, 2);
+  
+  for (Int_t j=0; j<2; j++){
+    ubfit3->SetParameter(j,fitlpar[j]);
+  }
+  
+  /***************************************************************
+   * Vary dm to see how it affects mistag fit
+   ***************************************************************/
+  
+  // Create a graph to use for the comparison
+  
+  TGraphErrors *g_amp = new TGraphErrors(20);
+  g_amp->SetName("DilvsDm");
+  g_amp->SetTitle("Dilution vs. dm");
+  
+  TGraph *g_amp_err = new TGraph(20);
+  g_amp_err->SetName("DilErrvsDm");
+  g_amp_err->SetTitle("Dilution Error vs. dm");
+
+  // Update initial fit values to match the t0 and sigma above:
+
+  t0_init=fitlpar[0];
+  sigma_init=fitlpar[1];
+  
+  for (Int_t j=0; j<20; j++){
+
+    dm_init = (float(j) + 1.)/2.;
+
+    unbinFitosc_d();
+
+    g_amp->SetPoint(j, fitpar[1], (1.-2.*fitpar[3])/(1.-2.*mistag));
+    g_amp->SetPointError(j, 0, 1.65*2*fiterr[3]/(1.-2.*mistag));
+
+    g_amp_err->SetPoint(j, fitpar[1], 1.65*2*fiterr[3]/(1.-2.*mistag));
+    
+  }
+
+  
+  
+  /****************************************************************/
+  // Draw histograms
+  
+  gROOT->SetStyle("Plain");
+  gStyle->SetOptStat(11111);
+  gStyle->SetHistFillColor(10);
+  TCanvas *c1 = new TCanvas("c1", "Canvas1", 800,600);
+  c1->Divide(2,2);
+  
+  c1->cd(1);
+  gPad->SetGrid();
+  g_amp->Draw("AP*");
+  
+ 
+  c1->cd(2);
+  gPad->SetGrid();
+  g_amp_err->Draw("AP*"); 
+  
+  c1->cd(3);
+  h_unmixed_events->Draw();
+  ubfit2->Draw("same");
+ 
+  //h_asymm->Draw("P*");
+  //TF1 *f_cos = new TF1("f_cos", "0.4*cos(7*x)",0.,3.);
+  //h_unmix1->Fit(f_cos);
+  //f_cos->Draw("same");
+
+  c1->cd(4);
+ h_mixed_events->Draw();
+  ubfit1->Draw("same");
+
+  //all_events_vpdl->Draw();
+  //ubfit3->Draw("same");
+
+  // Save it all in a Root File
+
+  TObjArray *a1 = new TObjArray(0);
+
+  a1->Add(h_unmixed_events);
+  a1->Add(h_mixed_events);
+  a1->Add(h_ume_osci);
+  a1->Add(h_me_osci);
+
+  a1->Add(h_asymm);
+  a1->Add(h_asym_osci);
+  a1->Add(all_events_vpdl);
+  a1->Add(h_lbdiff);
+  a1->Add(h2_lbdiff);
+ 
+  a1->Add(gcos);
+
+  a1->Add(g_amp);
+  a1->Add(g_amp_err);
+ 
+  a1->Add(c1);
+
+  TFile *f1 = new TFile("bs_asymm.root", "recreate");
+  a1->Write();
+  f1->Close();
+
+
+  /************* END USER-INSERTED CODE ****************/
+
+}
+

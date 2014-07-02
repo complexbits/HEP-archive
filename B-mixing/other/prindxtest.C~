@@ -1,0 +1,8 @@
+void prindxtest{
+  nEvts=100;
+  sprintf(lftm,"lifetime[%3i]",nEvts);
+  Double_t lftm;
+  for(Int_t i=0;i<nEvts;i++){
+    lifetime[i]=5;
+  }
+}

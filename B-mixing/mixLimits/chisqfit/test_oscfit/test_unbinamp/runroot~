@@ -1,0 +1,6 @@
+#!/bin/bash
+
+root -b -q -l ampfit.C > ampfit.log 
+echo "done" | mail 4052092790@messaging.sprintpcs.com
+
+exit 0

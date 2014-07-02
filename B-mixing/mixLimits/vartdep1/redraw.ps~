@@ -1,0 +1,1161 @@
+%!PS-Adobe-3.0
+%%Title: redraw.C, redraw2.log
+%%For: Jamie Hegarty
+%%Creator: a2ps version 4.13
+%%CreationDate: Wed Aug  4 17:17:28 2004
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 3
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Define these in case they're not in the FontInfo (also, here
+    % they're easier to get to.
+    /UnderlinePosition 1 def
+    /UnderlineThickness 1 def
+    
+    % Get the underline position and thickness if they're defined.
+    currentdict /FontInfo known {
+      FontInfo
+      
+      dup /UnderlinePosition known {
+	dup /UnderlinePosition get
+	0 exch FontMatrix transform exch pop
+	/UnderlinePosition exch def
+      } if
+      
+      dup /UnderlineThickness known {
+	/UnderlineThickness get
+	0 exch FontMatrix transform exch pop
+	/UnderlineThickness exch def
+      } if
+      
+    } if
+    currentdict 
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed string
+% Version 1.2 1/31/1990
+% Orignal Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 612 def
+/sw 792 def
+/llx 24 def
+/urx 768 def
+/ury 588 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 7.060185 def
+/cw 4.236111 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 86.400000 mul
+def
+/ph
+   520.335631 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 5 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1-2) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (void redraw\(\){) p n
+(2) # () N
+(3) # (  cout << endl << endl;) N
+(4) # () N
+(5) # (  Double_t p1x, p1y;) N
+(6) # (  Double_t p2x, p2y;) N
+(7) # () N
+(8) # (  TCanvas *can1 = new TCanvas\("can1", "varfits1", 1200, 600\);) N
+(9) # (  can1->Divide\(4,2\);) N
+(10) # () N
+(11) # (  // ----------- SIGMA-MC=0.08, SIGMA-FIT=0.08 ----------) N
+(12) # (  can1->cd\(1\);) N
+(13) # (  ) N
+(14) # (  TFile lhsig\("lhsig0808.root"\);) N
+(15) # (  TGraph *g0808 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(16) # (  g0808->SetTitle\("Sig-MC=0.08, Sig-fit=0.08"\);) N
+(17) # (  lhsig.Close\(\);) N
+(18) # (  ) N
+(19) # (  g0808->Draw\("AP*"\);) N
+(20) # ( ) N
+(21) # (  g0808->GetPoint\(21, p1x, p1y\);) N
+(22) # (  g0808->GetPoint\(22, p2x, p2y\);) N
+(23) # () N
+(24) # (  Double_t sig0808dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(25) # () N
+(26) # (  cout << " sig0808dm = "<< sig0808dm << endl;) N
+(27) # (  ) N
+(28) # () N
+(29) # (  // ----------- SIGMA-MC=0.08, SIGMA-FIT=0.1 ----------) N
+(30) # (  can1->cd\(2\);) N
+(31) # () N
+(32) # (  TFile lhsig\("lhsig0810.root"\);) N
+(33) # (  TGraph *g0810 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(34) # (  g0810->SetTitle\("Sig-MC=0.08, Sig-fit=0.1"\);) N
+(35) # (  lhsig.Close\(\);) N
+(36) # () N
+(37) # (  g0810->Draw\("AP*"\);) N
+(38) # () N
+(39) # (  g0810->GetPoint\(17, p1x, p1y\);) N
+(40) # (  g0810->GetPoint\(18, p2x, p2y\);) N
+(41) # () N
+(42) # (  Double_t sig0810dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(43) # () N
+(44) # (  cout << " sig0810dm = "<< sig0810dm << endl; ) N
+(45) # () N
+(46) # (  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.08 ----------) N
+(47) # (  can1->cd\(3\);) N
+(48) # () N
+(49) # (  TFile lhsig\("lhsig1008.root"\);) N
+(50) # (  TGraph *g1010 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(51) # (  g1010->SetTitle\("Sig-MC=0.1, Sig-fit=0.08"\);) N
+(52) # (  lhsig.Close\(\);) N
+(53) # () N
+(54) # (  g1010->Draw\("AP*"\);) N
+(55) # () N
+(56) # (  g1010->GetPoint\(17, p1x, p1y\);) N
+(57) # (  g1010->GetPoint\(18, p2x, p2y\);) N
+(58) # () N
+(59) # (  Double_t sig1008dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(60) # () N
+(61) # (  cout << " sig1008dm = "<< sig1008dm << endl; ) N
+(62) # () N
+(63) # (  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.1 ----------) N
+(64) # (  can1->cd\(4\);) N
+(65) # () N
+(66) # (  TFile lhsig\("lhsig1010.root"\);) N
+(67) # (  TGraph *g1010 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(68) # (  g1010->SetTitle\("Sig-MC=0.1, Sig-fit=0.1"\);) N
+(69) # (  lhsig.Close\(\);) N
+(70) # () N
+(71) # (  g1010->Draw\("AP*"\);) N
+(72) # () N
+(73) # (  g1010->GetPoint\(17, p1x, p1y\);) N
+(redraw.C) (Page 1/4) (Aug 04, 04 17:16) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g1010->GetPoint\(18, p2x, p2y\);) p n
+(75) # () N
+(76) # (  Double_t sig1010dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(77) # () N
+(78) # (  cout << " sig1010dm = "<< sig1010dm << endl; ) N
+(79) # () N
+(80) # (  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.1 ----------) N
+(81) # (  can1->cd\(5\);) N
+(82) # () N
+(83) # (  TFile lhsig\("lhsig1012.root"\);) N
+(84) # (  TGraph *g1010 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(85) # (  g1010->SetTitle\("Sig-MC=0.1, Sig-fit=0.12"\);) N
+(86) # (  lhsig.Close\(\);) N
+(87) # () N
+(88) # (  g1010->Draw\("AP*"\);) N
+(89) # () N
+(90) # (  g1010->GetPoint\(17, p1x, p1y\);) N
+(91) # (  g1010->GetPoint\(18, p2x, p2y\);) N
+(92) # () N
+(93) # (  Double_t sig1012dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(94) # () N
+(95) # (  cout << " sig1012dm = "<< sig1012dm << endl; ) N
+(96) # () N
+(97) # () N
+(98) # (  // ----------- SIGMA-MC=0.12, SIGMA-FIT=0.1 ----------) N
+(99) # (  can1->cd\(6\);) N
+(100) # () N
+(101) # (  TFile lhsig\("lhsig1210.root"\);) N
+(102) # (  TGraph *g1210 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(103) # (  g1210->SetTitle\("Sig-MC=0.12, Sig-fit=0.1"\);) N
+(104) # (  lhsig.Close\(\);) N
+(105) # () N
+(106) # (  g1210->Draw\("AP*"\);) N
+(107) # () N
+(108) # (  g1210->GetPoint\(17, p1x, p1y\);) N
+(109) # (  g1210->GetPoint\(18, p2x, p2y\);) N
+(110) # () N
+(111) # (  Double_t sig1210dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(112) # () N
+(113) # (  cout << " sig1210dm = "<< sig1210dm << endl;) N
+(114) # () N
+(115) # (  // ----------- SIGMA-MC=0.12, SIGMA-FIT=0.12 ----------) N
+(116) # (  can1->cd\(7\);) N
+(117) # () N
+(118) # (  TFile lhsig\("lhsig1212.root"\);) N
+(119) # (  TGraph *g1212 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(120) # (  g1212->SetTitle\("Sig-MC=0.12, Sig-fit=0.12"\);) N
+(121) # (  lhsig.Close\(\);) N
+(122) # () N
+(123) # (  g1212->Draw\("AP*"\);) N
+(124) # () N
+(125) # (  g1212->GetPoint\(15, p1x, p1y\);) N
+(126) # (  g1212->GetPoint\(16, p2x, p2y\);) N
+(127) # () N
+(128) # (  Double_t sig1212dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(129) # () N
+(130) # (  cout << " sig1212dm = "<< sig1212dm << endl;) N
+(131) # () N
+(132) # (  cout << endl << endl;) N
+(133) # () N
+(134) # () N
+(135) # (  //============================================================================) N
+0 T (===================) N
+(136) # (  TCanvas *can2 = new TCanvas\("can2", "varfits2", 1200, 600\);) N
+(137) # (  can2->Divide\(4,2\);) N
+(138) # (    // ----------- DIL-MC=0.128, DIL-FIT=0.128 ----------) N
+(139) # (  can2->cd\(1\);) N
+(140) # (  ) N
+(141) # (  TFile lhdil\("lhdil0128b.root"\);) N
+(142) # (  TGraph *g0128b = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(143) # (  g0128b->SetTitle\("Dil-MC=0.128, Dil-fit=0.128"\);) N
+(144) # (  lhdil.Close\(\);) N
+(145) # (  ) N
+(redraw.C) (Page 2/4) (Aug 04, 04 17:16) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(redraw.C) (1/3) (Wednesday August 04, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(146) # (  g0128b->Draw\("AP*"\);) p n
+(147) # ( ) N
+(148) # (  g0128b->GetPoint\(16, p1x, p1y\);) N
+(149) # (  g0128b->GetPoint\(17, p2x, p2y\);) N
+(150) # () N
+(151) # (  Double_t dil0128b_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(152) # () N
+(153) # (  cout << " dil0128b_dm = "<< dil0128b_dm << endl; ) N
+(154) # () N
+(155) # (    // ----------- DIL-MC=0.128, DIL-FIT=0.16 ----------) N
+(156) # (  can2->cd\(2\);) N
+(157) # (  ) N
+(158) # (  TFile lhdil\("lhdil0128.root"\);) N
+(159) # (  TGraph *g0128 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(160) # (  g0128->SetTitle\("Dil-MC=0.128, Dil-fit=0.16"\);) N
+(161) # (  lhdil.Close\(\);) N
+(162) # (  ) N
+(163) # (  g0128->Draw\("AP*"\);) N
+(164) # ( ) N
+(165) # (  g0128->GetPoint\(17, p1x, p1y\);) N
+(166) # (  g0128->GetPoint\(18, p2x, p2y\);) N
+(167) # () N
+(168) # (  Double_t dil0128_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(169) # () N
+(170) # (  cout << " dil0128_dm = "<< dil0128_dm << endl; ) N
+(171) # () N
+(172) # (    // ----------- DIL-MC=0.16, DIL-FIT=0.128 ----------) N
+(173) # (  ) N
+(174) # (  can2->cd\(3\);) N
+(175) # (  ) N
+(176) # (  TFile lhdil\("lhdil0160a.root"\);) N
+(177) # (  TGraph *g0160 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(178) # (  g0160->SetTitle\("Dil-MC=0.16, Dil-fit=0.128"\);) N
+(179) # (  lhdil.Close\(\);) N
+(180) # (  ) N
+(181) # (  g0160->Draw\("AP*"\);) N
+(182) # (  ) N
+(183) # (  g0160->GetPoint\(16, p1x, p1y\);) N
+(184) # (  g0160->GetPoint\(17, p2x, p2y\);) N
+(185) # (  ) N
+(186) # (  Double_t dil0160a_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(187) # (  ) N
+(188) # (  cout << " dil0160a_dm = "<< dil0160a_dm << endl; ) N
+(189) # ( ) N
+(190) # (  ) N
+(191) # (   // ----------- DIL-MC=0.16, DIL-FIT=0.16 ----------) N
+(192) # (  can2->cd\(4\);) N
+(193) # (  ) N
+(194) # (  TFile lhdil\("lhdil0160.root"\);) N
+(195) # (  TGraph *g0160 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(196) # (  g0160->SetTitle\("Dil-MC=0.16, Dil-fit=0.16"\);) N
+(197) # (  lhdil.Close\(\);) N
+(198) # (  ) N
+(199) # (  g0160->Draw\("AP*"\);) N
+(200) # ( ) N
+(201) # (  g0160->GetPoint\(17, p1x, p1y\);) N
+(202) # (  g0160->GetPoint\(18, p2x, p2y\);) N
+(203) # () N
+(204) # (  Double_t dil0160_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(205) # () N
+(206) # (  cout << " dil0160_dm = "<< dil0160_dm << endl; ) N
+(207) # (    // ----------- DIL-MC=0.16, DIL-FIT=0.192 ----------) N
+(208) # (  can2->cd\(5\);) N
+(209) # (  ) N
+(210) # (  TFile lhdil\("lhdil0160c.root"\);) N
+(211) # (  TGraph *g0160 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(212) # (  g0160->SetTitle\("Dil-MC=0.16, Dil-fit=0.192"\);) N
+(213) # (  lhdil.Close\(\);) N
+(214) # (  ) N
+(215) # (  g0160->Draw\("AP*"\);) N
+(216) # (  ) N
+(217) # (  g0160->GetPoint\(18, p1x, p1y\);) N
+(218) # (  g0160->GetPoint\(19, p2x, p2y\);) N
+(redraw.C) (Page 3/4) (Aug 04, 04 17:16) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(219) # (  ) p n
+(220) # (  Double_t dil0160c_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(221) # (  ) N
+(222) # (  cout << " dil0160c_dm = "<< dil0160c_dm << endl; ) N
+(223) # (  ) N
+(224) # (    // ----------- DIL-MC=0.192, DIL-FIT=0.16 ----------) N
+(225) # (  can2->cd\(6\);) N
+(226) # (  ) N
+(227) # (  TFile lhdil\("lhdil0192.root"\);) N
+(228) # (  TGraph *g0192 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(229) # (  g0192->SetTitle\("Dil-MC=0.192, Dil-fit=0.16"\);) N
+(230) # (  lhdil.Close\(\);) N
+(231) # (  ) N
+(232) # (  g0192->Draw\("AP*"\);) N
+(233) # ( ) N
+(234) # (  g0192->GetPoint\(17, p1x, p1y\);) N
+(235) # (  g0192->GetPoint\(18, p2x, p2y\);) N
+(236) # () N
+(237) # (  Double_t dil0192_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(238) # () N
+(239) # (  cout << " dil0192_dm = "<< dil0192_dm << endl; ) N
+(240) # () N
+(241) # (    // ----------- DIL-MC=0.192, DIL-FIT=0.16 ----------) N
+(242) # (  can2->cd\(7\);) N
+(243) # (  ) N
+(244) # (  TFile lhdil\("lhdil0192b.root"\);) N
+(245) # (  TGraph *g0192b = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(246) # (  g0192b->SetTitle\("Dil-MC=0.192, Dil-fit=0.192"\);) N
+(247) # (  lhdil.Close\(\);) N
+(248) # (  ) N
+(249) # (  g0192b->Draw\("AP*"\);) N
+(250) # ( ) N
+(251) # (  g0192b->GetPoint\(18, p1x, p1y\);) N
+(252) # (  g0192b->GetPoint\(19, p2x, p2y\);) N
+(253) # () N
+(254) # (  Double_t dil0192b_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(255) # () N
+(256) # (  cout << " dil0192b_dm = "<< dil0192b_dm << endl;) N
+(257) # ( ) N
+(258) # (  cout << endl << endl; ) N
+(259) # () N
+(260) # (  // ===================stick everything into a pretty table ===================) N
+0 T (=====================) N
+(261) # () N
+(262) # (  printf\("Significance for Dil=0.16, Sigma Varied: \\n\\n"\);) N
+(263) # (  printf\(" Sigma  |    0.08    |    0.10    |    0.12    | MC \\n"\);) N
+(264) # (  printf\("---------------------------------------------------\\n"\);) N
+(265) # (  printf\(" 0.08   |  %7.5f  |  %7.5f  |  XXXXXXXX  |\\n", sig0808dm, sig1008dm\);) N
+(266) # (  printf\("-----------------------------------------------\\n"\);) N
+(267) # (  printf\(" 0.10   |  %7.5f  |  %7.5f  |  %7.5f  |\\n", sig0810dm, sig1010dm, sig1) N
+0 T (210dm\);) N
+(268) # (  printf\("-----------------------------------------------\\n"\);) N
+(269) # (  printf\(" 0.12   |  XXXXXXXX  |  %7.5f  |  %7.5f  |\\n", sig1012dm, sig1212dm\);) N
+(270) # (  printf\("-----------------------------------------------\\n"\);) N
+(271) # (  printf\("  Fit   |\\n\\n"\);) N
+(272) # ( ) N
+(273) # () N
+(274) # (  printf\("Significance for Sigma=0.1, Dil Varied \\n\\n"\);) N
+(275) # (  printf\(" Dilution |    0.128   |    0.160   |    0.192   | MC \\n"\);) N
+(276) # (  printf\("-----------------------------------------------------\\n"\);) N
+(277) # (  printf\("   0.128  |  %7.5f  |  %7.5f  |  XXXXXXXX  |\\n", dil0128b_dm, dil0160a) N
+0 T (_dm\);) N
+(278) # (  printf\("-------------------------------------------------\\n"\);) N
+(279) # (  printf\("   0.160  |  %7.5f  |  %7.5f  |  %7.5f  |\\n", dil0128_dm, dil0160_dm, ) N
+0 T (dil0192_dm\);) N
+(280) # (  printf\("-------------------------------------------------\\n"\);) N
+(281) # (  printf\("   0.192  |  XXXXXXXX  |  %7.5f  |  %7.5f  |\\n", dil0160c_dm, dil0192b) N
+0 T (_dm\);) N
+(282) # (  printf\("-------------------------------------------------\\n"\);) N
+(283) # (  printf\("    Fit   |\\n\\n"\);) N
+(284) # (}) N
+(redraw.C) (Page 4/4) (Aug 04, 04 17:16) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(redraw.C) (2/3) (Wednesday August 04, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (root [11] .x redraw.C) p n
+(2) # () N
+(3) # () N
+(4) # ( sig0808dm = 22.0678) N
+(5) # ( sig0810dm = 17.6648) N
+(6) # ( sig1008dm = 23.5589) N
+(7) # ( sig1010dm = 17.7448) N
+(8) # ( sig1012dm = 15.741) N
+(9) # ( sig1210dm = 17.882) N
+(10) # ( sig1212dm = 14.9992) N
+(11) # () N
+(12) # () N
+(13) # ( dil0128b_dm = 16.35) N
+(14) # ( dil0128_dm = 17.7497) N
+(15) # ( dil0160a_dm = 16.3544) N
+(16) # ( dil0160_dm = 17.7448) N
+(17) # ( dil0160c_dm = 18.9017) N
+(18) # ( dil0192_dm = 17.7497) N
+(19) # ( dil0192b_dm = 18.9074) N
+(20) # () N
+(21) # () N
+(22) # (Significance for Dil=0.16, Sigma Varied: ) N
+(23) # () N
+(24) # ( Sigma  |    0.08    |    0.10    |    0.12    | MC ) N
+(25) # (---------------------------------------------------) N
+(26) # ( 0.08   |  22.06776  |  23.55894  |  XXXXXXXX  |) N
+(27) # (-----------------------------------------------) N
+(28) # ( 0.10   |  17.66481  |  17.74485  |  17.88203  |) N
+(29) # (-----------------------------------------------) N
+(30) # ( 0.12   |  XXXXXXXX  |  15.74100  |  14.99922  |) N
+(31) # (-----------------------------------------------) N
+(32) # (  Fit   |) N
+(33) # () N
+(34) # (Significance for Sigma=0.1, Dil Varied ) N
+(35) # () N
+(36) # ( Dilution |    0.128   |    0.160   |    0.192   | MC ) N
+(37) # (-----------------------------------------------------) N
+(38) # (   0.128  |  16.35000  |  16.35444  |  XXXXXXXX  |) N
+(39) # (-------------------------------------------------) N
+(40) # (   0.160  |  17.74970  |  17.74485  |  17.74968  |) N
+(41) # (-------------------------------------------------) N
+(42) # (   0.192  |  XXXXXXXX  |  18.90169  |  18.90738  |) N
+(43) # (-------------------------------------------------) N
+(44) # (    Fit   |) N
+(45) # () N
+(46) # (root [12]) N
+(redraw2.log) (Page 1/1) (Aug 04, 04 17:17) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(redraw2.log) (3/3) (Wednesday August 04, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF

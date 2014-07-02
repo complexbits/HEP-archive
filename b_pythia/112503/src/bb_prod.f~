@@ -1,0 +1,639 @@
+C...B production at a hadron collider.
+
+C-----------------------------------------------------------------
+
+C...Preamble: declarations.
+
+C...All real arithmetic in double precision.
+      IMPLICIT DOUBLE PRECISION(A-H, O-Z)
+C...Three Pythia functions return integers, so need declaring.
+      INTEGER PYK,PYCHGE,PYCOMP
+C...Parameter statement to help give large particle numbers
+C...(left- and righthanded SUSY, technicolor, excited fermions,
+C...extra dimensions).
+      PARAMETER (KSUSY1=1000000,KSUSY2=2000000,KTECHN=3000000,
+     &KEXCIT=4000000,KDIMEN=5000000)
+
+C...EXTERNAL statement links PYDATA on most machines.
+      EXTERNAL PYDATA
+
+C...Commonblocks.
+C...The event record.
+      COMMON/PYJETS/N,NPAD,K(4000,5),P(4000,5),V(4000,5)
+C...Parameters.
+      COMMON/PYDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200)
+C...Particle properties + some flavour parameters.
+      COMMON/PYDAT2/KCHG(500,4),PMAS(500,4),PARF(2000),VCKM(4,4)
+C...Decay information.
+      COMMON/PYDAT3/MDCY(500,3),MDME(8000,2),BRAT(8000),KFDP(8000,5)
+C...Selection of hard scattering subprocesses.
+      COMMON/PYSUBS/MSEL,MSELPD,MSUB(500),KFIN(2,-40:40),CKIN(200)
+C...Parameters. 
+      COMMON/PYPARS/MSTP(200),PARP(200),MSTI(200),PARI(200)
+C...Supersymmetry parameters.
+      COMMON/PYMSSM/IMSS(0:99),RMSS(0:99)
+
+C...My variables
+      INCLUDE 'bb_prod.inc'
+      INTEGER LEP_INDX(12)
+      INTEGER I, J, L, M, A, B
+      LOGICAL LBREAK
+
+
+C-----------------------------------------------------------------
+
+C...First section: initialization.
+
+C...Simplify history to allow search of mothers
+      MSTU(16) = 2
+
+C...Select generic b generation.
+      MSEL=5
+        
+C...multiple interactions off
+
+      MSTP(81)=0
+
+C...Initialization for the Tevatron. 
+
+      CALL PYINIT('CMS','p','pbar',2000D0)
+
+C...Force B0 to decay to J/pis Ks
+
+      DO ILOOP=863, 898
+         MDME(ILOOP,1)=3
+      ENDDO
+      MDME(889,1)=1
+
+C...Force J/psi -> mu mu
+
+      MDME(858,1) = 0
+      MDME(860,1) = 0
+
+C...Force K0 -> K_S0
+
+C     MDME(615,1) = 0
+
+C...Suppress B0-B0bar mixing Default is 2 (yes w/flag)
+
+      MSTJ(26)=0
+      print *, ' xb = ', parj(76)
+
+C...List resonance data: decay channels, widths etc.
+      CALL PYSTAT(1)
+
+C...Histograms for mass distributions.      
+      CALL BOOK
+C-----------------------------------------------------------------
+
+C...Second section: event loop.
+
+C...Loop over the number of events.
+      DO 200 IEV=1, 300000
+c        IF(MOD(IEV,1000).EQ.0) WRITE(6,*) 
+c     & 'Now at event number',IEV
+ 
+C...Event generation.
+
+        CALL PYEVNT
+
+C...List first few events.
+        IF(IEV.LE.1) CALL PYLIST(1)
+
+C     INITIALIZE ALL THE COUNTERS AND ARRAYS
+C     ---NOTE: AT THE END, ALL THE COUNTERS EXCEPT IPARTS SHOULD BE EQUAL.---
+	IMU = 0
+	IJPSI = 0
+	IBmes = 0
+	IBQRK = 0
+	IKSHT = 0
+	IMB = 0	
+        IPARTS = 0
+
+        DO B=1,10
+
+           IMEVT(B)=0
+           IMINDX(B)=0
+           IMUID(B)=0
+           IMUCHG(B)=0
+           AMUPX(B)=0
+           AMUPY(B)=0
+           AMUPZ(B)=0
+           AMUE(B)=0
+           AMUPT(B)=0
+           AMUP(B)=0
+           AMUPHI(B)=0
+           AMUTHET(B)=0
+           AMUETA(B)=0
+           
+           IJINDX(B)=0
+           IJPID(B)=0
+           IJPCHG(B)=0
+           AJPPX(B)=0
+           AJPPY(B)=0
+           AJPPZ(B)=0
+           AJPE(B)=0
+           AJPPT(B)=0
+           AJPP(B)=0
+           AJPPHI(B)=0
+           AJPTHET(B)=0
+           AJPETA(B)=0
+
+           IBINDX(B)=0
+           IB0ID(B)=0
+           IB0CHG(B)=0
+           B0PX(B)=0
+           B0PY(B)=0
+           B0PZ(B)=0
+           B0E(B)=0
+           B0PT(B)=0
+           B0P(B)=0
+           B0PHI(B)=0
+           B0THET(B)=0
+           B0ETA(B)=0
+           
+           IBQINDX(B)=0
+           IBQID(B)=0
+           IBQCHG(B)=0
+           BQPX(B)=0
+           BQPY(B)=0
+           BQPZ(B)=0
+           BQE(B)=0
+           BQPT(B)=0
+           BQP(B)=0
+           BQPHI(B)=0
+           BQTHET(B)=0
+           BQETA(B)=0
+           
+           IKINDX(B)=0
+           IKSID(B)=0
+           IKPAR(B)=0
+           IKSCHG(B)=0
+           AKSPX(B)=0
+           AKSPY(B)=0
+           AKSPZ(B)=0
+           AKSE(B)=0
+           AKSPT(B)=0
+           AKSP(B)=0
+           AKSPHI(B)=0
+           
+           IMBINDX(B)=0
+           IMBID(B)=0
+           IMBCHG(B)=0
+           AMBPX(B)=0
+           AMBPY(B)=0
+           AMBPZ(B)=0
+           AMBE(B)=0
+           AMBPT(B)=0
+           AMBP(B)=0
+           AMBPHI(B)=0
+           AMBTHET(B)=0
+           AMBETA(B)=0
+
+           DO A=0,30,10
+              IUPINDX(A+B)=0
+              IUPID(A+B)=0
+              IUPCHG(A+B)=0
+              UPPX(A+B)=0
+              UPPY(A+B)=0
+              UPPZ(A+B)=0
+              UPE(A+B)=0 
+              UPPT(A+B)=0
+              UPP(A+B)=0
+              UPPHI(A+B)=0
+              UPTHET(A+B)=0
+              UPETA(A+B)=0
+              UPBSEP(A+B)=0
+           ENDDO
+         
+       ENDDO
+
+        DO I=1,N
+       
+           IF (K(I,2).EQ.13) THEN ! IF THIS PARTICLE IS A MUON ...
+	      J=K(I,3)          ! GET ITS PARENT INFO AND GO THERE   
+
+	      IF (K(J,2).EQ.443) THEN ! IF THIS PARTICLE IS A J/PSI ...
+                 L=K(J,3)       ! GET ITS PARENT INFO AND GO THERE		  
+  
+		  IF (K(L,2).EQ.511) THEN ! IF THIS PARTICLE IS A B0 ...
+                     M=K(L,3)   ! GET ITS PARENT INFO AND GO THERE
+                     
+                     IF (K(M,2).EQ.-5) THEN ! IF THIS PARTICLE IS A BQRK ...
+                                ! TEST FOR B0 ETA BTW -2.5 AND 2.5:
+
+C                       B0 TEST INFO --------------------------------
+
+                        BTPX  =  P(L,1)                              ! PX
+                        BTPY  =  P(L,2)                              ! PY
+                        BTPZ  =  P(L,3)                              ! PZ
+
+                        BTP = SQRT(BTPX**2+BTPY**2+BTPZ**2)          ! Total Momentum
+
+                        BTTHET = acos(BTPZ/BTP)                      ! CM Scattering angle
+                        BTETA =  -log(tan(BTTHET/2))                 ! PseudoRapidity
+
+
+                        IF (BTETA.GT.-2.5.AND.BTETA.LT.2.5) THEN ! IF THE B0 HAS ETA IN THIS RANGE...
+                           
+                           IMU = IMU + 1
+                           IJPSI = IJPSI + 1
+                           IBmes = IBmes + 1			
+                           IBQRK = IBQRK + 1						
+
+C                          B0 INFO ----------------------------------------------
+                           IBINDX(IBMES) = L                                     ! PARTICLE # IN THIS EVENT
+                           IB0ID(IBmes) =  K(L,2)                                ! Particle id
+                           IB0CHG(IBmes) =  PYCHGE(K(L,2))                       ! Charge
+                           B0PX(IBmes)  =  BTPX                                  ! PX
+                           B0PY(IBmes)  =  BTPY                                  ! PY
+                           B0PZ(IBmes)  =  BTPZ                                  ! PZ
+                           B0E(IBmes)   =  P(L,4)                                ! Energy
+                           B0PT(IBmes)  = SQRT(P(L,1)*P(L,1)+
+     +                          P(L,2)*P(L,2))                                   ! Transverse momentum
+                           B0P(IBmes) = BTP                                      ! Total Momentum
+                           B0PHI(IBmes) =  acos(P(L,1)/B0PT(IBmes))              ! Azimuthal angle
+                           B0THET(IBmes) = BTTHET                                ! CM Scattering angle
+                           B0ETA(IBmes) =  BTETA                                 ! PseudoRapidity
+
+                           
+C                          MUON INFO --------------------------------------------
+                           IMEVT(IMU) = IEV                                      ! EVENT #
+                           IMINDX(IMU) = I                                       ! Particle # in this event
+                           IMUID(IMU) = K(I,2)
+                           IMUCHG(IMU) =  PYCHGE(K(I,2))                         ! Charge
+                           AMUPX(IMU)  =  P(I,1)                                 ! PX
+                           AMUPY(IMU)  =  P(I,2)                                 ! PY
+                           AMUPZ(IMU)  =  P(I,3)                                 ! PZ
+                           AMUE(IMU)   =  P(I,4)                                 ! Energy
+                           AMUPT(IMU)  = SQRT(P(I,1)*P(I,1)+
+     +                          P(I,2)*P(I,2))                                   ! Transverse momentum
+                           AMUP(IMU) = SQRT(P(I,1)*P(I,1)+
+     +                          P(I,2)*P(I,2)+P(I,3)*P(I,3))                     ! Total Momentum
+                           AMUPHI(IMU) =  acos(P(I,1)/AMUPT(IMU))                ! Azimuthal angle
+                           AMUTHET(IMU) = acos(P(I,3)/AMUP(IMU))                 ! CM Scattering angle
+                           AMUETA(IMU)=-LOG(TAN(AMUTHET(IMU)/2))                 ! Pseudorapidity
+                           
+C                          J/PSI INFO -------------------------------------------
+                           IJINDX(IJPSI) = J                                     ! PARTICLE # IN THIS EVENT
+                           IJPID(IJPSI) =  K(J,2)                                ! Particle id
+                           IJPCHG(IJPSI) =  PYCHGE(K(J,2))                       ! Charge
+                           AJPPX(IJPSI)  =  P(J,1)                               ! PX
+                           AJPPY(IJPSI)  =  P(J,2)                               ! PY
+                           AJPPZ(IJPSI)  =  P(J,3)                               ! PZ
+                           AJPE(IJPSI)   =  P(J,4)                               ! Energy
+                           AJPPT(IJPSI)  = SQRT(P(J,1)*P(J,1)+
+     +                          P(J,2)*P(J,2))                                   ! Transverse momentum
+                           AJPP(IJPSI) = SQRT(P(J,1)*P(J,1)+
+     +                          P(J,2)*P(J,2)+P(J,3)*P(J,3))                     ! Total Momentum
+                           AJPPHI(IJPSI) =  acos(P(J,1)/AJPPT(IJPSI))            ! Azimuthal angle
+                           AJPTHET(IJPSI) = acos(P(J,3)/AJPP(IJPSI))             ! CM Scattering angle
+                           AJPETA(IJPSI)=-LOG(TAN(AJPTHET(IJPSI)/2))             ! Pseudorapidity
+                           
+                         
+C                          b-QRK INFO -------------------------------------------
+                           IBQINDX(IBQRK) = M                                    ! PARTICLE # IN THIS EVENT
+                           IBQID(IBQRK) =  K(M,2)                                ! Particle id
+                           IBQCHG(IBQRK) =  PYCHGE(K(M,2))                       ! Charge
+                           BQPX(IBQRK)  =  P(M,1)                                ! PX
+                           BQPY(IBQRK)  =  P(M,2)                                ! PY
+                           BQPZ(IBQRK)  =  P(M,3)                                ! PZ
+                           BQE(IBQRK)   =  P(M,4)                                ! Energy
+                           BQPT(IBQRK)  = SQRT(P(M,1)*P(M,1)+
+     +                          P(M,2)*P(M,2))                                   ! Transverse momentum
+                           BQP(IBQRK) = SQRT(P(M,1)*P(M,1)+
+     +                          P(M,2)*P(M,2)+P(M,3)*P(M,3))                     ! Total Momentum
+                           BQPHI(IBQRK) =  acos(P(M,1)/BQPT(IBQRK))              ! Azimuthal angle
+                           BQTHET(IBQRK) = acos(P(M,3)/BQP(IBQRK))               ! CM Scattering angle
+                           BQETA(IBQRK) =  -log(tan(BQTHET(IBQRK)/2))            ! PseudoRapidity
+                        ENDIF
+                     ENDIF
+                  ENDIF
+               ENDIF
+            ENDIF
+         ENDDO
+
+         IF (IBmes.GT.0) THEN
+            DO J=1,IBmes
+               DO I=1,N
+
+C                 IF THIS PARTICLE IS A MU+ WHICH CAN BE TRACED TO THE APPROPRIATE BMES...
+                  IF (K(I,2).EQ.-13.AND.K(K(I,3),3).EQ.IBINDX(J)) THEN
+
+                     IMB = IMB + 1
+C                    MU+ INFO -------------------------------------------
+                     IMBINDX(IMB) = I                                   ! PARTICLE # IN THIS EVT
+                     IMBID(IMB) = K(I,2)
+                     IMBCHG(IMB) =  PYCHGE(K(I,2))                      ! Charge
+                     AMBPX(IMB)  =  P(I,1)                              ! PX
+                     AMBPY(IMB)  =  P(I,2)                              ! PY
+                     AMBPZ(IMB)  =  P(I,3)                              ! PZ
+                     AMBE(IMB)   =  P(I,4)                              ! Energy
+                     AMBPT(IMB)  = SQRT(P(I,1)*P(I,1)+
+     +                    P(I,2)*P(I,2))                                ! Transverse momentum
+                     AMBP(IMB) = SQRT(P(I,1)*P(I,1)+
+     +                    P(I,2)*P(I,2)+P(I,3)*P(I,3))                  ! Total Momentum
+                     AMBPHI(IMB) =  acos(P(I,1)/AMBPT(IMB))             ! Azimuthal angle
+                     AMBTHET(IMB) = acos(P(I,3)/AMBP(IMB))              ! CM Scattering angle
+                     AMBETA(IMB)=-LOG(TAN(AMBTHET(IMB)/2))              ! Pseudorapidity
+
+C                 OTHERWISE, IF IT'S A KS THAT CAN BE TRACED TO THE APPROPRIATE BMES...
+                  ELSE IF (K(I,2).EQ.310.AND.
+     +                    K(K(I,3),3).EQ.IBINDX(J)) THEN
+
+                     IKSHT = IKSHT + 1									
+C                    K-SHORT INFO -------------------------------------------
+                     IKINDX(IKSHT) = I                                      ! PARTICLE # IN THIS EVENT
+                     IKSID(IKSHT) =  K(I,2)                                 ! Particle id
+                     IKPAR(IKSHT) = K(K(I,3),2)                                  ! Particle Parent ID
+                     IKSCHG(IKSHT) =  PYCHGE(K(I,2))                        ! Charge
+                     AKSPX(IKSHT)  =  P(I,1)                                ! PX
+                     AKSPY(IKSHT)  =  P(I,2)                                ! PY
+                     AKSPZ(IKSHT)  =  P(I,3)                                ! PZ
+                     AKSE(IKSHT)   =  P(I,4)                                ! Energy
+                     AKSPT(IKSHT)  = SQRT(P(I,1)*P(I,1)+
+     +                    P(I,2)*P(I,2))                                    ! Transverse momentum
+                     AKSP(IKSHT) = SQRT(P(I,1)*P(I,1)+
+     +                    P(I,2)*P(I,2)+P(I,3)*P(I,3))                      ! Total Momentum
+                     AKSPHI(IKSHT) =  acos(P(I,1)/AKSPT(IKSHT))             ! Azimuthal angle
+                     AKSTHET(IKSHT) = acos(P(I,3)/AKSP(IKSHT))              ! CM Scattering angle
+                     AKSETA(IKSHT) =  -log(tan(AKSTHET(IKSHT)/2))           ! PseudoRapidity
+                     
+                  ENDIF
+C                 ONLY DO THIS PART FOR THE FIRST BMES FOUND IN THE EVENT
+                  IF (J.EQ.1) THEN
+C                 OTHERWISE, IF THIS PARTICLE IS JUST CHARGED AND STABLE...
+                  IF (PYCHGE(K(I,2)).NE.0.AND.K(I,1).EQ.1) THEN
+                     
+                     PPT = SQRT(P(I,1)*P(I,1)+
+     +                    (P(I,2)*P(I,2))) ! Calculate its Transverse momentum
+                     
+                     IF (PPT.GT.0.5) THEN
+                        
+                        PPX = P(I,1)
+                        PPY = P(I,2)                 
+                        
+                        BCOMP=((B0PX(J)*PPX)+(B0PY(J) ! Calculate cos(delta-phi) separation from the *FIRST* B0 found
+     +                       *PPY))/(PPT*B0PT(J))
+                        
+                        IF (BCOMP.LT.0) THEN
+
+C                          TEST FOR ETA IN THE PROPER REGION (-2.5<UPETA<2.5):
+
+                           PPZ = P(I,3)
+                           
+                           PPP = SQRT(PPX**2+PPY**2+PPZ**2)                 ! Total Momentum
+                           PPTHET = acos(PPZ/PPP)                           ! CM Scattering angle 
+                           PPETA = -LOG(TAN(PPTHET/2))                      ! Pseudorapidity
+
+                           IF(PPETA.GT.-2.5.AND.PPETA.LT.2.5) THEN
+                              
+                              IPARTS = IPARTS + 1
+C                             (U)nknown (P)articles INFO -----------------------
+                              IUPINDX(IPARTS) = I                               ! PARTICLE # IN THIS EVT
+                              IUPID(IPARTS) = K(I,2)
+                              IUPCHG(IPARTS) =  PYCHGE(K(I,2))                  ! Charge
+                              UPPX(IPARTS)  =  PPX                              ! PX
+                              UPPY(IPARTS)  =  PPY                              ! PY
+                              UPPZ(IPARTS)  =  PPZ                              ! PZ
+                              UPE(IPARTS)   =  P(I,4)                           ! Energy
+                              UPPT(IPARTS)  = SQRT(PPX**2+PPY**2)               ! Transverse momentum
+                              UPP(IPARTS) = PPP                                 ! Total Momentum
+                              UPPHI(IPARTS) = acos(PPX/UPPT(IPARTS))            ! Azimuthal angle
+                              UPTHET(IPARTS) = PPTHET                           ! CM Scattering angle
+                              UPETA(IPARTS) = PPETA                             ! Pseudorapidity
+                              UPBSEP(IPARTS) = ACOS(BCOMP)                      ! B-sep Angle (delta-phi)
+
+                           ENDIF
+
+                         ENDIF                  
+                     ENDIF
+                  ENDIF
+                  ENDIF
+               ENDDO
+
+C              ROUTINE TO SORT THE UP ARRAYS BY PT
+               DO B=2,40
+                  
+                  PT_COMPARE = UPPT(B)     ! PT COMPARISON VALUE FOR SORTING
+                  
+                  IID_INIT = IUPID(B)      ! INITIAL VALUES AT B FOR ALL THE OTHER ARRAYS
+                  ICHG_INIT = IUPCHG(B)
+                  PX_INIT = UPPX(B)
+                  PY_INIT = UPPY(B)
+                  PZ_INIT = UPPZ(B)
+                  PE_INIT = UPE(B)
+                  PP_INIT = UPP(B)
+                  PHI_INIT = UPPHI(B)
+                  THE_INIT = UPTHET(B)
+                  ETA_INIT = UPETA(B)
+                  SEP_INIT = UPBSEP(B)  
+                  
+                  LBREAK = .FALSE.
+                  A = B - 1
+                  
+                  DO WHILE(A.GT.0)
+                     
+                     IF(UPPT(A).GT.PT_COMPARE) THEN ! CHECK TO SEE IF THE VALUE AT A IS GREATER 
+                                                      ! THAN THE (ORIGINAL) VALUE AT B
+                        UPPT(A+1) = PT_COMPARE
+                        
+                        IUPID(A+1) = IID_INIT
+                        IUPCHG(A+1) = ICHG_INIT
+                        UPPX(A+1) = PX_INIT
+                        UPPY(A+1) = PY_INIT
+                        UPPZ(A+1) = PZ_INIT
+                        UPE(A+1) = PE_INIT
+                        UPP(A+1) = PP_INIT
+                        UPPHI(A+1) = PHI_INIT
+                        UPTHET(A+1) = THE_INIT
+                        UPETA(A+1) = ETA_INIT
+                        UPBSEP(A+1) = SEP_INIT
+                        
+                        A = 0
+                        LBREAK = .TRUE.
+                        
+                     ELSE
+                        UPPT(A+1) = UPPT(A)
+                        
+                        IUPID(A+1) = IUPID(A)
+                        IUPCHG(A+1) = IUPCHG(A)
+                        UPPX(A+1) = UPPX(A)
+                        UPPY(A+1) = UPPY(A)
+                        UPPZ(A+1) = UPPZ(A)
+                        UPE(A+1) = UPE(A)
+                        UPP(A+1) = UPP(A)
+                        UPPHI(A+1) = UPPHI(A)
+                        UPTHET(A+1) = UPTHET(A)
+                        UPETA(A+1) = UPETA(A)
+                        UPBSEP(A+1) = UPBSEP(A)                                   
+                        
+                     ENDIF
+                     
+                     A = A - 1
+                     
+                  ENDDO
+                  
+                  IF(.NOT.LBREAK) THEN 
+                     
+                     UPPT(1) = PT_COMPARE
+                     
+                     IUPID(1) = IID_INIT
+                     IUPCHG(1) = ICHG_INIT
+                     UPPX(1) = PX_INIT
+                     UPPY(1) = PY_INIT
+                     UPPZ(1) = PZ_INIT
+                     UPE(1) = PE_INIT
+                     UPP(1) = PP_INIT
+                     UPPHI(1) = PHI_INIT
+                     UPTHET(1) = THE_INIT
+                     UPETA(1) = ETA_INIT
+                     UPBSEP(1) = SEP_INIT
+                     
+                  ENDIF
+                  
+               ENDDO 
+               
+c     Routine to scrap values for variables corresponding to other than top 5 pt, 
+C     and fill the remaining space with zeroes
+               
+               IF (IPARTS.GE.5) THEN
+                  DO B=6,40
+                     UPPT(B)=0
+                     IUPID(B)=0
+                     IUPCHG(B)=0
+                     UPPX(B)=0
+                     UPPY(B)=0
+                     UPPZ(B)=0
+                     UPE(B)=0
+                     UPP(B)=0
+                     UPPHI(B)=0
+                     UPTHET(B)=0
+                     UPETA(B)=0
+                     UPBSEP(B)=0
+                  ENDDO
+               ELSE 
+                  DO B=IPARTS+1,40
+                     UPPT(B)=0
+                     IUPID(B)=0
+                     IUPCHG(B)=0
+                     UPPX(B)=0
+                     UPPY(B)=0
+                     UPPZ(B)=0
+                     UPE(B)=0
+                     UPP(B)=0
+                     UPPHI(B)=0
+                     UPTHET(B)=0
+                     UPETA(B)=0
+                     UPBSEP(B)=0
+                  ENDDO
+               ENDIF
+
+            ENDDO
+         ENDIF
+	
+c	print*, IMU, "  ", IEV, "  ", IMEVT(1) 
+        CALL HFNT(10)
+
+ 200  CONTINUE
+
+C-----------------------------------------------------------------
+
+C...Third section: produce output and end.
+
+C...Cross section table.
+      CALL PYSTAT(1)
+
+C...Histograms.
+C      CALL HROPEN(21,'hout','bb_hout.hbook','N',1024,ier)
+
+      ier=1000000
+      CALL HCDIR('//B_PHYS',' ')
+      CALL HROUT(0,Ier,' ')
+      CALL HREND('B_PHYS')
+
+      CLOSE(2)
+
+      END
+
+C
+C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+C
+      SUBROUTINE BOOK
+C
+C...Book histograms
+C
+C...All real arithmetic in double precision.
+      IMPLICIT DOUBLE PRECISION(A-H, O-Z)
+
+      parameter(ihsize=1000000)
+      common/pawc/hmemory(ihsize)
+
+      include 'bb_prod.inc'
+
+      call hlimit(ihsize)
+C
+      	LRECL=8192
+
+	CALL HROPEN(2,'B_PHYS','b_phys_nt.hbook','N',LRECL,ISTAT) !open file
+
+	CALL HCDIR('//B_PHYS', ' ')
+
+C	CALL RZQUOT(8000)
+
+        CALL HBNT(10, 'B0->J/Psi+K Ntuple', ' ')
+
+        CALL HBNAME(10, 'MUBAR', IMB, 
+     +       'IMB[0,10], IMBID(IMB), IMBINDX(IMB), IMBCHG(IMB),'//
+     +       'AMBPX(IMB):R*8, AMBPY(IMB):R*8, AMBPZ(IMB):R*8,'//
+     +       'AMBE(IMB):R*8, AMBPT(IMB):R*8, AMBP(IMB):R*8,'//
+     +       'AMBPHI(IMB):R*8, AMBTHET(IMB):R*8, AMBETA(IMB):R*8')
+
+        CALL HBNAME(10, 'KSHORT', IKSHT, 
+     +       'IKSHT[0,10], IKSID(IKSHT),'//
+     +	     'IKINDX(IKSHT), IKPAR(IKSHT), IKSCHG(IKSHT),'//
+     +       'AKSPX(IKSHT):R*8, AKSPY(IKSHT):R*8, AKSPZ(IKSHT):R*8,'//
+     +       'AKSE(IKSHT):R*8, AKSPT(IKSHT):R*8, AKSP(IKSHT):R*8,'//
+     +       'AKSPHI(IKSHT):R*8, AKSTHET(IKSHT):R*8, AKSETA(IKSHT):R*8')
+ 
+        CALL HBNAME(10, 'MUON', IMU, 
+     +       'IMU[0,10], IMUID(IMU),'//
+     +       'IMEVT(IMU), IMINDX(IMU), IMUCHG(IMU),'//
+     +       'AMUPX(IMU):R*8, AMUPY(IMU):R*8, AMUPZ(IMU):R*8,'//
+     +       'AMUE(IMU):R*8, AMUPT(IMU):R*8, AMUP(IMU):R*8,'//
+     +       'AMUPHI(IMU):R*8, AMUTHET(IMU):R*8, AMUETA(IMU):R*8')
+     
+        CALL HBNAME(10, 'JPSI', IJPSI, 
+     +       'IJPSI[0,10], IJPID(IJPSI),'//
+     +	     'IJINDX(IJPSI), IJPCHG(IJPSI),'//
+     +       'AJPPX(IJPSI):R*8, AJPPY(IJPSI):R*8, AJPPZ(IJPSI):R*8,'//
+     +       'AJPE(IJPSI):R*8, AJPPT(IJPSI):R*8, AJPP(IJPSI):R*8,'//
+     +       'AJPPHI(IJPSI):R*8, AJPTHET(IJPSI):R*8, AJPETA(IJPSI):R*8')
+          
+        CALL HBNAME(10, 'BMeson', IBmes, 
+     +       'IBmes[0,10], IB0ID(IBmes),'//
+     +       'IBINDX(IBmes), IB0CHG(IBmes),'//
+     +       'B0PX(IBmes):R*8, B0PY(IBmes):R*8, B0PZ(IBmes):R*8,'//
+     +       'B0E(IBmes):R*8, B0PT(IBmes):R*8, B0P(IBmes):R*8,'//
+     +       'B0PHI(IBmes):R*8, B0THET(IBmes):R*8, B0ETA(IBmes):R*8')
+     
+        CALL HBNAME(10, 'BQUARK', IBQRK, 
+     +       'IBQRK[0,10], IBQID(IBQRK),' //
+     +       'IBQINDX(IBQRK), IBQCHG(IBQRK),'//
+     +       'BQPX(IBQRK):R*8, BQPY(IBQRK):R*8, BQPZ(IBQRK):R*8,'//
+     +       'BQE(IBQRK):R*8, BQPT(IBQRK):R*8, BQP(IBQRK):R*8,'//
+     +       'BQPHI(IBQRK):R*8, BQTHET(IBQRK):R*8, BQETA(IBQRK):R*8')
+
+        CALL HBNAME(10, 'UPARTS', IPARTS, 
+     +       'IPARTS[0,40], IUPID(IPARTS),' //
+     +       'IUPINDX(IPARTS), IUPCHG(IPARTS),'//
+     +       'UPBSEP(IPARTS):R*8, UPPX(IPARTS):R*8,'//
+     +       'UPPY(IPARTS):R*8, UPPZ(IPARTS):R*8,'//
+     +       'UPE(IPARTS):R*8, UPPT(IPARTS):R*8,'//
+     +       'UPP(IPARTS):R*8, UPPHI(IPARTS):R*8,'//
+     +       'UPTHET(IPARTS):R*8, UPETA(IPARTS):R*8')
+
+
+      RETURN
+      END
+

@@ -1,0 +1,23 @@
+HOME    = /home/gut/work/research/d0/studies/b_pythia
+CRNLIB  = /usr/local/cern/2000/lib
+FLAGS   = -g -fno-automatic -fno-globals
+OBJ     = $(HOME)/obj
+BIN     = $(HOME)/bin
+INCLUDE = $(HOME)/inc
+MLIBS   = $(HOME)/lib
+LIBS    = -L$(MLIBS)                                         \
+          -L$(CRNLIB) -lstdhep -lFmcfio         \
+          -lisajet748 -lpdflib                               \
+          -lgrafX11 -lmathlib -lpacklib -lkernlib            \
+          -L/usr/lib -lnsl                                   \
+          -L/usr/X11R6/lib -lX11
+
+$(BIN)/bb_prod : $(OBJ)/bb_prod.o  $(OBJ)/pythia6206.o
+	g77 -o $(BIN)/bb_prod $(FLAGS) $(OBJ)/bb_prod.o \
+               $(OBJ)/pythia6206.o $(LIBS)
+
+$(OBJ)/bb_prod.o : bb_prod.f
+	g77 -I$(INCLUDE) $(FLAGS) -c  bb_prod.f -o $(OBJ)/bb_prod.o
+
+$(OBJ)/pythia6206.o : pythia6206.f
+	g77 $(FLAGS) -c pythia6206.f -I$(INCLUDE) -o $(OBJ)/pythia6206.o

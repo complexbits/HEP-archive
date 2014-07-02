@@ -1,0 +1,130 @@
+From MAILER-DAEMON Mon Apr  4 14:57:14 2005
+Date: 04 Apr 2005 14:57:14 -0500
+From: Mail System Internal Data <MAILER-DAEMON@nhn.ou.edu>
+Subject: DON'T DELETE THIS MESSAGE -- FOLDER INTERNAL DATA
+X-IMAP: 1112644634 0000000000
+Status: RO
+
+This text is part of the internal format of your mail folder, and is not
+a real message.  It is created automatically by the mail system software.
+If deleted, important folder data will be lost, and it will be re-created
+with the data reset to initial values.
+
+From hegarty@nhn.ou.edu  Mon Apr  4 14:37:09 2005
+Return-Path: <hegarty@nhn.ou.edu>
+Received: from lakermmtao01.cox.net (lakermmtao01.cox.net [68.230.240.38])
+	by phyast.nhn.ou.edu (8.13.1/8.13.1) with ESMTP id j34Jb8fF030266
+	for <hegarty@nhn.ou.edu>; Mon, 4 Apr 2005 14:37:08 -0500
+Received: from [192.168.1.101] (really [68.97.57.199])
+          by lakermmtao01.cox.net
+          (InterMail vM.6.01.04.00 201-2131-118-20041027) with ESMTP
+          id <20050404193700.LXCB29182.lakermmtao01.cox.net@[192.168.1.101]>
+          for <hegarty@nhn.ou.edu>; Mon, 4 Apr 2005 15:37:00 -0400
+Mime-Version: 1.0 (Apple Message framework v619.2)
+Content-Transfer-Encoding: 7bit
+Message-Id: <6e638cdc86db22cfb2c9dabaeb594959@nhn.ou.edu>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+To: "Jamie E. Hegarty" <hegarty@nhn.ou.edu>
+From: Jamie Hegarty <hegarty@nhn.ou.edu>
+Subject: Fwd: MC variables
+Date: Mon, 4 Apr 2005 14:47:57 -0500
+X-Mailer: Apple Mail (2.619.2)
+X-Virus-Scanned: ClamAV 0.83/804/Mon Apr  4 09:38:58 2005 on 
+X-Virus-Status: Clean
+X-Spam-Checker-Version: SpamAssassin 3.0.2 (2004-11-16) on phyast.nhn.ou.edu
+X-Spam-Level: 
+X-Spam-Status: No, score=0.3 required=5.0 tests=AWL,SPF_SOFTFAIL autolearn=no 
+	version=3.0.2
+Status: RO
+X-Status: 
+X-Keywords:                 
+
+
+
+Begin forwarded message:
+
+> From: Phillip Gutierrez <pgutierrez@ou.edu>
+> Date: April 4, 2005 12:34:40 PM CDT
+> To: Jamie Hegarty <hegarty@nhn.ou.edu>, Miroslav Kopal 
+> <kopal@fnal.gov>, Brad Abbott <abbott@nhn.ou.edu>
+> Subject: Fwd: MC variables
+>
+> To all; FYI, definition of the variables in the MC -- Phil
+>
+> ----------  Forwarded Message  ----------
+>
+> Subject: MC variables
+> Date: Monday 04 April 2005 12:12
+> From: burdin <burdin@fnal.gov>
+> To: Phillip Gutierrez <pgutierrez@ou.edu>
+> Cc: Sergey Burdin <burdin@fnal.gov>
+>
+>   Hi Phil,
+>
+>   Sorry for delay.
+>
+>   Please see below
+>
+> *Tree    :dstagTree : AA Ds
+> *Br    0 :run       : run/I       run number
+> *Br    1 :evt       : evt/I       event number
+> *Br    2 :qmu       : qmu/I       charge of muon from Bs
+> *Br    3 :q5        : q5/I        charge of pion from Ds->PhiPi
+> *Br    4 :lv        : lv/D        3d decay length for Ds
+> *Br    5 :vlv       : vlv/D       error^2 on 3d decay length for Ds
+> *Br    6 :lxy       : lxy/D       2d decay length for Ds
+> *Br    7 :vlxy      : vlxy/D      error^2 on 2d decay length for Ds
+> *Br    8 :mkk       : mkk/D       KK mass
+> *Br    9 :mds       : mds/D       Ds mass
+> *Br   10 :cxyds     : cxyds/D     cos of angle between momentum and
+>                                   direction for Ds in trans plane
+> *Br   11 :lxyB      : lxyB/D      2d decay length for Bs
+> *Br   12 :vlxyB     : vlxyB/D     error^2 on 2d decay length for Bs
+> *Br   13 :lxyBD     : lxyBD/D     2d distance between vertices Bs and 
+> Ds
+> *Br   14 :vlxyBD    : vlxyBD/D    error^2 on --//--
+> *Br   15 :xmb       : xmb/D       reconstructed Bs mass
+> *Br   16 :cxyB      : cxyB/D      cos of angle between momentum and
+>                                   direction for Bs in trans plane
+> *Br   17 :cmud      : cmud/D      cos of angle between muon and Ds
+> *Br   18 :ptmu      : ptmu/D      Pt of muon wrt Ds
+> *Br   19 :ptB       : ptB/D       Pt of reconstructed Bs
+> *Br   20 :ptBs      : ptBs/D      Pt of true Bs from MC
+> *Br   21 :ptotB     : ptotB/D     Ptot of reconstructed Bs
+> *Br   22 :lb        : lb/D        VPDL for Bs
+> *Br   23 :vlb       : vlb/D       error^2 on VPDL for Bs
+> *Br   24 :pt6       : pt6/D       Pt of tagging muon
+> *Br   25 :pto6      : pto6/D      Ptot of tagging muon
+> *Br   26 :coBtxy    : coBtxy/D    cos of angle between B and tag muon 
+> (2d)
+> *Br   27 :c26       : c26/D       impact parameter signif. of tag muon
+> *Br   28 :coBt      : coBt/D      cos of angle between B and tag muon 
+> (3d)
+> *Br   29 :ptDsMu    : ptDsMu/D    Pt of DsMu system from MC
+> *Br   30 :lbmc      : lbmc/D      VPDL from MC
+> *Br   31 :lbmctrue  : lbmctrue/D  PDL from MC
+> *Br   32 :pvposmc   : pvposmc[3]/D   PV position in MC
+> *Br   33 :svposmc   : svposmc[3]/D   SV position in MC
+> *Br   34 :pvpos     : pvpos[3]/D     reconstructed PV
+> *Br   35 :svpos     : svpos[3]/D     reconstructed SV
+> *Br   36 :nSMT6     : nSMT6/I     number of SMT hits for tag muon
+> *Br   37 :nCFT6     : nCFT6/I     number of CFT hits for tag muon
+> *Br   38 :q6        : q6/I        charge of tag muon
+> *Br   39 :nseg6     : nseg6/I     number of segments for tag muon
+> *Br   40 :tagmuok   : tagmuok/I   there is tag muon
+> *Br   41 :matchBs   : matchBs/I   there is match of reco Bs and MC Bs
+> *Br   42 :qtagin    : qtagin/I    corrected charge of tag muon
+> *Br   43 :osci      : osci/I      is Bs oscillated or not after 
+> correction
+> *Br   44 :oscimc    : oscimc/I    is Bs oscillated or not in MC
+>
+>   As you know I assign oscillations to Bs meson by hands to avoid 
+> bias. It
+> is reflected in variables 42 and 43.
+>
+>    Thanks,
+>      Sergey
+>
+> -------------------------------------------------------
+>
+

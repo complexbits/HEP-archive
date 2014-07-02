@@ -1,0 +1,4 @@
+02/15/02 - HMS add debug printout, filename_util to get environmentals and stripped filenames
+
+02/20/02 - HMS add $LM_ACCESS_STAGE_DIR as default location for stage2 files.
+If not set, use the old default of ~begel...

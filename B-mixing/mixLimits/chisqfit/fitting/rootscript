@@ -1,0 +1,6 @@
+#!/bin/bash
+
+root -b -q MCtest.C > MCtest.log 2>&1
+echo 'root job finished!' | mail 4052092790@messaging.sprintpcs.com
+
+exit 0

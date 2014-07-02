@@ -1,0 +1,19 @@
+void test()
+  //#include "complex_io.hh";
+  //#include "complex.h"
+{
+
+  RooComplex a(2,3);
+  RooComplex b(1,3);
+  RooComplex c, d;
+
+  c = a + b;
+  d = a + b.conj();
+
+  cout << "HELP  " << endl;
+  cout << "Test  " << c.re() << "  " << d.im() << endl;
+
+  RooComplex oErf = RooMath::ComplexErrFunc(10,3);
+  cout << "Erfi  " << oErf.re() << "  " << oErf.im() << "i" << endl;
+
+}

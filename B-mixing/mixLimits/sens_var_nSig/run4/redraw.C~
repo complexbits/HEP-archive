@@ -1,0 +1,410 @@
+void redraw(){
+
+  gROOT->SetStyle("Plain");
+
+  cout << endl << endl;
+
+  Double_t p1x, p1y;
+  Double_t p2x, p2y;
+
+  TGraph *graph0130 = new TGraph(5);
+  graph0130->SetTitle("Sensitivity vs. Sig-fit");
+
+  TGraph *graph1 = new TGraph(5);
+  graph1->SetTitle("Sensitivity vs. Sig-fit");
+
+  TGraph *graph0196 = new TGraph(5);
+  graph0196->SetTitle("Sensitivity vs. Sig-fit");
+
+  TCanvas *can1 = new TCanvas("can1", "varfits1", 1500, 900);
+  can1->Divide(5,3);
+
+  //-------------------------------------------------------------------------------
+  // nsig = 0.130
+  //-------------------------------------------------------------------------------
+
+  // ----------- nsig=0.130, tSig=0.1 Sig-fit=0.1 ----------
+  can1->cd(1);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0130_1.root");
+  TGraph *gs130_1 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs130_1->SetTitle("nSig=0.130, tSig=0.1, Sig-fit=0.1");
+  gs130_1->GetXaxis()->SetTitle("dm");
+  gs130_1->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs130_1->Draw("AP*");
+ 
+  gs130_1->GetPoint(16, p1x, p1y);
+  gs130_1->GetPoint(17, p2x, p2y);
+
+  Double_t vs130_1 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0130->SetPoint(0,0.1,vs130_1);
+
+  cout << " vs130_1 = "<< vs130_1 << endl;
+  
+  // ----------- nsig=0.130, tSig=0.1 Sig-fit=0.2 ----------
+  can1->cd(2);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0130_2.root");
+  TGraph *gs130_2 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs130_2->SetTitle("nSig=0.130, tSig=0.1, Sig-fit=0.2");
+  gs130_2->GetXaxis()->SetTitle("dm");
+  gs130_2->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs130_2->Draw("AP*");
+ 
+  gs130_2->GetPoint(14, p1x, p1y);
+  gs130_2->GetPoint(15, p2x, p2y);
+
+  Double_t vs130_2 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0130->SetPoint(1,0.2,vs130_2);
+
+  cout << " vs130_2 = "<< vs130_2 << endl;
+
+  // ----------- nsig=0.130, tSig=0.1 Sig-fit=0.3 ----------
+  can1->cd(3);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0130_3.root");
+  TGraph *gs130_3 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs130_3->SetTitle("nSig=0.130, tSig=0.1, Sig-fit=0.3");
+  gs130_3->GetXaxis()->SetTitle("dm");
+  gs130_3->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs130_3->Draw("AP*");
+ 
+  gs130_3->GetPoint(10, p1x, p1y);
+  gs130_3->GetPoint(11, p2x, p2y);
+
+  Double_t vs130_3 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0130->SetPoint(2,0.3,vs130_3);
+
+  cout << " vs130_3 = "<< vs130_3 << endl;
+
+
+  // ----------- nsig=0.130, tSig=0.1 Sig-fit=0.4 ----------
+  can1->cd(4);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0130_4.root");
+  TGraph *gs130_4 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs130_4->SetTitle("nSig=0.130, tSig=0.1, Sig-fit=0.4");
+  gs130_4->GetXaxis()->SetTitle("dm");
+  gs130_4->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs130_4->Draw("AP*");
+ 
+  gs130_4->GetPoint(13, p1x, p1y);
+  gs130_4->GetPoint(14, p2x, p2y);
+
+  Double_t vs130_4 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0130->SetPoint(3,0.4,vs130_4);
+
+  cout << " vs130_4 = "<< vs130_4 << endl;
+
+  // ----------- nsig=0.130, tSig=0.1 Sig-fit=Avg ----------
+  can1->cd(5);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0130_a.root");
+  TGraph *gs130_a = (TGraph*)lhns.Get("DilErrvsdm");
+  gs130_a->SetTitle("nSig=0.130, tSig=0.1, Sig-fit=Avg");
+  gs130_a->GetXaxis()->SetTitle("dm");
+  gs130_a->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs130_a->Draw("AP*");
+ 
+  gs130_a->GetPoint(6, p1x, p1y);
+  gs130_a->GetPoint(7, p2x, p2y);
+
+  Double_t vs130_a = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0130->SetPoint(4,0.270111,vs130_a);
+
+  cout << " vs130_a = "<< vs130_a << endl;
+
+  TCanvas *c0130 = new TCanvas("c0130", "graph0130", 400, 400);
+  c0130->SetGrid();
+  graph0130->GetXaxis()->SetTitle("Sigma in fit");
+  graph0130->GetYaxis()->SetTitle("Sensitivity");
+  graph0130->Draw("AP*");
+
+  //-------------------------------------------------------------------------------
+  // nsig = 0.163
+  //-------------------------------------------------------------------------------
+
+
+  // ----------- nsig=0.163, tSig=0.1 Sig-fit=0.1 ----------
+  can1->cd(6);
+  gPad->SetGrid();
+  
+  TFile lhns("varsigma_1.root");
+  TGraph *gs1 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs1->SetTitle("nSig=0.163, tSig=0.1, Sig-fit=0.1");
+  gs1->GetXaxis()->SetTitle("dm");
+  gs1->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs1->Draw("AP*");
+ 
+  gs1->GetPoint(16, p1x, p1y);
+  gs1->GetPoint(17, p2x, p2y);
+
+  Double_t vs1 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph1->SetPoint(0,0.1,vs1);
+
+  cout << " vs1 = "<< vs1 << endl;
+  
+
+ 
+  // ----------- nsig=0.163, tSig=0.1 Sig-fit=0.2 ----------
+  can1->cd(7);
+  gPad->SetGrid();
+  
+  TFile lhns("varsigma_2.root");
+  TGraph *gs2 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs2->SetTitle("nSig=0.163, tSig=0.1, Sig-fit=0.2");
+  gs2->GetXaxis()->SetTitle("dm");
+  gs2->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs2->Draw("AP*");
+ 
+  gs2->GetPoint(14, p1x, p1y);
+  gs2->GetPoint(15, p2x, p2y);
+
+  Double_t vs2 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph1->SetPoint(1,0.2,vs2);
+
+  cout << " vs2 = "<< vs2 << endl;
+  
+
+ 
+  // ----------- nsig=0.163, tSig=0.1 Sig-fit=0.3 ----------
+  can1->cd(8);
+  gPad->SetGrid();
+  
+  TFile lhns("varsigma_3.root");
+  TGraph *gs3 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs3->SetTitle("nSig=0.163, tSig=0.1, Sig-fit=0.3");
+  gs3->GetXaxis()->SetTitle("dm");
+  gs3->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs3->Draw("AP*");
+ 
+  gs3->GetPoint(10, p1x, p1y);
+  gs3->GetPoint(11, p2x, p2y);
+
+  Double_t vs3 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph1->SetPoint(2,0.3,vs3);
+
+  cout << " vs3 = "<< vs3 << endl;
+  
+ 
+  // ----------- nsig=0.163, tSig=0.1 Sig-fit=0.4 ----------
+  can1->cd(9);
+  gPad->SetGrid();
+  
+  TFile lhns("varsigma_4.root");
+  TGraph *gs4 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs4->SetTitle("nSig=0.163, tSig=0.1, Sig-fit=0.4");
+  gs4->GetXaxis()->SetTitle("dm");
+  gs4->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs4->Draw("AP*");
+ 
+  gs4->GetPoint(13, p1x, p1y);
+  gs4->GetPoint(14, p2x, p2y);
+
+  Double_t vs4 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph1->SetPoint(3,0.4,vs4);
+
+  cout << " vs4 = "<< vs4 << endl;
+  
+  TCanvas *can2 = new TCanvas("can2", "graph1", 400, 400);
+  can2->SetGrid();
+  graph1->GetXaxis()->SetTitle("Sigma in fit");
+  graph1->GetYaxis()->SetTitle("Sensitivity");
+  graph1->Draw("AP*");
+
+  // ----------- nsig=0.163, tSig=0.1 Sig-fit=0.4 ----------
+  can1->cd(10);
+  gPad->SetGrid();
+  
+  TFile lhns("varsigma_a.root");
+  TGraph *gsa = (TGraph*)lhns.Get("DilErrvsdm");
+  gsa->SetTitle("nSig=0.163, tSig=0.1, Sig-fit=Avg");
+  gsa->GetXaxis()->SetTitle("dm");
+  gsa->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gsa->Draw("AP*");
+ 
+  gsa->GetPoint(5, p1x, p1y);
+  gsa->GetPoint(6, p2x, p2y);
+
+  Double_t vsa = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph1->SetPoint(4,0.313349,vsa);
+
+  cout << " vsa = "<< vs4 << endl;
+  
+  TCanvas *can2 = new TCanvas("can2", "graph1", 400, 400);
+  can2->SetGrid();
+  graph1->GetXaxis()->SetTitle("Sigma in fit");
+  graph1->GetYaxis()->SetTitle("Sensitivity");
+  graph1->Draw("AP*");
+
+  //-------------------------------------------------------------------------------
+  // nsig = 0.196
+  //-------------------------------------------------------------------------------
+
+
+  // ----------- nsig=0.196, tSig=0.1 Sig-fit=0.1 ----------
+  can1->cd(11);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0196_1.root");
+  TGraph *gs196_1 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs196_1->SetTitle("nSig=0.196, tSig=0.1, Sig-fit=0.1");
+  gs196_1->GetXaxis()->SetTitle("dm");
+  gs196_1->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs196_1->Draw("AP*");
+ 
+  gs196_1->GetPoint(16, p1x, p1y);
+  gs196_1->GetPoint(17, p2x, p2y);
+
+  Double_t vs196_1 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0196->SetPoint(0,0.1,vs196_1);
+
+  cout << " vs196_1 = "<< vs196_1 << endl;
+
+  // ----------- nsig=0.196, tSig=0.1 Sig-fit=0.2 ----------
+  can1->cd(12);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0196_2.root");
+  TGraph *gs196_2 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs196_2->SetTitle("nSig=0.196, tSig=0.1, Sig-fit=0.2");
+  gs196_2->GetXaxis()->SetTitle("dm");
+  gs196_2->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs196_2->Draw("AP*");
+ 
+  gs196_2->GetPoint(14, p1x, p1y);
+  gs196_2->GetPoint(15, p2x, p2y);
+
+  Double_t vs196_2 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0196->SetPoint(1,0.2,vs196_2);
+
+  cout << " vs196_2 = "<< vs196_2 << endl;
+
+  // ----------- nsig=0.196, tSig=0.1 Sig-fit=0.3 ----------
+  can1->cd(13);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0196_3.root");
+  TGraph *gs196_3 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs196_3->SetTitle("nSig=0.196, tSig=0.1, Sig-fit=0.3");
+  gs196_3->GetXaxis()->SetTitle("dm");
+  gs196_3->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs196_3->Draw("AP*");
+ 
+  gs196_3->GetPoint(10, p1x, p1y);
+  gs196_3->GetPoint(11, p2x, p2y);
+
+  Double_t vs196_3 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0196->SetPoint(2,0.3,vs196_3);
+
+  cout << " vs196_3 = "<< vs196_3 << endl;
+
+  // ----------- nsig=0.196, tSig=0.1 Sig-fit=0.4 ----------
+  can1->cd(14);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0196_4.root");
+  TGraph *gs196_4 = (TGraph*)lhns.Get("DilErrvsdm");
+  gs196_4->SetTitle("nSig=0.196, tSig=0.1, Sig-fit=0.4");
+  gs196_4->GetXaxis()->SetTitle("dm");
+  gs196_4->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs196_4->Draw("AP*");
+ 
+  gs196_4->GetPoint(13, p1x, p1y);
+  gs196_4->GetPoint(14, p2x, p2y);
+
+  Double_t vs196_4 = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0196->SetPoint(3,0.4,vs196_4);
+
+  cout << " vs196_4 = "<< vs196_4 << endl;
+
+  // ----------- nsig=0.196, tSig=0.1 Sig-fit=Avg ----------
+  can1->cd(15);
+  gPad->SetGrid();
+  
+  TFile lhns("varsig0196_a.root");
+  TGraph *gs196_a = (TGraph*)lhns.Get("DilErrvsdm");
+  gs196_a->SetTitle("nSig=0.196, tSig=0.1, Sig-fit=Avg");
+  gs196_a->GetXaxis()->SetTitle("dm");
+  gs196_a->GetYaxis()->SetTitle("95% CL");
+  lhns.Close();
+  
+  gs196_a->Draw("AP*");
+ 
+  gs196_a->GetPoint(5, p1x, p1y);
+  gs196_a->GetPoint(6, p2x, p2y);
+
+  Double_t vs196_a = (((1-p1y)/(1-p2y))*p2x - p1x)/(((1-p1y)/(1-p2y))-1);
+
+  graph0196->SetPoint(4,0.356301,vs196_a);
+
+  cout << " vs196_a = "<< vs196_a << endl;
+
+  TCanvas *c0196 = new TCanvas("c0196", "graph0196", 400, 400);
+  c0196->SetGrid();
+  graph0196->GetXaxis()->SetTitle("Sigma in fit");
+  graph0196->GetYaxis()->SetTitle("Sensitivity");
+  graph0196->Draw("AP*");
+
+  //--------------------------------------------------------------------------------
+
+  TCanvas *combined = new TCanvas("combined", "combined", 400, 400);
+  combined->SetGrid();
+  graph0130->SetMarkerColor(4);
+  graph0130->SetMarkerStyle(4);
+  graph0130->Draw("AP");
+  graph1->SetMarkerColor(2);
+  graph1->SetMarkerStyle(22);
+  graph1->Draw("P");
+  graph0196->SetMarkerColor(8);
+  graph0196->SetMarkerStyle(28);
+  graph0196->Draw("P");
+
+}

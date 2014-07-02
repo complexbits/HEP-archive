@@ -1,0 +1,62 @@
+%%%Fit all variables simultaneously
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.49099e+00   4.72562e-03   1.36286e-03   1.84015e-02
+   2  dm           5.09358e-01   1.51384e-03   4.36571e-04   1.41912e-02
+   3  sigma        1.02409e-01   1.20066e-03   3.46212e-04   3.68255e-01
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  3    ERR DEF=0.5
+  2.233e-05 -1.912e-08 -5.480e-08
+ -1.912e-08  2.292e-06  2.615e-08
+ -5.480e-08  2.615e-08  1.442e-06
+ PARAMETER  CORRELATION COEFFICIENTS
+       NO.  GLOBAL      1      2      3
+        1  0.00998   1.000 -0.003 -0.010
+        2  0.01461  -0.003  1.000  0.014
+        3  0.01731  -0.010  0.014  1.000
+ **********
+ **    4 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+Real time 5625.75
+CPU time  5074.61
+
+%%Fit lifetime first
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.49098e+00   4.72561e-03   1.24705e-03   2.78526e-02
+   2  sigma        1.02464e-01   1.20377e-03   3.17638e-04  -2.37769e-03
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  2    ERR DEF=0.5
+  2.233e-05 -5.508e-08
+ -5.508e-08  1.449e-06
+ PARAMETER  CORRELATION COEFFICIENTS
+       NO.  GLOBAL      1      2
+        1  0.00968   1.000 -0.010
+        2  0.00968  -0.010  1.000
+ **********
+ **    4 **CALL FCN           3
+ **********
+iflag  3
+Real time 19.16
+CPU time  19
+
+%%Now fit for dm only using result of lifetime fit
+
+  EXT PARAMETER                                   STEP         FIRST
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE
+   1  t0           1.49098e+00     fixed
+   2  dm           5.09359e-01   1.51370e-03   4.36449e-04   7.17469e-02
+   3  sigma        1.02464e-01     fixed
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=0.5
+  2.291e-06
+ **********
+ **    5 **CALL FCN           3
+ **********
+iflag  3
+ct  0.14024  0.222213
+Real time 1190.42
+CPU time  1172.93

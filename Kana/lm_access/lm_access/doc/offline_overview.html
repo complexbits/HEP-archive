@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>D0 Offline Luminosity</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+
+<table width="920" border="0" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td width="748" height="74" valign="top"> 
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">D0 Offline Luminosity 
+        </font></h2>
+      <table width="93%" border="1">
+        <tr> 
+          <td><font face="Verdana, Arial, Helvetica, sans-serif"><b>Related Sites:</b></font></td>
+          <td><font face="Verdana, Arial, Helvetica, sans-serif"><b><a href="http://www-d0.fnal.gov/phys_id/luminosity/">General 
+            LUM ID</a></b></font></td>
+          <td><font face="Verdana, Arial, Helvetica, sans-serif"><b><a href="http://www-d0.fnal.gov/computing/analysis_tools/">Analysis 
+            Tools</a></b></font></td>
+          <td><font face="Verdana, Arial, Helvetica, sans-serif"><b><a href="http://d0db.fnal.gov/sam">SAM</a></b></font></td>
+          <td><font face="Verdana, Arial, Helvetica, sans-serif"><b><a href="http://www.hep.brown.edu/users/greg/Streaming/documentation.htm">Streaming</a></b></font></td>
+          <td><font face="Verdana, Arial, Helvetica, sans-serif"><b><a href="http://www-d0.fnal.gov/%7Eschellma/upgrade_computing.html">Prehistory</a></b></font></td>
+        </tr>
+      </table>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><a href="overview.pdf">Overview 
+        Document</a> (November 2002)</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><a href="http://www.nuhep.nwu.edu/%7Eschellma/talks/lum_dec06.pdf">Talk 
+        to review committee</a> (December 6,2002)</font></p>
+      <p>&nbsp; </p>
+    </td>
+    <td width="172"></td>
+  </tr>
+  <tr> 
+    <td valign="top" height="278"> 
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">Current Luminosity 
+        Access</font></h2>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Luminosity access 
+        is currently done via the package lm_access - C++ code which enables users 
+        to determine a luminosity for a given data sample/trigger.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Requires complete 
+        list of LBN's in the analysis sample, returns luminosity for good LBNS 
+        and list of bad LBNS.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Users must check to 
+        see if there is valid luminosity information for each event and reject 
+        events without it.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><a href="http://www-d0.fnal.gov/phys_id/luminosity/data_access/lm_access/doc/">lm_access 
+        package documentation</a></font></p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td height="510" valign="top"> 
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">Future Plan</font></h2>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">1) Make existing lm_access 
+        work with the D0 framework, provide tools needed to get LBNS for user 
+        created samples. (Kupco/Schellman - users)</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">2) Create Luminosity 
+        access framework which can access either flat files or databases. (LUM 
+        id/tools group)</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">New features:</font></p>
+      <ul>
+        <li>Support streaming</li>
+        <li>Separate file book-keeping, good run, good lum functions</li>
+        <li>Local caching and reuse of information</li>
+        <li>Enhanced user quality specifications</li>
+      </ul>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><a href="lm_access_spec.htm">Draft 
+        Description of algorithm/interfaces</a> (November 24, 2002)</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">3) Migrate access 
+        methods from flat files to db servers (LUM id/tools/DB groups)</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><a href="lum_v5_5.pdf">Draft 
+        schema for the lum DB</a> (Jeremy Simmons December 6, 2002)</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">4) Make framework 
+        into dbserver if necessary.</font></p>
+      <p>&nbsp;</p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">Probable schedule:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">1) December 2002</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">2) December/January 
+        2002 - draft plan exists but depends on iteration from committee/users.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif">3) January-February 
+        2002 - draft exists but depends on iteration. </font></p>
+    </td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td height="136" valign="top"> 
+      <h2><font face="Verdana, Arial, Helvetica, sans-serif">Related information</font></h2>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"><a href="http://www-d0.fnal.gov/computing/algorithms/howto/tutorial.html">Tutorials</a> 
+        on Thumbnail analysis and relation of SAM/Luminosity.</font></p>
+    </td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td height="64"></td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td height="329" valign="top"><a href="mailto:h-schellman@northwestern.edu"><i>H. 
+      Schellman</i></a>,<i> Northwestern University - 
+      <!-- #BeginDate format:Am1 -->December 15, 2002<!-- #EndDate -->
+      </i> </td>
+    <td></td>
+  </tr>
+  <tr> 
+    <td height="312"></td>
+    <td></td>
+  </tr>
+</table>
+</body>
+</html>

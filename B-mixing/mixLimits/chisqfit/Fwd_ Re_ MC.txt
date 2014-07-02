@@ -1,0 +1,45 @@
+From: Phillip Gutierrez <pgutierrez@ou.edu>
+Date: January 21, 2005 6:22:34 PM CST
+To: Jamie Hegarty <hegarty@nhn.ou.edu>
+Subject: Fwd: Re: MC (fwd)
+
+Here is the email -- Phil
+
+----------  Forwarded Message  ----------
+
+Subject: Re: MC (fwd)
+Date: Friday 05 November 2004 11:21
+From: Brad Abbott <abbott@nhn.ou.edu>
+To: Phil Gutierrez <gut@nhn.ou.edu>
+Cc: Miroslav Kopal <kopal@fnal.gov>
+
+  Here is a root-tuple which has all of the information to
+  test your fitting code
+
+  Tulika also has a similar info, I will forward her information
+  to you
+
+  Brad
+
+>>   Hi Brad,
+>>
+>>   You can find all the necessary information in
+>>
+>> /work/sibir-clued0/burdin/bsmix/mc/aadstagmc15423.root
+>>
+>>   Some important variables:
+>>
+>> tagmuok  - tagging muon was found
+>> q6       - charge of tagging muon
+>> q5       - charge of pion from Ds
+>> qmu      - charge of muon from Bs
+>> mds      - Ds mass
+>> lb       - VPDL
+>> lbmc     - True VPDL
+>> ptB      - reconstructed transverse momentum of mu+Ds
+>> ptBs     - true momentum of Bs
+>> matchBs  - recinstructed mu+Ds matches to Bs->MuDs(*)X, where X is one
+>>                                                              particle
+
+-------------------------------------------------------
+

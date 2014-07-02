@@ -1,0 +1,250 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      4403,        162]*)
+(*NotebookOutlinePosition[      5032,        184]*)
+(*  CellTagsIndexPosition[      4988,        180]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    \(Integrate[E^\((\(-t\)/t0)\)\ 2\ Sin[\(dm\ t\)\/2]\^2, {t, 0, Infinity}, 
+      Assumptions \[Rule] {dm > 0, Re[t0] > 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(dm\^2\ t0\^3\)\/\(1 + dm\^2\ t0\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Integrate[E^\((\(-t\)/t0)\)\ 2\ Cos[\(dm\ t\)\/2]\^2, {t, 0, Infinity}, 
+      Assumptions \[Rule] {dm > 0, Re[t0] > 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(t0\ \((1 + 1\/\(1 + dm\^2\ t0\^2\))\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Together[%]\)], "Input"],
+
+Cell[BoxData[
+    \(\(t0\ \((2 + dm\^2\ t0\^2)\)\)\/\(1 + dm\^2\ t0\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TrigFactor[\((1 - Cos[dm\ t])\)]\)], "Input"],
+
+Cell[BoxData[
+    \(2\ Sin[\(dm\ t\)\/2]\^2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TrigFactor[\((1 + Cos[dm\ t])\)]\)], "Input"],
+
+Cell[BoxData[
+    \(2\ Cos[\(dm\ t\)\/2]\^2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Together[t0\ \((1 + 1\/\(1 + dm\^2\ t0\^2\))\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\(t0\ \((2 + dm\^2\ t0\^2)\)\)\/\(1 + dm\^2\ t0\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Integrate[
+      E^\((\(-t^2\)/\((2\ s^2)\))\), {t, \(-Infinity\), Infinity}]\)], "Input"],
+
+Cell[BoxData[
+    \(If[Re[s\^2] > 0, \@\(2\ \[Pi]\)\ \@s\^2, 
+      Integrate[\[ExponentialE]\^\(-\(t\^2\/\(2\ s\^2\)\)\), {t, \(-\
+\[Infinity]\), \[Infinity]}, 
+        Assumptions \[Rule] Re[s\^2] \[LessEqual] 0]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TrigToExp[Cos[\(dm\ t\)\/2]\^2]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/2 + 1\/4\ \[ExponentialE]\^\(\(-\[ImaginaryI]\)\ dm\ t\) + 
+      1\/4\ \[ExponentialE]\^\(\[ImaginaryI]\ dm\ t\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TrigToExp[Sin[\(dm\ t\)\/2]\^2]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/2 - 1\/4\ \[ExponentialE]\^\(\(-\[ImaginaryI]\)\ dm\ t\) - 
+      1\/4\ \[ExponentialE]\^\(\[ImaginaryI]\ dm\ t\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Integrate[f1[t, t0, dm], {t, 0, Infinity}, 
+      Assumptions \[Rule] {Im[dm] \[Equal] 0, Im[t0] \[Equal] 0, 
+          Re[t0] > 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(1 + 1\/\(1 + dm\^2\ t0\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Integrate[f2[t, t0, dm], {t, 0, Infinity}, 
+      Assumptions \[Rule] {Im[dm] \[Equal] 0, Im[t0] \[Equal] 0, 
+          Re[t0] > 0}]\)], "Input"],
+
+Cell[BoxData[
+    \(1 - 1\/\(1 + dm\^2\ t0\^2\)\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{520, 600},
+WindowMargins->{{Automatic, 0}, {54, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 153, 2, 65, "Input"],
+Cell[1932, 57, 72, 1, 46, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2041, 63, 153, 2, 65, "Input"],
+Cell[2197, 67, 71, 1, 45, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2305, 73, 44, 1, 27, "Input"],
+Cell[2352, 76, 86, 1, 46, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2475, 82, 65, 1, 27, "Input"],
+Cell[2543, 85, 57, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2637, 91, 65, 1, 27, "Input"],
+Cell[2705, 94, 57, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2799, 100, 80, 1, 45, "Input"],
+Cell[2882, 103, 86, 1, 46, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3005, 109, 110, 2, 27, "Input"],
+Cell[3118, 113, 229, 4, 72, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3384, 122, 64, 1, 45, "Input"],
+Cell[3451, 125, 150, 2, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3638, 132, 64, 1, 45, "Input"],
+Cell[3705, 135, 150, 2, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3892, 142, 165, 3, 43, "Input"],
+Cell[4060, 147, 61, 1, 45, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4158, 153, 165, 3, 43, "Input"],
+Cell[4326, 158, 61, 1, 45, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

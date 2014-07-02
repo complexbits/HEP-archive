@@ -1,0 +1,75 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   3.05/07  5 September 2003   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+Compiled for linux with thread support.
+
+CINT/ROOT C/C++ Interpreter version 5.15.94, June 30 2003
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+
+Processing scaleFac_v3.C++...
+Info in <TUnixSystem::ACLiC>: creating shared library /home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3_C.so
+In file included from /home1/ouhep12/users/gut/forJamie/temp/fileOSSgjv.h:29,
+                 from /home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.cxx:13:
+/home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3.C: In function `void scaleFac_v3 ()':
+/home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3.C:152: warning: unused variable `Double_t *dummy'
+/home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3.C:137: warning: unused variable `Double_t mTime'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.cxx: At top level:
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.cxx:91: warning: `int G__fileOSSgjv__7_45 (G__value 
+*, const char *, G__param *, int)' defined but not used
+dlopen error: /home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3_C.so: undefined symbol: __vt_10TStopwatch
+Load Error: Failed to load Dynamic link library /home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3_C.so
+In file included from /home1/ouhep12/users/gut/forJamie/temp/fileOSSgjv.h:29,
+                 from /home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.cxx:13:
+/home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3.C: In function `void scaleFac_v3 ()':
+/home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3.C:152: warning: unused variable `Double_t *dummy'
+/home1/ouhep12/users/gut/forJamie/temp/./scaleFac_v3.C:137: warning: unused variable `Double_t mTime'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.cxx: At top level:
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.cxx:91: warning: `int G__fileOSSgjv__7_45 (G__value 
+*, const char *, G__param *, int)' defined but not used
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/../../../crt1.o: In function `_start':
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/../../../crt1.o(.text+0x18): undefined reference to `main'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o: In function `scaleFac_v3(void)':
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x22f): undefined reference to `TROOT::Reset(char const *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x23e): undefined reference to `TStopwatch::TStopwatch(void)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x253): undefined reference to `TStopwatch::Start(bool)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x3b6): undefined reference to `TFile::TFile(char const *, char const *, char const *, int)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x3da): undefined reference to `TFile::Open(char const *, char const *, char const *, int, int)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x490): undefined reference to `TH1F::TH1F(char const *, char const *, int, double, double)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x4bd): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x518): undefined reference to `TH1F::TH1F(char const *, char const *, int, double, double)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x545): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x5a0): undefined reference to `TH1F::TH1F(char const *, char const *, int, double, double)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x5cd): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x628): undefined reference to `TH1F::TH1F(char const *, char const *, int, double, double)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x655): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x6ea): undefined reference to `TH1F::TH1F(char const *, char const *, int, double, double)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0x720): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xc77): undefined reference to `TH1::GetAsymmetry(TH1 *, double, double)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xc9f): undefined reference to `TH1::GetAsymmetry(TH1 *, double, double)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xd54): undefined reference to `TDirectory::cd(char const *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xdbe): undefined reference to `TFile::Close(char const *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xdcd): undefined reference to `TStopwatch::Stop(void)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xddc): undefined reference to `TStopwatch::RealTime(void)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xdf1): undefined reference to `TStopwatch::CpuTime(void)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xe7a): undefined reference to `TFile::~TFile(void)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xe8b): undefined reference to `TStopwatch::~TStopwatch(void)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xeb7): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xeef): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xf27): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xf5f): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xf97): undefined reference to `TObject::operator delete(void *)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xfc6): undefined reference to `TFile::~TFile(void)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.text+0xff2): undefined reference to `TStopwatch::~TStopwatch(void)'
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o: In function `TObject::operator new(unsigned int)':
+/home1/ouhep12/users/gut/forJamie/temp/./fileOSSgjv.o(.gnu.linkonce.t.__nw__7TObjectUi+0x1b): undefined reference to `TStorage::ObjectAlloc(unsigned int)'
+collect2: ld returned 1 exit status
+*** Interpreter error recovered ***

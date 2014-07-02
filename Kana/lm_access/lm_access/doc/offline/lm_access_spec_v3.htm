@@ -1,0 +1,148 @@
+<html>
+
+<head>
+
+<title>lm_access secp</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+</head>
+
+
+
+<body bgcolor="#FFFFFF" text="#000000">
+<p><font face="Geneva, Arial, Helvetica, san-serif">LM access specification Version 
+  3 January 20, 2003</font></p>
+
+<p>&nbsp;</p>
+
+<p><font face="Geneva, Arial, Helvetica, san-serif">LM access is a suite of python 
+  scripts and C++ code which gets information from the lum, run and sam db's and 
+  assembles it so that users can get a list of good luminosity blocks and the 
+  sum of good reconstructed luminosity.</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Components are:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"> </font></p>
+<blockquote> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif">getParentageInfo - uses 
+    the sam db to create a mapping from files in the user's analysis to lum blocks.</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif">getStreamInfo - uses the 
+    ParentageInfo map and a list of the active streams for each run to check that 
+    all streams that should be are present and that no data has been included 
+    in the sample more than once.</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif">getQualityInfo - uses 
+    the runs quality information, user bad or good runs list and lbn based quality 
+    info to create a quality flag for each lbn/stream in the ParentageInfo map.</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif">getOtherInfo - finds out 
+    about rare lbns which have no associates files.</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif">getLumInfo - given the 
+    a list of LBNs and list of triggers, returns the relevant lum db information 
+    (integratedlum, l1_accepts ...) and a status mask for the lum information.</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif"> lm_access - C++ code 
+    which is compiled with user analysis and uses the outputs of getParentageInfo and 
+    getLumBlkInfo to calculate luminosities and flag bad data.</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif">lm_access_pkg - framework 
+    package which wraps lm_access so that users can control the process via rcps.</font></p>
+  <p>&nbsp;</p>
+</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">The first five modules talk 
+  to the database and assemble the information necessary to do normalization. 
+  Since most of these are reasonably persistent and take time to assemble, they 
+  should be cacheable. Assembly of this information should be done before the 
+  main job is run with the option of adding additional info at runtime.</font></p>
+<h3><font face="Verdana, Arial, Helvetica, sans-serif">getParentageInfo</font></h3>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"> This module takes a user 
+  file list (dataset definition, consumer, ascii list) (FILESET) and extracts 
+  the parentage information from the sam db.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"> Inputs: list of files in 
+  various formats (FILESET)</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Outputs: flat files with 
+  all of the information lum system needs about file book-keeping.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Status: Working prototype 
+  in use. Takes about 3 seconds/lbn to run on a derived derived sample like the 
+  wz skim -&gt; 2 days for the full Moriond sample.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Responsibility: Migrate 
+  to tools from H. Schellman?</font></p>
+<h3><font face="Verdana, Arial, Helvetica, sans-serif">getStreamInfo</font></h3>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">This module requires the 
+  output of getParentageInfo and information from the runs db on the valid streams 
+  for each LBN. It checks the streaming unitarity and looks for duplicate processing 
+  for each LBN and sets a streaming qualityflag which can be cut on later.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"> Inputs: output of getParentageInfo 
+  for the FILESET, list of desired triggers </font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Outputs: list of LBNS with 
+  quality masks for book-keeping, one for each trigger as they can differ.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Status: does not exist</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Responsibility: tools group</font></p>
+<h3><font face="Verdana, Arial, Helvetica, sans-serif">getQualityInfo</font></h3>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Assemble information from 
+  the run quality db for each system, user's own bad or good runs list by trigger 
+  and the future lbn-level quality list.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Inputs: output of getParentageInfo, 
+  list of desired triggers</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Outputs: list of LBNs with 
+  quality masks for each detector and trigger</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Status: download info by 
+  hand from MISWEB or use lists generated by physics groups. Need to create a 
+  standard format for users to use for their own lists.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Responsibility: Tools group?</font></p>
+<h3><font face="Verdana, Arial, Helvetica, sans-serif">getOtherInfo</font></h3>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Need to be able to get list 
+  of all lbns for a run, even if they have no logged data in them. Also need trigger 
+  names, prescales and exposure groups so that trigger based normalization checks 
+  can be done.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Inputs: run number</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Outputs: lbns for the run. 
+  Trigger names prescales and exposure groups. By lbn if prescales change during 
+  the run.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Status: not there yet. Need 
+  to specify several individual methods for accessing runs db.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Responsibility: Tools group?</font></p>
+<h3><font face="Verdana, Arial, Helvetica, sans-serif">lm_access</font></h3>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">This C++ program runs in 
+  the user code, provides a list of good LBNs to retain in the analysis and an 
+  integrated luminosity for the good blocks. The user chooses which quality cuts 
+  to make at runtime. The user must make lbn and run quality cuts through the 
+  lm_access mechanism as otherwise the event and lum samples have different livetimes.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">lm_access can run standalone 
+  without the d0 framework.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Inputs: user dataset, getParentageInfo 
+  output, getQualityInfo output, getStreamInfo output, getOtherInfo output, quality 
+  selection flags</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Outputs: analysis of events 
+  from good LBN's, luminosity for those LBNS, information on what was cut and 
+  why.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Status: </font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Now at stage2) have a version 
+  which works with generation 0 parentage files, flat file lum db (stage 2), simple 
+  run quality lists. Takes 6 minutes to sum 50,000 lbns from flat files.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">stage 3) implement streaming 
+  and possibly add in lbns when detector was live but no file written yet. Create 
+  summaries and good lbn lists by trigger and run for greater flexibility, tools 
+  to combine outputs from multiple jobs.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">stage 4) implement full 
+  quality checks, nice user interface to specify them.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">db comes in at some point.</font></p>
+<h3><font face="Verdana, Arial, Helvetica, sans-serif">lm_access_pkg</font></h3>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Framework package that wraps 
+  lm_access, provides rcp interface and automatic cuts. </font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Inputs: user dataset and 
+  analysis code, RCP file which specifies location of info files and quality selections</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Outputs: same as lm_access</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">Status: Version 0 ready 
+  for release.</font></p>
+<p>&nbsp;</p>
+<p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+  </font></p>
+
+<h3><font face="Geneva, Arial, Helvetica, san-serif"><br>
+  </font></h3>
+<blockquote> 
+
+  <p><font face="Geneva, Arial, Helvetica, san-serif"><br>
+    </font></p>
+</blockquote>
+</body>
+
+</html>
+

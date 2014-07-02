@@ -1,0 +1,167 @@
+\documentclass{article}
+\usepackage{graphics}
+\usepackage{fullpage}
+
+
+\newcommand{\DO}{\mbox{D\O}}
+\newcommand{\Bs}{\mbox{$B_{s}^{0}$}}
+\newcommand{\Bsbar}{\mbox{$\bar{B_{s}^{0}}$}}
+
+
+\begin{document}
+
+%\markboth{ \Bs\ Mixing Limits Note}{\Bs\ Mixing Limits Note}
+%\markboth{Left Page Header}{Right Page Header}
+
+\title{\bf \Bs-\Bsbar\ Mixing Limits Note}
+
+\author{Jamie E. Hegarty and  Phil Gutierrez}
+%\noaffiliation
+%\address{Department of Physics and Astronomy, The University of Oklahoma, 
+%440 West Brooks Street \\
+%Norman, OK 73019,
+%United States}
+
+
+%\begin{abstract}
+%Using an unbinned likelihood amplitude fitting method with a toy Monte Carlo simulation of \mbox{\Bs-\Bsbar} mixing events, we have determined preliminary sensitivity values for a measurement of dilution.
+%\end{abstract}
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+Using an unbinned likelihood amplitude fitting method with a toy Monte Carlo simulation of \mbox{\Bs-\Bsbar} mixing events, we have determined preliminary sensitivity values for a measurement of dilution.
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Math}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Monte Carlo Simulation}
+
+\Bs\ events are generated using a toy Monte Carlo (MC) simulation, as follows:
+
+\begin{enumerate}
+\item For each event, the proper lifetime $t_p$ of the \Bs\ is first selected from a perfect exponential distribution with a mean at $\tau = 1.5 \times 10^{-12}s$ This time is then added to a random time ``smearing'' value, selected from a Gaussian distribution centered at zero, with $\sigma = \sigma_t$.
+This smearing is intended to represent the time-resolution limitations of the detector.  
+
+\item The new, smeared time, is then smeared again with a second Gaussian centered at zero, but having a lifetime-dependent\footnote{We're in the rest frame of the \Bs} $\sigma = \sigma_nt_p$.  This second smearing is intended to account for unmeasured neutrinos in the decay of the \Bs, which carry away a proportionally larger amount of momentum for long-lifetime \Bs\ than for short-lifetime \Bs, regardless of the decay mode\footnote{This will soon be updated to use a distribution which takes decay mode, among other things, into account}, thus adding more error to the determination of the decay length of longer-lifetime \Bs.  The final, ``measured'' time, is then $t$.
+
+\item Next, it is decided whether or not the \Bs\ in an event ``mixes'' by comparing a number selected from a flat random distribution between 0 and 2 with the value of $1+cos(\Delta m t_p)$ (the mixing comparison), where $\Delta m$ is the mass difference between the \Bs\ and \Bsbar.  If the first number is larger than the mixing comparison, the \Bs\ has mixed to a \Bsbar\, otherwise it remains ``unmixed''.  In either case, it is tagged accordingly.
+
+\item Finally, the possibility of mistagging is considered, at a percentage rate\footnote{The dilution $D = 1-2\alpha$} $\alpha$.  This is the percentage of events for which a \Bs\ is actually supposed to be a \Bsbar\, or vice versa.  A number is selected from a flat random distribution between 0 and 1, and compared to $\alpha$ to determine whether the particle is mistagged, smaller numbers than $\alpha$ indicating that this is the case.  The tag of the particle is then adjusted accordingly.
+\end{enumerate}
+To run this simulation, the user must specify:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{r@{\,\,\,}l@{\hspace{0.25in}}r@{\,\,\,}l@{\hspace{0.25in}}r@{\,\,\,}l@{\hspace{0.25in}}}
+	
+	{\tt tSigma}: & $\sigma$ for time-independent smearing & {\tt nEvts}: & The number of events & {\tt dm}: & $\Delta m$ \\	
+	{\tt nSigma}: & $\sigma$ for time-dependent smearing & {\tt misTag}: & The mistag rate ($\alpha$) &{\tt tau}: & $\tau$  \\
+
+\end{tabular}
+\end{center}
+\end{table}
+
+\noindent The MC is also currently capable of generating a simple exponential background, with a user-definable signal-background ratio, but we have not used this functionality yet.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Fitting}
+
+Each set of generated events is histogrammed by lifetime, depending on the tag, and fit with a function\footnote{ {\tt mll\_fit\_d()} in {\tt unbinFitosc\_d.cpp}, which refers to {\tt lftmosc\_plt\_d()} and {\tt mixing()} in {\tt func.cpp} } which takes the following as parameters: $\Delta m$, $\sigma_t$, $\tau$, {\tt tag}, $\alpha$, and $t$, where $t$ is the independent variable.  The actual fit function is:
+
+\begin{equation}
+	f = (1-2\alpha)\frac{e^B}{2\tau}\left[1+Erf(A)-\mbox{\tt tag}\cdot w_r^-e^{-A^2}\right] 
+		+ \alpha\frac{e^B}{2\tau}\left[1+Erf(A)+\mbox{\tt tag}\cdot w_r^-e^{-A^2}\right]
+\end{equation}
+
+\[	 
+	A=\frac{t}{\sqrt{2}\,\sigma}-\frac{\sigma}{\sqrt{2}\,\tau}\,\,; \mbox{\hspace{0.5in}} 
+	B=\frac{\sigma^2}{2\tau^2}-\frac{t}{\tau}\,\,; \mbox{\hspace{0.5in}} 
+	C=\frac{\sigma \Delta m}{\sqrt{2}}
+\]
+
+\noindent where $w_r^-$ is the real part of the complex error function $w(z)$ \cite{cwerf,roofit}, evaluated at $z = C - iA$. Note that as $A$ increases, the term $w_r^-e^{-A^2} \rightarrow cos(2AC)$.\\
+
+\noindent The code used for fitting ({\tt unbinFitoscd.cpp}) utilizes Root's version of MINUIT\cite{minuit} to do an unbinned likelihood fit, meaning that generated values of the lifetime $t$ are compared to the distribution function $f$ individually (and therefore independent of any histogram binning), to determine the probability of selecting that value of $t$ from the distribution $f$.  MINUIT adjusts the fit parameter(s) in small steps, and runs the test against $f$ over again until the probability is maximized, and then returns the final value of the fit parameter(s) and the associated error.\\
+
+\noindent By ``fixing'' all parameters but $\alpha$ during the fit, we have essentially fit for only the amplitude of the oscillation, hence the ``unbinned likelihood amplitude'' fitting.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculating Sensitivity \label{calcsens}}
+
+For each set of conditions tested, sensitivity to a measurement of dilution ($D = 1-2\alpha$) was calculated as follows:
+
+\begin{enumerate}
+\item The process of generating events and fitting for the dilution was done 20+ times for each run, each time with $\Delta m=1000$ in the 
+	MC, and $\Delta m$ in the fit fixed at a value varied between 0 and ~20 over the course of the run (or less when higher precision was required).
+\item The {\em error} in $\alpha$, as reported by MINUIT, was plotted against $\Delta m$.
+\item The equation of a straight line crossing through the dilution error value just below 1, and that just above 1, was determined.
+\item The {\em Sensitivity} was then calculated to be the value of $\Delta m$ for which this line crossed 1.
+\end{enumerate}
+
+\noindent In general, testing the sensitivity of a dilution measurement involved setting one or more parameters diffently in the MC than in the fit.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+
+Sensitivity of a dilution measurement was tested under the following conditions:  Variations in $\sigma_t$, Variations in $D$, and variations in $\sigma_n$.  In the first two cases, the Condor batch scheduler was used to run the series of testes on the OUHEP cluster\cite{ouhep}, and in the last case, PBS was used to run the series of tests on OSCER\cite{oscer}.  Each sensitivity value represents a run of 20 generate-and-fit iterations, with $\Delta m$ varied between 0 and ~20 over the course of the run, as described in Section \ref{calcsens}.
+
+\subsection{Variations in $\sigma_t$}
+
+{\renewcommand{\arraystretch}{1.25}
+\begin{table}
+\begin{center}
+\caption{Sensitivity of $D$ to $\pm$ 20\% variations in $\sigma_t$}
+\label{Tts}
+\vspace{0.25cm}
+\begin{tabular}{|c||@{\hspace{1cm}}c@{\hspace{1cm}}|@{\hspace{1cm}}c@{\hspace{1cm}}|@{\hspace{1cm}}c@{\hspace{1cm}}|}
+	\hline\hline
+	Fit $\downarrow$ $\backslash$ MC $\rightarrow$ & 0.08 & 0.10 & 0.12 \\
+	\hline\hline
+	0.08 & 22.07 & 23.56 & - \\
+	\hline
+	0.10 & 17.66 & 17.74 & 17.88 \\
+	\hline
+	0.12 & - & 15.74 & 15.00 \\ 
+	\hline\hline
+\end{tabular}
+\end{center}
+\end{table}
+}
+
+The effect of $\pm$ 20\% variations in $\sigma_t$ on the sensitivity of $D$ are enumerated in Table \ref{Tts}.  Here, the dilution was set to 0.16 both in the MC and as an initial value in the fit. $\sigma_t$ was set to values of 0.1 $\pm$ 20\% in the MC, and for each of these, fitting was done with $\sigma_t$ values of 0.1 $\pm$ 20\%.  The combinations for which the listed sensitivity is ``-'' were not tested.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{0}
+
+\bibitem{root} The Root Data Analysis Framework, http://root.cern.ch/
+\bibitem{cwerf} CERNLib C335: Complex Error Function, http://wwwasdoc.web.cern.ch/wwwasdoc/shortwrupsdir/c335/top.html
+\bibitem{roofit} The RooFit Toolkit for Data Modeling {\em (Contains a direct C++ translation of CWERF for use with Root)}, http://roofit.sourceforge.net/
+\bibitem{minuit} CERNLib (PackLib) Long Writeup D506: MINUIT Minimization Package, http://wwwasdoc.web.cern.ch/wwwasdoc/WWW/minuit/minmain/minmain.html
+\bibitem{ouhep} Information about the OUHEP cluster: http://www-hep.nhn.ou.edu/d0/grid/
+\bibitem{oscer} OU Supercomputing Center for Education and Research, http://www.oscer.ou.edu/
+%\bibitem{}
+\end{thebibliography}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{appendix}
+{\Large \bf \noindent Appendices}
+\section{Citations \label{cites}}
+
+I cited \cite{root} and all I got was this stupid citation.
+\end{appendix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}

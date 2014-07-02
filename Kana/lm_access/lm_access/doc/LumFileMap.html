@@ -1,0 +1,128 @@
+<HTML>
+<HEAD>
+<TITLE>lm_access/LumFileMap</TITLE>
+</HEAD>
+
+<BODY bgcolor = "e0ffff">
+<P ALIGN=CENTER>
+<FONT color = "cc7700" size = 4>class lm_access/LumFileMap</FONT>
+</P>
+
+<P>
+class <A HREF="../lm_access/LumFileMap.hpp">LumFileMap</A> {<BR>
+public:<BR>
+&nbsp&nbsp <A HREF="#LumFileMapConstructor1">LumFileMap</A>(int ntriggers = 0, char* trigger_names[] = 0,<BR>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp const lm_access::LmType& type = lm_access::Reconstructed);<BR>
+&nbsp&nbsp <A HREF="#LumFileMapConstructor2">LumFileMap</A>(const std::list<std::string>& trigger_list,<BR>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp const lm_access::LmType& type = lm_access::Reconstructed);<BR>
+&nbsp&nbsp <A HREF="#LumFileMapConstructor3">LumFileMap</A>(const LumFileMap& rhs);<BR>
+&nbsp&nbsp virtual <A HREF="#LumFileMapDestructor">~LumFileMap</A>();<BR>
+<BR>
+&nbsp&nbsp LumFileMap& operator=(const LumFileMap& rhs);<BR>
+&nbsp&nbsp lm_access::LmType <A HREF="#lm_type">lm_type</A>() const;<BR>
+<BR>
+&nbsp&nbsp <A HREF="LumFile.html">LumFile</A>& <A HREF="#add">add</A>(const std::string& fileID, const <A HREF="LumFile.html">LumFile</A>& f = LumFile());<BR>
+<br>
+&nbsp&nbsp int <A HREF="#downloadLBN">downloadLBN</A>(const std::string& fileID, int lbn);<BR><p>
+&nbsp&nbsp bool <A HREF="#addAndLoad">addAndLoad</A>(const std::string& fileID,const lm_access::FileType _type, LmRunQuality* prunquality, const std::string parentage_path, const std::string parentage_tag );<BR>
+<p>
+&nbsp&nbsp int <A HREF="#isGoodLBN">isGoodLBN</A>(const std::string& fileID, int lbn, const std::string& trigger) const;<BR>
+<BR>
+&nbsp&nbsp double <A HREF="#luminosity">luminosity</A>(const std::string& trigger) const;<BR>
+<BR>
+private:<BR>
+&nbsp&nbsp std::map&lt std::string, <A HREF="LumFile.html">LumFile</A> &gt _lm_map;<BR>
+&nbsp&nbsp lm_access::LmType _lm_type;<BR>
+&nbsp&nbsp lm_access::TriggerMap _triggers;<BR>
+<BR>
+&nbsp&nbsp   void <A HREF="#_check_lbn_dir()">_check_lbn_dir</A>() const;<BR>
+};<BR>
+</P>
+
+<P>
+<B>Description</B><BR>
+&nbsp&nbsp Class LumFileMap is main API through which the user access the luminosity information.
+</P>
+
+<P>
+<A NAME="LumFileMapConstructor1"><B>LumFileMap(int ntriggers = 0, char* trigger_names[] = 0,<BR>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp const lm_access::LmType& type = lm_access::Reconstructed)</B></A><BR>
+&nbsp&nbsp Constructor. Variable <I>ntrigger</I> is number of triggers for which the luminosity information should be downloaded from flat files. Array <I>trigger_names</I> contains the trigger names. Luminosity and LBN status is provided only for that triggers. Variable <I>type</I> describes the type of luminosity that has to be calculated, for possible values look at <A HREF="../lm_access/globaldef.hpp">lm_access/globaldef.hpp</A>. The default is to calculate reconstructed luminosity.
+</P>
+
+<P>
+<A NAME="LumFileMapConstructor2"><B>LumFileMap(LumFileMap</A>(const std::list<std::string>& trigger_list,<BR>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp const lm_access::LmType& type = lm_access::Reconstructed)</B></A><BR>
+&nbsp&nbsp Constructor. List <I>trigger_list</I> contains the trigger names that should be downloaded into the memory. Luminosity and LBN status is provided only for that triggers. Variable <I>type</I> describes the type of luminosity that has to be calculated, for possible values look at <A HREF="../lm_access/globaldef.hpp">lm_access/globaldef.hpp</A>. The default is to calculate reconstructed luminosity.
+</P>
+
+<P>
+<A NAME="LumFileMapConstructor3"><B>LumFileMap(const LumFileMap& rhs)</B></A><BR>
+&nbsp&nbsp Copy constructor.
+</P>
+
+<P>
+<A NAME="LumFileMapDestructor"><B>virtual ~LumFileMap()</B></A><BR>
+&nbsp&nbsp Destructor.
+</P>
+
+<P>
+<A NAME="lm_type"><B>lm_access::LmType lm_type() const</B></A><BR>
+&nbsp&nbsp Returns teh luminosity type that is associated with the given instance of the <A HREF="LumFileMap.html">LumFileMap</A> class. For possible values look at <A HREF="../lm_access/globaldef.hpp">lm_access/globaldef.hpp</A>. Detailed description what triggered, recorded, and reconstructed luminosity mean can be found in D&Oslash notes <A>3971</A>,
+<A>3972</A>, and <A>?reconstructed?</A>.
+</P>
+
+<P>
+<A NAME="add"><B>LumFile& add(const std::string& fileID, const LumFile& f = LumFile())</B></A><BR>
+Add new file <A HREF="LumFile.html">LumFile</A> into the <I>_lm_map</I> map. Variable <I>fileID</I> must be the unique descriptor (like file name) under 
+which the luminosity information for this file will be accessible. Since the triggered and recorded luminosity does not depend on the version of the code release, there is no need to specify the type of the file and the release version of the code. The default (empty) value of <I>f</I> can be used in these two cases.
+</P>
+
+<P>
+<A NAME="downloadLBN"><B>int downloadLBN(const std::string& fileID, int lbn)</B></A><BR>
+&nbsp&nbsp Download luminosity information for given luminosity block number <I>lbn</I> and associate the block with the given file described by file identifier <I>fileID</I>. It returns one if the status of <I>lbn</I> is good otherwise returns zero.
+</P>
+<P>
+<A NAME="addAndLoad"><b>bool addAndLoad</A>(const std::string& fileID, const lm_access::FileType f_type, LmRunQuality* prunquality, const std::string parentage_path, const std::string parentage_tag )</b>;<BR>
+&nbsp&nbsp For each input file <b>fileID</b>, add it to the map with reconstruction
+type <b>f_type</b>, read in the corresponding parentage file
+<b>parentage_path/fileID.parentage_tag</b> and load any LBNS which pass the
+run quality cuts from <b>prunquality</b>. See <a href=../example2/example_parentage.cpp> lm_access/example2/example_parentage.cpp </a> for an example.
+</p>
+
+<P>
+<A NAME="isGoodLBN"><B>int isGoodLBN(const std::string& fileID, int lbn, const std::string& trigger) const</B></A><BR>
+&nbsp&nbsp Returns one if the luminosity information in the luminosity block <I>lbn</I> associated with the file <I>fileID</I> is available for the given trigger <I>trigger</I>. Otherwise it returns zero. <B><FONT COLOR="ff0000">Note, only data from good luminosity blocks can be properly normalized!</FONT></B>
+</P>
+
+<P>
+<A NAME="luminosity"><B>double luminosity(const std::string& trigger) const</B></A><BR>
+&nbsp&nbsp For  given <I> trigger</I> it returns total luminosity associated with all downloaded good luminosity blocks. The result is in inverse microbarns (ub^-1).
+</P>
+
+<P>
+<A NAME="_check_lbn_dir()"><B>void _check_lbn_dir() const</B></A><BR>
+&nbsp&nbsp Check whether the stage2 LBN directory (defined in <A HREF="../src/globaldef.cpp">src/globaldef.cpp</A>) is accessible.  The default value 
+<FONT COLOR="448833">lm_access::default_lbn_dir = "/home/begel/stage2"</FONT>. 
+This can be overriden by
+by a call to set_lbn_dir (below).
+If the directory cannot be accessed the program execution is stopped.
+</P>
+
+<A Name="set_lbn_dir(const std::string& new_lbn_dir)"><B>void set_lbn_dir(const std::string new_lbn_dir)</b></a><br>  resets the lbn_dir.
+This is only needed for non-FNAL installations.  Your system manager should
+be able to tell you where the necessary files are. 
+If you are using the lm_access_pkg framework interface you can set the directory using an rcp parameter in LmAccess.rcp
+<P>
+</p>
+
+<a Name="check_lbn_dir()"><B>bool check_lbn_dir() </B></A> <br> checks for the lbn_dir without terminating the program.
+
+
+<HR align = center size = 3 width = 95%><BR>
+Last update 2<SUP>nd</SUP> Mar 2003 by 
+<A HREF = "mailto: schellman@fnal.gov,kupco@fnal.gov">HS,AK</A>.
+<p></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+exec root > tester.out << EOF 2>&1 &
+.L tester.C
+tester t
+t.Loop();
+EOF
+
+

@@ -1,0 +1,118 @@
+#!/bin/sh
+
+NOW=`date +%m%d%y-%H%M`
+
+# ----------------- usage message -----------------------------------
+usage_msg(){
+    echo " " 
+    echo "Description: Runs root with each lh*.C file in the current directory,"
+    echo "    and gives .log files with the same names as the .C files, in the"
+    echo "    optionally specified output directory."
+    echo " "
+    echo "Usage: "`basename $0`" <Options>"
+    echo " "
+    echo "Options: "
+    echo " -a \"<arguments>\""
+    echo "    Arguments to be passed to the program when it's launched. Auto-"
+    echo "    matically uses \"-b\" to supress X."
+    echo " "
+    echo " -o <output_directory>"
+    echo "    Directory where PBS will put output files (if different from"
+    echo "    the current directory). Include trailing slash."
+    echo " "
+    echo " -f <infile_directory>"
+    echo "    Directory where PBS will write submit scripts (if different from"
+    echo "    the current directory). Include trailing slash."
+    echo " "
+    echo " -v"
+    echo "    Verbose output .... _very_ verbose."
+    echo " -t"
+    echo "    Test only; don't submit"
+    echo " "
+    exit 1
+}
+
+qsubargs=""
+
+# -------------------  process the arguments ------------------------
+for i in $*; do
+    case "$1" in
+
+     -h)   usage_msg
+	   ;;
+
+    -help) usage_msg
+	   ;;
+
+    --help) usage_msg
+	    ;;
+     
+     -o)    outdir="$2"
+	    shift 2  
+	    ;;
+
+     -f)    indir="$2"
+	    shift 2  
+	    ;;
+
+     -v)    verbose=1
+	    shift  
+	    ;;
+
+     -t)    testonly=1
+	    shift  
+	    ;;
+
+#      *)   usage_msg
+#	   ;;
+	
+    esac
+done
+
+ROOTSYS=$HOME/root
+export ROOTSYS
+
+run_prog="$ROOTSYS/bin/root.exe"
+progname="pbssub_root"
+thisdir=`pwd`
+
+# -------- check for problems, start a cmd file if none are found -----
+[ "$progname" = "" ] || [ "`echo $progname | cut -b1`" = "-" ] && ( echo "Bad Argument" ; usage_msg)
+
+for i in `ls testscript.C`; do
+
+filename=`echo $i | cut -d. -f1`
+pbsscrname=$progname-$filename
+
+[ -f $pbsscrname ] && rm $pbsscrname
+touch $pbsscrname
+
+[ -f $outdir$filename.log ] && rm $outdir$filename.log
+
+cat >> $pbsscrname  << EoF
+
+#!/bin/sh
+#PBS -l walltime=00:05:00
+$run_prog -q $thisdir/$filename.C 
+
+EoF
+
+if [ $verbose ]; then
+    echo " "
+    echo "------------------------------------------------------------"
+    echo "Contents of $pbsscrname:"
+    echo "-----------"
+    cat $pbsscrname
+    echo "----------- "
+    echo "To submit $pbsscrname:"
+    echo " qsub -o $outdir$filename.log -e $outdir$filename.log $pbsscrname"
+    echo " "
+    if [ "$testonly" != "1" ]; then
+	qsub -o $outdir$filename.log -e $outdir$filename.err $pbsscrname
+	echo "Submitted $pbsscrname at `date +%H:%M:%S`!"
+    fi
+fi
+
+done
+
+exit 0

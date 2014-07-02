@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>lm_access overview</title>
+</head>
+<body alink="#ff0000" bgcolor="#ffffff" link="#0000cc" text="#000000"
+ vlink="#9900ff">
+<p align="center"> <font color="#cc7700"
+ face="Arial, Helvetica, sans-serif" size="4">lm_access package</font> </p>
+<br>
+<p align="center"><font face="Arial, Helvetica, sans-serif"><b> </b></font></p>
+<hr>
+<h3><font face="Verdana, Arial, Helvetica, sans-serif">Instructions:</font></h3>
+<font face="Arial, Helvetica, sans-serif">
+<p> <img src="mykul.jpg" height="11" width="11"> <a
+ href="getpckg.html">Getting</a> the package from CVS and the package
+compilation (Note: private version will not be supported <br>
+<img src="mykul.jpg" height="11" width="11"> <a href="class.html">Classes</a><br>
+<img src="mykul.jpg" height="11" width="11"> Use <a
+ href="runrange_luminosity.html">runrange_luminosity </a>as an example<br>
+</p>
+</font>
+<p> <font face="Arial, Helvetica, sans-serif"><a name="intro"></a><b>Introduction</b><br>
+<br>
+The <i>lm_access</i> package is a tool for accessing luminosity
+information in physics analysis of the D&Oslash; data.<bt> </bt></font></p>
+<p><font face="Arial, Helvetica, sans-serif">There is a framework
+interface called<a
+ href="http://www-d0.fnal.gov/d0dist/dist/packages/lm_access_pkg/devel/doc/">
+lm_access_pkg </a>which allows control of lm_access via RCP's.</font></p>
+<h3><font face="Arial, Helvetica, sans-serif">How the lum data are
+stored:</font></h3>
+<font face="Arial, Helvetica, sans-serif">
+The smallest unit of time in which the luminosity is provided is <b>luminosity
+block</b>. The block is uniquely identified by its <b>luminosity block
+number (LBN)</b> and under normal circumstances its typical length is
+about 60 seconds (for detail explanation look at D&Oslash; note <a>3971</a>).
+A status (based on luminosity data acquisition status, D&Oslash; note <a>3973</a>)
+is assigned to each luminosity block.&nbsp; At the end of each run, the
+online system of the Luminosity Monitor validate the data corresponding
+to each LBN and save it to an oracle database to be acessible to all
+member of the collaboration. </font>
+<p><font face="Arial, Helvetica, sans-serif">Remote access: The access
+to luminosity data remotely is done the same way as for other database
+(Oracle) based system at Dzero.</font></p>
+<h3><font face="Arial, Helvetica, sans-serif">How to access the lum
+data:</font></h3>
+<p> </p>
+<center> <font face="Arial, Helvetica, sans-serif"><b><font
+ color="#ff0000">Note, only data from good luminosity blocks can be
+properly normalized!</font></b></font> </center>
+<font face="Arial, Helvetica, sans-serif"><br>
+Luminosity information is provided only for triggers and <i>lm_access</i>
+package allows to find out three types of luminosity: triggered,
+recorded, and reconstructed. For an explanation of these terms look at
+D&Oslash; notes <a>3971</a>, <a>3972</a><a></a>.
+In case of triggered and recorded luminosity no checks are performed on
+release information. Triggered luminosity corresponds to the trigger
+luminosity at L1 level while recorded luminosity takes into account the
+event losses in D&Oslash; DAQ system and hence it corresponds to the
+luminosity in raw files.</font>
+<p></p>
+<p><font face="Arial, Helvetica, sans-serif"><br>
+&nbsp; &nbsp; Most of the analysis requires <b>reconstructed</b>
+luminosity. This luminosity depends on the type of the data files
+(recoA, DST, or TMB) and also on the version of the reconstruction
+software. Also a check is performed on possible corruption of L3
+information in the data (it concerns p10 root_tuples, p13.03 and
+earlier thumbnails).</font></p>
+<p><font face="Arial, Helvetica, sans-serif"><br>
+&nbsp; &nbsp; There is a possibility to switch off the checking of L3
+trigger corruption (asking for luminosity type <i>lm_access::ReconstructedDontCheckL3</i>).
+However this option should be used with caution since there is no
+warranty that the particular trigger was not corrupted. </font></p>
+<p><font face="Arial, Helvetica, sans-serif"><br>
+&nbsp; &nbsp; Because the reconstructed luminosity per LBN can be
+different for various versions of the reconstruction code, the <i>lm_access</i>
+package groups the data (files) according the version of the code. <br>
+<br>
+&nbsp; &nbsp; To learn how to use the <i>lm_access</i> package in your
+data analysis, </font></p>
+<ul>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif">Use
+getLuminosity (<a
+ href="http://www-d0.fnal.gov/d0dist/dist/packages/lm_tools/devel/doc/">lm_tools</a>)
+to generate a list of bad LBN's and the
+luminosity
+for your sample, then, when you run over your data, use the BadLBNList
+and BadRunList classes to throw out bad LBNs and runs (you can also use
+your own code to do this)</font></li>
+  <li><font face="Arial, Helvetica, sans-serif"> <a
+ href="http://d0dist/dist/releases/current/lm_access_pkg/doc">Framework
+example</a> in <a
+ href="http://www-d0.fnal.gov/d0dist/dist/packages/lm_access_pkg/devel">lm_access_pkg</a></font></li>
+</ul>
+<p><font face="Arial, Helvetica, sans-serif">The old example from 2002
+is described at <a href="oldexample.html">oldexample</a>.</font></p>
+<p></p>
+<p> </p>
+<hr align="center" size="3" width="95%"><font
+ face="Arial, Helvetica, sans-serif"><br>
+<!-- #BeginDate format:Am1 --><!-- #EndDate -->Last update October 14,
+2005
+, by <a href="mailto:%20d0luminosity@fnal.gov">L.M.</a></font>
+<p></p>
+</body>
+</html>

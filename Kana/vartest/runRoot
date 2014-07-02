@@ -1,0 +1,6 @@
+#!/bin/bash
+
+root -b -q runKana.C > runKana.log 2>&1
+echo 'Root Job Done!' | mail 4052092790@messaging.sprintpcs.com
+
+exit 0

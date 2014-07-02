@@ -1,0 +1,19 @@
+Raw numbers
+Tag = 1  D = 0.419513   Eff = 0.051667  eD2 = 0.00909295
+Tag = 2  D = 0.144231   Eff = 0.832608  eD2 = 0.0173204
+Tag = 3  D = 0.138397   Eff = 0.510205  eD2 = 0.00977237
+
+Independent measurements tags ordered 1 2 3
+Tag = 1  D = 0.419513   Eff = 0.051667  eD2 = 0.00909295
+Tag = 2  D = 0.144431   Eff = 0.789556  eD2 = 0.0164703
+Tag = 3  D = 0.136363   Eff = 0.080865  eD2 = 0.00150368
+SUM                                     eD2 = 0.02706693
+
+Independent measurments ordered 1 23eq 23noteq 2only 3only
+Tag = 4  D = 0.277908   Eff = 0.205899  eD2 = 0.0159022
+Tag = 5  D =-0.00636568 Eff = 0.196994  eD2 = 7.98256e-06
+Tag = 6  D = 0.143694   Eff = 0.386663  eD2 = 0.00798376
+Tag = 7  D = 0.136363   Eff = 0.080865  eD2 = 0.00150368
+SUM                                     eD2 = 0.034490573
+
+Tag = 8  D = 0.159137   Eff = 0.922088  eD2 = 0.0233514

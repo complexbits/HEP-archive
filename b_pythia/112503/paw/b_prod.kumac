@@ -1,0 +1,234 @@
+*** CREATE LOTS OF HISTOGRAMS ***
+
+hi/cre/1d 1000 'Number of Mubars per event' 2 0. 2. 0.
+hi/cre/1d 1010 'Mubar Particle ID (debug)' 27 -13. 14. 0.
+hi/cre/1d 1020 'Mubar Index (debug)' 220 0. 220. 0.
+hi/cre/1d 1030 'Mubar Charge (x3)' 7 -3. 4. 0.
+hi/cre/1d 1040 'Mubar Px' 100 -10. 10. 0.
+hi/cre/1d 1050 'Mubar Py' 100 -10. 10. 0.
+hi/cre/1d 1060 'Mubar Pz' 100 -100. 100. 0.
+hi/cre/1d 1070 'Mubar Energy' 100 0. 100. 0.
+hi/cre/1d 1080 'Mubar Pt' 100 0. 10. 0.
+hi/cre/1d 1090 'Mubar Total P' 100 0. 100. 0.
+hi/cre/1d 1100 'Mubar Phi' 100 0. 3.2 0.
+hi/cre/1d 1110 'Mubar Theta' 100 0. 3.2 0.
+hi/cre/1d 1120 'Mubar Eta' 100 -6.4 6.4 0.
+
+hi/cre/1d 2000 'Number of Ks/Kl per event' 2 0. 2. 0.
+hi/cre/1d 2010 'Ks/Kl Particle ID (debug)' 181 130 311 0.
+hi/cre/1d 2020 'Ks/Kl Index (debug)' 220 0. 220. 0.
+hi/cre/1d 2015 'Ks/Kl Parent Info (debug)' 1 511. 512. 0.
+hi/cre/1d 2030 'Ks/Kl Charge (x3)' 7 -3. 4. 0.
+hi/cre/1d 2040 'Ks/Kl Px' 100 -10. 10. 0.
+hi/cre/1d 2050 'Ks/Kl Py' 100 -10. 10. 0.
+hi/cre/1d 2060 'Ks/Kl Pz' 100 -100. 100. 0.
+hi/cre/1d 2070 'Ks/Kl Energy' 100 0. 100. 0.
+hi/cre/1d 2080 'Ks/Kl Pt' 100 0. 10. 0.
+hi/cre/1d 2090 'Ks/Kl Total P' 100 0. 100. 0.
+hi/cre/1d 2100 'Ks/Kl Phi' 100 0. 3.2 0.
+hi/cre/1d 2110 'Ks/Kl Theta' 100 0. 3.2 0.
+hi/cre/1d 2120 'Ks/Kl Eta' 100 -6.4 6.4 0.
+
+hi/cre/1d 3000 'Number of Muons per event' 2 0. 2. 0.
+hi/cre/1d 3010 'Muon Particle ID (debug)' 27 -13.0 14. 0.
+hi/cre/1d 3020 'Muon Index (debug)' 220 0. 220. 0.
+*hi/cre/1d 3015 'Event Number (debug)' 1000 0. 10000 0.
+hi/cre/1d 3030 'Muon Charge (x3)' 7 -3. 4. 0.
+hi/cre/1d 3040 'Muon Px' 100 -10. 10. 0.
+hi/cre/1d 3050 'Muon Py' 100 -10. 10. 0.
+hi/cre/1d 3060 'Muon Pz' 100 -100. 100. 0.
+hi/cre/1d 3070 'Muon Energy' 100 0. 100. 0.
+hi/cre/1d 3080 'Muon Pt' 100 0. 10. 0.
+hi/cre/1d 3090 'Muon Total P' 100 0. 100. 0.
+hi/cre/1d 3100 'Muon Phi' 100 0. 3.2 0.
+hi/cre/1d 3110 'Muon Theta' 100 0. 3.2 0.
+hi/cre/1d 3120 'Muon Eta' 100 -6.4 6.4 0.
+
+hi/cre/1d 4000 'Number of J/Psi per event' 2 0. 2. 0.
+hi/cre/1d 4010 'J/Psi Particle ID (debug)' 1 443. 444. 0.
+hi/cre/1d 4020 'J/Psi Index (debug)' 220 0. 220. 0.
+hi/cre/1d 4030 'J/Psi Charge (x3)' 7 -3. 4. 0.
+hi/cre/1d 4040 'J/Psi Px' 100 -10. 10. 0.
+hi/cre/1d 4050 'J/Psi Py' 100 -10. 10. 0.
+hi/cre/1d 4060 'J/Psi Pz' 100 -150. 150. 0.
+hi/cre/1d 4070 'J/Psi Energy' 100 0. 150. 0.
+hi/cre/1d 4080 'J/Psi Pt' 100 0. 10. 0.
+hi/cre/1d 4090 'J/Psi Total P' 100 0. 100. 0.
+hi/cre/1d 4100 'J/Psi Phi' 100 0. 3.2 0.
+hi/cre/1d 4110 'J/Psi Theta' 100 0. 3.2 0.
+hi/cre/1d 4120 'J/Psi Eta' 100 -6.4 6.4 0.
+
+hi/cre/1d 5000 'Number of B0 per event' 2 0. 2. 0.
+hi/cre/1d 5010 'B0 Particle ID (debug)' 1 511. 512. 0.
+hi/cre/1d 5020 'B0 Index (debug)' 220 0. 220. 0.
+hi/cre/1d 5030 'B0 Charge (x3)' 7 -3. 4. 0.
+hi/cre/1d 5040 'B0 Px' 100 -10. 10. 0.
+hi/cre/1d 5050 'B0 Py' 100 -10. 10. 0.
+hi/cre/1d 5060 'B0 Pz' 100 -100. 100. 0.
+hi/cre/1d 5070 'B0 Energy' 100 0. 100. 0.
+hi/cre/1d 5080 'B0 Pt' 100 0. 10. 0.
+hi/cre/1d 5090 'B0 Total P' 100 0. 100. 0.
+hi/cre/1d 5100 'B0 Phi' 100 0. 3.2 0.
+hi/cre/1d 5110 'B0 Theta' 100 0. 3.2 0.
+hi/cre/1d 5120 'B0 Eta' 100 -6.4 6.4 0.
+
+hi/cre/1d 6000 'Number of b per event' 2 0. 2. 0.
+hi/cre/1d 6010 'b Particle ID (debug)' 11 -5. 6. 0.
+hi/cre/1d 6020 'b Index (debug)' 22 8. 30. 0.
+hi/cre/1d 6030 'b Charge (x3)' 7 -3. 4. 0.
+hi/cre/1d 6040 'b Px' 100 -10. 10. 0.
+hi/cre/1d 6050 'b Py' 100 -10. 10. 0.
+hi/cre/1d 6060 'b Pz' 100 -100. 100. 0.
+hi/cre/1d 6070 'b Energy' 100 0. 100. 0.
+hi/cre/1d 6080 'b Pt' 100 0. 10. 0.
+hi/cre/1d 6090 'b Total P' 100 0. 100. 0.
+hi/cre/1d 6100 'b Phi' 100 0. 3.2 0.
+hi/cre/1d 6110 'b Theta' 100 0. 3.2 0.
+hi/cre/1d 6120 'b Eta' 100 -6.4 6.4 0.
+
+hi/cre/1d 7000 'Number of UP per event' 31 0. 31. 0.
+hi/cre/1d 7010 'UP Particle ID (debug)' 200 -2500. 2500. 0.
+hi/cre/1d 7020 'UP Index (debug)' 220 0. 220. 0.
+hi/cre/1d 7030 'UP Charge (x3)' 7 -3. 4. 0.
+hi/cre/1d 7040 'UP Px' 100 -10. 10. 0.
+hi/cre/1d 7050 'UP Py' 100 -10. 10. 0.
+hi/cre/1d 7060 'UP Pz' 100 -100. 100. 0.
+hi/cre/1d 7070 'UP Energy' 100 0. 100. 0.
+hi/cre/1d 7080 'UP Pt' 100 0. 10. 0.
+hi/cre/1d 7090 'UP Total P' 100 0. 100. 0.
+hi/cre/1d 7100 'UP Phi' 100 0. 3.2 0.
+hi/cre/1d 7110 'UP Theta' 100 0. 3.2 0.
+hi/cre/1d 7120 'UP Eta' 100 -6.4 6.4 0.
+hi/cre/1d 7130 'UP-B0 Phi Diff' 100 1.6 3.2 0.
+
+hi/cre/2d 8000 'Eta vs. Phi sep, high1(+)' 50 1.6 3.2 50 0 5
+hi/cre/2d 8010 'Eta vs. Phi sep, high1(-)' 50 1.6 3.2 50 0 5
+
+hi/cre/2d 8020 'Eta vs. Phi sep, high3(+)' 50 1.6 3.2 50 0 5
+hi/cre/2d 8030 'Eta vs. Phi sep, high3(-)' 50 1.6 3.2 50 0 5
+
+hi/cre/2d 8040 'Eta vs. Phi sep, high3(+),avg' 50 1.6 3.2 50 0 5
+hi/cre/2d 8050 'Eta vs. Phi sep, high3(-),avg' 50 1.6 3.2 50 0 5
+
+hi/cre/2d 8060 'Eta vs. Phi sep, high3(+),avg' 50 1.6 3.2 50 0 5
+hi/cre/2d 8070 'Eta vs. Phi sep, high3(-),avg' 50 1.6 3.2 50 0 5
+
+*** OPEN THE NTUPLE AND FILL THE HISTOGRAMS ***
+do i = 0, 9
+	hi/fil 1 ./condor_data/112503-1803/hbook/bb-nt-[i].hbook 0 -x
+
+	cdir //lun1
+
+	nt/loop 10 bb_hists.f
+
+	for/clos 1
+enddo
+
+*** MAKE POSTSCRIPT OUTPUT ***
+*opt stat 
+*set stat 110011
+
+*do i = 1,6
+*
+*	zone 2 3
+*
+*	hi/pl [i]000
+*	hi/pl [i]020
+*	hi/pl [i]030
+*	hi/pl [i]040
+*	hi/pl [i]050
+*	hi/pl [i]060
+*
+*	exe postscript ./psout/bb-[i]a
+*
+*	zone 2 3
+*
+*	hi/pl [i]070
+*	hi/pl [i]080
+*	hi/pl [i]090
+*	hi/pl [i]100
+*	hi/pl [i]110
+*	hi/pl [i]120
+*
+*	exe postscript ./psout/bb-[i]b
+*enddo
+*
+*	zone 2 3
+*
+*	hi/pl 7000
+*	hi/pl 7010
+*	hi/pl 7020
+*	hi/pl 7030
+*	hi/pl 7040
+*	hi/pl 7050
+*	
+*	exe postscript ./psout/bb-7a
+*
+*	hi/pl 7060
+*	hi/pl 7070
+*	hi/pl 7080
+*	hi/pl 7110
+*	hi/pl 7120
+*	hi/pl 7130
+*
+*	exe postscript ./psout/bb-7b
+*
+hi/op/divide 8010 8000 8001
+hi/op/divide 8030 8020 8021
+hi/op/divide 8050 8040 8041
+hi/op/divide 8070 8060 8061
+
+hi/op/subtract 8010 8000 8002
+hi/op/subtract 8030 8020 8022
+hi/op/subtract 8050 8040 8042
+hi/op/subtract 8070 8060 8062
+
+zone 2 2
+
+HI/2D/surf 8000 270 0 2
+HI/2d/surf 8010 270 0 2
+hi/2d/surf 8001 270 0 2
+hi/2d/surf 8002 270 0 2
+exe postscript ./psout/bb-8a
+HI/2D/surf 8020 270 0 2
+HI/2D/surf 8030 270 0 2
+hi/2d/surf 8021 270 0 2
+hi/2d/surf 8022 270 0 2
+exe postscript ./psout/bb-8b
+HI/2d/surf 8040 270 0 2
+HI/2d/surf 8050 270 0 2
+hi/2d/surf 8041 270 0 2
+hi/2d/surf 8042 270 0 2
+exe postscript ./psout/bb-8c
+HI/2d/surf 8060 270 0 2
+HI/2d/surf 8070 270 0 2
+hi/2d/surf 8061 270 0 2
+hi/2d/surf 8062 270 0 2
+exe postscript ./psout/bb-8d
+
+HI/2D/surf 8000 30 210 3
+HI/2d/surf 8010 30 210 3
+hi/2d/surf 8001 30 210 3
+hi/2d/surf 8002 30 210 3
+exe postscript ./psout/bb-9a
+HI/2D/surf 8020 30 210 3
+HI/2D/surf 8030 30 210 3
+hi/2d/surf 8021 30 210 3
+hi/2d/surf 8022 30 210 3
+exe postscript ./psout/bb-9b
+HI/2d/surf 8040 30 210 3
+HI/2d/surf 8050 30 210 3
+hi/2d/surf 8041 30 210 3
+hi/2d/surf 8042 30 210 3
+exe postscript ./psout/bb-9c
+HI/2d/surf 8060 30 210 3
+HI/2d/surf 8070 30 210 3
+hi/2d/surf 8061 30 210 3
+hi/2d/surf 8062 30 210 3
+exe postscript ./psout/bb-9d
+
+
+*** OPEN A NEW FILE AND SAVE THE HISTOGRAMS IN IT ***
+hi/fil 2 ./condor_data/bb-hs-112503.hbook ! n
+hrout 0
+*

@@ -1,0 +1,26 @@
+/**************************************************************************
+* iostream
+**************************************************************************/
+ostream& operator <<(ostream& ios,complex& a)
+{
+        ios << "(" << a.re << "," << a.im << ")" ;
+        return(ios);
+}
+
+ostrstream& operator <<(ostrstream& ios,complex& a)
+{
+        ios << "(" << a.re << "," << a.im << ")" ;
+        return(ios);
+}
+
+istream& operator >>(istream& ios,complex& a)
+{
+        ios >> a.re >> b.re ;
+        return(ios);
+}
+
+istrstream& operator >>(istrstream& ios,complex& a)
+{
+        ios >> a.re >> b.re%Gï¿½%@
+        return(ios);
+}

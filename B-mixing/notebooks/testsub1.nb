@@ -1,0 +1,629 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     26521,        557]*)
+(*NotebookOutlinePosition[     27175,        580]*)
+(*  CellTagsIndexPosition[     27131,        576]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(Clear[UnMix, \ AA, \ BB, \ CC, \ DD, \ EE, \[Sigma], \ 
+      t, \ \[Tau], \ \[Delta]m, \ s, \ t0, dm]\)], "Input"],
+
+Cell[BoxData[
+    \(Clear[s, t0, dm]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(UnMix = \(\[ExponentialE]\^\(\(s\^2 - \((2\ t*\ t0)\)\)\/\(2\ t0\^2\)\)\
+\ \((1 + Erf[\(\(-s\^2\) + \((t*\ t0)\)\)\/\(\@2\ s*\ t0\)])\)\)\/\(2\ t0\) + \
+\(\(1\/\(4\ t0\)\)\((\[ExponentialE]\^\(-\(\(\((\(-\[ImaginaryI]\) + \((dm*\ \
+t0)\))\)\ \((\((2\ \[ImaginaryI]\ t*\ t0)\) + s\^2\ \((\(-\[ImaginaryI]\) + \
+\((dm*\ t0)\))\))\)\)\/\(2\ t0\^2\)\)\)\ \((1 - \[ImaginaryI]\ Erfi[\(\((\
+\[ImaginaryI]\ t*\ t0)\) + s\^2\ \((\(-\[ImaginaryI]\) + \((dm\ *t0)\))\)\)\/\
+\(\@2\ s\ *t0\)])\))\)\) + \(\(1\/\(4\ t0\)\)\((\[ExponentialE]\^\(-\(\(\((\
+\[ImaginaryI] + \((dm\ *t0)\))\)\ \((\(-2\)\ \[ImaginaryI] \((\ t*\ t0)\) + s\
+\^2\ \((\[ImaginaryI] + \((dm\ *t0)\))\))\)\)\/\(2\ t0\^2\)\)\)\ \((1 + \
+\[ImaginaryI]\ Erfi[\(\(-\((\[ImaginaryI]\ t*\ t0)\)\) + s\^2\ \((\
+\[ImaginaryI] + \((dm\ *t0)\))\)\)\/\(\@2\ s\ *t0\)])\))\)\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\[ExponentialE]\^\(\(s\^2 - 2\ t\ t0\)\/\(2\ t0\^2\)\)\ \((1 + Erf[\(\
+\(-s\^2\) + t\ t0\)\/\(\@2\ s\ t0\)])\)\)\/\(2\ t0\) + \(\[ExponentialE]\^\(-\
+\(\(\((\(-\[ImaginaryI]\) + dm\ t0)\)\ \((2\ \[ImaginaryI]\ t\ t0 + s\^2\ \((\
+\(-\[ImaginaryI]\) + dm\ t0)\))\)\)\/\(2\ t0\^2\)\)\)\ \((1 - \[ImaginaryI]\ \
+Erfi[\(\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ \
+t0)\)\)\/\(\@2\ s\ t0\)])\)\)\/\(4\ t0\) + \(\[ExponentialE]\^\(-\(\(\((\
+\[ImaginaryI] + dm\ t0)\)\ \((\(-2\)\ \[ImaginaryI]\ t\ t0 + s\^2\ \((\
+\[ImaginaryI] + dm\ t0)\))\)\)\/\(2\ t0\^2\)\)\)\ \((1 + \[ImaginaryI]\ Erfi[\
+\(\(-\[ImaginaryI]\)\ t\ t0 + s\^2\ \((\[ImaginaryI] + dm\ t0)\)\)\/\(\@2\ s\ \
+t0\)])\)\)\/\(4\ t0\)\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(AA\  := \ t/\((Sqrt[2] s)\) - s/\((Sqrt[2] t0)\)\)], "Input"],
+
+Cell[BoxData[
+    \(BB := s^2/\((2  t0^2)\)\  - \ t/t0\)], "Input"],
+
+Cell[BoxData[
+    \(CC := dm*s/Sqrt[2]\)], "Input"],
+
+Cell[BoxData[
+    \(s := 0.8\)], "Input"],
+
+Cell[BoxData[
+    \(dm := 0.51\)], "Input"],
+
+Cell[BoxData[
+    \(t0 := 1.5\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(UnMixTest = \((1/\((4  
+                t0)\))\) \((2 \((\[ExponentialE]^BB)\) \((1 + 
+                  Erf[AA])\) + \((\[ExponentialE]^\((BB - \((CC^2)\) - 
+                      2  \[ImaginaryI]*AA*CC)\))\) \((1 - \[ImaginaryI]*
+                    Erfi[CC + \[ImaginaryI]*
+                          AA])\) + \((\[ExponentialE]^\((BB - \((CC^2)\) + 
+                      2  \[ImaginaryI]*AA*CC)\))\) \((1 + \[ImaginaryI]*
+                    Erfi[CC - \[ImaginaryI]*AA])\))\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(1\/\(4\ t0\)\)\((2\ \[ExponentialE]\^\(s\^2\/\(2\ t0\^2\) - t\/t0\)\
+\ \((1 + Erf[t\/\(\@2\ s\) - 
+                  s\/\(\@2\ t0\)])\) + \[ExponentialE]\^\(\(-\(1\/2\)\)\ \
+dm\^2\ s\^2 + \[ImaginaryI]\ \@2\ dm\ s\ \((t\/\(\@2\ s\) - s\/\(\@2\ t0\))\) \
++ s\^2\/\(2\ t0\^2\) - t\/t0\)\ \((1 + \[ImaginaryI]\ Erfi[\(dm\ s\)\/\@2 - \
+\[ImaginaryI]\ \((t\/\(\@2\ s\) - 
+                          s\/\(\@2\ t0\))\)])\) + \
+\[ExponentialE]\^\(\(-\(1\/2\)\)\ dm\^2\ s\^2 - \[ImaginaryI]\ \@2\ dm\ s\ \
+\((t\/\(\@2\ s\) - s\/\(\@2\ t0\))\) + s\^2\/\(2\ t0\^2\) - t\/t0\)\ \((1 - \
+\[ImaginaryI]\ Erfi[\(dm\ s\)\/\@2 + \[ImaginaryI]\ \((t\/\(\@2\ s\) - 
+                          s\/\(\@2\ t0\))\)])\))\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[
+      Table[{t, \ UnMix, \ UnMixTest, \ UnMix - UnMixTest, \ 
+          UnMix/UnMixTest}, {t, \(-4\), 10, 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-4\), \(3.467220224488462`*^-7 + 
+              0.`\ \[ImaginaryI]\), \(3.467220224488462`*^-7 + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-3.5`\), \(7.258907590218456`*^-6 + 
+              0.`\ \[ImaginaryI]\), \(7.258907590218453`*^-6 + 
+              0.`\ \[ImaginaryI]\), \(2.541098841762901`*^-21 + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.0000000000000004`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {\(-3.`\), \(\(\(0.00010417869293304722`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.00010417869293304722`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999999`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {\(-2.5`\), \(\(\(0.0010281986212288088`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0010281986212288927`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-8.391724815037804`*^-17\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999184`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {\(-2.`\), \(\(\(0.007008909712820859`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.007008909712820859`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999999`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {\(-1.5`\), \(\(\(0.03320102522826767`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.03320102522826767`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-1.`\), \(\(\(0.11025688340051726`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.11025688340051734`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-8.326672684688674`*^-17\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999992`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {\(-0.5`\), \(\(\(0.2600494816883868`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.2600494816883868`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {
+            "0.`", \(\(\(0.44416911588128377`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.44416911588128377`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {
+            "0.5`", \(\(\(0.5655715787837778`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.565571578783778`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-1.1102230246251565`*^-16\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999999`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "1.`", \(\(\(0.5597668391389118`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.559766839138912`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-2.220446049250313`*^-16\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999996`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "1.5`", \(\(\(0.4548520584679019`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.4548520584679018`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\), \(1.1102230246251565`*^-16 + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.0000000000000002`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "2.`", \(\(\(0.32227438078597026`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.32227438078597026`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {
+            "2.5`", \(\(\(0.20938595481236086`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.20938595481236089`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-2.7755575615628914`*^-17\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999999`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "3.`", \(\(\(0.12833428332998764`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.1283342833299876`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\), \(5.551115123125783`*^-17 + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.0000000000000004`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "3.5`", \(\(\(0.07475214923033559`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.07475214923033557`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\), \(1.3877787807814457`*^-17 + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.0000000000000002`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "4.`", \(\(\(0.04116840521114395`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.04116840521114393`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\), \(2.0816681711721685`*^-17 + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.0000000000000004`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "4.5`", \(\(\(0.021180691597799`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.021180691597798968`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\), \(3.122502256758253`*^-17 + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.0000000000000013`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "5.`", \(\(\(0.010008149366303709`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.010008149366303698`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\), \(1.0408340855860843`*^-17 + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.000000000000001`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "5.5`", \(\(\(0.004274523863573344`\)\(\[InvisibleSpace]\)\) + 
+              
+              0.`\ \[ImaginaryI]\), \(\(\(0.004274523863573345`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-1.734723475976807`*^-18\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999997`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "6.`", \(\(\(0.001699601725659825`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.001699601725659821`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\), \(3.903127820947816`*^-18 + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.0000000000000022`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "6.5`", \(\(\(0.0008145775915356646`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0008145775915356663`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-1.734723475976807`*^-18\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999979`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "7.`", \(\(\(0.0007243929992402148`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0007243929992402157`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-8.673617379884035`*^-19\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999988`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "7.5`", \(\(\(0.0009212239264974418`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0009212239264974427`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-8.673617379884035`*^-19\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999991`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "8.`", \(\(\(0.001145539473669091`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0011455394736690923`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-1.3010426069826053`*^-18\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999989`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "8.5`", \(\(\(0.0012875214125711014`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0012875214125711017`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-2.168404344971009`*^-19\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999999`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "9.`", \(\(\(0.0013205014062623584`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0013205014062623597`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-1.3010426069826053`*^-18\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999991`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "9.5`", \(\(\(0.0012584143245809062`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0012584143245809067`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-4.336808689942018`*^-19\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9999999999999997`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "10.`", \(\(\(0.0011303592967105206`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0011303592967105206`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(-\[ImaginaryI]\)*\(-\[ImaginaryI]\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(-1\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(UnMixTest2 = \((\((\[ExponentialE]^BB)\)/\((2  t0)\))\) \((\((1 + 
+                Erf[AA])\) + \((\[ExponentialE]^\(-\((CC^2)\)\))\) 
+              Cos[2*CC*AA] - \((\[ExponentialE]^\(-\((AA^2)\)\))\) 
+              Re[\((\[ExponentialE]^\(-\((\((CC + \[ImaginaryI]*
+                                  AA)\)^2)\)\))\) \((1 + \[ImaginaryI]*
+                        Erfi[CC + \[ImaginaryI]*AA])\)])\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(1\/\(2\ t0\)\)\((\[ExponentialE]\^\(s\^2\/\(2\ t0\^2\) - t\/t0\)\ \
+\((1 + \[ExponentialE]\^\(\(-\(1\/2\)\)\ dm\^2\ s\^2\)\ Cos[\@2\ dm\ s\ \
+\((t\/\(\@2\ s\) - s\/\(\@2\ t0\))\)] + 
+            Erf[t\/\(\@2\ s\) - 
+                s\/\(\@2\ t0\)] - \[ExponentialE]\^\(-\((t\/\(\@2\ s\) - \
+s\/\(\@2\ t0\))\)\^2\)\ Re[\[ExponentialE]\^\(-\((\(dm\ s\)\/\@2 + \
+\[ImaginaryI]\ \((t\/\(\@2\ s\) - s\/\(\@2\ t0\))\))\)\^2\)\ \((1 + \
+\[ImaginaryI]\ Erfi[\(dm\ s\)\/\@2 + \[ImaginaryI]\ \((t\/\(\@2\ s\) - 
+                                  s\/\(\@2\ t0\))\)])\)])\))\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[
+      Table[{t, \ UnMix, \ UnMixTest2, \ UnMix - UnMixTest2, \ 
+          UnMix/UnMixTest2}, {t, \(-4\), 10, 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-4\), \(3.467220224488462`*^-7 + 0.`\ \[ImaginaryI]\), 
+            "3.226657797415883`", \(\(-3.2266574506938603`\) + 
+              0.`\ \[ImaginaryI]\), \(1.0745546761312082`*^-7 + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-3.5`\), \(7.258907590218456`*^-6 + 0.`\ \[ImaginaryI]\), 
+            "1.5260162398310428`", \(\(-1.5260089809234527`\) + 
+              0.`\ \[ImaginaryI]\), \(4.756769555101291`*^-6 + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-3.`\), \(\(\(0.00010417869293304722`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.4596333832309284`", \(\(-0.45952920453799534`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.0002266560627096703`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {\(-2.5`\), \(\(\(0.0010281986212288088`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(-0.14521163295600437`\), \
+\(\(\(0.14623983157723316`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-0.007080690439865298`\) + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-2.`\), \(\(\(0.007008909712820859`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(-0.43171525678111705`\), \
+\(\(\(0.4387241664939379`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-0.01623502899823258`\) + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-1.5`\), \(\(\(0.03320102522826767`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(-0.5001054387575739`\), \
+\(\(\(0.5333064639858415`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-0.06638805070936625`\) + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-1.`\), \(\(\(0.11025688340051726`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(-0.4040424780877199`\), \
+\(\(\(0.5142993614882372`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-0.2728843856278395`\) + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-0.5`\), \(\(\(0.2600494816883868`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(-0.17933214004044015`\), \
+\(\(\(0.439381621728827`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(-1.4500996956248031`\) + 
+              0.`\ \[ImaginaryI]\)},
+          {
+            "0.`", \(\(\(0.44416911588128377`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.09891900767157544`", \(\(\(0.34525010820970836`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(4.490230202834076`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "0.5`", \(\(\(0.5655715787837778`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.31239167046295746`", \(\(\(0.2531799083208204`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.810456655088189`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "1.`", \(\(\(0.5597668391389118`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.3859339811737049`", \(\(\(0.17383285796520687`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.4504212286167317`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "1.5`", \(\(\(0.4548520584679019`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.34378109193826434`", \(\(\(0.11107096652963755`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.323086316072274`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "2.`", \(\(\(0.32227438078597026`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.25749858208197457`", \(\(\(0.06477579870399569`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.251557885019244`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "2.5`", \(\(\(0.20938595481236086`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.1765856589189404`", \(\(\(0.032800295893420456`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.1857472237226074`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "3.`", \(\(\(0.12833428332998764`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.11610639211750813`", \(\(\(0.01222789121247951`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.1053162620030774`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "3.5`", \(\(\(0.07475214923033559`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.0746356956839666`", \(\(\(0.00011645354636899419`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.0015602929041099`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "4.`", \(\(\(0.04116840521114395`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.04728492518305303`", \(\(-0.006116519971909082`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.8706454552221381`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "4.5`", \(\(\(0.021180691597799`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.029722394255533975`", \(\(-0.008541702657734976`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.7126172748972063`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "5.`", \(\(\(0.010008149366303709`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.01871279114160122`", \(\(-0.008704641775297511`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.5348293202532548`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "5.5`", \(\(\(0.004274523863573344`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.01195998660628687`", \(\(-0.007685462742713527`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.3574020610797677`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "6.`", \(\(\(0.001699601725659825`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.007888090648829029`", \(\(-0.006188488923169204`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.21546427409681548`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "6.5`", \(\(\(0.0008145775915356646`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.00545044380034408`", \(\(-0.004635866208808416`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.1494516082312859`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "7.`", \(\(\(0.0007243929992402148`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.003975774964476005`", \(\(-0.00325138196523579`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.1822017105376304`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "7.5`", \(\(\(0.0009212239264974418`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.0030498540765331377`", \(\(-0.002128630150035696`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.30205508308929496`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "8.`", \(\(\(0.001145539473669091`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.0024280427816590774`", \(\(-0.0012825033079899863`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.4717954240025153`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "8.5`", \(\(\(0.0012875214125711014`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.001973121932565897`", \(\(-0.0006856005199947955`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.6525300800324978`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "9.`", \(\(\(0.0013205014062623584`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.0016127796448238152`", \(\(-0.0002922782385614568`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.8187736064877071`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "9.5`", \(\(\(0.0012584143245809062`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.0013117239732409417`", \(\(-0.00005330964866003549`\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(0.9593590955509331`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)},
+          {
+            "10.`", \(\(\(0.0011303592967105206`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), 
+            "0.001054224313394257`", \(\(\(0.00007613498331626354`\)\(\
+\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), \(\(\(1.072218959806698`\)\(\
+\[InvisibleSpace]\)\) + 0.`\ \[ImaginaryI]\)}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Macintosh",
+ScreenRectangle->{{0, 1024}, {0, 711}},
+WindowSize->{903, 680},
+WindowMargins->{{-2, Automatic}, {Automatic, 0}},
+Magnification->1
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 135, 2, 30, "Input"],
+Cell[1892, 55, 49, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[1966, 60, 855, 11, 209, "Input"],
+Cell[2824, 73, 736, 10, 138, "Output"]
+}, Open  ]],
+Cell[3575, 86, 81, 1, 30, "Input"],
+Cell[3659, 89, 67, 1, 30, "Input"],
+Cell[3729, 92, 51, 1, 30, "Input"],
+Cell[3783, 95, 41, 1, 30, "Input"],
+Cell[3827, 98, 43, 1, 30, "Input"],
+Cell[3873, 101, 42, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[3940, 106, 512, 8, 90, "Input"],
+Cell[4455, 116, 736, 11, 217, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5228, 132, 156, 3, 50, "Input"],
+Cell[5387, 137, 10515, 195, 673, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15939, 337, 70, 1, 30, "Input"],
+Cell[16012, 340, 40, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[16089, 346, 431, 6, 90, "Input"],
+Cell[16523, 354, 604, 9, 154, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17164, 368, 159, 3, 50, "Input"],
+Cell[17326, 373, 9179, 181, 633, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

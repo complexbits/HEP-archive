@@ -1,0 +1,193 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      4814,        139]*)
+(*NotebookOutlinePosition[      5516,        164]*)
+(*  CellTagsIndexPosition[      5472,        160]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(Clear[s, t0, dm, t]\)], "Input"],
+
+Cell[BoxData[
+    \(s := 1\)], "Input"],
+
+Cell[BoxData[
+    \(dm := 0.51\)], "Input"],
+
+Cell[BoxData[
+    \(t0 := 1.5\)], "Input"],
+
+Cell[BoxData[
+    \(Clear[AA, BB, CC]\)], "Input"],
+
+Cell[BoxData[
+    \(AA := t\/\(\(\@2\) s\) - s\/\(\(\@2\) t0\)\)], "Input"],
+
+Cell[BoxData[
+    \(BB := s\^2\/\(2  t0\^2\) - t\/t0\)], "Input"],
+
+Cell[BoxData[
+    \(CC := \(s*dm\)\/\@2\)], "Input"],
+
+Cell[BoxData[
+    \(Clear[eim, ere]\)], "Input"],
+
+Cell[BoxData[
+    \(ere := Re[Erfi[CC + \[ImaginaryI]*AA]]\)], "Input"],
+
+Cell[BoxData[
+    \(eim\  := \ Im[Erfi[CC + \[ImaginaryI]*AA]]\)], "Input"],
+
+Cell[BoxData[
+    \(Clear[wreneg, wreneg2]\)], "Input"],
+
+Cell[BoxData[
+    \(wreneg := 
+      Re[\(\[ExponentialE]\^\(-\((CC - \[ImaginaryI]*AA)\)\^2\)\) \((1 + \
+\[ImaginaryI]*Erfi[CC - \[ImaginaryI]*AA])\)]\)], "Input"],
+
+Cell[BoxData[
+    \(wreneg2 := \(\[ExponentialE]\^\(AA\^2 - CC\^2\)\) \((\((1 + eim)\) 
+              Cos[2*AA*CC] - ere*Sin[2*AA*CC])\)\)], "Input"],
+
+Cell[BoxData[
+    StyleBox[\(UnMixOld := \(1\/\(4  
+                t0\)\) \((2  \[ExponentialE]\^\(\(s\^2 - 2\ t\ t0\)\/\(2\ \
+t0\^2\)\)\ \((1 + 
+                    Erf[\(\(-s\^2\) + t\ t0\)\/\(\@2\ s\ t0\)])\) + \
+\[ExponentialE]\^\(-\(\(\((\(-\[ImaginaryI]\) + dm\ t0)\)\ \((2\ \
+\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ t0)\))\)\)\/\(2\ \
+t0\^2\)\)\)\ \((1 - \[ImaginaryI]\ Erfi[\(\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\
+\[ImaginaryI]\) + dm\ t0)\)\)\/\(\@2\ s\ t0\)])\) + \
+\[ExponentialE]\^\(-\(\(\((\[ImaginaryI] + dm\ t0)\)\ \((\(-2\)\ \
+\[ImaginaryI]\ t\ t0 + s\^2\ \((\[ImaginaryI] + dm\ t0)\))\)\)\/\(2\ \
+t0\^2\)\)\)\ \((1 + \[ImaginaryI]\ Erfi[\(\(-\[ImaginaryI]\)\ t\ t0 + s\^2\ \
+\((\[ImaginaryI] + dm\ t0)\)\)\/\(\@2\ s\ t0\)])\))\)\),
+      FontSize->9]], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      StyleBox["MixOld",
+        FontSize->9], 
+      StyleBox[":=",
+        FontSize->9], 
+      StyleBox[\(\(1\/\(4\ t0\)\) \((2\ \[ExponentialE]\^\(\(s\^2 - 2\ t\ \
+t0\)\/\(2\ t0\^2\)\)\ \((1 + 
+                    Erf[\(\(-s\^2\) + t\ t0\)\/\(\@2\ s\ t0\)])\) + \
+\[ImaginaryI]\ \[ExponentialE]\^\(-\(\(\((\(-\[ImaginaryI]\) + dm\ t0)\)\ \
+\((2\ \[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ \
+t0)\))\)\)\/\(2\ t0\^2\)\)\)\ \((\[ImaginaryI] + 
+                    Erfi[\(\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\[ImaginaryI]\) \
++ dm\ t0)\)\)\/\(\@2\ s\ t0\)])\) - \[ExponentialE]\^\(-\(\(\((\[ImaginaryI] \
++ dm\ t0)\)\ \((\(-2\)\ \[ImaginaryI]\ t\ t0 + s\^2\ \((\[ImaginaryI] + dm\ \
+t0)\))\)\)\/\(2\ t0\^2\)\)\)\ \((1 + \[ImaginaryI]\ Erfi[\(\(-\[ImaginaryI]\)\
+\ t\ t0 + s\^2\ \((\[ImaginaryI] + dm\ t0)\)\)\/\(\@2\ s\ t0\)])\))\)\),
+        "Output",
+        FontSize->9]}]], "Input"],
+
+Cell[BoxData[
+    \(UnMixNew := \(\[ExponentialE]\^BB\/\(2  t0\)\) \((1 + \ Erf[AA]\  + \ 
+            wreneg*\[ExponentialE]\^\(-AA\^2\))\)\)], "Input"],
+
+Cell[BoxData[
+    \(MixNew := \(\[ExponentialE]\^BB\/\(2  t0\)\) \((1 + \ Erf[AA]\  - \ 
+            wreneg*\[ExponentialE]\^\(-AA\^2\))\)\)], "Input"]
+},
+FrontEndVersion->"5.0 for X",
+ScreenRectangle->{{0, 1600}, {0, 1200}},
+WindowSize->{807, 984},
+WindowMargins->{{Automatic, 119}, {Automatic, 0}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+Magnification->1
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 52, 1, 27, "Input"],
+Cell[1809, 54, 39, 1, 27, "Input"],
+Cell[1851, 57, 43, 1, 27, "Input"],
+Cell[1897, 60, 42, 1, 27, "Input"],
+Cell[1942, 63, 50, 1, 27, "Input"],
+Cell[1995, 66, 75, 1, 48, "Input"],
+Cell[2073, 69, 65, 1, 47, "Input"],
+Cell[2141, 72, 52, 1, 49, "Input"],
+Cell[2196, 75, 48, 1, 27, "Input"],
+Cell[2247, 78, 71, 1, 27, "Input"],
+Cell[2321, 81, 75, 1, 27, "Input"],
+Cell[2399, 84, 55, 1, 27, "Input"],
+Cell[2457, 87, 164, 3, 34, "Input"],
+Cell[2624, 92, 149, 2, 32, "Input"],
+Cell[2776, 96, 795, 13, 137, "Input"],
+Cell[3574, 111, 926, 18, 139, "Input"],
+Cell[4503, 131, 153, 2, 45, "Input"],
+Cell[4659, 135, 151, 2, 45, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

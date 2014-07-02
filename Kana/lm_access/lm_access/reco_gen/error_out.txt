@@ -1,0 +1,7 @@
+918384 : SAM contains LBN 918384 but, recoA_reco_all_0000145000_mrg_001-007.raw_p10.14.01.root doesn't contain
+918385 : SAM contains LBN 918385 but, recoA_reco_all_0000145000_mrg_001-007.raw_p10.14.01.root doesn't contain
+918388 : SAM contains LBN 918388 but, recoA_reco_all_0000145000_mrg_001-007.raw_p10.14.01.root doesn't contain
+918393 : SAM contains LBN 918393 but, recoA_reco_all_0000145000_mrg_001-007.raw_p10.14.01.root doesn't contain
+918394 : SAM contains LBN 918394 but, recoA_reco_all_0000145000_mrg_001-007.raw_p10.14.01.root doesn't contain
+918395 : SAM contains LBN 918395 but, recoA_reco_all_0000145000_mrg_001-007.raw_p10.14.01.root doesn't contain
+918396 : SAM contains LBN 918396 but, recoA_reco_all_0000145000_mrg_001-007.raw_p10.14.01.root doesn't contain

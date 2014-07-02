@@ -1,0 +1,1579 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     56901,       1468]*)
+(*NotebookOutlinePosition[     57554,       1491]*)
+(*  CellTagsIndexPosition[     57510,       1487]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    \(AA = 
+      t/\((Sqrt[2] \[Sigma])\) - \[Sigma]/\((Sqrt[2] \[Tau])\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(-0.4714045207910316`\) + t\/\@2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(BB = \[Sigma]\^2/\((2  \[Tau]\^2)\) - t/\[Tau]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.2222222222222222`\)\(\[InvisibleSpace]\)\) - 
+      0.6666666666666666`\ t\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CC = \[Sigma] \((\[Delta]m)\)/Sqrt[2]\)], "Input"],
+
+Cell[BoxData[
+    \(0.36062445840513924`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(DD = \(\[Sigma]\^2\) \((\[Delta]m)\)/\[Tau] - 
+        t \((\[Delta]m)\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.33999999999999997`\)\(\[InvisibleSpace]\)\) - 
+      0.51`\ t\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(UnMix = \(\[ExponentialE]\^BB\/\(2  \[Tau]\)\) {1 + 
+            Erf[AA] + \(\[ExponentialE]\^\(-\((CC\^2)\)\)\) 
+              Cos[DD] - \(\[ExponentialE]\^\(-\((AA\^2)\)\)\) 
+              Re[\(\[ExponentialE]\^\(-\((CC + \[ImaginaryI]*AA)\)\^2\)\) \
+\((1 + \[ImaginaryI]*Erfi[CC + \[ImaginaryI]*AA])\)]}\)], "Input"],
+
+Cell[BoxData[
+    \({0.3333333333333333`\ \[ExponentialE]\^\(\(\(0.2222222222222222`\)\(\
+\[InvisibleSpace]\)\) - 0.6666666666666666`\ t\)\ \((1 + 
+            0.8780515272466163`\ Cos[\(\(0.33999999999999997`\)\(\
+\[InvisibleSpace]\)\) - 0.51`\ t] + 
+            Erf[\(-0.4714045207910316`\) + 
+                t\/\@2] - \[ExponentialE]\^\(-\((\(-0.4714045207910316`\) + t\
+\/\@2)\)\^2\)\ Re[\[ExponentialE]\^\(-\((\(\(0.36062445840513924`\)\(\
+\[InvisibleSpace]\)\) + \[ImaginaryI]\ \((\(-0.4714045207910316`\) + \
+t\/\@2)\))\)\^2\)\ \((1 + \[ImaginaryI]\ Erfi[\(\(0.36062445840513924`\)\(\
+\[InvisibleSpace]\)\) + \[ImaginaryI]\ \((\(-0.4714045207910316`\) + 
+                                  t\/\@2)\)])\)])\)}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\[Sigma] = 1\)], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\[Tau] = 1.5\)], "Input"],
+
+Cell[BoxData[
+    \(1.5`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\[Delta]m = 0.51\)], "Input"],
+
+Cell[BoxData[
+    \(0.51`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[Table[{t, UnMix, UnMixOld}, {t, \(-2\), 8, 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[GridBox[{
+          {\(-2\), GridBox[{
+                {\(-0.2662192477804237`\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.023922273800654734`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\)},
+          {\(-1.5`\), GridBox[{
+                {\(-0.3787734196533837`\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.06747785184711574`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-1.`\), GridBox[{
+                {\(-0.31789192253052334`\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.1519709532030217`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {\(-0.5`\), GridBox[{
+                {\(-0.14723280458681462`\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.2752233864708326`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"0.`", GridBox[{
+                {"0.0601390597112451`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.40473275167180384`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"0.5`", GridBox[{
+                {"0.22881821930342666`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.4897776665590524`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"1.`", GridBox[{
+                {"0.3115683811762345`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.4965263130411739`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"1.5`", GridBox[{
+                {"0.3089706969680758`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.43147490085914453`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"2.`", GridBox[{
+                {"0.25530406509236153`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.33022278331688687`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"2.5`", GridBox[{
+                {"0.18793584304817493`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.22893152980083495`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"3.`", GridBox[{
+                {"0.12887843152095202`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.14726350382831604`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"3.5`", GridBox[{
+                {"0.08481462572717652`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.08926172440050227`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"4.`", GridBox[{
+                {"0.05452800181033254`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.051255680959404075`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\)},
+          {"4.5`", GridBox[{
+                {"0.03462479477161495`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.027803778544003184`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\)},
+          {"5.`", GridBox[{
+                {"0.02192172862854648`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.014142940232542662`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\)},
+          {"5.5`", GridBox[{
+                {"0.013996641510004874`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.0067116502389940194`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\)},
+          {"6.`", GridBox[{
+                {"0.009140479884806709`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.0030319846267861574`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\)},
+          {"6.5`", GridBox[{
+                {"0.00619582299947939`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.00146527686464892`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)},
+          {"7.`", GridBox[{
+                {"0.004405338808066295`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.0009815919799912843`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\)},
+          {"7.5`", GridBox[{
+                {"0.0032907429731927665`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.0009717009536311782`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\)},
+          {"8.`", GridBox[{
+                {"0.002561530008873294`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.00110347342481877`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\)}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      TableForm[ {{-2, {-0.26621924778042372}, 
+        Complex[ 0.023922273800654734, 0.0]}, {-1.5, {-0.37877341965338368}, 
+        Complex[ 0.067477851847115744, 0.0]}, {-1.0, {-0.31789192253052334}, 
+        Complex[ 0.1519709532030217, 0.0]}, {-0.5, {-0.14723280458681462}, 
+        Complex[ 0.27522338647083261, 0.0]}, {0.0, {0.060139059711245099}, 
+        Complex[ 0.40473275167180384, 0.0]}, {0.5, {0.22881821930342666}, 
+        Complex[ 0.48977766655905242, 0.0]}, {1.0, {0.31156838117623448}, 
+        Complex[ 0.49652631304117389, 0.0]}, {1.5, {0.30897069696807578}, 
+        Complex[ 0.43147490085914453, 0.0]}, {2.0, {0.25530406509236153}, 
+        Complex[ 0.33022278331688687, 0.0]}, {2.5, {0.18793584304817493}, 
+        Complex[ 0.22893152980083495, 0.0]}, {3.0, {0.12887843152095202}, 
+        Complex[ 0.14726350382831604, 0.0]}, {3.5, {0.084814625727176518}, 
+        Complex[ 0.089261724400502271, 0.0]}, {4.0, {0.054528001810332537}, 
+        Complex[ 0.051255680959404075, 0.0]}, {4.5, {0.034624794771614953}, 
+        Complex[ 0.027803778544003184, 0.0]}, {5.0, {0.02192172862854648}, 
+        Complex[ 0.014142940232542662, 0.0]}, {5.5, {0.013996641510004874}, 
+        Complex[ 0.0067116502389940194, 0.0]}, {6.0, {0.0091404798848067088}, 
+        
+        Complex[ 0.0030319846267861574, 0.0]}, {6.5, {0.00619582299947939}, 
+        Complex[ 0.0014652768646489199, 0.0]}, {7.0, {0.0044053388080662953}, 
+        
+        Complex[ 0.00098159197999128428, 0.0]}, {7.5, {0.0032907429731927665},
+         
+        Complex[ 0.00097170095363117819, 0.0]}, {8.0, {0.0025615300088732938},
+         
+        Complex[ 0.00110347342481877, 0.0]}}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Plot[{UnMixOld}, {t, 6, 8}, PlotRange \[Rule] All]\)], "Input"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+-2.83333 0.476191 -0.251094 281.8 [
+[.2619 .01821 -9 -9 ]
+[.2619 .01821 9 0 ]
+[.5 .01821 -3 -9 ]
+[.5 .01821 3 0 ]
+[.7381 .01821 -9 -9 ]
+[.7381 .01821 9 0 ]
+[.97619 .01821 -3 -9 ]
+[.97619 .01821 3 0 ]
+[.01131 .17161 -36 -4.5 ]
+[.01131 .17161 0 4.5 ]
+[.01131 .31251 -30 -4.5 ]
+[.01131 .31251 0 4.5 ]
+[.01131 .45341 -36 -4.5 ]
+[.01131 .45341 0 4.5 ]
+[.01131 .59431 -30 -4.5 ]
+[.01131 .59431 0 4.5 ]
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 g
+.25 Mabswid
+[ ] 0 setdash
+.2619 .03071 m
+.2619 .03696 L
+s
+[(6.5)] .2619 .01821 0 1 Mshowa
+.5 .03071 m
+.5 .03696 L
+s
+[(7)] .5 .01821 0 1 Mshowa
+.7381 .03071 m
+.7381 .03696 L
+s
+[(7.5)] .7381 .01821 0 1 Mshowa
+.97619 .03071 m
+.97619 .03696 L
+s
+[(8)] .97619 .01821 0 1 Mshowa
+.125 Mabswid
+.07143 .03071 m
+.07143 .03446 L
+s
+.11905 .03071 m
+.11905 .03446 L
+s
+.16667 .03071 m
+.16667 .03446 L
+s
+.21429 .03071 m
+.21429 .03446 L
+s
+.30952 .03071 m
+.30952 .03446 L
+s
+.35714 .03071 m
+.35714 .03446 L
+s
+.40476 .03071 m
+.40476 .03446 L
+s
+.45238 .03071 m
+.45238 .03446 L
+s
+.54762 .03071 m
+.54762 .03446 L
+s
+.59524 .03071 m
+.59524 .03446 L
+s
+.64286 .03071 m
+.64286 .03446 L
+s
+.69048 .03071 m
+.69048 .03446 L
+s
+.78571 .03071 m
+.78571 .03446 L
+s
+.83333 .03071 m
+.83333 .03446 L
+s
+.88095 .03071 m
+.88095 .03446 L
+s
+.92857 .03071 m
+.92857 .03446 L
+s
+.25 Mabswid
+0 .03071 m
+1 .03071 L
+s
+.02381 .17161 m
+.03006 .17161 L
+s
+[(0.0015)] .01131 .17161 1 0 Mshowa
+.02381 .31251 m
+.03006 .31251 L
+s
+[(0.002)] .01131 .31251 1 0 Mshowa
+.02381 .45341 m
+.03006 .45341 L
+s
+[(0.0025)] .01131 .45341 1 0 Mshowa
+.02381 .59431 m
+.03006 .59431 L
+s
+[(0.003)] .01131 .59431 1 0 Mshowa
+.125 Mabswid
+.02381 .05889 m
+.02756 .05889 L
+s
+.02381 .08707 m
+.02756 .08707 L
+s
+.02381 .11525 m
+.02756 .11525 L
+s
+.02381 .14343 m
+.02756 .14343 L
+s
+.02381 .19979 m
+.02756 .19979 L
+s
+.02381 .22797 m
+.02756 .22797 L
+s
+.02381 .25615 m
+.02756 .25615 L
+s
+.02381 .28433 m
+.02756 .28433 L
+s
+.02381 .34069 m
+.02756 .34069 L
+s
+.02381 .36887 m
+.02756 .36887 L
+s
+.02381 .39705 m
+.02756 .39705 L
+s
+.02381 .42523 m
+.02756 .42523 L
+s
+.02381 .48159 m
+.02756 .48159 L
+s
+.02381 .50977 m
+.02756 .50977 L
+s
+.02381 .53795 m
+.02756 .53795 L
+s
+.02381 .56613 m
+.02756 .56613 L
+s
+.02381 .00253 m
+.02756 .00253 L
+s
+.25 Mabswid
+.02381 0 m
+.02381 .61803 L
+s
+.5 Mabswid
+.02381 .60332 m
+.06244 .50062 L
+.10458 .40433 L
+.14415 .32729 L
+.18221 .26414 L
+.22272 .20746 L
+.26171 .16203 L
+.30316 .12242 L
+.34309 .0917 L
+.3815 .0682 L
+.42237 .04887 L
+.46172 .03506 L
+.49955 .02561 L
+.51896 .02204 L
+.53984 .01907 L
+.54994 .01794 L
+.56097 .01691 L
+.57151 .01612 L
+.58106 .01557 L
+.58593 .01534 L
+.59119 .01514 L
+.59574 .01499 L
+.60074 .01487 L
+.60348 .01482 L
+.60605 .01478 L
+.60876 .01475 L
+.61027 .01474 L
+.61166 .01473 L
+.61294 .01472 L
+.61413 .01472 L
+.61544 .01472 L
+.61609 .01472 L
+.61682 .01472 L
+.61803 .01472 L
+.61934 .01472 L
+.62058 .01473 L
+.62171 .01474 L
+.62419 .01476 L
+.62645 .01479 L
+.63151 .01487 L
+.6362 .01498 L
+.64063 .0151 L
+.65057 .01546 L
+.66133 .01598 L
+.68121 .01724 L
+.70225 .01898 L
+.74014 .02297 L
+.78048 .02821 L
+.8193 .03395 L
+.86058 .04054 L
+Mistroke
+.90034 .04716 L
+.93859 .0536 L
+.97619 .05986 L
+Mfstroke
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{43, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40004P0000/B000`400?l00000o`00003ooooooolQ
+ooooo`00oooooolQooooo`00oooooolQooooo`00oooooolQooooo`00oooooolQooooo`00oooooolQ
+ooooo`00oooooolQooooo`00oooooolQooooo`00Foooool3o`0000Cooooo00?o0000ooooooooool0
+0_ooool3o`0003Gooooo00?o0000ooooooooool0<oooool00ol0003oooooooooo`03ooooo`03o`00
+0?oooooooooo00;ooooo0ol0000cooooo`?o00001oooool005[ooooo00Go0000oooooooooooooooo
+o`000007ooooo`05o`000?ooooooooooooooool00000=?ooool00ol0003oooooooooo`0cooooo`03
+o`000?oooooooooo00Oooooo00Go0000ooooooooooooooooo`00000aooooo`05o`000?oooooooooo
+ooooool000001_ooool005[ooooo00Go0000ooooooooooooooooo`00000;ooooo`03o`000?oooooo
+oooo03?ooooo00?o0000ooooooooool0<oooool00ol0003oooooooooo`0:ooooo`03o`000?oooooo
+oooo02oooooo00Go0000ooooooooooooooooo`000006ooooo`00F_ooool4o`0000cooooo00?o0000
+ooooooooool0<oooool00ol0003oooooooooo`0cooooo`03o`000?oooooooooo00[ooooo00?o0000
+ooooooooool0<?ooool3o`0000Oooooo000Wooooo`;o0000<Oooool00ol0003oooooooooo`09oooo
+o`Co0000=oooool00ol0003oooooooooo`0cooooo`03o`000?oooooooooo00Gooooo1?l0000boooo
+o`05o`000?ooooooooooooooool000001_ooool002Oooooo00?o0000ooooooooool0<Oooool00ol0
+003oooooooooo`08ooooo`03o`000?oooooooooo03Cooooo00Go0000ooooooooooooooooo`00000a
+ooooo`05o`000?ooooooooooooooool000001oooool00ol0003oooooooooo`0cooooo`05o`000?oo
+ooooooooooooool000001_ooool002Oooooo00?o0000ooooooooool0<_ooool2o`0000Sooooo1Ol0
+000booooo`Go0000<Oooool5o`0000Oooooo1Ol0000booooo`?o00001oooool002Oooooo00?o0000
+ooooooooool0m_ooool002Oooooo00?o0000ooooooooool0POoooolWo`0004kooooo000Wooooo`03
+o`000?oooooooooo07Sooooo2Ol0000Wooooo`Oo0000Aoooool002Oooooo00?o0000ooooooooool0
+M?ooool4o`0003Oooooo2_l0000mooooo`009oooool00ol0003oooooooooo`1aooooo`?o0000AOoo
+ool:o`0003?ooooo000Qoooooooo0000000Wooooo`03o`000?oooooooooo00Wooooo00?o0000oooo
+ooooool02Oooool00ol0003oooooooooo`09ooooo`03o`000?oooooooooo00Wooooo00?o0000oooo
+ooooool02Oooool00ol0003oooooooooo`09ooooo`03o`000?oooooooooo00Wooooo00?o0000oooo
+ooooool02Oooool00ol0003oooooooooo`09ooooo`Go00002?ooool00ol0003oooooooooo`09oooo
+o`03o`000?oooooooooo00Wooooo00?o0000ooooooooool02Oooool00ol0003oooooooooo`09oooo
+o`03o`000?oooooooooo00Wooooo00?o0000ooooooooool02Oooool00ol0003oooooooooo`09oooo
+o`Ko00001_ooool00ol0003oooooooooo`09ooooo`03o`000?oooooooooo00Wooooo00?o0000oooo
+ooooool01Oooool002Oooooo00?o0000ooooooooool0Ioooool3o`0006Kooooo1Ol0000Qooooo`00
+9oooool00ol0003oooooooooo`1Tooooo`?o0000K_ooool5o`0001cooooo000Wooooo`03o`000?oo
+oooooooo067ooooo0ol0001fooooo`Oo00005Oooool002Oooooo00?o0000ooooooooool0Goooool2
+o`00083ooooo1ol0000>ooooo`009oooool00ol0003oooooooooo`1Looooo`?o0000ROooool5o`00
+00Wooooo000Wooooo`;o0000Foooool2o`00097ooooo0_l00007ooooo`009oooool00ol0003ooooo
+ooooo`1Hooooo`;o0000W?ooool002Oooooo00?o0000ooooooooool0E_ooool2o`0009kooooo000W
+ooooo`03o`000?oooooooooo05Gooooo00?o0000ooooooooool0W_ooool002Oooooo00?o0000oooo
+ooooool0Doooool2o`000:7ooooo000Wooooo`03o`000?oooooooooo05;ooooo00?o0000oooooooo
+ool0XOooool002Oooooo00?o0000ooooooooool0D?ooool2o`000:Cooooo000Wooooo`;o0000D?oo
+ool00ol0003oooooooooo`2Tooooo`009oooool00ol0003oooooooooo`1=ooooo`;o0000Yoooool0
+02Oooooo00?o0000ooooooooool0C?ooool00ol0003oooooooooo`2Wooooo`009oooool00ol0003o
+ooooooooo`1;ooooo`03o`000?oooooooooo0:Sooooo000Wooooo`03o`000?oooooooooo04[ooooo
+00?o0000ooooooooool0ZOooool002Oooooo00?o0000ooooooooool0B?ooool2o`000:cooooo000W
+ooooo`03o`000?oooooooooo04Oooooo00?o0000ooooooooool0[?ooool002Oooooo0_l00017oooo
+o`03o`000?oooooooooo0:gooooo000Wooooo`03o`000?oooooooooo04Gooooo00?o0000oooooooo
+ool0[_ooool002Oooooo00?o0000ooooooooool0@oooool2o`000;7ooooo000Wooooo`03o`000?oo
+oooooooo04;ooooo00?o0000ooooooooool0/Oooool002Oooooo00?o0000ooooooooool0@Oooool0
+0ol0003oooooooooo`2booooo`009oooool00ol0003oooooooooo`10ooooo`03o`000?oooooooooo
+0;?ooooo000Wooooo`03o`000?oooooooooo03oooooo00?o0000ooooooooool0]?ooool002Oooooo
+0_l0000oooooo`03o`000?oooooooooo0;Gooooo000Wooooo`03o`000?oooooooooo03gooooo00?o
+0000ooooooooool0]_ooool002Oooooo00?o0000ooooooooool0??ooool00ol0003oooooooooo`2g
+ooooo`009oooool00ol0003oooooooooo`0kooooo`03o`000?oooooooooo0;Sooooo000Wooooo`03
+o`000?oooooooooo03[ooooo00?o0000ooooooooool0^Oooool000;ooooo0_l00004ooooo`03o`00
+0?oooooooooo00?ooooo0_l00004ooooo`;o00000oooool3o`0000?ooooo0ol00005ooooo`03o`00
+0?oooooooooo03Wooooo00?o0000ooooooooool0^_ooool00005ooooool0003oooooooooool00000
+2?ooool01?l0003oooooooooool00002ooooo`04o`000?ooooooooooo`0000?ooooo00Go0000oooo
+ooooooooooooo`000003ooooo`03o`000?oooooooooo00;ooooo00?o0000ooooooooool0>Oooool0
+0ol0003oooooooooo`2jooooo`0000Goooooo`000?ooooooooooo`000008ooooo`04o`000?oooooo
+ooooo`0000;ooooo00Co0000oooooooooooo00000oooool00ol0003oooooooooo`05ooooo`03o`00
+0?oooooooooo00;ooooo0_l0000iooooo`03o`000?oooooooooo0;_ooooo00001Ooooooo0000oooo
+oooooooo000000Sooooo00Co0000oooooooooooo00000_ooool01?l0003oooooooooool00003oooo
+o`03o`000?oooooooooo00Gooooo00?o0000ooooooooool00_ooool00ol0003oooooooooo`0goooo
+o`03o`000?oooooooooo0;cooooo00001Ooooooo0000oooooooooooo000000Sooooo00Co0000oooo
+oooooooo00000_ooool01?l0003oooooooooool00003ooooo`04o`000?ooooooooooooooo`Co0000
+1Oooool00ol0003oooooooooo`0fooooo`03o`000?oooooooooo0;gooooo00001Ooooooo0000oooo
+oooooooo000000Sooooo00Co0000oooooooooooo00000_ooool01?l0003oooooooooool00002oooo
+o`;o00000oooool00ol0003oooooooooo`06ooooo`03o`000?oooooooooo03Gooooo00?o0000oooo
+ooooool0__ooool000;ooooo0_l0000:ooooo`;o00001?ooool2o`0000Cooooo00Co0000oooooooo
+oooooooo1Ol00004ooooo`03o`000?oooooooooo03Cooooo00?o0000ooooooooool0_oooool002Oo
+oooo00?o0000ooooooooool0<oooool00ol0003oooooooooo`30ooooo`009oooool00ol0003ooooo
+ooooo`0booooo`03o`000?oooooooooo0<7ooooo000Wooooo`;o0000<_ooool00ol0003ooooooooo
+o`32ooooo`009oooool00ol0003oooooooooo`0`ooooo`03o`000?oooooooooo0<?ooooo000Woooo
+o`03o`000?oooooooooo02oooooo00?o0000ooooooooool0a?ooool002Oooooo00?o0000oooooooo
+ool0;oooool00ol0003oooooooooo`34ooooo`009oooool00ol0003oooooooooo`0^ooooo`03o`00
+0?oooooooooo0<Gooooo000Wooooo`03o`000?oooooooooo02gooooo00?o0000ooooooooool0a_oo
+ool002Oooooo00?o0000ooooooooool0;Oooool00ol0003oooooooooo`36ooooo`009oooool00ol0
+003oooooooooo`0/ooooo`03o`000?oooooooooo0<Oooooo000Wooooo`;o0000;?ooool00ol0003o
+ooooooooo`38ooooo`009oooool00ol0003oooooooooo`0[ooooo`03o`000?oooooooooo0<Sooooo
+000Wooooo`03o`000?oooooooooo02[ooooo00?o0000ooooooooool0bOooool002Oooooo00?o0000
+ooooooooool0:Oooool00ol0003oooooooooo`3:ooooo`009oooool00ol0003oooooooooo`0Yoooo
+o`03o`000?oooooooooo0<[ooooo000Wooooo`03o`000?oooooooooo02Sooooo00?o0000oooooooo
+ool0boooool002Oooooo00?o0000ooooooooool09oooool00ol0003oooooooooo`3<ooooo`009ooo
+ool2o`0002Sooooo00?o0000ooooooooool0c?ooool002Oooooo00?o0000ooooooooool09_ooool0
+0ol0003oooooooooo`3=ooooo`009oooool00ol0003oooooooooo`0Uooooo`03o`000?oooooooooo
+0<kooooo000Wooooo`03o`000?oooooooooo02Gooooo00?o0000ooooooooool0c_ooool002Oooooo
+00?o0000ooooooooool09?ooool00ol0003oooooooooo`3?ooooo`009oooool00ol0003ooooooooo
+o`0Sooooo`03o`000?oooooooooo0=3ooooo000Wooooo`03o`000?oooooooooo02?ooooo00?o0000
+ooooooooool0d?ooool002Oooooo0_l0000Sooooo`03o`000?oooooooooo0=7ooooo000Wooooo`03
+o`000?oooooooooo02;ooooo00?o0000ooooooooool0dOooool002Oooooo00?o0000ooooooooool0
+8Oooool00ol0003oooooooooo`3Booooo`009oooool00ol0003oooooooooo`0Pooooo`03o`000?oo
+oooooooo0=?ooooo000Wooooo`03o`000?oooooooooo023ooooo00?o0000ooooooooool0doooool0
+00Sooooo0_l00004ooooo`03o`000?oooooooooo00?ooooo0_l00004ooooo`;o00000_ooool5o`00
+00Cooooo00?o0000ooooooooool07oooool00ol0003oooooooooo`3Dooooo`001oooool01?l0003o
+ooooooooool00008ooooo`04o`000?ooooooooooo`0000;ooooo00Co0000oooooooooooo00000_oo
+ool01?l0003oooooooooool00004ooooo`03o`000?oooooooooo01kooooo00?o0000ooooooooool0
+eOooool000Oooooo00Co0000oooooooooooo00002?ooool01?l0003oooooooooool00002ooooo`04
+o`000?ooooooooooo`0000?ooooo00?o0000ooooooooool01?ooool2o`0001oooooo00?o0000oooo
+ooooool0eOooool000Oooooo00Co0000oooooooooooo00002?ooool01?l0003oooooooooool00002
+ooooo`04o`000?ooooooooooo`0000Cooooo00?o0000ooooooooool00oooool00ol0003ooooooooo
+o`0Mooooo`03o`000?oooooooooo0=Kooooo0007ooooo`04o`000?ooooooooooo`0000Sooooo00Co
+0000oooooooooooo00000_ooool01_l0003oooooooooool0003oooooo`0000?ooooo00?o0000oooo
+ooooool00_ooool00ol0003oooooooooo`0Mooooo`03o`000?oooooooooo0=Kooooo0007ooooo`04
+o`000?ooooooooooo`0000Sooooo00Co0000oooooooooooo00000_ooool01_l0003oooooooooool0
+003oooooo`0000?ooooo00?o0000ooooooooool00_ooool00ol0003oooooooooo`0Looooo`03o`00
+0?oooooooooo0=Oooooo0008ooooo`;o00002_ooool2o`0000Cooooo0_l00003ooooo`?o00001Ooo
+ool00ol0003oooooooooo`0Kooooo`03o`000?oooooooooo0=Sooooo000Wooooo`03o`000?oooooo
+oooo01_ooooo00?o0000ooooooooool0f?ooool002Oooooo00?o0000ooooooooool06_ooool00ol0
+003oooooooooo`3Iooooo`009oooool2o`0001_ooooo00?o0000ooooooooool0fOooool002Oooooo
+00?o0000ooooooooool06Oooool00ol0003oooooooooo`3Jooooo`009oooool00ol0003ooooooooo
+o`0Iooooo`03o`000?oooooooooo0=[ooooo000Wooooo`03o`000?oooooooooo01Sooooo00?o0000
+ooooooooool0foooool002Oooooo00?o0000ooooooooool06?ooool00ol0003oooooooooo`3Koooo
+o`009oooool00ol0003oooooooooo`0Gooooo`03o`000?oooooooooo0=cooooo000Wooooo`03o`00
+0?oooooooooo01Oooooo00?o0000ooooooooool0g?ooool002Oooooo0_l0000Gooooo`03o`000?oo
+oooooooo0=gooooo000Wooooo`03o`000?oooooooooo01Gooooo00?o0000ooooooooool0g_ooool0
+02Oooooo00?o0000ooooooooool05Oooool00ol0003oooooooooo`3Nooooo`009oooool00ol0003o
+ooooooooo`0Dooooo`03o`000?oooooooooo0=oooooo000Wooooo`03o`000?oooooooooo01Cooooo
+00?o0000ooooooooool0goooool002Oooooo00?o0000ooooooooool04oooool00ol0003ooooooooo
+o`3Pooooo`009oooool00ol0003oooooooooo`0Cooooo`03o`000?oooooooooo0>3ooooo000Woooo
+o`03o`000?oooooooooo01;ooooo00?o0000ooooooooool0hOooool002Oooooo0_l0000Cooooo`03
+o`000?oooooooooo0>7ooooo000Wooooo`03o`000?oooooooooo017ooooo00?o0000ooooooooool0
+h_ooool002Oooooo00?o0000ooooooooool04Oooool00ol0003oooooooooo`3Rooooo`009oooool0
+0ol0003oooooooooo`0@ooooo`03o`000?oooooooooo0>?ooooo000Wooooo`03o`000?oooooooooo
+013ooooo00?o0000ooooooooool0hoooool002Oooooo00?o0000ooooooooool03oooool00ol0003o
+ooooooooo`3Tooooo`009oooool00ol0003oooooooooo`0?ooooo`03o`000?oooooooooo0>Cooooo
+000Wooooo`;o00004?ooool00ol0003oooooooooo`3Tooooo`009oooool00ol0003oooooooooo`0>
+ooooo`03o`000?oooooooooo0>Gooooo000Wooooo`03o`000?oooooooooo00kooooo00?o0000oooo
+ooooool0iOooool002Oooooo00?o0000ooooooooool03Oooool00ol0003oooooooooo`3Vooooo`00
+0_ooool2o`0000Cooooo00?o0000ooooooooool00oooool2o`0000Cooooo0_l00002ooooo`Go0000
+0_ooool3o`0000Gooooo00?o0000ooooooooool03Oooool00ol0003oooooooooo`3Vooooo`0000Go
+ooooo`000?ooooooooooo`000008ooooo`04o`000?ooooooooooo`0000;ooooo00Co0000oooooooo
+oooo00000_ooool01_l0003oooooooooool0003oooooo`0000?ooooo00?o0000ooooooooool00_oo
+ool00ol0003oooooooooo`0<ooooo`03o`000?oooooooooo0>Oooooo00001Ooooooo0000oooooooo
+oooo000000Sooooo00Co0000oooooooooooo00000_ooool01?l0003oooooooooool00003ooooo`03
+o`000?oooooooooo00Gooooo00?o0000ooooooooool00_ooool00ol0003oooooooooo`0<ooooo`03
+o`000?oooooooooo0>Oooooo00001Ooooooo0000oooooooooooo000000Sooooo00Co0000oooooooo
+oooo00000_ooool01?l0003oooooooooool00004ooooo`03o`000?oooooooooo00Cooooo00?o0000
+ooooooooool00_ooool2o`0000cooooo00?o0000ooooooooool0j?ooool00005ooooool0003ooooo
+ooooool000002?ooool01?l0003oooooooooool00002ooooo`06o`000?ooooooooooo`000?oooooo
+00000oooool00ol0003oooooo`000003o`0000Gooooo00?o0000ooooooooool02oooool00ol0003o
+ooooooooo`3Xooooo`0000Goooooo`000?ooooooooooo`000008ooooo`04o`000?ooooooooooo`00
+00;ooooo00Ko0000oooooooooooo0000ooooool00003ooooo`03o`000?oooooo000000Sooooo00?o
+0000ooooooooool02oooool00ol0003oooooooooo`3Xooooo`000_ooool2o`0000[ooooo0_l00004
+ooooo`;o00000oooool3o`0000;ooooo1Ol00004ooooo`03o`000?oooooooooo00[ooooo00?o0000
+ooooooooool0jOooool002Oooooo00?o0000ooooooooool02_ooool00ol0003oooooooooo`3Yoooo
+o`009oooool00ol0003oooooooooo`09ooooo`03o`000?oooooooooo0>[ooooo000Wooooo`03o`00
+0?oooooooooo00Wooooo00?o0000ooooooooool0j_ooool002Oooooo0_l00009ooooo`03o`000?oo
+oooooooo0>_ooooo000Wooooo`03o`000?oooooooooo00Sooooo00?o0000ooooooooool0joooool0
+02Oooooo00?o0000ooooooooool02?ooool00ol0003oooooooooo`3[ooooo`009oooool00ol0003o
+ooooooooo`07ooooo`03o`000?oooooooooo0>cooooo000Wooooo`03o`000?oooooooooo00Oooooo
+00?o0000ooooooooool0k?ooool002Oooooo00?o0000ooooooooool01_ooool00ol0003ooooooooo
+o`3]ooooo`009oooool00ol0003oooooooooo`06ooooo`03o`000?oooooooooo0>gooooo000Woooo
+o`;o00001_ooool00ol0003oooooooooo`3^ooooo`009oooool00ol0003oooooooooo`05ooooo`03
+o`000?oooooooooo0>kooooo000Wooooo`03o`000?oooooooooo00Gooooo00?o0000ooooooooool0
+k_ooool002Oooooo00?o0000ooooooooool01?ooool00ol0003oooooooooo`3_ooooo`009oooool0
+0ol0003oooooooooo`04ooooo`03o`000?oooooooooo0>oooooo000Wooooo`03o`000?oooooooooo
+00Cooooo00?o0000ooooooooool0koooool002Oooooo00?o0000ooooooooool00oooool00ol0003o
+ooooooooo`3`ooooo`009oooool2o`0000Cooooo00?o0000ooooooooool0l?ooool002Oooooo00?o
+0000ooooooooool00oooool00ol0003oooooooooo`3`ooooo`009oooool00ol0003oooooooooo`02
+ooooo`03o`000?oooooooooo0?7ooooo000Wooooo`03o`000?oooooooooo00;ooooo00?o0000oooo
+ooooool0lOooool002Oooooo00?o0000ooooooooool00_ooool00ol0003oooooooooo`3aooooo`00
+9oooool01Ol0003ooooooooooooooooo00000?Cooooo000Wooooo`05o`000?ooooooooooooooool0
+0000m?ooool002Oooooo0_l00002ooooo`03o`000?oooooooooo0?;ooooo000Wooooo`04o`000?oo
+ooooooooo`000?Gooooo000Wooooo`04o`000?ooooooooooo`000?Gooooo000Wooooo`04o`000?oo
+ooooooooo`000?Gooooo000Wooooo`03o`000?oooooo00000?Kooooo0008ooooo`;o00001?ooool0
+0ol0003oooooooooo`03ooooo`;o00001?ooool2o`0000?ooooo0ol00005ooooo`03o`000?oooooo
+00000?Kooooo0007ooooo`04o`000?ooooooooooo`0000Sooooo00Co0000oooooooooooo00000_oo
+ool01_l0003oooooooooool0003oooooo`0000?ooooo00?o0000ooooooooool00_ooool00ol0003o
+ooooo`00003fooooo`001oooool01?l0003oooooooooool00008ooooo`04o`000?ooooooooooo`00
+00;ooooo00Co0000oooooooooooo00001Oooool00ol0003oooooooooo`02ooooo`;o0000moooool0
+00Oooooo00Co0000oooooooooooo00002?ooool01?l0003oooooooooool00002ooooo`04o`000?oo
+ooooooooo`0000?ooooo0_l00005ooooo`;o0000moooool000Oooooo00Co0000oooooooooooo0000
+2?ooool01?l0003oooooooooool00002ooooo`04o`000?ooooooooooo`0000Gooooo00?o0000oooo
+ooooool00_ooool2o`000?Oooooo0007ooooo`04o`000?ooooooooooo`0000Sooooo00Co0000oooo
+oooooooo00000_ooool01_l0003oooooooooool0003oooooo`0000?ooooo00?o0000ooooooooool0
+0_ooool00ol0003oooooooooo`3fooooo`002?ooool2o`0000[ooooo0_l00004ooooo`;o00000ooo
+ool3o`0000Gooooo00?o0000ooooooooool0m_ooool002Oooooo00?o0000ooooooooool0m_ooool0
+02Oooooo00?o0000ooooooooool0m_ooool002Oooooo00?o0000ooooooooool0m_ooool00?oooooo
+8Oooool00?oooooo8Oooool00?oooooo8Oooool00?oooooo8Oooool00?oooooo8Oooool00?oooooo
+8Oooool00?oooooo8Oooool00001\
+\>"],
+  ImageRangeCache->{{{0, 287}, {176.938, 0}} -> {5.67594, 0.000720391, \
+0.00827198, 1.39782*^-5}}],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(UnMixOld = \(\[ExponentialE]\^\(\(s\^2 - 2\ t\ t0\)\/\(2\ t0\^2\)\)\ \
+\((1 + Erf[\(\(-s\^2\) + t\ t0\)\/\(\@2\ s\ t0\)])\)\)\/\(2\ t0\) + \(\
+\[ExponentialE]\^\(-\(\(\((\(-\[ImaginaryI]\) + dm\ t0)\)\ \((2\ \
+\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\[ImaginaryI]\) + dm\ t0)\))\)\)\/\(2\ \
+t0\^2\)\)\)\ \((1 - \[ImaginaryI]\ Erfi[\(\[ImaginaryI]\ t\ t0 + s\^2\ \((\(-\
+\[ImaginaryI]\) + dm\ t0)\)\)\/\(\@2\ s\ t0\)])\)\)\/\(4\ t0\) + \(\
+\[ExponentialE]\^\(-\(\(\((\[ImaginaryI] + dm\ t0)\)\ \((\(-2\)\ \
+\[ImaginaryI]\ t\ t0 + s\^2\ \((\[ImaginaryI] + dm\ t0)\))\)\)\/\(2\ \
+t0\^2\)\)\)\ \((1 + \[ImaginaryI]\ Erfi[\(\(-\[ImaginaryI]\)\ t\ t0 + s\^2\ \
+\((\[ImaginaryI] + dm\ t0)\)\)\/\(\@2\ s\ t0\)])\)\)\/\(4\ t0\)\)], "Input"],
+
+Cell[BoxData[
+    \(0.3333333333333333`\ \[ExponentialE]\^\(0.2222222222222222`\ \((1 - 3.`\
+\ t)\)\)\ \((1 + Erf[0.4714045207910316`\ \((\(-1\) + 1.5`\ t)\)])\) + 
+      0.16666666666666666`\ \[ExponentialE]\^\(\((\(-0.16999999999999998`\) - \
+0.2222222222222222`\ \[ImaginaryI])\)\ \
+\((\((\(\(0.765`\)\(\[InvisibleSpace]\)\) + \[ImaginaryI])\) - 3.`\ \
+\[ImaginaryI]\ t)\)\)\ \((1 + \[ImaginaryI]\ Erfi[
+                0.4714045207910316`\ \
+\((\((\(\(0.765`\)\(\[InvisibleSpace]\)\) + \[ImaginaryI])\) - 
+                      1.5`\ \[ImaginaryI]\ t)\)])\) + 
+      0.16666666666666666`\ \[ExponentialE]\^\(\((\(-0.16999999999999998`\) + \
+0.2222222222222222`\ \[ImaginaryI])\)\ \
+\((\((\(\(0.765`\)\(\[InvisibleSpace]\)\) - \[ImaginaryI])\) + 3.`\ \
+\[ImaginaryI]\ t)\)\)\ \((1 - \[ImaginaryI]\ Erfi[
+                0.4714045207910316`\ \
+\((\((\(\(0.765`\)\(\[InvisibleSpace]\)\) - \[ImaginaryI])\) + 
+                      1.5`\ \[ImaginaryI]\ t)\)])\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(dm = \[Delta]m\)], "Input"],
+
+Cell[BoxData[
+    \(0.51`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(t0 = \[Tau]\)], "Input"],
+
+Cell[BoxData[
+    \(1.5`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s = \[Sigma]\)], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[
+      Table[{t, UnMix, UnMixOld, UnMix - UnMixOld, 
+          UnMix/UnMixOld}, {t, \(-2\), 8, 0.5}]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[GridBox[{
+          {\(-2\), GridBox[{
+                {\(-0.2662192477804237`\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.023922273800654734`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.2901415215810785`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(-11.128509354873177`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {\(-1.5`\), GridBox[{
+                {\(-0.3787734196533837`\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.06747785184711574`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.4462512715004994`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(-5.613299909303112`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {\(-1.`\), GridBox[{
+                {\(-0.31789192253052334`\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.1519709532030217`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.469862875733545`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(-2.0917939634546068`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {\(-0.5`\), GridBox[{
+                {\(-0.14723280458681462`\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.2752233864708326`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.4224561910576472`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(-0.5349574630076646`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"0.`", GridBox[{
+                {"0.0601390597112451`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.40473275167180384`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.3445936919605587`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(0.14858955560881226`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"0.5`", GridBox[{
+                {"0.22881821930342666`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.4897776665590524`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.26095944725562575`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(0.46718794041997846`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"1.`", GridBox[{
+                {"0.3115683811762345`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.4965263130411739`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.18495793186493942`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(0.6274962131773226`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"1.5`", GridBox[{
+                {"0.3089706969680758`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.43147490085914453`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.12250420389106875`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(0.7160803475540739`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"2.`", GridBox[{
+                {"0.25530406509236153`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.33022278331688687`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.07491871822452534`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(0.7731267434911292`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"2.5`", GridBox[{
+                {"0.18793584304817493`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.22893152980083495`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.04099568675266002`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(0.8209259913288252`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"3.`", GridBox[{
+                {"0.12887843152095202`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.14726350382831604`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.018385072307364025`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(0.8751552704545326`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"3.5`", GridBox[{
+                {"0.08481462572717652`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.08926172440050227`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(-0.004447098673325753`\) + 0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(0.9501791086471467`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"4.`", GridBox[{
+                {"0.05452800181033254`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.051255680959404075`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.003272320850928462`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(1.0638430860672834`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"4.5`", GridBox[{
+                {"0.03462479477161495`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.027803778544003184`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.006821016227611769`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(1.2453269514003862`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"5.`", GridBox[{
+                {"0.02192172862854648`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.014142940232542662`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.007778788396003818`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(1.5500121097948898`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"5.5`", GridBox[{
+                {"0.013996641510004874`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.0067116502389940194`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.007284991271010855`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(2.0854247482512993`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"6.`", GridBox[{
+                {"0.009140479884806709`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.0030319846267861574`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.006108495258020551`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(3.014685432127482`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"6.5`", GridBox[{
+                {"0.00619582299947939`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.00146527686464892`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.00473054613483047`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(4.228431601534846`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"7.`", GridBox[{
+                {"0.004405338808066295`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.0009815919799912843`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.003423746828075011`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(4.487953139251821`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"7.5`", GridBox[{
+                {"0.0032907429731927665`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.0009717009536311782`\)\(\[InvisibleSpace]\)\) \
++ 0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.0023190420195615884`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(3.3865799564109627`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]},
+          {"8.`", GridBox[{
+                {"0.002561530008873294`"}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              
+              ColumnAlignments->{
+                Left}], \(\(\(0.00110347342481877`\)\(\[InvisibleSpace]\)\) + 
+              0.`\ \[ImaginaryI]\), GridBox[{
+                {\(\(\(0.0014580565840545238`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}], GridBox[{
+                {\(\(\(2.321333664464089`\)\(\[InvisibleSpace]\)\) + 
+                    0.`\ \[ImaginaryI]\)}
+                },
+              RowSpacings->0.25,
+              ColumnSpacings->1,
+              RowAlignments->Baseline,
+              ColumnAlignments->{Left}]}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      TableForm[ {{-2, {-0.26621924778042372}, 
+        Complex[ 0.023922273800654734, 0.0], {
+        Complex[ -0.29014152158107848, 0.0]}, {
+        Complex[ -11.128509354873177, 0.0]}}, {-1.5, {-0.37877341965338368}, 
+        Complex[ 0.067477851847115744, 0.0], {
+        Complex[ -0.44625127150049942, 0.0]}, {
+        Complex[ -5.6132999093031124, 0.0]}}, {-1.0, {-0.31789192253052334}, 
+        Complex[ 0.1519709532030217, 0.0], {
+        Complex[ -0.46986287573354502, 0.0]}, {
+        Complex[ -2.0917939634546068, 0.0]}}, {-0.5, {-0.14723280458681462}, 
+        Complex[ 0.27522338647083261, 0.0], {
+        Complex[ -0.4224561910576472, 0.0]}, {
+        Complex[ -0.53495746300766456, 0.0]}}, {0.0, {0.060139059711245099}, 
+        Complex[ 0.40473275167180384, 0.0], {
+        Complex[ -0.34459369196055872, 0.0]}, {
+        Complex[ 0.14858955560881226, 0.0]}}, {0.5, {0.22881821930342666}, 
+        Complex[ 0.48977766655905242, 0.0], {
+        Complex[ -0.26095944725562575, 0.0]}, {
+        Complex[ 0.46718794041997846, 0.0]}}, {1.0, {0.31156838117623448}, 
+        Complex[ 0.49652631304117389, 0.0], {
+        Complex[ -0.18495793186493942, 0.0]}, {
+        Complex[ 0.62749621317732263, 0.0]}}, {1.5, {0.30897069696807578}, 
+        Complex[ 0.43147490085914453, 0.0], {
+        Complex[ -0.12250420389106875, 0.0]}, {
+        Complex[ 0.7160803475540739, 0.0]}}, {2.0, {0.25530406509236153}, 
+        Complex[ 0.33022278331688687, 0.0], {
+        Complex[ -0.074918718224525338, 0.0]}, {
+        Complex[ 0.7731267434911292, 0.0]}}, {2.5, {0.18793584304817493}, 
+        Complex[ 0.22893152980083495, 0.0], {
+        Complex[ -0.040995686752660021, 0.0]}, {
+        Complex[ 0.82092599132882516, 0.0]}}, {3.0, {0.12887843152095202}, 
+        Complex[ 0.14726350382831604, 0.0], {
+        Complex[ -0.018385072307364025, 0.0]}, {
+        Complex[ 0.87515527045453256, 0.0]}}, {3.5, {0.084814625727176518}, 
+        Complex[ 0.089261724400502271, 0.0], {
+        Complex[ -0.0044470986733257528, 0.0]}, {
+        Complex[ 0.95017910864714672, 0.0]}}, {4.0, {0.054528001810332537}, 
+        Complex[ 0.051255680959404075, 0.0], {
+        Complex[ 0.0032723208509284618, 0.0]}, {
+        Complex[ 1.0638430860672834, 0.0]}}, {4.5, {0.034624794771614953}, 
+        Complex[ 0.027803778544003184, 0.0], {
+        Complex[ 0.0068210162276117689, 0.0]}, {
+        Complex[ 1.2453269514003862, 0.0]}}, {5.0, {0.02192172862854648}, 
+        Complex[ 0.014142940232542662, 0.0], {
+        Complex[ 0.0077787883960038183, 0.0]}, {
+        Complex[ 1.5500121097948898, 0.0]}}, {5.5, {0.013996641510004874}, 
+        Complex[ 0.0067116502389940194, 0.0], {
+        Complex[ 0.0072849912710108546, 0.0]}, {
+        Complex[ 2.0854247482512993, 0.0]}}, {6.0, {0.0091404798848067088}, 
+        Complex[ 0.0030319846267861574, 0.0], {
+        Complex[ 0.0061084952580205513, 0.0]}, {
+        Complex[ 3.0146854321274819, 0.0]}}, {6.5, {0.00619582299947939}, 
+        Complex[ 0.0014652768646489199, 0.0], {
+        Complex[ 0.0047305461348304701, 0.0]}, {
+        Complex[ 4.2284316015348464, 0.0]}}, {7.0, {0.0044053388080662953}, 
+        Complex[ 0.00098159197999128428, 0.0], {
+        Complex[ 0.003423746828075011, 0.0]}, {
+        Complex[ 4.4879531392518208, 0.0]}}, {7.5, {0.0032907429731927665}, 
+        Complex[ 0.00097170095363117819, 0.0], {
+        Complex[ 0.0023190420195615884, 0.0]}, {
+        Complex[ 3.3865799564109627, 0.0]}}, {8.0, {0.0025615300088732938}, 
+        Complex[ 0.00110347342481877, 0.0], {
+        Complex[ 0.0014580565840545238, 0.0]}, {
+        Complex[ 2.3213336644640892, 0.0]}}}]]], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Macintosh",
+ScreenRectangle->{{0, 1024}, {0, 711}},
+WindowSize->{902, 685},
+WindowMargins->{{1, Automatic}, {Automatic, 0}},
+Magnification->1
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 101, 2, 30, "Input"],
+Cell[1880, 57, 67, 1, 53, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[1984, 63, 79, 1, 32, "Input"],
+Cell[2066, 66, 114, 2, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2217, 73, 70, 1, 30, "Input"],
+Cell[2290, 76, 54, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2381, 82, 105, 2, 32, "Input"],
+Cell[2489, 86, 101, 2, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2627, 93, 339, 5, 78, "Input"],
+Cell[2969, 100, 729, 11, 187, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3735, 116, 45, 1, 30, "Input"],
+Cell[3783, 119, 35, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3855, 125, 45, 1, 30, "Input"],
+Cell[3903, 128, 38, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3978, 134, 49, 1, 30, "Input"],
+Cell[4030, 137, 39, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4106, 143, 92, 1, 30, "Input"],
+Cell[4201, 146, 9310, 242, 461, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13548, 393, 83, 1, 30, "Input"],
+Cell[13634, 396, 18134, 436, 186, 3603, 252, "GraphicsData", "PostScript", \
+"Graphics"],
+Cell[31771, 834, 130, 3, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31938, 842, 746, 10, 238, "Input"],
+Cell[32687, 854, 975, 16, 76, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33699, 875, 47, 1, 30, "Input"],
+Cell[33749, 878, 39, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33825, 884, 44, 1, 30, "Input"],
+Cell[33872, 887, 38, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33947, 893, 45, 1, 30, "Input"],
+Cell[33995, 896, 35, 1, 30, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[34067, 902, 144, 3, 50, "Input"],
+Cell[34214, 907, 22671, 558, 481, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

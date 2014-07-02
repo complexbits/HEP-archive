@@ -1,0 +1,1457 @@
+#include "TH2.h"
+#include "TStyle.h"
+#include "TCanvas.h"
+#include "iostream.h"
+
+void Draw_052903(){
+
+gStyle->SetPadColor(0);
+gStyle->SetCanvasColor(0);
+gStyle->SetCanvasBorderMode(0);
+gStyle->SetFrameBorderMode(0); 
+gStyle->SetHistFillColor(0);
+gStyle->SetHistFillStyle(0);
+gStyle->SetHistLineStyle(1);  
+gStyle->SetHistLineWidth(1);
+
+gStyle->SetOptTitle(0);
+gStyle->SetOptStat(1);
+
+gStyle->SetOptFit(1011);
+gStyle->SetMarkerStyle(20);
+
+
+TFile* lotsa_histos = new TFile("jh_052903.root", "read");
+ 
+float DoSignal(fit){ 
+
+    // ----- Get Fit Parameters
+  
+ 	float fpar_gA = fit->GetParameter(0);
+	float fpar_gm = fit->GetParameter(1);
+	float fpar_sig = fit->GetParameter(2);
+	
+	float pmax = fpar_gm+(2*fpar_sig);
+	float pmin = fpar_gm-(2*fpar_sig);
+
+	float binwidth = (6.0-4.75)/40;
+	
+    // ---- Integrate the signal fits
+
+	float A_signal = fpar_sig*fpar_gA*sqrt(3.14159/2)/binwidth;
+	
+	return A_signal;
+}
+
+
+// ----- Function to calculate signal to background ratio after fitting 
+float DoRatio(fit){ 
+
+    // ----- Get Fit Parameters
+  
+ 	float fpar_gA = fit->GetParameter(0);
+	float fpar_gm = fit->GetParameter(1);
+	float fpar_sig = fit->GetParameter(2);
+
+ 	float fpar_a = fit->GetParameter(3);
+	float fpar_b = fit->GetParameter(4);
+	float fpar_c = fit->GetParameter(5);
+	float fpar_d = fit->GetParameter(6);
+	
+	float pmax = fpar_gm+(2*fpar_sig);
+	float pmin = fpar_gm-(2*fpar_sig);
+
+	float binwidth = (6.0-4.75)/40;
+	
+    // ---- Integrate the background and signal fits, output to stdout:
+
+	float A_backgd1 = (fpar_a*(pmax-pmin));
+	float A_backgd2 = (0.5*fpar_b*((pmax*pmax)-(pmin*pmin)));
+	float A_backgd3 = ((1./3.)*fpar_c*((pmax*pmax*pmax)-(pmin*pmin*pmin)));
+	float A_backgd4 = (0.25*fpar_d*((pmax*pmax*pmax*pmax)-(pmin*pmin*pmin*pmin)));
+
+        float A_backgd = (A_backgd1+A_backgd2+A_backgd3+A_backgd4)/binwidth;
+	float A_signal = fpar_sig*fpar_gA*sqrt(3.14159/2)/binwidth;
+	//	cout << endl << "fpar_a = " << fpar_a << " fpar_b = " << fpar_b << " fpar_c = " << fpar_c << " fpar_d = " << fpar_d;
+	//	cout << endl << "A_backgd1 = "<<A_backgd1<<"A_backgd2 = "<<A_backgd2<<" A_backgd3 = "<<A_backgd3<< " A_backgd4 = "<<A_backgd4;
+	
+	cout << endl << "  A_signal = " << A_signal << "    A_backgd = " << A_backgd; 	
+
+    // ----- Get a signal/background ratio for this cut, output to stdout:
+	
+	//	if (A_backgd!=0){ 
+	float sbratio = A_signal/A_backgd;
+	
+	cout << "   sbratio = " << sbratio << endl;
+	//	}else{
+	//	  float sbratio = 0;
+	//	  cout << "   sbratio = " << sbratio << endl;
+	  //	}
+	cout << "-----------------------------------------------------------------------" << endl << endl;
+	
+	return sbratio;
+
+}
+
+		cout << "********************************************************************"<<endl;
+		cout << "                  FITS FOR LO-MASS HISTOGRAMS                       "<<endl;
+		cout << "********************************************************************"<<endl;
+
+
+
+ // ----------------- FITS FOR LOW MASS HISTOGRAMS (coll) -----------------------
+
+		//TCanvas *c_lo_co = new TCanvas("c_lo_co", "S/B Ratio, m<0.5GeV, coll var", 300, 375, 300, 375);
+
+ TF1 *f_lo_co = new TF1("f_lo_co","gaus(0)+pol3(3)",5,16);
+
+ f_lo_co->SetParameter(0,250);
+ f_lo_co->SetParameter(1,5.3);
+ f_lo_co->SetParameter(2,.005);
+ 
+ 
+	float co_lo_val[36];
+	float co_lo_sbratio[36];
+	float co_lo_signal[36];
+	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.080 ---------------------------";
+	cout << endl;
+	m_lo_coll_080->Fit("f_lo_co");
+ 		co_lo_val[0]=0.080;
+		co_lo_sbratio[0]=DoRatio(f_lo_co);
+		co_lo_signal[0]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.100 ---------------------------";
+	cout << endl;
+	m_lo_coll_100->Fit("f_lo_co");
+ 		co_lo_val[1]=0.100;
+		co_lo_sbratio[1]=DoRatio(f_lo_co);
+		co_lo_signal[1]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.125 ---------------------------";
+	cout << endl;
+	m_lo_coll_125->Fit("f_lo_co");
+ 		co_lo_val[2]=0.125;
+		co_lo_sbratio[2]=DoRatio(f_lo_co);
+		co_lo_signal[2]=DoSignal(f_lo_co);	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.150 ---------------------------";
+	cout << endl;
+	m_lo_coll_150->Fit("f_lo_co");
+ 		co_lo_val[3]=0.150;
+		co_lo_sbratio[3]=DoRatio(f_lo_co);
+		co_lo_signal[3]=DoSignal(f_lo_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.175 ---------------------------";
+	cout << endl;
+	m_lo_coll_175->Fit("f_lo_co");
+ 		co_lo_val[4]=0.175;
+		co_lo_sbratio[4]=DoRatio(f_lo_co);	
+		co_lo_signal[4]=DoSignal(f_lo_co);	
+//-- 0.2
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.200 ---------------------------";
+	cout << endl;
+	m_lo_coll_200->Fit("f_lo_co");
+ 		co_lo_val[5]=0.200;
+		co_lo_sbratio[5]=DoRatio(f_lo_co);
+		co_lo_signal[5]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.225 ---------------------------";
+	cout << endl;
+	m_lo_coll_225->Fit("f_lo_co");
+ 		co_lo_val[6]=0.225;
+		co_lo_sbratio[6]=DoRatio(f_lo_co);	
+		co_lo_signal[6]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.250 ---------------------------";
+	cout << endl;
+	m_lo_coll_250->Fit("f_lo_co");
+ 		co_lo_val[7]=0.250;
+		co_lo_sbratio[7]=DoRatio(f_lo_co);
+		co_lo_signal[7]=DoSignal(f_lo_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.275 ---------------------------";
+	cout << endl;
+	m_lo_coll_275->Fit("f_lo_co");
+ 		co_lo_val[8]=0.275;
+		co_lo_sbratio[8]=DoRatio(f_lo_co);
+		co_lo_signal[8]=DoSignal(f_lo_co);
+//-- 0.3
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.300 ---------------------------";
+	cout << endl;
+	m_lo_coll_300->Fit("f_lo_co");
+ 		co_lo_val[9]=0.300;
+		co_lo_sbratio[9]=DoRatio(f_lo_co);
+		co_lo_signal[9]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.325 ---------------------------";
+	cout << endl;
+	m_lo_coll_325->Fit("f_lo_co");
+ 		co_lo_val[10]=0.325;
+		co_lo_sbratio[10]=DoRatio(f_lo_co);	
+		co_lo_signal[10]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.350 ---------------------------";
+	cout << endl;
+	m_lo_coll_350->Fit("f_lo_co");
+ 		co_lo_val[11]=0.350;
+		co_lo_sbratio[11]=DoRatio(f_lo_co);
+		co_lo_signal[11]=DoSignal(f_lo_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.375 ---------------------------";
+	cout << endl;
+	m_lo_coll_375->Fit("f_lo_co");
+ 		co_lo_val[12]=0.375;
+		co_lo_sbratio[12]=DoRatio(f_lo_co);
+		co_lo_signal[12]=DoSignal(f_lo_co);
+		
+//-- 0.4
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.400 ---------------------------";
+	cout << endl;
+	m_lo_coll_400->Fit("f_lo_co");
+ 		co_lo_val[13]=0.400;
+		co_lo_sbratio[13]=DoRatio(f_lo_co);
+		co_lo_signal[13]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.425 ---------------------------";
+	cout << endl;
+	m_lo_coll_425->Fit("f_lo_co");
+ 		co_lo_val[14]=0.425;
+		co_lo_sbratio[14]=DoRatio(f_lo_co);	
+		co_lo_signal[14]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.450 ---------------------------";
+	cout << endl;
+	m_lo_coll_450->Fit("f_lo_co");
+ 		co_lo_val[15]=0.450;
+		co_lo_sbratio[15]=DoRatio(f_lo_co);
+		co_lo_signal[15]=DoSignal(f_lo_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.475 ---------------------------";
+	cout << endl;
+	m_lo_coll_475->Fit("f_lo_co");
+ 		co_lo_val[16]=0.475;
+		co_lo_sbratio[16]=DoRatio(f_lo_co);
+		co_lo_signal[16]=DoSignal(f_lo_co);
+		
+//-- 0.5
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.500 ---------------------------";
+	cout << endl;
+	m_lo_coll_500->Fit("f_lo_co");
+ 		co_lo_val[17]=0.500;
+		co_lo_sbratio[17]=DoRatio(f_lo_co);
+		co_lo_signal[17]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.525 ---------------------------";
+	cout << endl;
+	m_lo_coll_525->Fit("f_lo_co");
+ 		co_lo_val[18]=0.525;
+		co_lo_sbratio[18]=DoRatio(f_lo_co);	
+		co_lo_signal[18]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.550 ---------------------------";
+	cout << endl;
+	m_lo_coll_550->Fit("f_lo_co");
+ 		co_lo_val[19]=0.550;
+		co_lo_sbratio[19]=DoRatio(f_lo_co);
+		co_lo_signal[19]=DoSignal(f_lo_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.575 ---------------------------";
+	cout << endl;
+	m_lo_coll_575->Fit("f_lo_co");
+ 		co_lo_val[20]=0.575;
+		co_lo_sbratio[20]=DoRatio(f_lo_co);
+		co_lo_signal[20]=DoSignal(f_lo_co);
+
+//-- 0.6
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.600 ---------------------------";
+	cout << endl;
+	m_lo_coll_600->Fit("f_lo_co");
+ 		co_lo_val[21]=0.600;
+		co_lo_sbratio[21]=DoRatio(f_lo_co);
+		co_lo_signal[21]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.625 ---------------------------";
+	cout << endl;
+	m_lo_coll_625->Fit("f_lo_co");
+ 		co_lo_val[22]=0.625;
+		co_lo_sbratio[22]=DoRatio(f_lo_co);	
+		co_lo_signal[22]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.650 ---------------------------";
+	cout << endl;
+	m_lo_coll_650->Fit("f_lo_co");
+ 		co_lo_val[23]=0.650;
+		co_lo_sbratio[23]=DoRatio(f_lo_co);
+		co_lo_signal[23]=DoSignal(f_lo_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.675 ---------------------------";
+	cout << endl;
+	m_lo_coll_675->Fit("f_lo_co");
+ 		co_lo_val[24]=0.675;
+		co_lo_sbratio[24]=DoRatio(f_lo_co);
+		co_lo_signal[24]=DoSignal(f_lo_co);
+		
+//-- 0.7
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.700 ---------------------------";
+	cout << endl;
+	m_lo_coll_700->Fit("f_lo_co");
+ 		co_lo_val[25]=0.700;
+		co_lo_sbratio[25]=DoRatio(f_lo_co);
+		co_lo_signal[25]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.725 ---------------------------";
+	cout << endl;
+	m_lo_coll_725->Fit("f_lo_co");
+ 		co_lo_val[26]=0.725;
+		co_lo_sbratio[26]=DoRatio(f_lo_co);	
+		co_lo_signal[26]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.750 ---------------------------";
+	cout << endl;
+	m_lo_coll_750->Fit("f_lo_co");
+ 		co_lo_val[27]=0.750;
+		co_lo_sbratio[27]=DoRatio(f_lo_co);
+		co_lo_signal[27]=DoSignal(f_lo_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.775 ---------------------------";
+	cout << endl;
+	m_lo_coll_775->Fit("f_lo_co");
+ 		co_lo_val[28]=0.775;
+		co_lo_sbratio[28]=DoRatio(f_lo_co);
+		co_lo_signal[28]=DoSignal(f_lo_co);
+		
+//-- 0.8
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.800 ---------------------------";
+	cout << endl;
+	m_lo_coll_800->Fit("f_lo_co");
+ 		co_lo_val[29]=0.800;
+		co_lo_sbratio[29]=DoRatio(f_lo_co);
+		co_lo_signal[29]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.825 ---------------------------";
+	cout << endl;
+	m_lo_coll_825->Fit("f_lo_co");
+ 		co_lo_val[30]=0.825;
+		co_lo_sbratio[30]=DoRatio(f_lo_co);	
+		co_lo_signal[30]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.850 ---------------------------";
+	cout << endl;
+	m_lo_coll_850->Fit("f_lo_co");
+ 		co_lo_val[31]=0.850;
+		co_lo_sbratio[31]=DoRatio(f_lo_co);
+		co_lo_signal[31]=DoSignal(f_lo_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.875 ---------------------------";
+	cout << endl;
+	m_lo_coll_875->Fit("f_lo_co");
+ 		co_lo_val[32]=0.875;
+		co_lo_sbratio[32]=DoRatio(f_lo_co);
+		co_lo_signal[32]=DoSignal(f_lo_co);
+		
+//-- 0.9
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.900 ---------------------------";
+	cout << endl;
+	m_lo_coll_900->Fit("f_lo_co");
+ 		co_lo_val[33]=0.900;
+		co_lo_sbratio[33]=DoRatio(f_lo_co);
+		co_lo_signal[33]=DoSignal(f_lo_co);
+
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.925 ---------------------------";
+	cout << endl;
+	m_lo_coll_925->Fit("f_lo_co");
+ 		co_lo_val[34]=0.925;
+		co_lo_sbratio[34]=DoRatio(f_lo_co);
+		co_lo_signal[34]=DoSignal(f_lo_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.950 ---------------------------";
+	cout << endl;
+	m_lo_coll_950->Fit("f_lo_co");
+ 		co_lo_val[35]=0.950;
+		co_lo_sbratio[35]=DoRatio(f_lo_co);	
+		co_lo_signal[35]=DoSignal(f_lo_co);
+		
+ 	TGraph* g_lo_co_r = new TGraph(36,co_lo_val,co_lo_sbratio);
+
+	TGraph* g_lo_co_s = new TGraph(36,co_lo_val,co_lo_signal);
+
+ //---------------- FITS FOR LO-MASS HISTOGRAMS (dl_sig) -------------------------
+
+TF1 *f_lo_dlsig = new TF1("f_lo_dlsig","gaus(0)+pol3(3)",5,16);
+
+ f_lo_dlsig->SetParameter(0,250);
+ f_lo_dlsig->SetParameter(1,5.25);
+ f_lo_dlsig->SetParameter(2,.005);
+
+	float dl_lo_val[16];
+	float dl_lo_sbratio[16];
+	float dl_lo_signal[16];
+ 
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.0 ---------------------------";
+	cout << endl;
+ 	m_lo_dlsig_3_0->Fit("f_lo_dlsig");
+	        dl_lo_val[0]=3.0;
+		dl_lo_sbratio[0]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[0]=DoSignal(f_lo_dlsig);
+		
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.2 ---------------------------";
+	cout << endl;	
+ 	m_lo_dlsig_3_2->Fit("f_lo_dlsig");
+	        dl_lo_val[1]=3.2;
+		dl_lo_sbratio[1]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[1]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.4 ---------------------------";
+	cout << endl; 
+ 	m_lo_dlsig_3_4->Fit("f_lo_dlsig");
+	        dl_lo_val[2]=3.4;
+		dl_lo_sbratio[2]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[2]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.6 ---------------------------";
+	cout << endl;
+ 	m_lo_dlsig_3_6->Fit("f_lo_dlsig");
+	        dl_lo_val[3]=3.6;
+		dl_lo_sbratio[3]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[3]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.8 ---------------------------";
+	cout << endl;		 
+ 	m_lo_dlsig_3_8->Fit("f_lo_dlsig");
+	        dl_lo_val[4]=3.8;
+		dl_lo_sbratio[4]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[4]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.0 ---------------------------";
+	cout << endl; 
+ 	m_lo_dlsig_4_0->Fit("f_lo_dlsig");
+                dl_lo_val[5]=4.0;
+		dl_lo_sbratio[5]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[5]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.2 ---------------------------";
+	cout << endl; 
+ 	m_lo_dlsig_4_2->Fit("f_lo_dlsig");
+                dl_lo_val[6]=4.2;
+		dl_lo_sbratio[6]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[6]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.4 ---------------------------";
+	cout << endl; 
+ 	m_lo_dlsig_4_4->Fit("f_lo_dlsig");
+                dl_lo_val[7]=4.4;
+		dl_lo_sbratio[7]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[7]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.6 ---------------------------";
+	cout << endl; 
+ 	m_lo_dlsig_4_6->Fit("f_lo_dlsig");
+                dl_lo_val[8]=4.6;
+		dl_lo_sbratio[8]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[8]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.8 ---------------------------";
+	cout << endl; 	
+  	m_lo_dlsig_4_8->Fit("f_lo_dlsig");
+                dl_lo_val[9]=4.8;
+		dl_lo_sbratio[9]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[9]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.0 ---------------------------";
+	cout << endl; 
+  	m_lo_dlsig_5_0->Fit("f_lo_dlsig");
+                dl_lo_val[10]=5.0;
+		dl_lo_sbratio[10]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[10]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.2 ---------------------------";
+	cout << endl; 
+ 	m_lo_dlsig_5_2->Fit("f_lo_dlsig");
+                dl_lo_val[11]=5.2;
+		dl_lo_sbratio[11]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[11]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.4 ---------------------------";
+	cout << endl; 
+ 	m_lo_dlsig_5_4->Fit("f_lo_dlsig");
+                dl_lo_val[12]=5.4;
+		dl_lo_sbratio[12]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[12]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.6 ---------------------------";
+	cout << endl; 
+  	m_lo_dlsig_5_6->Fit("f_lo_dlsig");
+                dl_lo_val[13]=5.6;
+		dl_lo_sbratio[13]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[13]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.8 ---------------------------";
+	cout << endl;
+ 	m_lo_dlsig_5_8->Fit("f_lo_dlsig");
+	        dl_lo_val[14]=5.8;
+	        dl_lo_sbratio[14]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[14]=DoSignal(f_lo_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 6.0 ---------------------------";
+	cout << endl;		
+ 	m_lo_dlsig_6_0->Fit("f_lo_dlsig");
+	        dl_lo_val[15]=6.0;
+		dl_lo_sbratio[15]=DoRatio(f_lo_dlsig);
+		dl_lo_signal[15]=DoSignal(f_lo_dlsig);
+		
+
+ 	TGraph* g_lo_dlsig_r = new TGraph(16,dl_lo_val,dl_lo_sbratio);
+	TGraph* g_lo_dlsig_s = new TGraph(16,dl_lo_val,dl_lo_signal);
+
+
+ // ----------------- FITS FOR LOW MASS HISTOGRAMS (Ksmt) -----------------------
+
+ TF1 *f_lo_ks = new TF1("f_lo_ks","gaus(0)+pol3(3)",5,16);
+
+ f_lo_ks->SetParameter(0,250);
+ f_lo_ks->SetParameter(1,5.3);
+ f_lo_ks->SetParameter(2,.005);
+ 
+ 
+	float ks_lo_val[4];
+	float ks_lo_sbratio[4];
+	float ks_lo_signal[4];
+	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Ksmt cut = 0 ---------------------------";
+	cout << endl;
+	m_lo_Ksmt0->Fit("f_lo_ks");
+ 		ks_lo_val[0]=0;
+		ks_lo_sbratio[0]=DoRatio(f_lo_ks);
+		ks_lo_signal[0]=DoSignal(f_lo_ks);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Ksmt cut = 1 ---------------------------";
+	cout << endl;
+	m_lo_Ksmt0->Fit("f_lo_ks");
+ 		ks_lo_val[1]=1;
+		ks_lo_sbratio[1]=DoRatio(f_lo_ks);
+		ks_lo_signal[1]=DoSignal(f_lo_ks);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Ksmt cut = 2 ---------------------------";
+	cout << endl;
+	m_lo_Ksmt0->Fit("f_lo_ks");
+ 		ks_lo_val[2]=2;
+		ks_lo_sbratio[2]=DoRatio(f_lo_ks);
+		ks_lo_signal[2]=DoSignal(f_lo_ks);	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Ksmt cut = 3 ---------------------------";
+	cout << endl;
+	m_lo_Ksmt0->Fit("f_lo_ks");
+ 		ks_lo_val[3]=3;
+		ks_lo_sbratio[3]=DoRatio(f_lo_ks);
+		ks_lo_signal[3]=DoSignal(f_lo_ks);
+
+ 	TGraph* g_lo_ks_r = new TGraph(4,ks_lo_val,ks_lo_sbratio);
+	TGraph* g_lo_ks_s = new TGraph(4,ks_lo_val,ks_lo_signal);
+
+
+// ----------------- FITS FOR LOW MASS HISTOGRAMS (Kpt) -----------------------
+
+ TF1 *f_lo_kpt = new TF1("f_lo_kpt","gaus(0)+pol3(3)",5,16);
+
+ f_lo_kpt->SetParameter(0,250);
+ f_lo_kpt->SetParameter(1,5.3);
+ f_lo_kpt->SetParameter(2,.005);
+ 
+ 
+	float kpt_lo_val[11];
+	float kpt_lo_sbratio[11];
+	float kpt_lo_signal[11];
+	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.5 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_0_5->Fit("f_lo_kpt");
+ 		kpt_lo_val[0]=0.5;
+		kpt_lo_sbratio[0]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[0]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.6 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_0_6->Fit("f_lo_kpt");
+ 		kpt_lo_val[1]=0.6;
+		kpt_lo_sbratio[1]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[1]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.7 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_0_7->Fit("f_lo_kpt");
+ 		kpt_lo_val[2]=0.7;
+		kpt_lo_sbratio[2]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[2]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.8 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_0_8->Fit("f_lo_kpt");
+ 		kpt_lo_val[3]=0.8;
+		kpt_lo_sbratio[3]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[3]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.9 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_0_9->Fit("f_lo_kpt");
+ 		kpt_lo_val[4]=0.9;
+		kpt_lo_sbratio[4]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[4]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.0 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_1_0->Fit("f_lo_kpt");
+ 		kpt_lo_val[5]=1.0;
+		kpt_lo_sbratio[5]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[5]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.1 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_1_1->Fit("f_lo_kpt");
+ 		kpt_lo_val[6]=1.1;
+		kpt_lo_sbratio[6]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[6]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.2 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_1_2->Fit("f_lo_kpt");
+ 		kpt_lo_val[7]=1.2;
+		kpt_lo_sbratio[7]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[7]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.3 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_1_3->Fit("f_lo_kpt");
+ 		kpt_lo_val[8]=1.3;
+		kpt_lo_sbratio[8]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[8]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.4 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_1_4->Fit("f_lo_kpt");
+ 		kpt_lo_val[9]=1.4;
+		kpt_lo_sbratio[9]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[9]=DoSignal(f_lo_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.5 ---------------------------";
+	cout << endl;
+	m_lo_Kpt_1_5->Fit("f_lo_kpt");
+ 		kpt_lo_val[10]=1.5;
+		kpt_lo_sbratio[10]=DoRatio(f_lo_kpt);
+		kpt_lo_signal[10]=DoSignal(f_lo_kpt);
+
+
+ 	TGraph* g_lo_kpt_r = new TGraph(11,kpt_lo_val,kpt_lo_sbratio);
+	TGraph* g_lo_kpt_s = new TGraph(11,kpt_lo_val,kpt_lo_signal);
+ 
+
+		
+		
+//------------ FITS FOR HI-MASS HISTOGRAMS --------------------------------------
+
+		cout << "********************************************************************"<<endl;
+		cout << "                  FITS FOR HI-MASS HISTOGRAMS                       "<<endl;
+		cout << "********************************************************************"<<endl;
+
+ TF1 *f_hi_co = new TF1("f_hi_co","gaus(0)+pol3(3)",5,16);
+
+ f_hi_co->SetParameter(0,250);
+ f_hi_co->SetParameter(1,5.3);
+ f_hi_co->SetParameter(2,.005);
+ 
+ 
+	float co_hi_val[36];
+	float co_hi_sbratio[36];
+	float co_hi_signal[36];
+	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.080 ---------------------------";
+	cout << endl;
+	m_hi_coll_080->Fit("f_hi_co");
+ 		co_hi_val[0]=0.080;
+		co_hi_sbratio[0]=DoRatio(f_hi_co);
+		co_hi_signal[0]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.100 ---------------------------";
+	cout << endl;
+	m_hi_coll_100->Fit("f_hi_co");
+ 		co_hi_val[1]=0.100;
+		co_hi_sbratio[1]=DoRatio(f_hi_co);
+		co_hi_signal[1]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.125 ---------------------------";
+	cout << endl;
+	m_hi_coll_125->Fit("f_hi_co");
+ 		co_hi_val[2]=0.125;
+		co_hi_sbratio[2]=DoRatio(f_hi_co);
+		co_hi_signal[2]=DoSignal(f_hi_co);	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.150 ---------------------------";
+	cout << endl;
+	m_hi_coll_150->Fit("f_hi_co");
+ 		co_hi_val[3]=0.150;
+		co_hi_sbratio[3]=DoRatio(f_hi_co);
+		co_hi_signal[3]=DoSignal(f_hi_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.175 ---------------------------";
+	cout << endl;
+	m_hi_coll_175->Fit("f_hi_co");
+ 		co_hi_val[4]=0.175;
+		co_hi_sbratio[4]=DoRatio(f_hi_co);	
+		co_hi_signal[4]=DoSignal(f_hi_co);	
+//-- 0.2
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.200 ---------------------------";
+	cout << endl;
+	m_hi_coll_200->Fit("f_hi_co");
+ 		co_hi_val[5]=0.200;
+		co_hi_sbratio[5]=DoRatio(f_hi_co);
+		co_hi_signal[5]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.225 ---------------------------";
+	cout << endl;
+	m_hi_coll_225->Fit("f_hi_co");
+ 		co_hi_val[6]=0.225;
+		co_hi_sbratio[6]=DoRatio(f_hi_co);	
+		co_hi_signal[6]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.250 ---------------------------";
+	cout << endl;
+	m_hi_coll_250->Fit("f_hi_co");
+ 		co_hi_val[7]=0.250;
+		co_hi_sbratio[7]=DoRatio(f_hi_co);
+		co_hi_signal[7]=DoSignal(f_hi_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.275 ---------------------------";
+	cout << endl;
+	m_hi_coll_275->Fit("f_hi_co");
+ 		co_hi_val[8]=0.275;
+		co_hi_sbratio[8]=DoRatio(f_hi_co);
+		co_hi_signal[8]=DoSignal(f_hi_co);
+//-- 0.3
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.300 ---------------------------";
+	cout << endl;
+	m_hi_coll_300->Fit("f_hi_co");
+ 		co_hi_val[9]=0.300;
+		co_hi_sbratio[9]=DoRatio(f_hi_co);
+		co_hi_signal[9]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.325 ---------------------------";
+	cout << endl;
+	m_hi_coll_325->Fit("f_hi_co");
+ 		co_hi_val[10]=0.325;
+		co_hi_sbratio[10]=DoRatio(f_hi_co);	
+		co_hi_signal[10]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.350 ---------------------------";
+	cout << endl;
+	m_hi_coll_350->Fit("f_hi_co");
+ 		co_hi_val[11]=0.350;
+		co_hi_sbratio[11]=DoRatio(f_hi_co);
+		co_hi_signal[11]=DoSignal(f_hi_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.375 ---------------------------";
+	cout << endl;
+	m_hi_coll_375->Fit("f_hi_co");
+ 		co_hi_val[12]=0.375;
+		co_hi_sbratio[12]=DoRatio(f_hi_co);
+		co_hi_signal[12]=DoSignal(f_hi_co);
+		
+//-- 0.4
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.400 ---------------------------";
+	cout << endl;
+	m_hi_coll_400->Fit("f_hi_co");
+ 		co_hi_val[13]=0.400;
+		co_hi_sbratio[13]=DoRatio(f_hi_co);
+		co_hi_signal[13]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.425 ---------------------------";
+	cout << endl;
+	m_hi_coll_425->Fit("f_hi_co");
+ 		co_hi_val[14]=0.425;
+		co_hi_sbratio[14]=DoRatio(f_hi_co);	
+		co_hi_signal[14]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.450 ---------------------------";
+	cout << endl;
+	m_hi_coll_450->Fit("f_hi_co");
+ 		co_hi_val[15]=0.450;
+		co_hi_sbratio[15]=DoRatio(f_hi_co);
+		co_hi_signal[15]=DoSignal(f_hi_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.475 ---------------------------";
+	cout << endl;
+	m_hi_coll_475->Fit("f_hi_co");
+ 		co_hi_val[16]=0.475;
+		co_hi_sbratio[16]=DoRatio(f_hi_co);
+		co_hi_signal[16]=DoSignal(f_hi_co);
+		
+//-- 0.5
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.500 ---------------------------";
+	cout << endl;
+	m_hi_coll_500->Fit("f_hi_co");
+ 		co_hi_val[17]=0.500;
+		co_hi_sbratio[17]=DoRatio(f_hi_co);
+		co_hi_signal[17]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.525 ---------------------------";
+	cout << endl;
+	m_hi_coll_525->Fit("f_hi_co");
+ 		co_hi_val[18]=0.525;
+		co_hi_sbratio[18]=DoRatio(f_hi_co);	
+		co_hi_signal[18]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.550 ---------------------------";
+	cout << endl;
+	m_hi_coll_550->Fit("f_hi_co");
+ 		co_hi_val[19]=0.550;
+		co_hi_sbratio[19]=DoRatio(f_hi_co);
+		co_hi_signal[19]=DoSignal(f_hi_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.575 ---------------------------";
+	cout << endl;
+	m_hi_coll_575->Fit("f_hi_co");
+ 		co_hi_val[20]=0.575;
+		co_hi_sbratio[20]=DoRatio(f_hi_co);
+		co_hi_signal[20]=DoSignal(f_hi_co);
+
+//-- 0.6
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.600 ---------------------------";
+	cout << endl;
+	m_hi_coll_600->Fit("f_hi_co");
+ 		co_hi_val[21]=0.600;
+		co_hi_sbratio[21]=DoRatio(f_hi_co);
+		co_hi_signal[21]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.625 ---------------------------";
+	cout << endl;
+	m_hi_coll_625->Fit("f_hi_co");
+ 		co_hi_val[22]=0.625;
+		co_hi_sbratio[22]=DoRatio(f_hi_co);	
+		co_hi_signal[22]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.650 ---------------------------";
+	cout << endl;
+	m_hi_coll_650->Fit("f_hi_co");
+ 		co_hi_val[23]=0.650;
+		co_hi_sbratio[23]=DoRatio(f_hi_co);
+		co_hi_signal[23]=DoSignal(f_hi_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.675 ---------------------------";
+	cout << endl;
+	m_hi_coll_675->Fit("f_hi_co");
+ 		co_hi_val[24]=0.675;
+		co_hi_sbratio[24]=DoRatio(f_hi_co);
+		co_hi_signal[24]=DoSignal(f_hi_co);
+		
+//-- 0.7
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.700 ---------------------------";
+	cout << endl;
+	m_hi_coll_700->Fit("f_hi_co");
+ 		co_hi_val[25]=0.700;
+		co_hi_sbratio[25]=DoRatio(f_hi_co);
+		co_hi_signal[25]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.725 ---------------------------";
+	cout << endl;
+	m_hi_coll_725->Fit("f_hi_co");
+ 		co_hi_val[26]=0.725;
+		co_hi_sbratio[26]=DoRatio(f_hi_co);	
+		co_hi_signal[26]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.750 ---------------------------";
+	cout << endl;
+	m_hi_coll_750->Fit("f_hi_co");
+ 		co_hi_val[27]=0.750;
+		co_hi_sbratio[27]=DoRatio(f_hi_co);
+		co_hi_signal[27]=DoSignal(f_hi_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.775 ---------------------------";
+	cout << endl;
+	m_hi_coll_775->Fit("f_hi_co");
+ 		co_hi_val[28]=0.775;
+		co_hi_sbratio[28]=DoRatio(f_hi_co);
+		co_hi_signal[28]=DoSignal(f_hi_co);
+		
+//-- 0.8
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.800 ---------------------------";
+	cout << endl;
+	m_hi_coll_800->Fit("f_hi_co");
+ 		co_hi_val[29]=0.800;
+		co_hi_sbratio[29]=DoRatio(f_hi_co);
+		co_hi_signal[29]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.825 ---------------------------";
+	cout << endl;
+	m_hi_coll_825->Fit("f_hi_co");
+ 		co_hi_val[30]=0.825;
+		co_hi_sbratio[30]=DoRatio(f_hi_co);	
+		co_hi_signal[30]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.850 ---------------------------";
+	cout << endl;
+	m_hi_coll_850->Fit("f_hi_co");
+ 		co_hi_val[31]=0.850;
+		co_hi_sbratio[31]=DoRatio(f_hi_co);
+		co_hi_signal[31]=DoSignal(f_hi_co);
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.875 ---------------------------";
+	cout << endl;
+	m_hi_coll_875->Fit("f_hi_co");
+ 		co_hi_val[32]=0.875;
+		co_hi_sbratio[32]=DoRatio(f_hi_co);
+		co_hi_signal[32]=DoSignal(f_hi_co);
+		
+//-- 0.9
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.900 ---------------------------";
+	cout << endl;
+	m_hi_coll_900->Fit("f_hi_co");
+ 		co_hi_val[33]=0.900;
+		co_hi_sbratio[33]=DoRatio(f_hi_co);
+		co_hi_signal[33]=DoSignal(f_hi_co);
+
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.925 ---------------------------";
+	cout << endl;
+	m_hi_coll_925->Fit("f_hi_co");
+ 		co_hi_val[34]=0.925;
+		co_hi_sbratio[34]=DoRatio(f_hi_co);
+		co_hi_signal[34]=DoSignal(f_hi_co);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "coll cut = 0.950 ---------------------------";
+	cout << endl;
+	m_hi_coll_950->Fit("f_hi_co");
+ 		co_hi_val[35]=0.950;
+		co_hi_sbratio[35]=DoRatio(f_hi_co);	
+		co_hi_signal[35]=DoSignal(f_hi_co);
+		
+ 	TGraph* g_hi_co_r = new TGraph(36,co_hi_val,co_hi_sbratio);
+
+	TGraph* g_hi_co_s = new TGraph(36,co_hi_val,co_hi_signal);
+
+ //---------------- FITS FOR HI-MASS HISTOGRAMS (dl_sig) -------------------------
+
+TF1 *f_hi_dlsig = new TF1("f_hi_dlsig","gaus(0)+pol3(3)",5,16);
+
+ f_hi_dlsig->SetParameter(0,250);
+ f_hi_dlsig->SetParameter(1,5.25);
+ f_hi_dlsig->SetParameter(2,.005);
+
+	float dl_hi_val[16];
+	float dl_hi_sbratio[16];
+	float dl_hi_signal[16];
+ 
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.0 ---------------------------";
+	cout << endl;
+ 	m_hi_dlsig_3_0->Fit("f_hi_dlsig");
+	        dl_hi_val[0]=3.0;
+		dl_hi_sbratio[0]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[0]=DoSignal(f_hi_dlsig);
+		
+		
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.2 ---------------------------";
+	cout << endl;	
+ 	m_hi_dlsig_3_2->Fit("f_hi_dlsig");
+	        dl_hi_val[1]=3.2;
+		dl_hi_sbratio[1]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[1]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.4 ---------------------------";
+	cout << endl; 
+ 	m_hi_dlsig_3_4->Fit("f_hi_dlsig");
+	        dl_hi_val[2]=3.4;
+		dl_hi_sbratio[2]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[2]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.6 ---------------------------";
+	cout << endl;
+ 	m_hi_dlsig_3_6->Fit("f_hi_dlsig");
+	        dl_hi_val[3]=3.6;
+		dl_hi_sbratio[3]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[3]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 3.8 ---------------------------";
+	cout << endl;		 
+ 	m_hi_dlsig_3_8->Fit("f_hi_dlsig");
+	        dl_hi_val[4]=3.8;
+		dl_hi_sbratio[4]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[4]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.0 ---------------------------";
+	cout << endl; 
+ 	m_hi_dlsig_4_0->Fit("f_hi_dlsig");
+                dl_hi_val[5]=4.0;
+		dl_hi_sbratio[5]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[5]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.2 ---------------------------";
+	cout << endl; 
+ 	m_hi_dlsig_4_2->Fit("f_hi_dlsig");
+                dl_hi_val[6]=4.2;
+		dl_hi_sbratio[6]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[6]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.4 ---------------------------";
+	cout << endl; 
+ 	m_hi_dlsig_4_4->Fit("f_hi_dlsig");
+                dl_hi_val[7]=4.4;
+		dl_hi_sbratio[7]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[7]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.6 ---------------------------";
+	cout << endl; 
+ 	m_hi_dlsig_4_6->Fit("f_hi_dlsig");
+                dl_hi_val[8]=4.6;
+		dl_hi_sbratio[8]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[8]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 4.8 ---------------------------";
+	cout << endl; 	
+  	m_hi_dlsig_4_8->Fit("f_hi_dlsig");
+                dl_hi_val[9]=4.8;
+		dl_hi_sbratio[9]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[9]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.0 ---------------------------";
+	cout << endl; 
+  	m_hi_dlsig_5_0->Fit("f_hi_dlsig");
+                dl_hi_val[10]=5.0;
+		dl_hi_sbratio[10]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[10]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.2 ---------------------------";
+	cout << endl; 
+ 	m_hi_dlsig_5_2->Fit("f_hi_dlsig");
+                dl_hi_val[11]=5.2;
+		dl_hi_sbratio[11]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[11]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.4 ---------------------------";
+	cout << endl; 
+ 	m_hi_dlsig_5_4->Fit("f_hi_dlsig");
+                dl_hi_val[12]=5.4;
+		dl_hi_sbratio[12]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[12]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.6 ---------------------------";
+	cout << endl; 
+  	m_hi_dlsig_5_6->Fit("f_hi_dlsig");
+                dl_hi_val[13]=5.6;
+		dl_hi_sbratio[13]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[13]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 5.8 ---------------------------";
+	cout << endl;
+ 	m_hi_dlsig_5_8->Fit("f_hi_dlsig");
+	        dl_hi_val[14]=5.8;
+	        dl_hi_sbratio[14]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[14]=DoSignal(f_hi_dlsig);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "dlsig cut = 6.0 ---------------------------";
+	cout << endl;		
+ 	m_hi_dlsig_6_0->Fit("f_hi_dlsig");
+	        dl_hi_val[15]=6.0;
+		dl_hi_sbratio[15]=DoRatio(f_hi_dlsig);
+		dl_hi_signal[15]=DoSignal(f_hi_dlsig);
+		
+
+ 	TGraph* g_hi_dlsig_r = new TGraph(16,dl_hi_val,dl_hi_sbratio);
+	TGraph* g_hi_dlsig_s = new TGraph(16,dl_hi_val,dl_hi_signal);
+
+
+ // ----------------- FITS FOR hi-MASS HISTOGRAMS (Ksmt) -----------------------
+
+ TF1 *f_hi_ks = new TF1("f_hi_ks","gaus(0)+pol3(3)",5,16);
+
+ f_hi_ks->SetParameter(0,250);
+ f_hi_ks->SetParameter(1,5.3);
+ f_hi_ks->SetParameter(2,.005);
+ 
+ 
+	float ks_hi_val[4];
+	float ks_hi_sbratio[4];
+	float ks_hi_signal[4];
+	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Ksmt cut = 0 ---------------------------";
+	cout << endl;
+	m_hi_Ksmt0->Fit("f_hi_ks");
+ 		ks_hi_val[0]=0;
+		ks_hi_sbratio[0]=DoRatio(f_hi_ks);
+		ks_hi_signal[0]=DoSignal(f_hi_ks);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Ksmt cut = 1 ---------------------------";
+	cout << endl;
+	m_hi_Ksmt0->Fit("f_hi_ks");
+ 		ks_hi_val[1]=1;
+		ks_hi_sbratio[1]=DoRatio(f_hi_ks);
+		ks_hi_signal[1]=DoSignal(f_hi_ks);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Ksmt cut = 2 ---------------------------";
+	cout << endl;
+	m_hi_Ksmt0->Fit("f_hi_ks");
+ 		ks_hi_val[2]=2;
+		ks_hi_sbratio[2]=DoRatio(f_hi_ks);
+		ks_hi_signal[2]=DoSignal(f_hi_ks);	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Ksmt cut = 3 ---------------------------";
+	cout << endl;
+	m_hi_Ksmt0->Fit("f_hi_ks");
+ 		ks_hi_val[3]=3;
+		ks_hi_sbratio[3]=DoRatio(f_hi_ks);
+		ks_hi_signal[3]=DoSignal(f_hi_ks);
+
+ 	TGraph* g_hi_ks_r = new TGraph(4,ks_hi_val,ks_hi_sbratio);
+	TGraph* g_hi_ks_s = new TGraph(4,ks_hi_val,ks_hi_signal);
+
+
+// ----------------- FITS FOR hi-MASS HISTOGRAMS (Kpt) -----------------------
+
+ TF1 *f_hi_kpt = new TF1("f_hi_kpt","gaus(0)+pol3(3)",5,16);
+
+ f_hi_kpt->SetParameter(0,250);
+ f_hi_kpt->SetParameter(1,5.3);
+ f_hi_kpt->SetParameter(2,.005);
+ 
+ 
+	float kpt_hi_val[11];
+	float kpt_hi_sbratio[11];
+	float kpt_hi_signal[11];
+	
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.5 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_0_5->Fit("f_hi_kpt");
+ 		kpt_hi_val[0]=0.5;
+		kpt_hi_sbratio[0]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[0]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.6 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_0_6->Fit("f_hi_kpt");
+ 		kpt_hi_val[1]=0.6;
+		kpt_hi_sbratio[1]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[1]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.7 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_0_7->Fit("f_hi_kpt");
+ 		kpt_hi_val[2]=0.7;
+		kpt_hi_sbratio[2]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[2]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.8 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_0_8->Fit("f_hi_kpt");
+ 		kpt_hi_val[3]=0.8;
+		kpt_hi_sbratio[3]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[3]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 0.9 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_0_9->Fit("f_hi_kpt");
+ 		kpt_hi_val[4]=0.9;
+		kpt_hi_sbratio[4]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[4]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.0 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_1_0->Fit("f_hi_kpt");
+ 		kpt_hi_val[5]=1.0;
+		kpt_hi_sbratio[5]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[5]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.1 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_1_1->Fit("f_hi_kpt");
+ 		kpt_hi_val[6]=1.1;
+		kpt_hi_sbratio[6]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[6]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.2 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_1_2->Fit("f_hi_kpt");
+ 		kpt_hi_val[7]=1.2;
+		kpt_hi_sbratio[7]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[7]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.3 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_1_3->Fit("f_hi_kpt");
+ 		kpt_hi_val[8]=1.3;
+		kpt_hi_sbratio[8]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[8]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.4 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_1_4->Fit("f_hi_kpt");
+ 		kpt_hi_val[9]=1.4;
+		kpt_hi_sbratio[9]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[9]=DoSignal(f_hi_kpt);
+
+ 	cout << endl << "--------------------------- ";
+	cout << "Kpt cut = 1.5 ---------------------------";
+	cout << endl;
+	m_hi_Kpt_1_5->Fit("f_hi_kpt");
+ 		kpt_hi_val[10]=1.5;
+		kpt_hi_sbratio[10]=DoRatio(f_hi_kpt);
+		kpt_hi_signal[10]=DoSignal(f_hi_kpt);
+
+
+ 	TGraph* g_hi_kpt_r = new TGraph(11,kpt_hi_val,kpt_hi_sbratio);
+	TGraph* g_hi_kpt_s = new TGraph(11,kpt_hi_val,kpt_hi_signal);
+ 
+
+
+TCanvas *lo_mass_1 = new TCanvas("lo_mass_1", "m>0.5GeV: Kpt, Ksmt cuts.  Upper: Signal, Lower: S/B ratio", 600, 750, 600, 750);
+
+lo_mass_1->Divide(2,2);
+
+lo_mass_1->cd(1);
+         g_lo_kpt_s->Draw("APL");
+lo_mass_1->cd(2);
+         g_lo_ks_s->Draw("APL");
+
+lo_mass_1->cd(3);
+         g_lo_kpt_r->Draw("APL");
+lo_mass_1->cd(4);
+         g_lo_ks_r->Draw("APL");
+
+lo_mass_1->Print("lo_mass_1.eps");
+
+TCanvas *lo_mass_2 = new TCanvas("lo_mass_2", "m>0.5GeV: dl_sig, coll cuts.  Upper: Signal, Lower: S/B ratio", 600, 750, 600, 750);
+
+lo_mass_2->Divide(2,2);
+
+lo_mass_2->cd(1);
+         g_lo_dlsig_s->Draw("APL");
+lo_mass_2->cd(2);
+         g_lo_co_s->Draw("APL");
+
+lo_mass_2->cd(3);
+         g_lo_dlsig_r->Draw("APL");
+lo_mass_2->cd(4);
+         g_lo_co_r->Draw("APL");
+
+lo_mass_2->Print("lo_mass_2.eps");
+
+TCanvas *hi_mass_1 = new TCanvas("hi_mass_1", "m>1.0GeV: Kpt, Ksmt cuts.  Upper: Signal, Lower: S/B ratio", 600, 750, 600, 750);
+
+hi_mass_1->Divide(2,2);
+
+hi_mass_1->cd(1);
+         g_hi_kpt_s->Draw("APL");
+hi_mass_1->cd(2);
+         g_hi_ks_s->Draw("APL");
+
+hi_mass_1->cd(3);
+         g_hi_kpt_r->Draw("APL");
+hi_mass_1->cd(4);
+         g_hi_ks_r->Draw("APL");
+
+hi_mass_1->Print("hi_mass_1.eps");
+
+TCanvas *hi_mass_2 = new TCanvas("hi_mass_2", "m>1.0GeV: dl_sig, coll cuts.  Upper: Signal, Lower: S/B ratio", 600, 750, 600, 750);
+
+hi_mass_2->Divide(2,2);
+
+hi_mass_2->cd(1);
+         g_hi_dlsig_s->Draw("APL");
+hi_mass_2->cd(2);
+         g_hi_co_s->Draw("APL");
+
+hi_mass_2->cd(3);
+         g_hi_dlsig_r->Draw("APL");
+hi_mass_2->cd(4);
+         g_hi_co_r->Draw("APL");
+
+hi_mass_2->Print("hi_mass_2.eps");
+
+TCanvas *kpt = new TCanvas("kpt", "Kpt: no cuts, 0.5<Kpt<1.0GeV, Kpt>1.0Gev", 900, 300, 900, 300);
+
+kpt->Divide(3,1);
+
+kpt->cd(1);
+     kpt_nc->Draw();
+kpt->cd(2);
+     kpt_lo->Draw();
+kpt->cd(3);
+     kpt_hi->Draw();
+
+kpt->Print("kpt.eps");
+
+TCanvas *cuts = new TCanvas("cuts", "dl_sig, coll, ksmt cut dists for lo/hi Kpt. Upper: 0.5<Kpt<1.0Gev, Lower: Kpt>1.0Gev", 900,600,900,600);
+
+cuts->Divide(3,2);
+ 
+cuts->cd(1);
+       dl_sig_lo->Draw();
+cuts->cd(2);
+       coll_lo->Draw();
+cuts->cd(3);
+       ksmt_lo->Draw();
+cuts->cd(4);
+      dl_sig_hi->Draw();
+cuts->cd(5);
+       coll_hi->Draw();
+cuts->cd(6);
+      ksmt_hi->Draw();
+
+ cuts->Print("cuts.eps");
+       
+}			
+		
+								

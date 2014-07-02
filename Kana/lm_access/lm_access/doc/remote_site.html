@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>How to get luminosity stage files at remote sites</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<p><font face="Verdana, Arial, Helvetica, sans-serif"> 1. Have a system expert 
+  at your institution subscribe to the d0luminosity-admin list by sending an email 
+  to <a href="mailto:listserv@fnal.gov">listserv@fnal.gov</a> with the body:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"> <b>subscribe d0luminosity-admin</b> 
+  <br>
+  </font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif">2. Set up rsync to copy 
+  the files over on a nightly basis:</font> </p>
+<blockquote>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif">Instructions on setting 
+    up Rsync from Thomas Nunnemann </font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+    You need to have a kerberized version of ssh. If you are running<br>
+    Linux-2.4 just copy it fropm cluedo (for example).</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif">Instructions:<br>
+    - install Fermilabs Kerberos product</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+    - add missing binaries (ssh, scp) (e.g. copy them from clued0)</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+    - create Kerberos keytab file for cron access<br>
+    (see chapter ten of Fnal's kerberos manual:<br>
+    <a href="http://www.fnal.gov/docs/strongauth/">http://www.fnal.gov/docs/strongauth/</a>)</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+    - create a script similar to the one<a href="lumi_sync.sh"> here</a>. The 
+    important<br>
+    line is the one with rsync. Note that you need a kerberized version of<br>
+    ssh here (I choose to rsync from Michael Begel's clued0 node since the centrally<br>
+    located copy on d02ka cannot be used due to the implementation of<br>
+    rsync on Irix).</font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+    - create a cron job using the crontab command (e.g. you can do a nightly<br>
+    sync, should take around ~8min).</font></p>
+  <p>&nbsp;</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"><br>
+  </font></p>
+</body>
+</html>

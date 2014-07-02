@@ -1,0 +1,430 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     11393,        331]*)
+(*NotebookOutlinePosition[     12029,        353]*)
+(*  CellTagsIndexPosition[     11985,        349]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(Clear[erepos, \ eimpos, \ ere, \ eim]\)], "Input"],
+
+Cell[BoxData[
+    \(Clear[AA, BB, CC, DD]\)], "Input"],
+
+Cell[BoxData[
+    \(Clear[s, t, t0, dm]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AA = t/\((Sqrt[2]*s)\) - s/\((Sqrt[2]*t0)\)\)], "Input"],
+
+Cell[BoxData[
+    \(t\/\(\@2\ s\) - s\/\(\@2\ t0\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(BB = s^2/\((2  t0^2)\) - t/t0\)], "Input"],
+
+Cell[BoxData[
+    \(s\^2\/\(2\ t0\^2\) - t\/t0\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CC = s*dm/Sqrt[2]\)], "Input"],
+
+Cell[BoxData[
+    \(\(dm\ s\)\/\@2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ere = Re[Erfi[CC - \[ImaginaryI]*AA]]\)], "Input"],
+
+Cell[BoxData[
+    \(Re[Erfi[\(dm\ s\)\/\@2 - \[ImaginaryI]\ \((t\/\(\@2\ s\) - 
+                s\/\(\@2\ t0\))\)]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(eim\  = \ Im[Erfi[CC - \[ImaginaryI]*AA]]\)], "Input"],
+
+Cell[BoxData[
+    \(Im[Erfi[\(dm\ s\)\/\@2 - \[ImaginaryI]\ \((t\/\(\@2\ s\) - 
+                s\/\(\@2\ t0\))\)]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(erepos = Re[Erfi[CC + \[ImaginaryI]*AA]]\)], "Input"],
+
+Cell[BoxData[
+    \(Re[Erfi[\(dm\ s\)\/\@2 + \[ImaginaryI]\ \((t\/\(\@2\ s\) - 
+                s\/\(\@2\ t0\))\)]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(eimpos = Im[Erfi[CC + \[ImaginaryI]*AA]]\)\(\[IndentingNewLine]\)
+    \)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(eimpos\\)\\\" is similar to existing symbol \
+\\\"\\!\\(wimpos\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(Im[Erfi[\(dm\ s\)\/\@2 + \[ImaginaryI]\ \((t\/\(\@2\ s\) - 
+                s\/\(\@2\ t0\))\)]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(s := 0.8\)], "Input"],
+
+Cell[BoxData[
+    \(dm := 0.51\)], "Input"],
+
+Cell[BoxData[
+    \(t0 := 1.5\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[
+      Table[{t, ere, \ erepos, eim, \ eimpos}, {t, \(-2\), 4}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-2\), "0.0025510804887174617`", "0.0025510804887174617`", 
+            "0.9994322269161194`", \(-0.9994322269161194`\)},
+          {\(-1\), "0.06226905360762628`", "0.06226905360762628`", 
+            "0.9495424709360929`", \(-0.9495424709360929`\)},
+          {"0", "0.2880763768224569`", "0.2880763768224569`", 
+            "0.4381069084937527`", \(-0.4381069084937527`\)},
+          {"1", "0.2552164215730928`", 
+            "0.2552164215730928`", \(-0.5645336106279512`\), 
+            "0.5645336106279512`"},
+          {"2", "0.04326613760013823`", 
+            "0.04326613760013823`", \(-0.9694217245567195`\), 
+            "0.9694217245567195`"},
+          {"3", "0.0013864076683367142`", 
+            "0.0013864076683367142`", \(-0.999791666122246`\), 
+            "0.999791666122246`"},
+          {"4", "8.12684784869796`*^-6", 
+            "8.12684784869796`*^-6", \(-1.0000028322148706`\), 
+            "1.0000028322148706`"}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(erftestpos := \(-\[ImaginaryI]\)*Erfi[CC + \[ImaginaryI]*AA]\)], "Input"],
+
+Cell[BoxData[
+    \(erftestneg := \[ImaginaryI]*Erfi[CC - \[ImaginaryI]*AA]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[
+      Table[{t, erftestpos, \ erftestneg}, {t, \ \(-2\), \ 4}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-2\), \(\(-0.9994322269161194`\) - 
+              0.0025510804887174617`\ \[ImaginaryI]\), \
+\(\(-0.9994322269161194`\) + 0.0025510804887174617`\ \[ImaginaryI]\)},
+          {\(-1\), \(\(-0.9495424709360929`\) - 
+              0.06226905360762628`\ \[ImaginaryI]\), \(\(-0.9495424709360929`\
+\) + 0.06226905360762628`\ \[ImaginaryI]\)},
+          {
+            "0", \(\(-0.4381069084937527`\) - 
+              0.2880763768224569`\ \[ImaginaryI]\), \
+\(\(-0.4381069084937527`\) + 0.2880763768224569`\ \[ImaginaryI]\)},
+          {
+            "1", \(\(\(0.5645336106279512`\)\(\[InvisibleSpace]\)\) - 
+              0.2552164215730928`\ \[ImaginaryI]\), \(\(\(0.5645336106279512`\
+\)\(\[InvisibleSpace]\)\) + 0.2552164215730928`\ \[ImaginaryI]\)},
+          {
+            "2", \(\(\(0.9694217245567195`\)\(\[InvisibleSpace]\)\) - 
+              0.04326613760013823`\ \[ImaginaryI]\), \
+\(\(\(0.9694217245567195`\)\(\[InvisibleSpace]\)\) + 
+              0.04326613760013823`\ \[ImaginaryI]\)},
+          {
+            "3", \(\(\(0.999791666122246`\)\(\[InvisibleSpace]\)\) - 
+              0.0013864076683367142`\ \[ImaginaryI]\), \
+\(\(\(0.999791666122246`\)\(\[InvisibleSpace]\)\) + 
+              0.0013864076683367142`\ \[ImaginaryI]\)},
+          {
+            "4", \(\(\(1.0000028322148706`\)\(\[InvisibleSpace]\)\) - 
+              8.12684784869796`*^-6\ \[ImaginaryI]\), \
+\(\(\(1.0000028322148706`\)\(\[InvisibleSpace]\)\) + 
+              8.12684784869796`*^-6\ \[ImaginaryI]\)}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(erftestpos2 := \(-\[ImaginaryI]\)*Re[Erfi[CC + \[ImaginaryI]*AA]] + 
+        Im[Erfi[CC + \[ImaginaryI]*AA]]\)], "Input"],
+
+Cell[BoxData[
+    \(erftestneg2 := \[ImaginaryI]*Re[Erfi[CC + \[ImaginaryI]*AA]] + 
+        Im[Erfi[CC + \[ImaginaryI]*AA]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[
+      Table[{t, erftestpos, \ erftestpos2}, {t, \ \(-2\), \ 4}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-2\), \(\(-0.9994322269161194`\) - 
+              0.0025510804887174617`\ \[ImaginaryI]\), \
+\(\(-0.9994322269161194`\) - 0.0025510804887174617`\ \[ImaginaryI]\)},
+          {\(-1\), \(\(-0.9495424709360929`\) - 
+              0.06226905360762628`\ \[ImaginaryI]\), \(\(-0.9495424709360929`\
+\) - 0.06226905360762628`\ \[ImaginaryI]\)},
+          {
+            "0", \(\(-0.4381069084937527`\) - 
+              0.2880763768224569`\ \[ImaginaryI]\), \
+\(\(-0.4381069084937527`\) - 0.2880763768224569`\ \[ImaginaryI]\)},
+          {
+            "1", \(\(\(0.5645336106279512`\)\(\[InvisibleSpace]\)\) - 
+              0.2552164215730928`\ \[ImaginaryI]\), \(\(\(0.5645336106279512`\
+\)\(\[InvisibleSpace]\)\) - 0.2552164215730928`\ \[ImaginaryI]\)},
+          {
+            "2", \(\(\(0.9694217245567195`\)\(\[InvisibleSpace]\)\) - 
+              0.04326613760013823`\ \[ImaginaryI]\), \
+\(\(\(0.9694217245567195`\)\(\[InvisibleSpace]\)\) - 
+              0.04326613760013823`\ \[ImaginaryI]\)},
+          {
+            "3", \(\(\(0.999791666122246`\)\(\[InvisibleSpace]\)\) - 
+              0.0013864076683367142`\ \[ImaginaryI]\), \
+\(\(\(0.999791666122246`\)\(\[InvisibleSpace]\)\) - 
+              0.0013864076683367142`\ \[ImaginaryI]\)},
+          {
+            "4", \(\(\(1.0000028322148706`\)\(\[InvisibleSpace]\)\) - 
+              8.12684784869796`*^-6\ \[ImaginaryI]\), \
+\(\(\(1.0000028322148706`\)\(\[InvisibleSpace]\)\) - 
+              8.12684784869796`*^-6\ \[ImaginaryI]\)}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TableForm[
+      Table[{t, erftestneg, \ erftestneg2}, {t, \ \(-2\), \ 4}]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[GridBox[{
+          {\(-2\), \(\(-0.9994322269161194`\) + 
+              0.0025510804887174617`\ \[ImaginaryI]\), \
+\(\(-0.9994322269161194`\) + 0.0025510804887174617`\ \[ImaginaryI]\)},
+          {\(-1\), \(\(-0.9495424709360929`\) + 
+              0.06226905360762628`\ \[ImaginaryI]\), \(\(-0.9495424709360929`\
+\) + 0.06226905360762628`\ \[ImaginaryI]\)},
+          {
+            "0", \(\(-0.4381069084937527`\) + 
+              0.2880763768224569`\ \[ImaginaryI]\), \
+\(\(-0.4381069084937527`\) + 0.2880763768224569`\ \[ImaginaryI]\)},
+          {
+            "1", \(\(\(0.5645336106279512`\)\(\[InvisibleSpace]\)\) + 
+              0.2552164215730928`\ \[ImaginaryI]\), \(\(\(0.5645336106279512`\
+\)\(\[InvisibleSpace]\)\) + 0.2552164215730928`\ \[ImaginaryI]\)},
+          {
+            "2", \(\(\(0.9694217245567195`\)\(\[InvisibleSpace]\)\) + 
+              0.04326613760013823`\ \[ImaginaryI]\), \
+\(\(\(0.9694217245567195`\)\(\[InvisibleSpace]\)\) + 
+              0.04326613760013823`\ \[ImaginaryI]\)},
+          {
+            "3", \(\(\(0.999791666122246`\)\(\[InvisibleSpace]\)\) + 
+              0.0013864076683367142`\ \[ImaginaryI]\), \
+\(\(\(0.999791666122246`\)\(\[InvisibleSpace]\)\) + 
+              0.0013864076683367142`\ \[ImaginaryI]\)},
+          {
+            "4", \(\(\(1.0000028322148706`\)\(\[InvisibleSpace]\)\) + 
+              8.12684784869796`*^-6\ \[ImaginaryI]\), \
+\(\(\(1.0000028322148706`\)\(\[InvisibleSpace]\)\) + 
+              8.12684784869796`*^-6\ \[ImaginaryI]\)}
+          },
+        RowSpacings->1,
+        ColumnSpacings->3,
+        RowAlignments->Baseline,
+        ColumnAlignments->{Left}],
+      Function[ BoxForm`e$, 
+        TableForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Macintosh",
+ScreenRectangle->{{0, 1024}, {0, 711}},
+WindowSize->{898, 637},
+WindowMargins->{{9, Automatic}, {20, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 70, 1, 30, "Input"],
+Cell[1827, 54, 54, 1, 30, "Input"],
+Cell[1884, 57, 52, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[1961, 62, 76, 1, 30, "Input"],
+Cell[2040, 65, 64, 1, 53, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2141, 71, 62, 1, 30, "Input"],
+Cell[2206, 74, 60, 1, 50, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2303, 80, 50, 1, 30, "Input"],
+Cell[2356, 83, 48, 1, 53, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2441, 89, 70, 1, 30, "Input"],
+Cell[2514, 92, 129, 2, 56, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2680, 99, 74, 1, 30, "Input"],
+Cell[2757, 102, 129, 2, 56, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2923, 109, 73, 1, 30, "Input"],
+Cell[2999, 112, 129, 2, 56, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3165, 119, 109, 2, 50, "Input"],
+Cell[3277, 123, 360, 5, 21, "Message"],
+Cell[3640, 130, 129, 2, 56, "Output"]
+}, Open  ]],
+Cell[3784, 135, 41, 1, 30, "Input"],
+Cell[3828, 138, 43, 1, 30, "Input"],
+Cell[3874, 141, 42, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[3941, 146, 107, 2, 30, "Input"],
+Cell[4051, 150, 1190, 26, 163, "Output"]
+}, Open  ]],
+Cell[5256, 179, 93, 1, 30, "Input"],
+Cell[5352, 182, 88, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[5465, 187, 107, 2, 30, "Input"],
+Cell[5575, 191, 1741, 37, 169, "Output"]
+}, Open  ]],
+Cell[7331, 231, 141, 2, 30, "Input"],
+Cell[7475, 235, 136, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[7636, 241, 108, 2, 30, "Input"],
+Cell[7747, 245, 1741, 37, 169, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9525, 287, 108, 2, 30, "Input"],
+Cell[9636, 291, 1741, 37, 169, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

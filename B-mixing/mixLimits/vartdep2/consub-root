@@ -1,0 +1,125 @@
+#!/bin/sh
+
+NOW=`date +%m%d%y-%H%M`
+
+# ----------------- usage message -----------------------------------
+usage_msg(){
+    echo " " 
+    echo "Description: Runs root with each lh*.C file in the current directory,"
+    echo "    and gives .log files with the same names as the .C files, in the"
+    echo "    optionally specified output directory."
+    echo " "
+    echo "Usage: "`basename $0`" <Options>"
+    echo " "
+    echo "Options: "
+    echo " -a \"<arguments>\""
+    echo "    Arguments to be passed to the program when it's launched. Auto-"
+    echo "    matically uses \"-b\" to supress X."
+    echo " "
+    echo " -o <output_directory>"
+    echo "    Directory where Condor will put output files (if different from"
+    echo "    the current directory). Include trailing slash."
+    echo " "
+    echo " -f <infile_directory>"
+    echo "    Directory where Condor will write input files (if different from"
+    echo "    the current directory). Include trailing slash."
+    echo " "
+    echo " -t"
+    echo "    Test only; don't submit"
+    echo " "
+    echo " -n <number_of_runs>"
+    echo "    Number of times to run each job"
+    exit 1
+}
+
+# -------------------  process the arguments ------------------------
+for i in $*; do
+    case "$1" in
+
+     -h)   usage_msg
+	   ;;
+
+    -help) usage_msg
+	   ;;
+
+    --help) usage_msg
+	    ;;
+     
+     -o)    outdir="$2"
+	    shift 2  
+	    ;;
+
+     -f)    indir="$2"
+	    shift 2  
+	    ;;
+
+     -t)    testonly=1
+	    shift  
+	    ;;
+
+     -n)    mult="$2"
+	    shift 2  
+	    ;;
+
+#      *)   usage_msg
+#	   ;;
+	
+    esac
+done
+
+
+prog="$ROOTSYS/bin/root.exe"
+progname="con_root"
+cmdfile=$progname.cmd
+
+
+if [ $mult ] ; then 
+    suff="-\$(Process)"
+else
+    mult=""
+    suff=""
+fi
+
+
+
+# -------- check for problems, start a cmd file if none are found -----
+[ "$progname" = "" ] || [ "`echo $progname | cut -b1`" = "-" ] && ( echo "Bad Argument" ; usage_msg)
+[ -f $cmdfile ] && rm $cmdfile
+touch $cmdfile
+
+
+# -------- write the cmd file ----------------------------------------
+
+cat >> $cmdfile << EoF
+executable      = $prog
+universe        = vanilla
+log		= $outdir$progname-$NOW.log
+getenv          = True
+EoF
+
+
+for i in `ls lh*.C`; do
+
+filename=`echo $i | cut -d. -f1`
+
+
+cat >> $cmdfile << EoF
+
+arguments = -b -q $filename.C
+output = $outdir$filename$suff.log
+error = $outdir$filename$suff.log
+queue $mult
+
+EoF
+
+done
+
+# -------- cat the cmd file to the screen, and submit if this wasn't just a test -----
+echo " "
+echo "Contents of $cmdfile:"
+echo "----------------------------------------"
+echo " "
+cat $cmdfile
+[ "$testonly" != "1" ] && condor_submit $cmdfile
+
+exit 0

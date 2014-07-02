@@ -1,0 +1,6 @@
+#!/bin/bash
+
+root -b -q -l $1 > $1.log 
+echo "done" | mail 4052092790@messaging.sprintpcs.com
+
+exit 0

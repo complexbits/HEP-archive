@@ -1,0 +1,359 @@
+<html><head>
+
+<title>lm_access - tutorail example</title></head>
+
+<body bgcolor="#FFFFFF">
+
+<p align="center"> <font color="#000000" size="5" face="Verdana, Arial, Helvetica, sans-serif">Tutorial 
+
+  example - calculation of a cross section a derived sample</font></p>
+
+<p>&nbsp; </p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">If you are 
+
+  running on your own derived files, you also need to provide information your 
+
+  sample to lm_access.</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">Your files 
+
+  must have been created by production or stripping (run over all data and select 
+
+  events, not pick, which only reads files which have your events in them). Your 
+
+  files should be in sam and you need to define a dataset which contains them. 
+
+  </font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">If your 
+
+  files are NOT in sam, you need to know which files from sam were used to produce 
+
+  them and produce a map file which tells you the name of the sam resident files 
+
+  that produced your local file.</font></p>
+
+<h3><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">Getting 
+  Luminosity map information for a set of files in SAM</font></h3>
+<ul>
+  <li><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif">If they 
+    are from the common sample group you can use the <a href="SkimParentage.html"><strong>shortcut</strong></a>:</font></li>
+</ul>
+<ul>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif">If your files are not 
+    part of a common skim you need to<strong><a href="MakeParentage.html"> build 
+    your own parentage files </a></strong></font></li>
+</ul>
+<blockquote>&nbsp;</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">If you are 
+
+  reading data which is in sam, you are done with the preparation phase.</font></p>
+
+<h3><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">Getting 
+
+  Luminosity map information for files which are not in SAM</font></h3>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><br>
+
+  If you are using your own files which are not in sam, you have to take the list 
+
+  of sam files used to make that file and merge the .parentage files for the sam 
+
+  files in to &lt;yourfilename&gt;.parentage</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">ie, you 
+
+  read file1 and file2 in from sam and created myfile.parentage</font></p>
+
+<pre><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">cat file1.lbn file2.parentage&gt; myfile.parentage</font></pre>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><br>
+
+  \</font></p>
+
+<p><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">This is 
+
+  somewhat dangerous, it relies on YOU doing this right..</font></p>
+
+<p>&nbsp;</p>
+
+<p> <font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><b>Using 
+
+  <i>lm_access</i> tools to obtain luminosity and cross section</b><br>
+
+  </font>
+
+<table>
+
+  <tbody> 
+
+  <tr> 
+
+    <td valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><b>1.</b> 
+
+      </font></td>
+
+    <td valign="top"> 
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">the 
+
+        only header files you have to include into your source code from package 
+
+        <i>lm_access</i> are <a href="http://www-d0.fnal.gov/phys_id/luminosity/data_access/lm_access/lm_access/LumFileMap.hpp">LumFileMap.hpp</a> 
+
+        </font></dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">and 
+
+        <a href="http://www-d0.fnal.gov/d0dist/dist/packages/lm_access/devel/lm_access/LmFileParentage.hpp">LmFileParentage.hpp</a></font></dt>
+
+      <dl>
+
+        <dt><font face="Courier New, Courier, mono" color="#000000">#include "lm_access/LumFileMap.hpp"</font></dt>
+
+        <dt><font face="Courier New, Courier, mono" color="#000000">#include &quot;lm_access/lmFileParentage.hpp&quot; 
+
+          </font></dt>
+
+      </dl>
+
+      <dt>&nbsp; </dt>
+
+    </td>
+
+  </tr>
+
+  <tr> 
+
+    <td valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><b>2.</b> 
+
+      </font></td>
+
+    <td valign="top"> 
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">in 
+
+        the very beginning of your code declare an instance of class <a href="http://www-d0.fnal.gov/phys_id/luminosity/data_access/lm_access/doc/LumFileMap.html">LumFileMap</a> 
+
+        </font></dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">      
+
+        char* trigger = "JT_HI_4CJT5"; /* specify your trigger */ </font></dt>
+
+      <dt><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif">      
+
+        char* triggers[] = {trigger}; </font></dt>
+
+      <dt><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif">      
+
+        LumFileMap f_map(1, triggers, lm_access::Reconstructed);</font> </dt>
+
+      <dt>&nbsp;</dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">In 
+
+        the array <i>triggers</i> you specify which triggers are going to be used 
+
+        in the analysis. Last parameter specifies what kind of luminosity you 
+
+        are interested in. The default value is to calculate reconstructed luminosity, 
+
+        in this case you can omit this parameter. </font></dt>
+
+    </td>
+
+  </tr>
+
+  <tr> 
+
+    <td valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><b>3.</b> 
+
+      </font></td>
+
+    <td valign="top"> 
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">In 
+
+        the loop over the data files add the file into the <a href="http://www-d0.fnal.gov/phys_id/luminosity/data_access/lm_access/doc/LumFileMap.html">LumFileMap</a> 
+
+        </font></dt>
+
+      <dt>&nbsp;</dt>
+
+      <dt>&nbsp; </dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">      
+
+        f_map.add(fileID, LumFile(lm_access::roottuple, "p10.14.01", "p10.14.01"));</font> 
+
+      </dt>
+
+      <dt>&nbsp; </dt>
+
+      <dt>&nbsp;</dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">for 
+
+        each file, open the &lt;fileID&gt;.lbn file and read in the list of LBNS, 
+
+        for each LBN,</font></dt>
+
+      <dl> 
+
+        <dl> 
+
+          <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">string 
+
+            s = string(fileID) + string(&quot;.lbn&quot;); <br>
+
+            const char* lbnID = s.c_str();</font> </dt>
+
+          <dt> 
+
+            <pre><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"> cout &lt;&lt; &quot;Opening          file &quot; &lt;&lt; fileID &lt;&lt; endl &lt;&lt; flush;
+
+         cout &lt;&lt; &quot;Opening lbn file &quot; &lt;&lt; lbnID &lt;&lt; endl          &lt;&lt; flush;</font></pre>
+
+            <pre><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"> std::ifstream in(lbnID);
+
+         if(!in) cout&lt;&lt;&quot; hey's where the input file &quot;&lt;&lt;endl;</font></pre>
+
+            <pre><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">
+
+         int lbn=0;
+
+         int ic=0;
+
+         while(in &gt;&gt; lbn) {
+
+         cout&lt;&lt;lbn&lt;&lt;endl;
+
+         ic++;</font></pre>
+
+            <pre><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"> // loop over list          of LBN's 
+
+         
+
+         const string filename = string(fileID);
+
+         f_map.downloadLBN(filename, lbn);
+
+         cout&lt;&lt;&quot; inside the download LBN check &quot;&lt;&lt;endl;</font>
+
+</pre>
+
+            <pre>&nbsp;       </pre>
+
+          </dt>
+
+          <dt>&nbsp;</dt>
+
+        </dl>
+
+      </dl>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">where 
+
+        <i>fileID</i> is an unique file identifier (here we are using filename) 
+
+        and <a href="http://www-d0.fnal.gov/phys_id/luminosity/data_access/lm_access/doc/LumFile.html">LumFile</a> 
+
+        specifies what is the type of the data file (see <a href="http://www-d0.fnal.gov/phys_id/luminosity/data_access/lm_access/lm_access/globaldef.hpp">lm_access/globaldef.hpp</a> 
+
+        for the list of all options) and what is the release version of the code. 
+
+        <i>Lm_access</i> package allows to use also ROOT TChain class. Now, the 
+
+        only limitation is that all files within one TChain should belong to the 
+
+        same release. </font></dt>
+
+    </td>
+
+  </tr>
+
+  <tr> 
+
+    <td valign="top" height="92"><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><b>4.</b> 
+
+      </font></td>
+
+    <td valign="top" height="92"> 
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">In 
+
+        the loop over the events you have to check whether the data for the given 
+
+        trigger from this LBN can be normilized </font></dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">      
+
+        if (f_map.isGoodLBN(fileID, LumBlk, trigger)) { ... accept the event for 
+
+        your analysis ... }</font> </dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">  
+
+        </font></dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><b>Note, 
+
+        only data from good luminosity blocks can be properly normilized!</b> 
+
+        </font></dt>
+
+    </td>
+
+  </tr>
+
+  <tr> 
+
+    <td valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><b>5.</b> 
+
+      </font></td>
+
+    <td valign="top"> 
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">Once 
+
+        all the LBNs are downloaded into your LumFileMap <i>f_map</i>, you can 
+
+        ask for the total luminosity in the given trigger </font></dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">      
+
+        double luminosity = f_map.luminosity(trigger);</font> </dt>
+
+      <dt><font face="Verdana, Arial, Helvetica, sans-serif" color="#000000">The 
+
+        result is in inverse microbarns (ub^-1). </font></dt>
+
+    </td>
+
+  </tr>
+
+  </tbody> 
+
+</table>
+
+<p></p>
+
+<p></p>
+
+<p>&nbsp; </p>
+
+<p> </p>
+
+<hr align="center" size="3" width="95%">
+
+<font face="Verdana, Arial, Helvetica, sans-serif" color="#000000"><br>
+
+Last update May 27, 2002 by <a href="mailto:%20kupco@fzu.cz">AK</a>. </font> 
+
+<p></p>
+
+
+
+</body></html>

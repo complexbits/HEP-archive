@@ -1,0 +1,6 @@
+macro postscript
+    fortran/file 99 [1].ps
+    meta -99 -111
+    pict/plot ' '
+    close 99
+return

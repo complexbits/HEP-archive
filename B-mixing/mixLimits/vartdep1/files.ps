@@ -1,0 +1,1743 @@
+%!PS-Adobe-3.0
+%%Title: lhdil0160.C, mcData.cpp, consub-root, redraw.C
+%%For: Jamie Hegarty
+%%Creator: a2ps version 4.13
+%%CreationDate: Thu Sep  9 19:11:48 2004
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 6
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontType get 0 eq {
+    currentfont /FontMatrix get 3 get
+  }{
+    currentfont /FontMatrix get 3 get 1000 mul
+  } ifelse
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Define these in case they're not in the FontInfo (also, here
+    % they're easier to get to.
+    /UnderlinePosition 1 def
+    /UnderlineThickness 1 def
+    
+    % Get the underline position and thickness if they're defined.
+    currentdict /FontInfo known {
+      FontInfo
+      
+      dup /UnderlinePosition known {
+	dup /UnderlinePosition get
+	0 exch FontMatrix transform exch pop
+	/UnderlinePosition exch def
+      } if
+      
+      dup /UnderlineThickness known {
+	/UnderlineThickness get
+	0 exch FontMatrix transform exch pop
+	/UnderlineThickness exch def
+      } if
+      
+    } if
+    currentdict 
+  end 
+} bind def
+
+% composite fonts for ASCII-EUC mixed string
+% Version 1.2 1/31/1990
+% Orignal Ken'ichi HANDA (handa@etl.go.jp)
+% Modified Norio Katayama (katayama@rd.nacsis.ac.jp),1998
+% Extend & Fix Koji Nakamaru (maru@on.cs.keio.ac.jp), 1999
+% Anyone can freely copy, modify, distribute this program.
+
+/copyfont {	% font-dic extra-entry-count  copyfont  font-dic
+	1 index maxlength add dict begin
+	{	1 index /FID ne 2 index /UniqueID ne and
+		{def} {pop pop} ifelse
+	} forall
+	currentdict
+	end
+} bind def
+
+/compositefont { % ASCIIFontName EUCFontName RomanScale RomanOffset Rot(T/F) compositefont font
+    /RomanRotation exch def
+    /RomanOffset exch def
+    /RomanScale exch def
+    userdict /fixeucfont_dict known not {
+	userdict begin
+	    /fixeucfont_dict 2 dict begin
+		/UpperByteEncoding [
+		    16#00 1 16#20 { pop 0 } for
+		    16#21 1 16#28 { 16#20 sub } for
+		    16#29 1 16#2F { pop 0 } for
+		    16#30 1 16#74 { 16#27 sub } for
+		    16#75 1 16#FF { pop 0 } for
+		] def
+	        /LowerByteEncoding [
+		    16#00 1 16#A0 { pop /.notdef } for
+		    16#A1 1 16#FE { 16#80 sub 16 2 string cvrs
+				    (cXX) dup 1 4 -1 roll
+				    putinterval cvn } for
+		    /.notdef
+		] def
+		currentdict
+	    end def
+	end
+    } if
+    findfont dup /FontType get 0 eq {
+	14 dict begin
+	    %
+	    % 7+8 bit EUC font
+	    %
+	    12 dict begin
+		/EUCFont exch def
+		/FontInfo (7+8 bit EUC font) readonly def
+		/PaintType 0 def
+		/FontType 0 def
+		/FontMatrix matrix def
+		% /FontName
+		/Encoding fixeucfont_dict /UpperByteEncoding get def
+		/FMapType 2 def
+		EUCFont /WMode known
+		{ EUCFont /WMode get /WMode exch def }
+		{ /WMode 0 def } ifelse
+		/FDepVector [
+		    EUCFont /FDepVector get 0 get
+		    [ 16#21 1 16#28 {} for 16#30 1 16#74 {} for ]
+		    {
+			13 dict begin
+			    /EUCFont EUCFont def
+			    /UpperByte exch 16#80 add def	
+			    % /FontName
+			    /FontInfo (EUC lower byte font) readonly def
+			    /PaintType 0 def
+			    /FontType 3 def
+			    /FontMatrix matrix def
+			    /FontBBox {0 0 0 0} def
+			    /Encoding
+				fixeucfont_dict /LowerByteEncoding get def
+			    % /UniqueID
+			    % /WMode
+			    /BuildChar {
+				gsave
+				exch dup /EUCFont get setfont
+				/UpperByte get
+				2 string
+				dup 0 4 -1 roll put
+				dup 1 4 -1 roll put
+				dup stringwidth setcharwidth
+				0 0 moveto show
+				grestore
+			    } bind def
+			    currentdict
+			end
+			/lowerbytefont exch definefont
+		    } forall
+		] def
+		currentdict
+	    end
+	    /eucfont exch definefont
+	    exch
+	    findfont 1 copyfont dup begin
+		RomanRotation {
+			/FontMatrix FontMatrix
+			[ 0 RomanScale neg RomanScale 0 RomanOffset neg 0 ]
+			matrix concatmatrix def
+		}{
+			/FontMatrix FontMatrix
+			[ RomanScale 0 0 RomanScale 0 RomanOffset ] matrix concatmatrix
+			def
+			/CDevProc
+			    {pop pop pop pop 0 exch -1000 exch 2 div 880} def
+		} ifelse
+	    end
+	    /asciifont exch definefont
+	    exch
+	    /FDepVector [ 4 2 roll ] def
+	    /FontType 0 def
+	    /WMode 0 def
+	    /FMapType 4 def
+	    /FontMatrix matrix def
+	    /Encoding [0 1] def
+	    /FontBBox {0 0 0 0} def
+%	    /FontHeight 1.0 def % XXXX
+	    /FontHeight RomanScale 1.0 ge { RomanScale }{ 1.0 } ifelse def
+	    /Descent -0.3 def   % XXXX
+	    currentdict
+	end
+	/tmpfont exch definefont
+	pop
+	/tmpfont findfont
+    }{
+	pop findfont 0 copyfont
+    } ifelse
+} def	
+
+/slantfont {	% FontName slant-degree  slantfont  font'
+    exch findfont 1 copyfont begin
+    [ 1 0 4 -1 roll 1 0 0 ] FontMatrix exch matrix concatmatrix
+    /FontMatrix exch def
+    currentdict
+    end
+} def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 612 def
+/sw 792 def
+/llx 24 def
+/urx 768 def
+/ury 588 def
+/lly 24 def
+/#copies 1 def
+/th 15.000000 def
+/fnfs 11 def
+/bfs 7.060185 def
+/cw 4.236111 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 86.400000 mul
+def
+/ph
+   520.335631 th add
+def
+/pmw urx llx sub pw 2 mul sub 1 div def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+  dup pmw add pw add
+] def
+/y [
+  pmh ph add 0 mul ph add
+  dup
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 5 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1-2) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (//***********************************************) p n
+(2) # (// Code to do an unbinned likelihood fit) N
+(3) # (//) N
+(4) # (// by P. Gutierrez) N
+(5) # (// 3-12-04) N
+(6) # (//***********************************************) N
+(7) # () N
+(8) # (// Include files) N
+(9) # () N
+(10) # (#include "mcData.cpp") N
+(11) # (#include "unbinFitosc_d.cpp") N
+(12) # (#include "func.cpp") N
+(13) # () N
+(14) # () N
+(15) # (//----- Define data variables) N
+(16) # () N
+(17) # (Double_t runNo[50000];) N
+(18) # (Double_t evtNo[50000];) N
+(19) # (Double_t mass[50000];) N
+(20) # (Double_t lifetime[50000];) N
+(21) # (Int_t tag[50000];) N
+(22) # () N
+(23) # (//----- Define global variables) N
+(24) # () N
+(25) # (Double_t min = -4.;) N
+(26) # (Double_t max = 15.;) N
+(27) # (// set to 4000 for real run) N
+(28) # (Int_t nEvts = 4000.;) N
+(29) # (Int_t nBins = 50.;) N
+(30) # () N
+(31) # () N
+(32) # (//---- Define dilution for MC and fit:) N
+(33) # (Double_t dilmc = 0.16;) N
+(34) # (Double_t dilfit = 0.16;) N
+(35) # () N
+(36) # (//----- Define vars for MC event gen:) N
+(37) # (Double_t tau = 1.5;) N
+(38) # (Double_t dm = 1000; ) N
+(39) # (Double_t tSigma = 0.10;) N
+(40) # () N
+(41) # (Double_t misTag = 0.5*\(1-dilmc\);) N
+(42) # () N
+(43) # (//----- Define arrays and stuff for fitting:) N
+(44) # () N
+(45) # (Double_t oscpar0_init = 1.5;) N
+(46) # (Double_t oscpar1_init = 10.;) N
+(47) # (Double_t oscpar2_init = 0.10;) N
+(48) # () N
+(49) # (Double_t oscpar3_init = 0.5*\(1-dilfit\);) N
+(50) # () N
+(51) # (Double_t oscerr0_step = 0.1;) N
+(52) # (Double_t oscerr1_step = 0.01;) N
+(53) # (Double_t oscerr2_step = 0.01;) N
+(54) # (Double_t oscerr3_step = 0.1;) N
+(55) # () N
+(56) # (Double_t fitpar[4];) N
+(57) # (Double_t fiterr[4];) N
+(58) # () N
+(59) # (void lhdil0160\(\)) N
+(60) # ({) N
+(61) # () N
+(62) # (  TStopwatch timer;) N
+(63) # (  timer.Start\(\);) N
+(64) # (  // Define histogarams) N
+(65) # (  ) N
+(66) # (  gStyle->SetOptFit\(1111\);) N
+(67) # (  gStyle->SetOptStat\(111111\);) N
+(68) # (  ) N
+(69) # (  TGraphErrors *g1 = new TGraphErrors\(20\);) N
+(70) # (  g1->SetName\("Dilvsdm"\);) N
+(71) # (  g1->SetTitle\("Dilution vs. dm"\);) N
+(72) # (  ) N
+(73) # (  TGraph *g2 = new TGraph\(20\);) N
+(lhdil0160.C) (Page 1/3) (Aug 03, 04 13:17) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # (  g2->SetName\("DilErrvsdm"\);) p n
+(75) # (  g2->SetTitle\("Dil Err vs. dm"\);) N
+(76) # (  ) N
+(77) # (  for\(Int_t i=0.;i<20.;i++\){) N
+(78) # () N
+(79) # () N
+(80) # (    oscpar1_init = 1+i;) N
+(81) # () N
+(82) # (    cout << "============== dm fixed at "<< oscpar1_init <<" ===================) N
+0 T (="<<endl;) N
+(83) # () N
+(84) # (    //TH1F *h1 = new TH1F\("h1","Gaussian Dist",50, 4.8, 5.8\);) N
+(85) # (    TH1F *h2 = new TH1F\("h2","Lifetime Dist",nBins, min, max\);) N
+(86) # (    TH1F *h3 = new TH1F\("h3","Lifetime Dist tag=1",nBins, min, max\);) N
+(87) # (    TH1F *h4 = new TH1F\("h4","Lifetime Dist tag=-1",nBins, min, max\);) N
+(88) # (    ) N
+(89) # (    // Get data) N
+(90) # (    ) N
+(91) # (    // Generate events) N
+(92) # (    ) N
+(93) # (    mixmasta_mc\(\);) N
+(94) # (    ) N
+(95) # (    for \(Int_t ja=0; ja<nEvts; ja++\){) N
+(96) # (      h2->Fill\(lifetime[ja]\);) N
+(97) # (      if \(tag[ja] == 1\){) N
+(98) # () S 8 T (h3->Fill\(lifetime[ja]\);) N
+(99) # (      }else if\(tag[ja] == -1\){) N
+(100) # () S 8 T (h4->Fill\(lifetime[ja]\);) N
+(101) # (      }else{) N
+(102) # () S 8 T (cout << "Tag value "<<tag[ja]<< " out of range, should be -1 or 1" << en) N
+0 T (dl;) N
+(103) # () S 8 T (break;) N
+(104) # (      }) N
+(105) # (    }) N
+(106) # (    ) N
+(107) # (    // Do unbinned likelihood fit) N
+(108) # (    ) N
+(109) # (    TF1 *f3 = new TF1\("f3", lftmosc_plt_d, min, max, 5\);) N
+(110) # (    TF1 *f4 = new TF1\("f4", lftmosc_plt_d, min, max, 5\);) N
+(111) # (    ) N
+(112) # (    ) N
+(113) # () N
+(114) # (    ) N
+(115) # (    unbinFitosc_d\(\);) N
+(116) # (    ) N
+(117) # (    for \(Int_t j=0; j<4; j++\){) N
+(118) # (      f3->SetParameter\(j,fitpar[j]\);) N
+(119) # (      f4->SetParameter\(j,fitpar[j]\);) N
+(120) # (    }) N
+(121) # (    f3->SetParameter\(4,1\);) N
+(122) # (    f4->SetParameter\(4,-1\);) N
+(123) # (    ) N
+(124) # (    g1->SetPoint\(i,fitpar[1],-\(1-2*fitpar[3]\)/dilfit\);) N
+(125) # (    g1->SetPointError\(i,fiterr[1],2*fiterr[3]/dilfit\);) N
+(126) # (    ) N
+(127) # (    g2->SetPoint\(i,fitpar[1],1.65*2*fiterr[3]/dilfit\);) N
+(128) # (    ) N
+(129) # (    delete h2;) N
+(130) # (    delete h3;) N
+(131) # (    delete h4;) N
+(132) # (    delete f3;) N
+(133) # (    delete f4;) N
+(134) # (  }) N
+(135) # (  ) N
+(136) # (  TCanvas *vardm = new TCanvas\("vardm","lhdil0160",800,400\);) N
+(137) # (  vardm->Divide\(2,1\);) N
+(138) # (  ) N
+(139) # (  vardm->cd\(1\);) N
+(140) # (  g1->GetXaxis\(\)->SetTitle\("dm"\);) N
+(141) # (  g1->GetXaxis\(\)->CenterTitle\(\);) N
+(142) # (  g1->GetYaxis\(\)->SetTitle\("Dilution \(1-2alpha\)"\);) N
+(143) # (  g1->GetYaxis\(\)->CenterTitle\(\);) N
+(144) # (  //g1->SetMarkerStyle\(21\);) N
+(lhdil0160.C) (Page 2/3) (Aug 03, 04 13:17) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhdil0160.C) (1/6) (Thursday September 09, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(145) # (  //g1->SetMarkerSize\(1\);) p n
+(146) # (  g1->Draw\("AP*"\); ) N
+(147) # (  ) N
+(148) # (  ) N
+(149) # (  vardm->cd\(2\);) N
+(150) # (  ) N
+(151) # (  gStyle->SetPadColor\(10\);) N
+(152) # (  gStyle->SetCanvasColor\(10\);) N
+(153) # (  vardm->SetGrid\(\);) N
+(154) # (  ) N
+(155) # (  g2->GetXaxis\(\)->SetTitle\("dm"\);) N
+(156) # (  g2->GetXaxis\(\)->CenterTitle\(\);) N
+(157) # (  g2->GetYaxis\(\)->SetTitle\("Dil. Err"\);) N
+(158) # (  g2->GetYaxis\(\)->CenterTitle\(\);) N
+(159) # (  //g2->SetMarkerStyle\(21\);) N
+(160) # (  //g2->SetMarkerSize\(1\);) N
+(161) # (  g2->Draw\("AP*"\);  ) N
+(162) # (  ) N
+(163) # (  TObjArray a1\(0\);) N
+(164) # (  a1.Add\(g1\);) N
+(165) # (  a1.Add\(g2\);) N
+(166) # (  a1.Add\(vardm\);) N
+(167) # (  ) N
+(168) # (  TFile var_dm\("lhdil0160.root", "recreate"\);) N
+(169) # (  a1.Write\(\);) N
+(170) # (  var_dm.Close\(\);) N
+(171) # (  ) N
+(172) # (  timer.Stop\(\);) N
+(173) # (  Double_t rtime = timer.RealTime\(\);) N
+(174) # (  Double_t ctime = timer.CpuTime\(\);) N
+(175) # (  ) N
+(176) # (  cout << "Real time " << rtime << endl;) N
+(177) # (  cout << "CPU time  " << ctime << endl;) N
+(178) # (  ) N
+(179) # (}) N
+(lhdil0160.C) (Page 3/3) (Aug 03, 04 13:17) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(lhdil0160.C) (2/6) (Thursday September 09, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (////////////////////////////////////////////////) c n
+(2) # (// Generated Mixing) N
+(3) # (///////////////////////////////////////////////) N
+(4) # () N
+(5) # () S
+(Double_t nSigma = 0.163;) p n
+(6) # () N
+(7) # () S
+(void) k
+( mixmasta_mc\(\)) p n
+(8) # ({) N
+(9) # (  cout << ") S
+(Number of events  ) str
+(" << nEvts << endl;) p n
+(10) # () N
+(11) # (  ) S
+(for) K
+( \(Int_t i=0; i<nEvts; i++\){) p n
+(12) # () N
+(13) # (    ) S
+(// Generate decay time distribution) c n
+(14) # () S
+(    ) p
+(// \(Insert time smearing to account for reality \(mTime\)\)) c n
+(15) # () S
+(    Double_t rTime  = gRandom->Exp\(tau\);) p n
+(16) # (    ) S
+(if) K
+( \(tSigma == 0.\){) p n
+(17) # (      Double_t tSmear = 0.;) N
+(18) # (    }) N
+(19) # (    ) S
+(else) K
+({) p n
+(20) # (      Double_t tSmear = gRandom->Gaus\(0., tSigma\);) N
+(21) # (    }) N
+(22) # () N
+(23) # (    ) S
+(// Smearing to account for \(unmeasured\) neutrinos in the decay) c n
+(24) # () S
+(    ) p
+(if) K
+( \(nSigma == 0.\){) p n
+(25) # (      Double_t nSmear = 0.;) N
+(26) # (    }) N
+(27) # (    ) S
+(else) K
+({) p n
+(28) # (      Double_t nSmear = gRandom->Gaus\(0.,\(nSigma*rTime\)\);) N
+(29) # (    }) N
+(30) # () N
+(31) # (    Double_t mTime = rTime + tSmear + nSmear;) N
+(32) # () N
+(33) # (    ) S
+(// Check for mistagging, and retag if it occurs) c n
+(34) # () S
+(    Int_t tagInit=1;          ) p
+(// Mistagging factor: 1=correct, -1=mistagged) c n
+(35) # () S
+(    ) p
+(if) K
+( \(misTag != 0.\){) p n
+(36) # (      Double_t tagTest = gRandom->Rndm\(\);) N
+(37) # (      ) S
+(if) K
+( \(tagTest < misTag\){) p n
+(38) # () S 8 T (tagInit = -1;) N
+(39) # () S 8 T () N
+(40) # (      }) N
+(41) # (    }) N
+(42) # (    ) N
+(43) # (    ) S
+(// Compare random stats to "1+cos\(dm*t\)" to determine mixing) c n
+(44) # () S
+(    ) p
+(// \(mixed: tag = 1, unmixed: tag = -1; then multiplied by mistagging factor\)) c n
+(45) # () S
+(    Double_t mixTest = 2.*gRandom->Rndm\(\);) p n
+(46) # (    Double_t isMixed = 1. + TMath::Cos\(dm*rTime\);) N
+(47) # () N
+(48) # (    ) S
+(if) K
+(\(i==50\){) p n
+(49) # (      cout<<") S
+(for event #50: rTime = ) str
+("<<rTime<<") p
+(, isMixed = ) str
+("<<isMixed<<endl;) p n
+(50) # (    }) N
+(51) # () N
+(52) # (    ) S
+(if) K
+( \(mixTest > isMixed\){) p n
+(53) # (      tag[i] = tagInit; ) S
+(//mixed) c n
+(54) # () S
+(    }) p
+(else) K
+({) p n
+(55) # (      tag[i] = -1*tagInit; ) S
+(//unmixed) c n
+(56) # () S
+(    }) p n
+(57) # () N
+(58) # (    lifetime[i]=mTime;) N
+(59) # () N
+(60) # (  }) N
+(61) # () N
+(62) # (}) N
+(mcData.cpp) (Page 1/1) (Aug 09, 04 16:10) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(mcData.cpp) (3/6) (Thursday September 09, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (#!/bin/sh) c n
+(2) # () N
+(3) # () S
+(NOW=`date +%m%d%y-%H%M`) p n
+(4) # () N
+(5) # () S
+(# ----------------- usage message -----------------------------------) c n
+(6) # () S
+(usage_msg) l
+(\(\){) p n
+(7) # (    echo ") S
+( ) str
+(" ) p n
+(8) # (    echo ") S
+(Description: Runs root with each lh*.C file in the current directory,) str
+(") p n
+(9) # (    echo ") S
+(    and gives .log files with the same names as the .C files, in the) str
+(") p n
+(10) # (    echo ") S
+(    optionally specified output directory.) str
+(") p n
+(11) # (    echo ") S
+( ) str
+(") p n
+(12) # (    echo ") S
+(Usage: ) str
+("`basename $0`") p
+( <Options>) str
+(") p n
+(13) # (    echo ") S
+( ) str
+(") p n
+(14) # (    echo ") S
+(Options: ) str
+(") p n
+(15) # (    echo ") S
+( -a \\"<arguments>\\") str
+(") p n
+(16) # (    echo ") S
+(    Arguments to be passed to the program when it's launched. Auto-) str
+(") p n
+(17) # (    echo ") S
+(    matically uses \\"-b\\" to supress X.) str
+(") p n
+(18) # (    echo ") S
+( ) str
+(") p n
+(19) # (    echo ") S
+( -o <output_directory>) str
+(") p n
+(20) # (    echo ") S
+(    Directory where Condor will put output files \(if different from) str
+(") p n
+(21) # (    echo ") S
+(    the current directory\). Include trailing slash.) str
+(") p n
+(22) # (    echo ") S
+( ) str
+(") p n
+(23) # (    echo ") S
+( -f <infile_directory>) str
+(") p n
+(24) # (    echo ") S
+(    Directory where Condor will write input files \(if different from) str
+(") p n
+(25) # (    echo ") S
+(    the current directory\). Include trailing slash.) str
+(") p n
+(26) # (    echo ") S
+( ) str
+(") p n
+(27) # (    echo ") S
+( -t) str
+(") p n
+(28) # (    echo ") S
+(    Test only; don't submit) str
+(") p n
+(29) # (    echo ") S
+( ) str
+(") p n
+(30) # (    echo ") S
+( -n <number_of_runs>) str
+(") p n
+(31) # (    echo ") S
+(    Number of times to run each job) str
+(") p n
+(32) # (    ) S
+(exit) K
+( 1) p n
+(33) # (}) N
+(34) # () N
+(35) # () S
+(# -------------------  process the arguments ------------------------) c n
+(36) # () S
+(for) K
+( i ) p
+(in) K
+( $*; ) p
+(do) K n
+(37) # () S
+(    ) p
+(case) K
+( ") p
+($1) str
+(" ) p
+(in) K n
+(38) # () N
+(39) # () S
+(     -h\)   usage_msg) p n
+(40) # () S 8 T (   ;;) N
+(41) # () N
+(42) # (    -help\) usage_msg) N
+(43) # () S 8 T (   ;;) N
+(44) # () N
+(45) # (    --help\) usage_msg) N
+(46) # () S 8 T (    ;;) N
+(47) # (     ) N
+(48) # (     -o\)    outdir=") S
+($2) str
+(") p n
+(49) # () S 8 T (    ) S
+(shift) K
+( 2  ) p n
+(50) # () S 8 T (    ;;) N
+(51) # () N
+(52) # (     -f\)    indir=") S
+($2) str
+(") p n
+(53) # () S 8 T (    ) S
+(shift) K
+( 2  ) p n
+(54) # () S 8 T (    ;;) N
+(55) # () N
+(56) # (     -t\)    testonly=1) N
+(57) # () S 8 T (    ) S
+(shift) K
+(  ) p n
+(58) # () S 8 T (    ;;) N
+(59) # () N
+(60) # (     -n\)    mult=") S
+($2) str
+(") p n
+(61) # () S 8 T (    ) S
+(shift) K
+( 2  ) p n
+(62) # () S 8 T (    ;;) N
+(63) # () N
+(64) # () S
+(#      *\)   usage_msg) c n
+(65) # (#) S 8 T (   ;;) N
+(66) # () S
+() p 8 T () N
+(67) # (    ) S
+(esac) K n
+(68) # (done) N
+(69) # () N
+(70) # () N
+(71) # () S
+(prog=") p
+($ROOTSYS/bin/root.exe) str
+(") p n
+(72) # (progname=") S
+(con_root) str
+(") p n
+(73) # (cmdfile=$progname.cmd) N
+(consub-root) (Page 1/2) (Aug 10, 04 14:26) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # () p n
+(75) # () N
+(76) # () S
+(if) K
+( [ $mult ] ; ) p
+(then) K
+( ) p n
+(77) # (    suff=") S
+(-\\$\(Process\)) str
+(") p n
+(78) # () S
+(else) K n
+(79) # () S
+(    mult="") p n
+(80) # (    suff="") N
+(81) # () S
+(fi) K n
+(82) # () N
+(83) # () N
+(84) # () N
+(85) # () S
+(# -------- check for problems, start a cmd file if none are found -----) c n
+(86) # () S
+([ ") p
+($progname) str
+(" = "" ] || [ ") p
+(`echo $progname | cut -b1`) str
+(" = ") p
+(-) str
+(" ] && \( echo ") p
+(Bad Argument) str
+(" ; u) p n
+0 T (sage_msg\)) N
+(87) # ([ -f $cmdfile ] && rm $cmdfile) N
+(88) # (touch $cmdfile) N
+(89) # () N
+(90) # () N
+(91) # () S
+(# -------- write the cmd file ----------------------------------------) c n
+(92) # () N
+(93) # () S
+(cat >> $cmdfile << EoF) p n
+(94) # (executable      = $prog) N
+(95) # (universe        = vanilla) N
+(96) # (log) S 8 T () S 16 T (= $outdir$progname-$NOW.log) N
+(97) # (getenv          = True) N
+(98) # (EoF) N
+(99) # () N
+(100) # () N
+(101) # () S
+(for) K
+( i ) p
+(in) K
+( `ls lh*.C`; ) p
+(do) K n
+(102) # () N
+(103) # () S
+(filename=`echo $i | cut -d. -f1`) p n
+(104) # () N
+(105) # () N
+(106) # (cat >> $cmdfile << EoF) N
+(107) # () N
+(108) # (arguments = -b -q $filename.C) N
+(109) # (output = $outdir$filename$suff.log) N
+(110) # (error = $outdir$filename$suff.log) N
+(111) # (queue $mult) N
+(112) # () N
+(113) # (EoF) N
+(114) # () N
+(115) # () S
+(done) K n
+(116) # () N
+(117) # () S
+(# -------- cat the cmd file to the screen, and submit if this wasn't just a test) c n
+0 T ( -----) N
+(118) # () S
+(echo ") p
+( ) str
+(") p n
+(119) # (echo ") S
+(Contents of $cmdfile:) str
+(") p n
+(120) # (echo ") S
+(----------------------------------------) str
+(") p n
+(121) # (echo ") S
+( ) str
+(") p n
+(122) # (cat $cmdfile) N
+(123) # ([ ") S
+($testonly) str
+(" != ") p
+(1) str
+(" ] && condor_submit $cmdfile) p n
+(124) # () N
+(125) # () S
+(exit) K
+( 0) p n
+(consub-root) (Page 2/2) (Aug 10, 04 14:26) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(consub-root) (4/6) (Thursday September 09, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (1-2) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(1) # (void redraw\(\){) p n
+(2) # () N
+(3) # (  gROOT->SetStyle\("Plain"\);) N
+(4) # () N
+(5) # (  cout << endl << endl;) N
+(6) # () N
+(7) # (  Double_t p1x, p1y;) N
+(8) # (  Double_t p2x, p2y;) N
+(9) # () N
+(10) # (  TCanvas *can1 = new TCanvas\("can1", "varfits1", 1200, 600\);) N
+(11) # (  can1->Divide\(4,2\);) N
+(12) # () N
+(13) # (  // ----------- SIGMA-MC=0.08, SIGMA-FIT=0.08 ----------) N
+(14) # (  can1->cd\(1\);) N
+(15) # (  ) N
+(16) # (  TFile lhsig\("lhsig0808.root"\);) N
+(17) # (  TGraph *g0808 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(18) # (  g0808->SetTitle\("Sig-MC=0.08, Sig-fit=0.08"\);) N
+(19) # (  lhsig.Close\(\);) N
+(20) # (  ) N
+(21) # (  g0808->Draw\("AP*"\);) N
+(22) # ( ) N
+(23) # (  g0808->GetPoint\(22, p1x, p1y\);) N
+(24) # (  g0808->GetPoint\(23, p2x, p2y\);) N
+(25) # () N
+(26) # (  Double_t sig0808dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(27) # () N
+(28) # (  cout << " sig0808dm = "<< sig0808dm << endl;) N
+(29) # (  ) N
+(30) # () N
+(31) # (  // ----------- SIGMA-MC=0.08, SIGMA-FIT=0.1 ----------) N
+(32) # (  can1->cd\(2\);) N
+(33) # () N
+(34) # (  TFile lhsig\("lhsig0810.root"\);) N
+(35) # (  TGraph *g0810 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(36) # (  g0810->SetTitle\("Sig-MC=0.08, Sig-fit=0.1"\);) N
+(37) # (  lhsig.Close\(\);) N
+(38) # () N
+(39) # (  g0810->Draw\("AP*"\);) N
+(40) # () N
+(41) # (  g0810->GetPoint\(17, p1x, p1y\);) N
+(42) # (  g0810->GetPoint\(18, p2x, p2y\);) N
+(43) # () N
+(44) # (  Double_t sig0810dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(45) # () N
+(46) # (  cout << " sig0810dm = "<< sig0810dm << endl; ) N
+(47) # () N
+(48) # (  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.08 ----------) N
+(49) # (  can1->cd\(3\);) N
+(50) # () N
+(51) # (  TFile lhsig\("lhsig1008.root"\);) N
+(52) # (  TGraph *g1010 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(53) # (  g1010->SetTitle\("Sig-MC=0.1, Sig-fit=0.08"\);) N
+(54) # (  lhsig.Close\(\);) N
+(55) # () N
+(56) # (  g1010->Draw\("AP*"\);) N
+(57) # () N
+(58) # (  g1010->GetPoint\(22, p1x, p1y\);) N
+(59) # (  g1010->GetPoint\(23, p2x, p2y\);) N
+(60) # () N
+(61) # (  Double_t sig1008dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(62) # () N
+(63) # (  cout << " sig1008dm = "<< sig1008dm << endl; ) N
+(64) # () N
+(65) # (  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.1 ----------) N
+(66) # (  can1->cd\(4\);) N
+(67) # () N
+(68) # (  TFile lhsig\("lhsig1010.root"\);) N
+(69) # (  TGraph *g1010 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(70) # (  g1010->SetTitle\("Sig-MC=0.1, Sig-fit=0.1"\);) N
+(71) # (  lhsig.Close\(\);) N
+(72) # () N
+(73) # (  g1010->Draw\("AP*"\);) N
+(redraw.C) (Page 1/4) (Sep 09, 04 19:08) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(74) # () p n
+(75) # (  g1010->GetPoint\(17, p1x, p1y\);) N
+(76) # (  g1010->GetPoint\(18, p2x, p2y\);) N
+(77) # () N
+(78) # (  Double_t sig1010dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(79) # () N
+(80) # (  cout << " sig1010dm = "<< sig1010dm << endl; ) N
+(81) # () N
+(82) # (  // ----------- SIGMA-MC=0.1, SIGMA-FIT=0.1 ----------) N
+(83) # (  can1->cd\(5\);) N
+(84) # () N
+(85) # (  TFile lhsig\("lhsig1012.root"\);) N
+(86) # (  TGraph *g1010 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(87) # (  g1010->SetTitle\("Sig-MC=0.1, Sig-fit=0.12"\);) N
+(88) # (  lhsig.Close\(\);) N
+(89) # () N
+(90) # (  g1010->Draw\("AP*"\);) N
+(91) # () N
+(92) # (  g1010->GetPoint\(14, p1x, p1y\);) N
+(93) # (  g1010->GetPoint\(15, p2x, p2y\);) N
+(94) # () N
+(95) # (  Double_t sig1012dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(96) # () N
+(97) # (  cout << " sig1012dm = "<< sig1012dm << endl; ) N
+(98) # () N
+(99) # () N
+(100) # (  // ----------- SIGMA-MC=0.12, SIGMA-FIT=0.1 ----------) N
+(101) # (  can1->cd\(6\);) N
+(102) # () N
+(103) # (  TFile lhsig\("lhsig1210.root"\);) N
+(104) # (  TGraph *g1210 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(105) # (  g1210->SetTitle\("Sig-MC=0.12, Sig-fit=0.1"\);) N
+(106) # (  lhsig.Close\(\);) N
+(107) # () N
+(108) # (  g1210->Draw\("AP*"\);) N
+(109) # () N
+(110) # (  g1210->GetPoint\(18, p1x, p1y\);) N
+(111) # (  g1210->GetPoint\(19, p2x, p2y\);) N
+(112) # () N
+(113) # (  Double_t sig1210dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(114) # () N
+(115) # (  cout << " sig1210dm = "<< sig1210dm << endl;) N
+(116) # () N
+(117) # (  // ----------- SIGMA-MC=0.12, SIGMA-FIT=0.12 ----------) N
+(118) # (  can1->cd\(7\);) N
+(119) # () N
+(120) # (  TFile lhsig\("lhsig1212.root"\);) N
+(121) # (  TGraph *g1212 = \(TGraph*\)lhsig.Get\("DilErrvsdm"\);) N
+(122) # (  g1212->SetTitle\("Sig-MC=0.12, Sig-fit=0.12"\);) N
+(123) # (  lhsig.Close\(\);) N
+(124) # () N
+(125) # (  g1212->Draw\("AP*"\);) N
+(126) # () N
+(127) # (  g1212->GetPoint\(14, p1x, p1y\);) N
+(128) # (  g1212->GetPoint\(15, p2x, p2y\);) N
+(129) # () N
+(130) # (  Double_t sig1212dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(131) # () N
+(132) # (  cout << " sig1212dm = "<< sig1212dm << endl;) N
+(133) # () N
+(134) # (  cout << endl << endl;) N
+(135) # () N
+(136) # () N
+(137) # (  //============================================================================) N
+0 T (===================) N
+(138) # (  TCanvas *can2 = new TCanvas\("can2", "varfits2", 1200, 600\);) N
+(139) # (  can2->Divide\(4,2\);) N
+(140) # (    // ----------- DIL-MC=0.128, DIL-FIT=0.128 ----------) N
+(141) # (  can2->cd\(1\);) N
+(142) # (  ) N
+(143) # (  TFile lhdil\("lhdil0128b.root"\);) N
+(144) # (  TGraph *g0128b = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(145) # (  g0128b->SetTitle\("Dil-MC=0.128, Dil-fit=0.128"\);) N
+(redraw.C) (Page 2/4) (Sep 09, 04 19:08) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(redraw.C) (5/6) (Thursday September 09, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3-4) 6
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(146) # (  lhdil.Close\(\);) p n
+(147) # (  ) N
+(148) # (  g0128b->Draw\("AP*"\);) N
+(149) # ( ) N
+(150) # (  g0128b->GetPoint\(16, p1x, p1y\);) N
+(151) # (  g0128b->GetPoint\(17, p2x, p2y\);) N
+(152) # () N
+(153) # (  Double_t dil0128b_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(154) # () N
+(155) # (  cout << " dil0128b_dm = "<< dil0128b_dm << endl; ) N
+(156) # () N
+(157) # (    // ----------- DIL-MC=0.128, DIL-FIT=0.16 ----------) N
+(158) # (  can2->cd\(2\);) N
+(159) # (  ) N
+(160) # (  TFile lhdil\("lhdil0128.root"\);) N
+(161) # (  TGraph *g0128 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(162) # (  g0128->SetTitle\("Dil-MC=0.128, Dil-fit=0.16"\);) N
+(163) # (  lhdil.Close\(\);) N
+(164) # (  ) N
+(165) # (  g0128->Draw\("AP*"\);) N
+(166) # ( ) N
+(167) # (  g0128->GetPoint\(17, p1x, p1y\);) N
+(168) # (  g0128->GetPoint\(18, p2x, p2y\);) N
+(169) # () N
+(170) # (  Double_t dil0128_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(171) # () N
+(172) # (  cout << " dil0128_dm = "<< dil0128_dm << endl; ) N
+(173) # () N
+(174) # (    // ----------- DIL-MC=0.16, DIL-FIT=0.128 ----------) N
+(175) # (  ) N
+(176) # (  can2->cd\(3\);) N
+(177) # (  ) N
+(178) # (  TFile lhdil\("lhdil0160a.root"\);) N
+(179) # (  TGraph *g0160 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(180) # (  g0160->SetTitle\("Dil-MC=0.16, Dil-fit=0.128"\);) N
+(181) # (  lhdil.Close\(\);) N
+(182) # (  ) N
+(183) # (  g0160->Draw\("AP*"\);) N
+(184) # (  ) N
+(185) # (  g0160->GetPoint\(16, p1x, p1y\);) N
+(186) # (  g0160->GetPoint\(17, p2x, p2y\);) N
+(187) # (  ) N
+(188) # (  Double_t dil0160a_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(189) # (  ) N
+(190) # (  cout << " dil0160a_dm = "<< dil0160a_dm << endl; ) N
+(191) # ( ) N
+(192) # (  ) N
+(193) # (   // ----------- DIL-MC=0.16, DIL-FIT=0.16 ----------) N
+(194) # (  can2->cd\(4\);) N
+(195) # (  ) N
+(196) # (  TFile lhdil\("lhdil0160.root"\);) N
+(197) # (  TGraph *g0160 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(198) # (  g0160->SetTitle\("Dil-MC=0.16, Dil-fit=0.16"\);) N
+(199) # (  lhdil.Close\(\);) N
+(200) # (  ) N
+(201) # (  g0160->Draw\("AP*"\);) N
+(202) # ( ) N
+(203) # (  g0160->GetPoint\(17, p1x, p1y\);) N
+(204) # (  g0160->GetPoint\(18, p2x, p2y\);) N
+(205) # () N
+(206) # (  Double_t dil0160_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(207) # () N
+(208) # (  cout << " dil0160_dm = "<< dil0160_dm << endl; ) N
+(209) # (    // ----------- DIL-MC=0.16, DIL-FIT=0.192 ----------) N
+(210) # (  can2->cd\(5\);) N
+(211) # (  ) N
+(212) # (  TFile lhdil\("lhdil0160c.root"\);) N
+(213) # (  TGraph *g0160 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(214) # (  g0160->SetTitle\("Dil-MC=0.16, Dil-fit=0.192"\);) N
+(215) # (  lhdil.Close\(\);) N
+(216) # (  ) N
+(217) # (  g0160->Draw\("AP*"\);) N
+(218) # (  ) N
+(redraw.C) (Page 3/4) (Sep 09, 04 19:08) title
+border
+/v 1 store
+/x0 x v get 2.965278 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(219) # (  g0160->GetPoint\(18, p1x, p1y\);) p n
+(220) # (  g0160->GetPoint\(19, p2x, p2y\);) N
+(221) # (  ) N
+(222) # (  Double_t dil0160c_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(223) # (  ) N
+(224) # (  cout << " dil0160c_dm = "<< dil0160c_dm << endl; ) N
+(225) # (  ) N
+(226) # (    // ----------- DIL-MC=0.192, DIL-FIT=0.16 ----------) N
+(227) # (  can2->cd\(6\);) N
+(228) # (  ) N
+(229) # (  TFile lhdil\("lhdil0192.root"\);) N
+(230) # (  TGraph *g0192 = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(231) # (  g0192->SetTitle\("Dil-MC=0.192, Dil-fit=0.16"\);) N
+(232) # (  lhdil.Close\(\);) N
+(233) # (  ) N
+(234) # (  g0192->Draw\("AP*"\);) N
+(235) # ( ) N
+(236) # (  g0192->GetPoint\(17, p1x, p1y\);) N
+(237) # (  g0192->GetPoint\(18, p2x, p2y\);) N
+(238) # () N
+(239) # (  Double_t dil0192_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(240) # () N
+(241) # (  cout << " dil0192_dm = "<< dil0192_dm << endl; ) N
+(242) # () N
+(243) # (    // ----------- DIL-MC=0.192, DIL-FIT=0.16 ----------) N
+(244) # (  can2->cd\(7\);) N
+(245) # (  ) N
+(246) # (  TFile lhdil\("lhdil0192b.root"\);) N
+(247) # (  TGraph *g0192b = \(TGraph*\)lhdil.Get\("DilErrvsdm"\);) N
+(248) # (  g0192b->SetTitle\("Dil-MC=0.192, Dil-fit=0.192"\);) N
+(249) # (  lhdil.Close\(\);) N
+(250) # (  ) N
+(251) # (  g0192b->Draw\("AP*"\);) N
+(252) # ( ) N
+(253) # (  g0192b->GetPoint\(18, p1x, p1y\);) N
+(254) # (  g0192b->GetPoint\(19, p2x, p2y\);) N
+(255) # () N
+(256) # (  Double_t dil0192b_dm = \(\(\(1-p1y\)/\(1-p2y\)\)*p2x - p1x\)/\(\(\(1-p1y\)/\(1-p2y\)\)-1\);) N
+(257) # () N
+(258) # (  cout << " dil0192b_dm = "<< dil0192b_dm << endl;) N
+(259) # ( ) N
+(260) # (  cout << endl << endl; ) N
+(261) # () N
+(262) # (  // ===================stick everything into a pretty table ===================) N
+0 T (=====================) N
+(263) # () N
+(264) # (  printf\("Significance for Dil=0.16, Sigma Varied: \\n\\n"\);) N
+(265) # (  printf\(" Sigma  |    0.08    |    0.10    |    0.12    | MC \\n"\);) N
+(266) # (  printf\("---------------------------------------------------\\n"\);) N
+(267) # (  printf\(" 0.08   |  %7.5f  |  %7.5f  |  XXXXXXXX  |\\n", sig0808dm, sig1008dm\);) N
+(268) # (  printf\("-----------------------------------------------\\n"\);) N
+(269) # (  printf\(" 0.10   |  %7.5f  |  %7.5f  |  %7.5f  |\\n", sig0810dm, sig1010dm, sig1) N
+0 T (210dm\);) N
+(270) # (  printf\("-----------------------------------------------\\n"\);) N
+(271) # (  printf\(" 0.12   |  XXXXXXXX  |  %7.5f  |  %7.5f  |\\n", sig1012dm, sig1212dm\);) N
+(272) # (  printf\("-----------------------------------------------\\n"\);) N
+(273) # (  printf\("  Fit   |\\n\\n"\);) N
+(274) # ( ) N
+(275) # () N
+(276) # (  printf\("Significance for Sigma=0.1, Dil Varied \\n\\n"\);) N
+(277) # (  printf\(" Dilution |    0.128   |    0.160   |    0.192   | MC \\n"\);) N
+(278) # (  printf\("-----------------------------------------------------\\n"\);) N
+(279) # (  printf\("   0.128  |  %7.5f  |  %7.5f  |  XXXXXXXX  |\\n", dil0128b_dm, dil0160a) N
+0 T (_dm\);) N
+(280) # (  printf\("-------------------------------------------------\\n"\);) N
+(281) # (  printf\("   0.160  |  %7.5f  |  %7.5f  |  %7.5f  |\\n", dil0128_dm, dil0160_dm, ) N
+0 T (dil0192_dm\);) N
+(282) # (  printf\("-------------------------------------------------\\n"\);) N
+(283) # (  printf\("   0.192  |  XXXXXXXX  |  %7.5f  |  %7.5f  |\\n", dil0160c_dm, dil0192b) N
+0 T (_dm\);) N
+(284) # (  printf\("-------------------------------------------------\\n"\);) N
+(285) # (  printf\("    Fit   |\\n\\n"\);) N
+(286) # (}) N
+(redraw.C) (Page 4/4) (Sep 09, 04 19:08) title
+border
+grestore
+(Printed by Jamie Hegarty) rhead
+(redraw.C) (6/6) (Thursday September 09, 2004) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF

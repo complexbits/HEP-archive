@@ -1,0 +1,72 @@
+
+> Subject: MC variables
+> Date: Monday 04 April 2005 12:12
+> From: burdin <burdin@fnal.gov>
+> To: Phillip Gutierrez <pgutierrez@ou.edu>
+> Cc: Sergey Burdin <burdin@fnal.gov>
+>
+>   Hi Phil,
+>
+>   Sorry for delay.
+>
+>   Please see below
+>
+> *Tree    :dstagTree : AA Ds
+> *Br    0 :run       : run/I       run number
+> *Br    1 :evt       : evt/I       event number
+> *Br    2 :qmu       : qmu/I       charge of muon from Bs
+> *Br    3 :q5        : q5/I        charge of pion from Ds->PhiPi
+> *Br    4 :lv        : lv/D        3d decay length for Ds
+> *Br    5 :vlv       : vlv/D       error^2 on 3d decay length for Ds
+> *Br    6 :lxy       : lxy/D       2d decay length for Ds
+> *Br    7 :vlxy      : vlxy/D      error^2 on 2d decay length for Ds
+> *Br    8 :mkk       : mkk/D       KK mass
+> *Br    9 :mds       : mds/D       Ds mass
+> *Br   10 :cxyds     : cxyds/D     cos of angle between momentum and
+>                                   direction for Ds in trans plane
+> *Br   11 :lxyB      : lxyB/D      2d decay length for Bs
+> *Br   12 :vlxyB     : vlxyB/D     error^2 on 2d decay length for Bs
+> *Br   13 :lxyBD     : lxyBD/D     2d distance between vertices Bs and 
+> Ds
+> *Br   14 :vlxyBD    : vlxyBD/D    error^2 on --//--
+> *Br   15 :xmb       : xmb/D       reconstructed Bs mass
+> *Br   16 :cxyB      : cxyB/D      cos of angle between momentum and
+>                                   direction for Bs in trans plane
+> *Br   17 :cmud      : cmud/D      cos of angle between muon and Ds
+> *Br   18 :ptmu      : ptmu/D      Pt of muon wrt Ds
+> *Br   19 :ptB       : ptB/D       Pt of reconstructed Bs
+> *Br   20 :ptBs      : ptBs/D      Pt of true Bs from MC
+> *Br   21 :ptotB     : ptotB/D     Ptot of reconstructed Bs
+> *Br   22 :lb        : lb/D        VPDL for Bs
+> *Br   23 :vlb       : vlb/D       error^2 on VPDL for Bs
+> *Br   24 :pt6       : pt6/D       Pt of tagging muon
+> *Br   25 :pto6      : pto6/D      Ptot of tagging muon
+> *Br   26 :coBtxy    : coBtxy/D    cos of angle between B and tag muon 
+> (2d)
+> *Br   27 :c26       : c26/D       impact parameter signif. of tag muon
+> *Br   28 :coBt      : coBt/D      cos of angle between B and tag muon 
+> (3d)
+> *Br   29 :ptDsMu    : ptDsMu/D    Pt of DsMu system from MC
+> *Br   30 :lbmc      : lbmc/D      VPDL from MC
+> *Br   31 :lbmctrue  : lbmctrue/D  PDL from MC
+> *Br   32 :pvposmc   : pvposmc[3]/D   PV position in MC
+> *Br   33 :svposmc   : svposmc[3]/D   SV position in MC
+> *Br   34 :pvpos     : pvpos[3]/D     reconstructed PV
+> *Br   35 :svpos     : svpos[3]/D     reconstructed SV
+> *Br   36 :nSMT6     : nSMT6/I     number of SMT hits for tag muon
+> *Br   37 :nCFT6     : nCFT6/I     number of CFT hits for tag muon
+> *Br   38 :q6        : q6/I        charge of tag muon
+> *Br   39 :nseg6     : nseg6/I     number of segments for tag muon
+> *Br   40 :tagmuok   : tagmuok/I   there is tag muon
+> *Br   41 :matchBs   : matchBs/I   there is match of reco Bs and MC Bs
+> *Br   42 :qtagin    : qtagin/I    corrected charge of tag muon
+> *Br   43 :osci      : osci/I      is Bs oscillated or not after 
+> correction
+> *Br   44 :oscimc    : oscimc/I    is Bs oscillated or not in MC
+>
+>   As you know I assign oscillations to Bs meson by hands to avoid 
+> bias. It
+> is reflected in variables 42 and 43.
+>
+>    Thanks,
+>      Sergey
